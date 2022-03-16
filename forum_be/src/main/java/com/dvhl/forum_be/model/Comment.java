@@ -2,6 +2,7 @@ package com.dvhl.forum_be.model;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,6 +21,8 @@ public class Comment {
     @JoinColumn(name = "post_id",referencedColumnName = "id")
     private Post post;
     private String content;
+    @Column(nullable = false)
+    private boolean isdeleted;
     @ManyToOne(targetEntity = Comment.class)
     @JoinColumn(name = "replied_cmt",referencedColumnName = "id")
     private Comment replied_cmt;
@@ -37,10 +40,13 @@ public class Comment {
     private Timestamp deleted_at;
     public Comment() {
     }
-    public Comment(Post post, String content, Comment replied_cmt, Account created_acc, Timestamp created_at,
-            Account updated_acc, Timestamp updated_at, Account deleted_acc, Timestamp deleted_at) {
+    
+    public Comment(Post post, String content, boolean isdeleted, Comment replied_cmt, Account created_acc,
+            Timestamp created_at, Account updated_acc, Timestamp updated_at, Account deleted_acc,
+            Timestamp deleted_at) {
         this.post = post;
         this.content = content;
+        this.isdeleted = isdeleted;
         this.replied_cmt = replied_cmt;
         this.created_acc = created_acc;
         this.created_at = created_at;
@@ -49,6 +55,15 @@ public class Comment {
         this.deleted_acc = deleted_acc;
         this.deleted_at = deleted_at;
     }
+    
+    public boolean isIsdeleted() {
+        return isdeleted;
+    }
+
+    public void setIsdeleted(boolean isdeleted) {
+        this.isdeleted = isdeleted;
+    }
+
     public long getId() {
         return id;
     }

@@ -8,6 +8,7 @@ import com.dvhl.forum_be.model.Role;
 import com.dvhl.forum_be.service.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountController {
     @Autowired
     AccountService accSV;
-    @GetMapping("")
-    List<Account> getAllAccounts(){
-        return accSV.getAllAccounts();
+    @GetMapping("/pages={page}")
+    Page<Account> getAllAccounts(@PathVariable int page){
+        return accSV.getAllAccounts(page);
     }
     @PostMapping("/register")
     ResponseEntity<Response> registerAccount(@RequestBody Account newAcc){

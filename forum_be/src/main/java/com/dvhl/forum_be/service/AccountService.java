@@ -2,7 +2,6 @@ package com.dvhl.forum_be.service;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import com.dvhl.forum_be.model.Account;
@@ -12,6 +11,8 @@ import com.dvhl.forum_be.repositories.AccountRepo;
 import com.dvhl.forum_be.repositories.RoleRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,8 @@ public class AccountService {
     AccountRepo accountRepo;
     @Autowired
     RoleRepo roleRepo;
-    public List<Account> getAllAccounts(){
-        return accountRepo.findAll();
+    public Page<Account> getAllAccounts(int page){
+        return accountRepo.findAll(PageRequest.of(page-1, 5));
     }
     public ResponseEntity<Response> registerAccount(Account newAcc){
         Optional<Account> foundAcc= accountRepo.findByUsername(newAcc.getUsername());

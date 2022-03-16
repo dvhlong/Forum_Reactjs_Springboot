@@ -21,6 +21,8 @@ public class Post {
     private String content;
     @Column(columnDefinition = "bigint default 0")
     private long view;
+    @Column(nullable = false)
+    private boolean isdeleted;
     @ManyToOne(targetEntity = Topic.class)
     @JoinColumn(name = "topic_id",referencedColumnName = "id")
     private Topic topic;
@@ -42,12 +44,14 @@ public class Post {
     private Timestamp approved_at;
     public Post() {
     }
-    public Post(String title, String content, long view, Topic topic, Account created_acc, Timestamp created_at,
-            Account updated_acc, Timestamp updated_at, Account deleted_acc, Timestamp deleted_at, Account approved_acc,
-            Timestamp approved_at) {
+    
+    public Post(String title, String content, long view, boolean isdeleted, Topic topic, Account created_acc,
+            Timestamp created_at, Account updated_acc, Timestamp updated_at, Account deleted_acc, Timestamp deleted_at,
+            Account approved_acc, Timestamp approved_at) {
         this.title = title;
         this.content = content;
         this.view = view;
+        this.isdeleted = isdeleted;
         this.topic = topic;
         this.created_acc = created_acc;
         this.created_at = created_at;
@@ -58,6 +62,15 @@ public class Post {
         this.approved_acc = approved_acc;
         this.approved_at = approved_at;
     }
+    
+    public boolean isIsdeleted() {
+        return isdeleted;
+    }
+
+    public void setIsdeleted(boolean isdeleted) {
+        this.isdeleted = isdeleted;
+    }
+
     public long getId() {
         return id;
     }

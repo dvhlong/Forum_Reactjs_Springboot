@@ -20,6 +20,8 @@ public class Topic {
     private String topicname;
     @Column(columnDefinition = "bigint default 0")
     private long post_amount;
+    @Column(nullable = false)
+    private boolean isdeleted;
     private Timestamp deleted_at;
     @ManyToOne(targetEntity = Account.class)
     @JoinColumn(name = "deleted_acc",referencedColumnName = "id")
@@ -34,10 +36,12 @@ public class Topic {
     private Account updated_acc;
     public Topic() {
     }
-    public Topic(String topicname, long post_amount, Timestamp deleted_at, Account deleted_acc, Timestamp created_at,
-            Account created_acc, Timestamp updated_at, Account updated_acc) {
+    
+    public Topic(String topicname, long post_amount, boolean isdeleted, Timestamp deleted_at, Account deleted_acc,
+            Timestamp created_at, Account created_acc, Timestamp updated_at, Account updated_acc) {
         this.topicname = topicname;
         this.post_amount = post_amount;
+        this.isdeleted = isdeleted;
         this.deleted_at = deleted_at;
         this.deleted_acc = deleted_acc;
         this.created_at = created_at;
@@ -45,6 +49,15 @@ public class Topic {
         this.updated_at = updated_at;
         this.updated_acc = updated_acc;
     }
+    
+    public boolean isIsdeleted() {
+        return isdeleted;
+    }
+
+    public void setIsdeleted(boolean isdeleted) {
+        this.isdeleted = isdeleted;
+    }
+
     public long getId() {
         return id;
     }

@@ -2,6 +2,7 @@ package com.dvhl.forum_be.model;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,14 +23,27 @@ public class TopicFollow {
     @ManyToOne(targetEntity = Topic.class)
     @JoinColumn(name = "topic_id",referencedColumnName = "id")
     private Topic topic;
+    @Column(nullable = false)
+    private boolean isdeleted;
     private Timestamp created_at;
     private Timestamp deleted_at;
-    public TopicFollow(Account acc, Topic topic, Timestamp created_at, Timestamp deleted_at) {
+    
+    public TopicFollow(Account acc, Topic topic, boolean isdeleted, Timestamp created_at, Timestamp deleted_at) {
         this.acc = acc;
         this.topic = topic;
+        this.isdeleted = isdeleted;
         this.created_at = created_at;
         this.deleted_at = deleted_at;
     }
+    
+    public boolean isIsdeleted() {
+        return isdeleted;
+    }
+
+    public void setIsdeleted(boolean isdeleted) {
+        this.isdeleted = isdeleted;
+    }
+
     public TopicFollow() {
     }
     
