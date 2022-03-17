@@ -25,15 +25,17 @@ public class TopicFollow {
     private Topic topic;
     @Column(nullable = false)
     private boolean isdeleted;
-    private Timestamp created_at;
-    private Timestamp deleted_at;
+    @Column(name = "created_at")
+    private Timestamp createdat;
+    @Column(name = "deleted_at")
+    private Timestamp deletedat;
     
     public TopicFollow(User acc, Topic topic, boolean isdeleted, Timestamp created_at, Timestamp deleted_at) {
         this.acc = acc;
         this.topic = topic;
         this.isdeleted = isdeleted;
-        this.created_at = created_at;
-        this.deleted_at = deleted_at;
+        this.createdat = created_at;
+        this.deletedat = deleted_at;
     }
     
     public boolean isIsdeleted() {
@@ -66,16 +68,16 @@ public class TopicFollow {
         this.topic = topic;
     }
     public Timestamp getCreated_at() {
-        return created_at;
+        return createdat;
     }
     public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+        this.createdat = created_at;
     }
     public Timestamp getDeleted_at() {
-        return deleted_at;
+        return deletedat;
     }
     public void setDeleted_at(Timestamp deleted_at) {
-        this.deleted_at = deleted_at;
+        this.deletedat = deleted_at;
     }
     
 }

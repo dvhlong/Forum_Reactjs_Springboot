@@ -28,20 +28,24 @@ public class Post {
     private Topic topic;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "created_acc",referencedColumnName = "id")
-    private User created_acc;
-    private Timestamp created_at;
+    private User createdacc;
+    @Column(name = "created_at")
+    private Timestamp createdat;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "updated_acc",referencedColumnName = "id")
-    private User updated_acc;
-    private Timestamp updated_at;
+    private User updatedacc;
+    @Column(name = "updated_at")
+    private Timestamp updatedat;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "deleted_acc",referencedColumnName = "id")
-    private User deleted_acc;
-    private Timestamp deleted_at;
+    private User deletedacc;
+    @Column(name = "deleted_at")
+    private Timestamp deletedat;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "approved_acc",referencedColumnName = "id")
-    private User approved_acc;
-    private Timestamp approved_at;
+    private User approvedacc;
+    @Column(name = "approved_at")
+    private Timestamp approvedat;
     public Post() {
     }
     
@@ -53,14 +57,14 @@ public class Post {
         this.view = view;
         this.isdeleted = isdeleted;
         this.topic = topic;
-        this.created_acc = created_acc;
-        this.created_at = created_at;
-        this.updated_acc = updated_acc;
-        this.updated_at = updated_at;
-        this.deleted_acc = deleted_acc;
-        this.deleted_at = deleted_at;
-        this.approved_acc = approved_acc;
-        this.approved_at = approved_at;
+        this.createdacc = created_acc;
+        this.createdat = created_at;
+        this.updatedacc = updated_acc;
+        this.updatedat = updated_at;
+        this.deletedacc = deleted_acc;
+        this.deletedat = deleted_at;
+        this.approvedacc = approved_acc;
+        this.approvedat = approved_at;
     }
     
     public boolean isIsdeleted() {
@@ -102,52 +106,52 @@ public class Post {
         this.topic = topic;
     }
     public User getCreated_acc() {
-        return created_acc;
+        return createdacc;
     }
     public void setCreated_acc(User created_acc) {
-        this.created_acc = created_acc;
+        this.createdacc = created_acc;
     }
     public Timestamp getCreated_at() {
-        return created_at;
+        return createdat;
     }
     public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+        this.createdat = created_at;
     }
     public User getUpdated_acc() {
-        return updated_acc;
+        return updatedacc;
     }
     public void setUpdated_acc(User updated_acc) {
-        this.updated_acc = updated_acc;
+        this.updatedacc = updated_acc;
     }
     public Timestamp getUpdated_at() {
-        return updated_at;
+        return updatedat;
     }
     public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+        this.updatedat = updated_at;
     }
     public User getDeleted_acc() {
-        return deleted_acc;
+        return deletedacc;
     }
     public void setDeleted_acc(User deleted_acc) {
-        this.deleted_acc = deleted_acc;
+        this.deletedacc = deleted_acc;
     }
     public Timestamp getDeleted_at() {
-        return deleted_at;
+        return deletedat;
     }
     public void setDeleted_at(Timestamp deleted_at) {
-        this.deleted_at = deleted_at;
+        this.deletedat = deleted_at;
     }
     public User getApproved_acc() {
-        return approved_acc;
+        return approvedacc;
     }
     public void setApproved_acc(User approved_acc) {
-        this.approved_acc = approved_acc;
+        this.approvedacc = approved_acc;
     }
     public Timestamp getApproved_at() {
-        return approved_at;
+        return approvedat;
     }
     public void setApproved_at(Timestamp approved_at) {
-        this.approved_at = approved_at;
+        this.approvedat = approved_at;
     }
     
 }

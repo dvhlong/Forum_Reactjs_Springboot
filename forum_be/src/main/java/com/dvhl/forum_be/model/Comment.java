@@ -25,19 +25,22 @@ public class Comment {
     private boolean isdeleted;
     @ManyToOne(targetEntity = Comment.class)
     @JoinColumn(name = "replied_cmt",referencedColumnName = "id")
-    private Comment replied_cmt;
+    private Comment repliedcmt;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "created_acc",referencedColumnName = "id")
-    private User created_acc;
-    private Timestamp created_at;
+    private User createdacc;
+    @Column(name = "created_at")
+    private Timestamp createdat;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "updated_acc",referencedColumnName = "id")
-    private User updated_acc;
-    private Timestamp updated_at;
+    private User updatedacc;
+    @Column(name = "updated_at")
+    private Timestamp updatedat;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "deleted_acc",referencedColumnName = "id")
-    private User deleted_acc;
-    private Timestamp deleted_at;
+    private User deletedacc;
+    @Column(name = "deleted_at")
+    private Timestamp deletedat;
     public Comment() {
     }
     
@@ -47,13 +50,13 @@ public class Comment {
         this.post = post;
         this.content = content;
         this.isdeleted = isdeleted;
-        this.replied_cmt = replied_cmt;
-        this.created_acc = created_acc;
-        this.created_at = created_at;
-        this.updated_acc = updated_acc;
-        this.updated_at = updated_at;
-        this.deleted_acc = deleted_acc;
-        this.deleted_at = deleted_at;
+        this.repliedcmt = replied_cmt;
+        this.createdacc = created_acc;
+        this.createdat = created_at;
+        this.updatedacc = updated_acc;
+        this.updatedat = updated_at;
+        this.deletedacc = deleted_acc;
+        this.deletedat = deleted_at;
     }
     
     public boolean isIsdeleted() {
@@ -83,46 +86,46 @@ public class Comment {
         this.content = content;
     }
     public Comment getReplied_cmt() {
-        return replied_cmt;
+        return repliedcmt;
     }
     public void setReplied_cmt(Comment replied_cmt) {
-        this.replied_cmt = replied_cmt;
+        this.repliedcmt = replied_cmt;
     }
     public User getCreated_acc() {
-        return created_acc;
+        return createdacc;
     }
     public void setCreated_acc(User created_acc) {
-        this.created_acc = created_acc;
+        this.createdacc = created_acc;
     }
     public Timestamp getCreated_at() {
-        return created_at;
+        return createdat;
     }
     public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+        this.createdat = created_at;
     }
     public User getUpdated_acc() {
-        return updated_acc;
+        return updatedacc;
     }
     public void setUpdated_acc(User updated_acc) {
-        this.updated_acc = updated_acc;
+        this.updatedacc = updated_acc;
     }
     public Timestamp getUpdated_at() {
-        return updated_at;
+        return updatedat;
     }
     public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+        this.updatedat = updated_at;
     }
     public User getDeleted_acc() {
-        return deleted_acc;
+        return deletedacc;
     }
     public void setDeleted_acc(User deleted_acc) {
-        this.deleted_acc = deleted_acc;
+        this.deletedacc = deleted_acc;
     }
     public Timestamp getDeleted_at() {
-        return deleted_at;
+        return deletedat;
     }
     public void setDeleted_at(Timestamp deleted_at) {
-        this.deleted_at = deleted_at;
+        this.deletedat = deleted_at;
     }
     
 }

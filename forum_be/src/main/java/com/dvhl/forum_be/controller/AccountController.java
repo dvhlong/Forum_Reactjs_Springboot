@@ -38,7 +38,7 @@ public class AccountController {
     ResponseEntity<Response> registerAccount(@RequestBody User newAcc){
         return accSV.registerAccount(newAcc);
     }
-    @PutMapping("/acc/{id}")
+    @PutMapping("/changeAccInfo/{id}")
     ResponseEntity<Response> changeAccountInfo(@RequestBody User updatedAcc,@PathVariable long id){
         return accSV.changeAccountInfo(updatedAcc,id);
     }

@@ -19,35 +19,38 @@ public class Topic {
     private long id;
     private String topicname;
     @Column(columnDefinition = "bigint default 0")
-    private long post_amount;
+    private long postamount;
     @Column(nullable = false)
     private boolean isdeleted;
-    private Timestamp deleted_at;
+    @Column(name = "deleted_at")
+    private Timestamp deletedat;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "deleted_acc",referencedColumnName = "id")
-    private User deleted_acc;
-    private Timestamp created_at;
+    private User deletedacc;
+    @Column(name = "created_at")
+    private Timestamp createdat;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "created_acc",referencedColumnName = "id")
-    private User created_acc;
-    private Timestamp updated_at;
+    private User createdacc;
+    @Column(name = "updated_at")
+    private Timestamp updatedat;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "updated_acc",referencedColumnName = "id")
-    private User updated_acc;
+    private User updatedacc;
     public Topic() {
     }
     
     public Topic(String topicname, long post_amount, boolean isdeleted, Timestamp deleted_at, User deleted_acc,
             Timestamp created_at, User created_acc, Timestamp updated_at, User updated_acc) {
         this.topicname = topicname;
-        this.post_amount = post_amount;
+        this.postamount = post_amount;
         this.isdeleted = isdeleted;
-        this.deleted_at = deleted_at;
-        this.deleted_acc = deleted_acc;
-        this.created_at = created_at;
-        this.created_acc = created_acc;
-        this.updated_at = updated_at;
-        this.updated_acc = updated_acc;
+        this.deletedat = deleted_at;
+        this.deletedacc = deleted_acc;
+        this.createdat = created_at;
+        this.createdacc = created_acc;
+        this.updatedat = updated_at;
+        this.updatedacc = updated_acc;
     }
     
     public boolean isIsdeleted() {
@@ -71,46 +74,46 @@ public class Topic {
         this.topicname = topicname;
     }
     public long getPost_amount() {
-        return post_amount;
+        return postamount;
     }
     public void setPost_amount(long post_amount) {
-        this.post_amount = post_amount;
+        this.postamount = post_amount;
     }
     public Timestamp getDeleted_at() {
-        return deleted_at;
+        return deletedat;
     }
     public void setDeleted_at(Timestamp deleted_at) {
-        this.deleted_at = deleted_at;
+        this.deletedat = deleted_at;
     }
     public User getDeleted_acc() {
-        return deleted_acc;
+        return deletedacc;
     }
     public void setDeleted_acc(User deleted_acc) {
-        this.deleted_acc = deleted_acc;
+        this.deletedacc = deleted_acc;
     }
     public Timestamp getCreated_at() {
-        return created_at;
+        return createdat;
     }
     public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+        this.createdat = created_at;
     }
     public User getCreated_acc() {
-        return created_acc;
+        return createdacc;
     }
     public void setCreated_acc(User created_acc) {
-        this.created_acc = created_acc;
+        this.createdacc = created_acc;
     }
     public Timestamp getUpdated_at() {
-        return updated_at;
+        return updatedat;
     }
     public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+        this.updatedat = updated_at;
     }
     public User getUpdated_acc() {
-        return updated_acc;
+        return updatedacc;
     }
     public void setUpdated_acc(User updated_acc) {
-        this.updated_acc = updated_acc;
+        this.updatedacc = updated_acc;
     }
     
 }

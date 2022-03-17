@@ -95,7 +95,7 @@ public class AccountService {
     }
     public ResponseEntity<Response> changePass(long id,User updatedAcc) {
         accountRepo.findById(id).map(acc ->{
-            acc.setPassword(updatedAcc.getPassword());
+            acc.setPassword(passwordEncoder.encode(updatedAcc.getPassword()));
             return accountRepo.save(acc);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",""));

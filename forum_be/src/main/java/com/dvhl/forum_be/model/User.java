@@ -2,6 +2,8 @@ package com.dvhl.forum_be.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Optional;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 // import javax.persistence.FetchType;
@@ -123,5 +125,4 @@ public class User {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
-    
 }
