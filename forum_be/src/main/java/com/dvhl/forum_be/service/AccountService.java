@@ -68,8 +68,11 @@ public class AccountService {
         long currentTime=jDate.getTime();
         
         accountRepo.findById(id).map(acc ->{
+            if(updatedAcc.getName()!=null)
             acc.setName(updatedAcc.getName());
+            if(updatedAcc.getBirthdate()!=null)
             acc.setBirthdate(updatedAcc.getBirthdate());
+            if(updatedAcc.getPhone()!=null)
             acc.setPhone(updatedAcc.getPhone());
             acc.setUpdated_at(new Timestamp(currentTime));
             return accountRepo.save(acc);

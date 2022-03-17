@@ -43,6 +43,7 @@ public class TopicService {
         topicRepo.findById(topic_id).map(topic ->{
             topic.setUpdated_at(new Timestamp(currentTime));
             topic.setUpdated_acc(accountRepo.findById(updated_acc).get());
+            if(updatedTopic.getTopicname()!=null)
             topic.setTopicname(updatedTopic.getTopicname());
             return topicRepo.save(topic);
         });
