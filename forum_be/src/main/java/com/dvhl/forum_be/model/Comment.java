@@ -26,23 +26,23 @@ public class Comment {
     @ManyToOne(targetEntity = Comment.class)
     @JoinColumn(name = "replied_cmt",referencedColumnName = "id")
     private Comment replied_cmt;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "created_acc",referencedColumnName = "id")
-    private Account created_acc;
+    private User created_acc;
     private Timestamp created_at;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "updated_acc",referencedColumnName = "id")
-    private Account updated_acc;
+    private User updated_acc;
     private Timestamp updated_at;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "deleted_acc",referencedColumnName = "id")
-    private Account deleted_acc;
+    private User deleted_acc;
     private Timestamp deleted_at;
     public Comment() {
     }
     
-    public Comment(Post post, String content, boolean isdeleted, Comment replied_cmt, Account created_acc,
-            Timestamp created_at, Account updated_acc, Timestamp updated_at, Account deleted_acc,
+    public Comment(Post post, String content, boolean isdeleted, Comment replied_cmt, User created_acc,
+            Timestamp created_at, User updated_acc, Timestamp updated_at, User deleted_acc,
             Timestamp deleted_at) {
         this.post = post;
         this.content = content;
@@ -88,10 +88,10 @@ public class Comment {
     public void setReplied_cmt(Comment replied_cmt) {
         this.replied_cmt = replied_cmt;
     }
-    public Account getCreated_acc() {
+    public User getCreated_acc() {
         return created_acc;
     }
-    public void setCreated_acc(Account created_acc) {
+    public void setCreated_acc(User created_acc) {
         this.created_acc = created_acc;
     }
     public Timestamp getCreated_at() {
@@ -100,10 +100,10 @@ public class Comment {
     public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
-    public Account getUpdated_acc() {
+    public User getUpdated_acc() {
         return updated_acc;
     }
-    public void setUpdated_acc(Account updated_acc) {
+    public void setUpdated_acc(User updated_acc) {
         this.updated_acc = updated_acc;
     }
     public Timestamp getUpdated_at() {
@@ -112,10 +112,10 @@ public class Comment {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
-    public Account getDeleted_acc() {
+    public User getDeleted_acc() {
         return deleted_acc;
     }
-    public void setDeleted_acc(Account deleted_acc) {
+    public void setDeleted_acc(User deleted_acc) {
         this.deleted_acc = deleted_acc;
     }
     public Timestamp getDeleted_at() {

@@ -2,7 +2,10 @@ package com.dvhl.forum_be.controller;
 
 import java.util.List;
 
-import com.dvhl.forum_be.model.Account;
+import javax.validation.Valid;
+
+import com.dvhl.forum_be.JWT.LoginRequest;
+import com.dvhl.forum_be.model.User;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Role;
 import com.dvhl.forum_be.service.AccountService;
@@ -26,15 +29,19 @@ public class AccountController {
     @Autowired
     AccountService accSV;
     @GetMapping("/pages={page}")
-    Page<Account> getAllAccounts(@PathVariable int page){
+    Page<User> getAllAccounts(@PathVariable int page){
         return accSV.getAllAccounts(page);
     }
+    @PostMapping("/login")
+    ResponseEntity<?> authenticateAccount(@Valid @RequestBody LoginRequest loginRequest){
+        return accSV.authenticateAccount(loginRequest);
+    }
     @PostMapping("/register")
-    ResponseEntity<Response> registerAccount(@RequestBody Account newAcc){
+    ResponseEntity<Response> registerAccount(@RequestBody User newAcc){
         return accSV.registerAccount(newAcc);
     }
     @PutMapping("/{id}")
-    ResponseEntity<Response> changeAccountInfo(@RequestBody Account updatedAcc,@PathVariable long id){
+    ResponseEntity<Response> changeAccountInfo(@RequestBody User updatedAcc,@PathVariable long id){
         return accSV.changeAccountInfo(updatedAcc,id);
     }
     @PutMapping("/block/{id}")
@@ -46,7 +53,7 @@ public class AccountController {
         return accSV.changeRole(id,updatedRole);
     }
     @PutMapping("/changePass/{id}")
-    ResponseEntity<Response> changePass(@RequestBody Account updatedAcc,@PathVariable long id){
+    ResponseEntity<Response> changePass(@RequestBody User updatedAcc,@PathVariable long id){
         return accSV.changePass(id,updatedAcc);
     }
 }

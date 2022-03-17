@@ -23,22 +23,22 @@ public class Topic {
     @Column(nullable = false)
     private boolean isdeleted;
     private Timestamp deleted_at;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "deleted_acc",referencedColumnName = "id")
-    private Account deleted_acc;
+    private User deleted_acc;
     private Timestamp created_at;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "created_acc",referencedColumnName = "id")
-    private Account created_acc;
+    private User created_acc;
     private Timestamp updated_at;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "updated_acc",referencedColumnName = "id")
-    private Account updated_acc;
+    private User updated_acc;
     public Topic() {
     }
     
-    public Topic(String topicname, long post_amount, boolean isdeleted, Timestamp deleted_at, Account deleted_acc,
-            Timestamp created_at, Account created_acc, Timestamp updated_at, Account updated_acc) {
+    public Topic(String topicname, long post_amount, boolean isdeleted, Timestamp deleted_at, User deleted_acc,
+            Timestamp created_at, User created_acc, Timestamp updated_at, User updated_acc) {
         this.topicname = topicname;
         this.post_amount = post_amount;
         this.isdeleted = isdeleted;
@@ -82,10 +82,10 @@ public class Topic {
     public void setDeleted_at(Timestamp deleted_at) {
         this.deleted_at = deleted_at;
     }
-    public Account getDeleted_acc() {
+    public User getDeleted_acc() {
         return deleted_acc;
     }
-    public void setDeleted_acc(Account deleted_acc) {
+    public void setDeleted_acc(User deleted_acc) {
         this.deleted_acc = deleted_acc;
     }
     public Timestamp getCreated_at() {
@@ -94,10 +94,10 @@ public class Topic {
     public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
-    public Account getCreated_acc() {
+    public User getCreated_acc() {
         return created_acc;
     }
-    public void setCreated_acc(Account created_acc) {
+    public void setCreated_acc(User created_acc) {
         this.created_acc = created_acc;
     }
     public Timestamp getUpdated_at() {
@@ -106,10 +106,10 @@ public class Topic {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
-    public Account getUpdated_acc() {
+    public User getUpdated_acc() {
         return updated_acc;
     }
-    public void setUpdated_acc(Account updated_acc) {
+    public void setUpdated_acc(User updated_acc) {
         this.updated_acc = updated_acc;
     }
     

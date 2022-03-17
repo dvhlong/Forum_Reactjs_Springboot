@@ -26,28 +26,28 @@ public class Post {
     @ManyToOne(targetEntity = Topic.class)
     @JoinColumn(name = "topic_id",referencedColumnName = "id")
     private Topic topic;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "created_acc",referencedColumnName = "id")
-    private Account created_acc;
+    private User created_acc;
     private Timestamp created_at;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "updated_acc",referencedColumnName = "id")
-    private Account updated_acc;
+    private User updated_acc;
     private Timestamp updated_at;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "deleted_acc",referencedColumnName = "id")
-    private Account deleted_acc;
+    private User deleted_acc;
     private Timestamp deleted_at;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "approved_acc",referencedColumnName = "id")
-    private Account approved_acc;
+    private User approved_acc;
     private Timestamp approved_at;
     public Post() {
     }
     
-    public Post(String title, String content, long view, boolean isdeleted, Topic topic, Account created_acc,
-            Timestamp created_at, Account updated_acc, Timestamp updated_at, Account deleted_acc, Timestamp deleted_at,
-            Account approved_acc, Timestamp approved_at) {
+    public Post(String title, String content, long view, boolean isdeleted, Topic topic, User created_acc,
+            Timestamp created_at, User updated_acc, Timestamp updated_at, User deleted_acc, Timestamp deleted_at,
+            User approved_acc, Timestamp approved_at) {
         this.title = title;
         this.content = content;
         this.view = view;
@@ -101,10 +101,10 @@ public class Post {
     public void setTopic(Topic topic) {
         this.topic = topic;
     }
-    public Account getCreated_acc() {
+    public User getCreated_acc() {
         return created_acc;
     }
-    public void setCreated_acc(Account created_acc) {
+    public void setCreated_acc(User created_acc) {
         this.created_acc = created_acc;
     }
     public Timestamp getCreated_at() {
@@ -113,10 +113,10 @@ public class Post {
     public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
     }
-    public Account getUpdated_acc() {
+    public User getUpdated_acc() {
         return updated_acc;
     }
-    public void setUpdated_acc(Account updated_acc) {
+    public void setUpdated_acc(User updated_acc) {
         this.updated_acc = updated_acc;
     }
     public Timestamp getUpdated_at() {
@@ -125,10 +125,10 @@ public class Post {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
-    public Account getDeleted_acc() {
+    public User getDeleted_acc() {
         return deleted_acc;
     }
-    public void setDeleted_acc(Account deleted_acc) {
+    public void setDeleted_acc(User deleted_acc) {
         this.deleted_acc = deleted_acc;
     }
     public Timestamp getDeleted_at() {
@@ -137,10 +137,10 @@ public class Post {
     public void setDeleted_at(Timestamp deleted_at) {
         this.deleted_at = deleted_at;
     }
-    public Account getApproved_acc() {
+    public User getApproved_acc() {
         return approved_acc;
     }
-    public void setApproved_acc(Account approved_acc) {
+    public void setApproved_acc(User approved_acc) {
         this.approved_acc = approved_acc;
     }
     public Timestamp getApproved_at() {

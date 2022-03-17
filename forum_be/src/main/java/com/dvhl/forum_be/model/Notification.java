@@ -20,13 +20,13 @@ public class Notification {
     @ManyToOne(targetEntity = Post.class)
     @JoinColumn(name = "post_id",referencedColumnName = "id")
     private Post post;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "notified_acc",referencedColumnName = "id")
-    private Account notified_acc;
+    private User notified_acc;
     private Timestamp notified_at;
     public Notification() {
     }
-    public Notification(String content, Post post, Account notified_acc, Timestamp notified_at) {
+    public Notification(String content, Post post, User notified_acc, Timestamp notified_at) {
         this.content = content;
         this.post = post;
         this.notified_acc = notified_acc;
@@ -50,10 +50,10 @@ public class Notification {
     public void setPost(Post post) {
         this.post = post;
     }
-    public Account getNotified_acc() {
+    public User getNotified_acc() {
         return notified_acc;
     }
-    public void setNotified_acc(Account notified_acc) {
+    public void setNotified_acc(User notified_acc) {
         this.notified_acc = notified_acc;
     }
     public Timestamp getNotified_at() {

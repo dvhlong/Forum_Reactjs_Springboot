@@ -18,7 +18,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "account")
-public class Account {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -36,11 +36,11 @@ public class Account {
     private Date birthdate;
     private Timestamp created_at;
     private Timestamp updated_at;
-    public Account() {
+    public User() {
     }
 
 
-    public Account(String username, String password, Role role, boolean isblocked, String name, String email,
+    public User(String username, String password, Role role, boolean isblocked, String name, String email,
             String phone, Date birthdate, Timestamp created_at, Timestamp updated_at) {
         this.username = username;
         this.password = password;

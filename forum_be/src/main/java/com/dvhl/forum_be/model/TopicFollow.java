@@ -17,9 +17,9 @@ public class TopicFollow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne(targetEntity = Account.class)
+    @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "acc_id",referencedColumnName = "id")
-    private Account acc;
+    private User acc;
     @ManyToOne(targetEntity = Topic.class)
     @JoinColumn(name = "topic_id",referencedColumnName = "id")
     private Topic topic;
@@ -28,7 +28,7 @@ public class TopicFollow {
     private Timestamp created_at;
     private Timestamp deleted_at;
     
-    public TopicFollow(Account acc, Topic topic, boolean isdeleted, Timestamp created_at, Timestamp deleted_at) {
+    public TopicFollow(User acc, Topic topic, boolean isdeleted, Timestamp created_at, Timestamp deleted_at) {
         this.acc = acc;
         this.topic = topic;
         this.isdeleted = isdeleted;
@@ -53,10 +53,10 @@ public class TopicFollow {
     public void setId(long id) {
         this.id = id;
     }
-    public Account getAcc() {
+    public User getAcc() {
         return acc;
     }
-    public void setAcc(Account acc) {
+    public void setAcc(User acc) {
         this.acc = acc;
     }
     public Topic getTopic() {
