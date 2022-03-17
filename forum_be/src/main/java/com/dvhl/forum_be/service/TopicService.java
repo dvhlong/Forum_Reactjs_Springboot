@@ -1,7 +1,5 @@
 package com.dvhl.forum_be.service;
 
-import java.util.List;
-
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Topic;
 import com.dvhl.forum_be.repositories.AccountRepo;

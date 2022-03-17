@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.dvhl.forum_be.JWT.JwtResponse;
 import com.dvhl.forum_be.JWT.JwtUtils;
 import com.dvhl.forum_be.JWT.LoginRequest;
+import com.dvhl.forum_be.JWT.UserDetailsImpl;
 import com.dvhl.forum_be.model.User;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Role;
@@ -22,6 +23,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,6 +36,11 @@ public class AccountService {
     RoleRepo roleRepo;
     @Autowired
     JwtUtils jwtUtils;
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    public Role getRole(){
+        return roleRepo.findByRolename("user");
+    }
     public Page<User> getAllAccounts(int page){
         return accountRepo.findAll(PageRequest.of(page-1, 5));
     }
@@ -48,6 +55,7 @@ public class AccountService {
             } else {
                 Role newRole=roleRepo.findByRolename("user");
                 newAcc.setRole(newRole);
+                newAcc.setPassword(passwordEncoder.encode(newAcc.getPassword()));
                 Date jDate=new Date();
                 long currentTime=jDate.getTime();
                 newAcc.setCreated_at(new Timestamp(currentTime));
@@ -59,7 +67,7 @@ public class AccountService {
         Date jDate=new Date();
         long currentTime=jDate.getTime();
         
-        Optional<User> foundAcc=accountRepo.findById(id).map(acc ->{
+        accountRepo.findById(id).map(acc ->{
             acc.setName(updatedAcc.getName());
             acc.setBirthdate(updatedAcc.getBirthdate());
             acc.setPhone(updatedAcc.getPhone());
@@ -69,7 +77,7 @@ public class AccountService {
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",updatedAcc));
     }
     public ResponseEntity<Response> block(long id){
-        Optional<User> foundAcc=accountRepo.findById(id).map(acc ->{
+        accountRepo.findById(id).map(acc ->{
             if(acc.isIsblocked()==false) 
                 acc.setIsblocked(true);
             else
@@ -79,14 +87,14 @@ public class AccountService {
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",""));
     }
     public ResponseEntity<Response> changeRole(long id,Role updatedRole) {
-        Optional<User>foundAcc=accountRepo.findById(id).map(acc ->{
+        accountRepo.findById(id).map(acc ->{
             acc.setRole(updatedRole);
             return accountRepo.save(acc);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",""));
     }
     public ResponseEntity<Response> changePass(long id,User updatedAcc) {
-        Optional<User> foundAcc=accountRepo.findById(id).map(acc ->{
+        accountRepo.findById(id).map(acc ->{
             acc.setPassword(updatedAcc.getPassword());
             return accountRepo.save(acc);
         });
@@ -95,18 +103,8 @@ public class AccountService {
     public ResponseEntity<?> authenticateAccount(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtUtils.generateJwtToken(authentication);
-        User accDetails = (User) authentication.getPrincipal();    
-        Role role=accountRepo.findByUsernameAndPassword(accDetails.getUsername(),accDetails.getPassword()).getRole();
-        accDetails.setRole(role);
+        String jwt = jwtUtils.generateJwtToken((UserDetailsImpl) authentication.getPrincipal());
+        UserDetailsImpl accDetails = (UserDetailsImpl) authentication.getPrincipal();    
         return ResponseEntity.ok(new JwtResponse(jwt, accDetails)); 
-        // => ERROR BEAN OF AUTHENTICATIONMANAGER 
-        // Account acc=accountRepo.findByUsernameAndPassword(loginRequest.getUsername(), loginRequest.getPassword());
-        // if(acc!=null) {
-        //     String jwt = jwtUtils.generateJwtToken(acc);
-        //     return ResponseEntity.ok(new JwtResponse(jwt, acc));
-        // } else {
-        //     return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail","Ten tai khoan hoac mat khau ko dung",""));
-        // }
     }
 }

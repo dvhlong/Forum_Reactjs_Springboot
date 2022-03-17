@@ -1,11 +1,8 @@
 package com.dvhl.forum_be.JWT;
 import java.util.Date;
 
-import com.dvhl.forum_be.model.User;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -20,10 +17,9 @@ public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 	private String jwtSecret="SecretKey";
 	private int jwtExpirationMs=86400000;
-	public String generateJwtToken(Authentication authentication) {
-		User userPrincipal = (User) authentication.getPrincipal();
+	public String generateJwtToken(UserDetailsImpl userDetailsImpl) {
 		return Jwts.builder()
-				.setSubject((userPrincipal.getUsername()))
+				.setSubject((userDetailsImpl.getUsername()))
 				.setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
 				.signWith(SignatureAlgorithm.HS512, jwtSecret)

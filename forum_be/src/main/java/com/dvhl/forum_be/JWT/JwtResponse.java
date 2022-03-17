@@ -1,13 +1,11 @@
 package com.dvhl.forum_be.JWT;
 
-import com.dvhl.forum_be.model.User;
-
 public class JwtResponse {
     private String token;
-    private User acc;
+    private UserDetailsImpl acc;
     public JwtResponse() {
     }
-    public JwtResponse(String token, User acc) {
+    public JwtResponse(String token, UserDetailsImpl acc) {
         this.token = token;
         this.acc = acc;
     }
@@ -17,11 +15,13 @@ public class JwtResponse {
     public void setToken(String token) {
         this.token = token;
     }
-    public User getAcc() {
+    public UserDetailsImpl getAcc() {
         return acc;
     }
-    public void setAcc(User acc) {
+    public void setAcc(UserDetailsImpl acc) {
         this.acc = acc;
     }
+    
+    
     
 }

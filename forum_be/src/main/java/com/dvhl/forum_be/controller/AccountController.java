@@ -1,7 +1,5 @@
 package com.dvhl.forum_be.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import com.dvhl.forum_be.JWT.LoginRequest;
@@ -24,11 +22,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(path = "/accounts")
+@RequestMapping(path = "/")
 public class AccountController {
     @Autowired
     AccountService accSV;
-    @GetMapping("/pages={page}")
+    @GetMapping("/getAccs/pages={page}")
     Page<User> getAllAccounts(@PathVariable int page){
         return accSV.getAllAccounts(page);
     }
@@ -40,20 +38,25 @@ public class AccountController {
     ResponseEntity<Response> registerAccount(@RequestBody User newAcc){
         return accSV.registerAccount(newAcc);
     }
-    @PutMapping("/{id}")
+    @PutMapping("/acc/{id}")
     ResponseEntity<Response> changeAccountInfo(@RequestBody User updatedAcc,@PathVariable long id){
         return accSV.changeAccountInfo(updatedAcc,id);
     }
-    @PutMapping("/block/{id}")
+    @PutMapping("/blockAcc/{id}")
     ResponseEntity<Response> block(@PathVariable long id){
         return accSV.block(id);
     }
-    @PutMapping("/changeRole/{id}")
+    @PutMapping("/changeAccRole/{id}")
     ResponseEntity<Response> changeRole(@RequestBody Role updatedRole,@PathVariable long id){
         return accSV.changeRole(id,updatedRole);
     }
-    @PutMapping("/changePass/{id}")
+    @PutMapping("/changeAccPass/{id}")
     ResponseEntity<Response> changePass(@RequestBody User updatedAcc,@PathVariable long id){
         return accSV.changePass(id,updatedAcc);
     }
+    @GetMapping("/getAllRole")
+    Role getRole(){
+        return accSV.getRole();
+    }
+    
 }

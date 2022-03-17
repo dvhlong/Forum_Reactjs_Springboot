@@ -26,7 +26,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint,Ser
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException authException) throws IOException, ServletException {
-        // TODO Auto-generated method stub
         logger.error("Unauthorized error: {}", authException.getMessage());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
