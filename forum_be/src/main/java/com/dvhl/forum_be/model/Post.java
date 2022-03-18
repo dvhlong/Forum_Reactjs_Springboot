@@ -23,6 +23,8 @@ public class Post {
     private long view;
     @Column(nullable = false)
     private boolean isdeleted;
+    @Column(nullable = false)
+    private boolean isapproved;
     @ManyToOne(targetEntity = Topic.class)
     @JoinColumn(name = "topic_id",referencedColumnName = "id")
     private Topic topic;
@@ -49,24 +51,41 @@ public class Post {
     public Post() {
     }
     
-    public Post(String title, String content, long view, boolean isdeleted, Topic topic, User created_acc,
-            Timestamp created_at, User updated_acc, Timestamp updated_at, User deleted_acc, Timestamp deleted_at,
-            User approved_acc, Timestamp approved_at) {
+    
+    
+    public Post(String title, String content, long view, boolean isdeleted, boolean isapproved, Topic topic,
+            User createdacc, Timestamp createdat, User updatedacc, Timestamp updatedat, User deletedacc,
+            Timestamp deletedat, User approvedacc, Timestamp approvedat) {
         this.title = title;
         this.content = content;
         this.view = view;
         this.isdeleted = isdeleted;
+        this.isapproved = isapproved;
         this.topic = topic;
-        this.createdacc = created_acc;
-        this.createdat = created_at;
-        this.updatedacc = updated_acc;
-        this.updatedat = updated_at;
-        this.deletedacc = deleted_acc;
-        this.deletedat = deleted_at;
-        this.approvedacc = approved_acc;
-        this.approvedat = approved_at;
+        this.createdacc = createdacc;
+        this.createdat = createdat;
+        this.updatedacc = updatedacc;
+        this.updatedat = updatedat;
+        this.deletedacc = deletedacc;
+        this.deletedat = deletedat;
+        this.approvedacc = approvedacc;
+        this.approvedat = approvedat;
     }
+
     
+
+    public boolean isIsapproved() {
+        return isapproved;
+    }
+
+
+
+    public void setIsapproved(boolean isapproved) {
+        this.isapproved = isapproved;
+    }
+
+
+
     public boolean isIsdeleted() {
         return isdeleted;
     }

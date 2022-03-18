@@ -1,7 +1,5 @@
 package com.dvhl.forum_be.service;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +28,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountService {
     @Autowired
+    TimeService timeService;
+    @Autowired
     AuthenticationManager authenticationManager;
     @Autowired
     AccountRepo accountRepo;
@@ -57,17 +57,12 @@ public class AccountService {
                 Role newRole=roleRepo.findByRolename("user");
                 newAcc.setRole(newRole);
                 newAcc.setPassword(passwordEncoder.encode(newAcc.getPassword()));
-                Date jDate=new Date();
-                long currentTime=jDate.getTime();
-                newAcc.setCreated_at(new Timestamp(currentTime));
+                newAcc.setCreated_at(timeService.getCurrentTimestamp());
                 return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da Dang ky thanh cong",accountRepo.save(newAcc)));
             } 
         }
     }
     public ResponseEntity<Response> changeAccountInfo(User updatedAcc,long id){
-        Date jDate=new Date();
-        long currentTime=jDate.getTime();
-        
         accountRepo.findById(id).map(acc ->{
             if(updatedAcc.getName()!=null)
             acc.setName(updatedAcc.getName());
@@ -75,7 +70,7 @@ public class AccountService {
             acc.setBirthdate(updatedAcc.getBirthdate());
             if(updatedAcc.getPhone()!=null)
             acc.setPhone(updatedAcc.getPhone());
-            acc.setUpdated_at(new Timestamp(currentTime));
+            acc.setUpdated_at(timeService.getCurrentTimestamp());
             return accountRepo.save(acc);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",updatedAcc));

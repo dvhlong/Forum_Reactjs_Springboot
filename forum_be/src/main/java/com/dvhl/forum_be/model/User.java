@@ -2,8 +2,6 @@ package com.dvhl.forum_be.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Optional;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 // import javax.persistence.FetchType;
