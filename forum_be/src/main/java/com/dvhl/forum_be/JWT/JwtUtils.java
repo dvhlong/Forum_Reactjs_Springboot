@@ -14,21 +14,22 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JwtUtils {
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-	private String jwtSecret="SecretKey";
-	private int jwtExpirationMs=86400000;
-	public String generateJwtToken(UserDetailsImpl userDetailsImpl) {
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class); //hien thi logger
+	private String jwtSecret="SecretKey"; //thong tin cua token
+	private int jwtExpirationMs=86400000; //thoi gian ton tai token (ms)
+	public String generateJwtToken(UserDetailsImpl userDetailsImpl) { //tao token
+		//Jwt token gom 3 phan:Header,Payload,Signature
 		return Jwts.builder()
-				.setSubject((userDetailsImpl.getUsername()))
+				.setSubject((userDetailsImpl.getUsername())) //dua thong tin username (bat ky) vao token de co the lay ra kiem tra ->PayLoad
 				.setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-				.signWith(SignatureAlgorithm.HS512, jwtSecret)
+				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)) //dua thoi han vao token ->Payload
+				.signWith(SignatureAlgorithm.HS512, jwtSecret) //dua thong tin bao mat vao token ->Signature
 				.compact();
 	}
 	public String getUserNameFromJwtToken(String token) {
-		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject(); //lay username tu token
 	}
-	public boolean validateJwtToken(String authToken) {
+	public boolean validateJwtToken(String authToken) { //kiem tra token
 		try {
 			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
 			return true;

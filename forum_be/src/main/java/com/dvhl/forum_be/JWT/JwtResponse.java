@@ -1,6 +1,6 @@
 package com.dvhl.forum_be.JWT;
 
-public class JwtResponse {
+public class JwtResponse { //thong tin tra ve khi login
     private String token;
     private UserDetailsImpl acc;
     public JwtResponse() {

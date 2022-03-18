@@ -25,7 +25,7 @@ public class JwtFilter extends OncePerRequestFilter{
             throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
+            if (jwt != null && jwtUtils.validateJwtToken(jwt)) { //neu token du dieu kien -> xac thuc user tu token
             String username = jwtUtils.getUserNameFromJwtToken(jwt);
                 
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
@@ -38,11 +38,11 @@ public class JwtFilter extends OncePerRequestFilter{
             SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception e) {
-            logger.error("Cannot set user authentication: {}", e);
+            logger.error("Cannot set user authentication: {}", e); //ko the xac thuc user
         }
         filterChain.doFilter(request, response);
     }
-    private String parseJwt(HttpServletRequest request) {
+    private String parseJwt(HttpServletRequest request) { //Ly thong tin token
         String headerAuth = request.getHeader("Authorization");
     
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {

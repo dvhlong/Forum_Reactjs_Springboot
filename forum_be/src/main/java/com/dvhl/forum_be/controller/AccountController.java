@@ -1,5 +1,7 @@
 package com.dvhl.forum_be.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import com.dvhl.forum_be.JWT.LoginRequest;
@@ -11,6 +13,9 @@ import com.dvhl.forum_be.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,6 +47,7 @@ public class AccountController {
     ResponseEntity<Response> changeAccountInfo(@RequestBody User updatedAcc,@PathVariable long id){
         return accSV.changeAccountInfo(updatedAcc,id);
     }
+    @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
     @PutMapping("/blockAcc/{id}")
     ResponseEntity<Response> block(@PathVariable long id){
         return accSV.block(id);
@@ -54,9 +60,14 @@ public class AccountController {
     ResponseEntity<Response> changePass(@RequestBody User updatedAcc,@PathVariable long id){
         return accSV.changePass(id,updatedAcc);
     }
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/getAllRole")
-    Role getRole(){
+    List<Role> getRole(){
         return accSV.getRole();
+    }
+    @GetMapping("/logoutsuccess")
+    ResponseEntity<Response> getLogoutSuccess(){
+        return accSV.getLogoutSuccess();
     }
     
 }

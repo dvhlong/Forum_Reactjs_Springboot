@@ -22,10 +22,10 @@ import org.springframework.stereotype.Component;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint,Serializable{
     
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationEntryPoint.class);
-
+    //Khai bao loi ko the xac thuc
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
-            AuthenticationException authException) throws IOException, ServletException {
+            AuthenticationException authException) throws IOException, ServletException { 
         logger.error("Unauthorized error: {}", authException.getMessage());
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

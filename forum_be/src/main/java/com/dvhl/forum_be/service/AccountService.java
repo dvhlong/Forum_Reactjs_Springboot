@@ -2,6 +2,7 @@ package com.dvhl.forum_be.service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import com.dvhl.forum_be.JWT.JwtResponse;
@@ -38,8 +39,8 @@ public class AccountService {
     JwtUtils jwtUtils;
     @Autowired
     PasswordEncoder passwordEncoder;
-    public Role getRole(){
-        return roleRepo.findByRolename("user");
+    public List<Role> getRole(){
+        return roleRepo.findAll();
     }
     public Page<User> getAllAccounts(int page){
         return accountRepo.findAll(PageRequest.of(page-1, 5));
@@ -109,5 +110,8 @@ public class AccountService {
         String jwt = jwtUtils.generateJwtToken((UserDetailsImpl) authentication.getPrincipal());
         UserDetailsImpl accDetails = (UserDetailsImpl) authentication.getPrincipal();    
         return ResponseEntity.ok(new JwtResponse(jwt, accDetails)); 
+    }
+    public ResponseEntity<Response> getLogoutSuccess(){
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da Dang Xuat",""));
     }
 }

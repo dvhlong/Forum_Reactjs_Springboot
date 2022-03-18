@@ -13,7 +13,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     @Autowired
     JwtRepo jwtRepo;
     @Override
-    public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException { //lay thong tin user khi nhan token
         User user = jwtRepo.findByUsername(username);
         if(user==null){
             throw new UsernameNotFoundException(username);
