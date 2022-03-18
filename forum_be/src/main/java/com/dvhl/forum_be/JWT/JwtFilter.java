@@ -42,7 +42,7 @@ public class JwtFilter extends OncePerRequestFilter{
         }
         filterChain.doFilter(request, response);
     }
-    private String parseJwt(HttpServletRequest request) { //Ly thong tin token
+    private String parseJwt(HttpServletRequest request) { //Lay thong tin token
         String headerAuth = request.getHeader("Authorization");
     
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
