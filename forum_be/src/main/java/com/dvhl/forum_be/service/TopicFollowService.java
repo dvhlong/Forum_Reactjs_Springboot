@@ -44,6 +44,6 @@ public class TopicFollowService {
             tf.setDeleted_at(timeService.getCurrentTimestamp());
             return topicFollowRepo.save(tf);
         });
-        return null;
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Deleted",""));
     }
 }
