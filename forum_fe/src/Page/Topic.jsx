@@ -1,15 +1,16 @@
 import React from 'react';
 import Header from '../Component/HeaderComponent';
+import { useNavigate } from 'react-router-dom';
 function Topic() {
     return(
         <div>
             <Header/>
             <table style={{width:"1920px",border:"none"}}>
                 <td style={{width:"30%",color:"yellow"}}>
-                    SIDEBAR
+                    {localStorage.getItem("username")}
                 </td>
                 <td style={{width:"70%",color:"yellow"}}>
-                    MAIN
+                    {localStorage.getItem("token")}
                 </td>
             </table>
         </div>
