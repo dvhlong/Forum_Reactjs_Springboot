@@ -4,7 +4,8 @@ const config = {
     Headers: { Authorization: "Bearer "+localStorage.getItem("token"),
     "Access-Control-Allow-Headers": "*",
     "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "*"    
+    "Access-Control-Allow-Methods": "*",
+    "Content-Type": "application/json"    
     }
 }
 class TopicService{
