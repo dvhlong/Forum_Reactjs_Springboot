@@ -11,14 +11,14 @@ function Topic() {
     useEffect(()=>{
         TopicService.getAllTopic(page).then(res=>{
             if(res.data.content!==null){
-                console.log(res.data.content);
+                console.log(res.data);
                 setResult(res.data.content);
                 setPages(res.data.totalPages)
             } else {
                 setResult("No topic is created")
             }
         });
-    });
+    },[]);
     return(
         <div>
             <Header/>

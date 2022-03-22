@@ -1,17 +1,17 @@
 import axios from "axios";
-
-const config = {
-    Headers: { Authorization: "Bearer "+localStorage.getItem("token"),
-    "Access-Control-Allow-Headers": "*",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "*",
-    "Content-Type": "application/json"    
-    }
-}
+const token=localStorage.getItem("token");
 class TopicService{
     getAllTopic(page){
-        console.log(config.Headers.Authorization);
-        return axios.get(`http://localhost:8080/topic/page=${page}`,config)
+        return axios(
+            {
+                url:`topic/page=${page}`,
+                method:"get",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${token}`,
+                }
+            }
+        );
     }
 }
 export default new TopicService(); 
