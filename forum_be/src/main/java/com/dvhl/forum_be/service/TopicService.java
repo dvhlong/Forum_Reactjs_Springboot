@@ -1,11 +1,15 @@
 package com.dvhl.forum_be.service;
 
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 
+import com.dvhl.forum_be.model.Post;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Topic;
 import com.dvhl.forum_be.model.User;
 import com.dvhl.forum_be.repositories.AccountRepo;
+import com.dvhl.forum_be.repositories.PostRepo;
 import com.dvhl.forum_be.repositories.TopicRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +29,13 @@ public class TopicService {
     TopicRepo topicRepo;
     @Autowired
     AccountRepo accountRepo;
+    @Autowired
+    PostRepo postRepo;
     public Page<Topic> getAllTopics(int page){
-        return topicRepo.findAllByIsdeleted(false,PageRequest.of(page-1, 5));
+        return topicRepo.findAllByIsdeleted(PageRequest.of(page-1, 5),false);
     }
-    public long countPost(long id){
-        return topicRepo.count();
+    public long countPost(long topic_id){
+        return postRepo.countByTopic(topic_id);
     }
     public ResponseEntity<Response> createNewTopic(long created_acc,Topic newTopic){
         Optional <User>foundAcc=accountRepo.findById(created_acc);

@@ -66,7 +66,8 @@ public class CommentService {
     }
     public void deleteCommentWhenDeletePost(long post_id,long deleted_acc){
         Optional<User> foundAcc=accountRepo.findById(deleted_acc);
-        List<Comment> found=commentRepo.findAllByPostAndIsdeleted(post_id,false);
+        Optional<Post> foundPost=postRepo.findById(post_id);
+        List<Comment> found=commentRepo.findAllByPostAndIsdeleted(foundPost.get(),false);
         Timestamp timeDelete=timeService.getCurrentTimestamp();
         for(Comment c:found){
             c.setIsdeleted(true);

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 
 @Entity
 @Table(name = "topic")
@@ -37,6 +39,9 @@ public class Topic {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "updated_acc",referencedColumnName = "id")
     private User updatedacc;
+    @Transient
+    private long amountTopic;
+    
     public Topic() {
     }
     
@@ -53,6 +58,14 @@ public class Topic {
         this.updatedacc = updated_acc;
     }
     
+    public long getAmountTopic() {
+        return amountTopic;
+    }
+
+    public void setAmountTopic(long amountTopic) {
+        this.amountTopic = amountTopic;
+    }
+
     public boolean isIsdeleted() {
         return isdeleted;
     }

@@ -52,6 +52,10 @@ public class PostService {
         newPost.setCreated_acc(foundAcc.get());
         newPost.setTopic(foundTopic.get());
         newPost.setCreated_at(timeService.getCurrentTimestamp());
+        foundTopic.map(tp->{
+            tp.setAmountTopic(tp.getAmountTopic()+1);
+            return topicRepo.save(tp);
+        });
         return  ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",postRepo.save(newPost)));
     }
     public ResponseEntity<Response> approvePost(long acc_id,long post_id){
@@ -83,20 +87,27 @@ public class PostService {
             p.setDeleted_acc(foundAcc.get());
             p.setIsdeleted(true);
             p.setDeleted_at(timeService.getCurrentTimestamp());
+            topicRepo.findById(p.getTopic().getId()).map(tp->{
+                tp.setAmountTopic(tp.getAmountTopic()-1);
+                return topicRepo.save(tp);
+            });
             return postRepo.save(p);
         });
         commentService.deleteCommentWhenDeletePost(post_id, deleted_acc);
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Deleted",""));
     }
-    public void deletePostWhenDeleteTopic(long topic_id,long deleted_acc){
-        List<Post> found=postRepo.findAllByTopic(topic_id);
+    public ResponseEntity<Response> deletePostWhenDeleteTopic(Long topic_id,long deleted_acc){
+        Optional<Topic> foundTopic=topicRepo.findById(topic_id);
+        List<Post> found=postRepo.findAllByTopic(foundTopic.get());
         Optional<User> foundAcc=accountRepo.findById(deleted_acc);
         Timestamp timeDelete=timeService.getCurrentTimestamp();
+        if(found.size()>0)
         for(Post p:found){
             p.setDeleted_acc(foundAcc.get());
             p.setDeleted_at(timeDelete);
             p.setIsdeleted(true);
             postRepo.save(p);
         }
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Deleted",""));
     }
 }
