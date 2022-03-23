@@ -26,6 +26,8 @@ function Login() {
                     localStorage.setItem("token",res.data.token);
                     localStorage.setItem("accid",res.data.acc.id);
                     localStorage.setItem("username",res.data.acc.username);
+                    localStorage.setItem("role",res.data.acc.authorities[0].authority)
+                    localStorage.setItem("accid",res.data.acc.id)
                     navigate('/home');
                 } else if(res.data.message==="User account is locked"){
                     setError("Username da bi khoa !!!!");
