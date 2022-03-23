@@ -52,7 +52,11 @@ function Topic() {
         }   
     }
     const deleteTopic=()=>{
-
+        TopicService.deleteTopic(deleteTopicid).then(res=>{
+            console.log(res.data.message);
+            setResult(result.filter(topic=>topic.id!==deleteTopicid));
+        });
+        setShowDelete(false);
     }
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
@@ -102,7 +106,7 @@ function Topic() {
                                             <Card.Body>
                                                 <Card.Title style={{color:"red"}}>{topic.topicname}</Card.Title>
                                                 <Card.Text style={{color:"black"}}>
-                                                <p>Account created: {topic.created_acc.username} ({topic.created_acc.role.rolename})</p>
+                                                <label>Account created: {topic.created_acc.username} ({topic.created_acc.role.rolename})</label>
                                                 </Card.Text>
                                                 <button variant="primary">View Posts</button>
                                             </Card.Body>
@@ -120,7 +124,7 @@ function Topic() {
                                                 <button style={{border:"none",background:"none",color:"blue"}} onClick={handleShowEdit}>Edit Topic</button>
                                             </Dropdown.Item>
                                             <Dropdown.Item href="#">
-                                                <button style={{border:"none",background:"none",color:"red"}} onClick={handleShowDelete(topic.id)}>Delete Topic</button>
+                                                <button style={{border:"none",background:"none",color:"red"}} onClick={()=>handleShowDelete(topic.id)}>Delete Topic</button>
                                             </Dropdown.Item>
                                             </Dropdown.Menu>
                                         </Dropdown>:<></>
@@ -132,7 +136,7 @@ function Topic() {
                             <tr>
                                 <button onClick={prevPage}>{"<<<"} Previous Page</button>
                                 <button style={{marginLeft:"10px"}} onClick={nextPage}>Next Page {">>>"}</button>
-                                <span style={{marginLeft:"30px"}}><label>Page:</label><input min={1} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/></span>        
+                                <label style={{marginLeft:"30px"}}>Page:</label><input min={1} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>     
                             </tr>
                         </tbody>
                     </table>
@@ -169,7 +173,8 @@ function Topic() {
                         <Modal.Title>Add Topic</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                        <p>Enter new topic name :</p>    
+                        <label>{error}</label>
+                        <label>Enter new topic name :</label>    
                         <input style={{width:"100%"}} type="text" value={newTopicName} onChange={enterNewTopicName}/>
                         </Modal.Body>
                         <Modal.Footer>

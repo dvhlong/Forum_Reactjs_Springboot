@@ -26,17 +26,17 @@ class TopicService{
             }
         );
     }
-    // deleteTopic(id){
-    //     return axios(
-    //         {
-    //             url:`topic/page=${page}`,
-    //             method:"delete",
-    //             baseURL:"http://localhost:8080",
-    //             headers:{
-    //                 "Authorization": `Bearer ${token}`,
-    //             }
-    //         }
-    //     );
-    // }
+    deleteTopic(id){
+        return axios(
+            {
+                url:`/topic/deleteTopic/${id}/${localStorage.getItem("accid")}`,
+                method:"delete",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${token}`,
+                }
+            }
+        );
+    }
 }
 export default new TopicService(); 
