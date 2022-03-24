@@ -32,7 +32,10 @@ public class TopicService {
     @Autowired
     PostRepo postRepo;
     public Page<Topic> getAllTopics(int page){
-        return topicRepo.findAllByIsdeleted(PageRequest.of(page-1, 5),false);
+        return topicRepo.findAllByIsdeleted(PageRequest.of(page-1, 4),false);
+    }
+    public List<Topic> getTopics(){
+        return topicRepo.findAllByIsdeleted(false);
     }
     public long countPost(long topic_id){
         return postRepo.countByTopic(topic_id);

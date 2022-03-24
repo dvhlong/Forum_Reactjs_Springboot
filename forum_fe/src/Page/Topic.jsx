@@ -9,13 +9,13 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import moreIcon from '../SVG/more.svg';
-
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
 function Topic() {
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
     const[error,setError]=useState("");
-
+    
     const[newTopicName,setNewTopicName]=useState("");
     const[editTopicid,setEditTopicId]=useState(0)
     const[editTopicName,setEditTopicName]=useState("")
@@ -25,13 +25,17 @@ function Topic() {
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = (topic) => {
+        setError("");
         setEditTopicId(topic.id);
         setEditTopicName(topic.topicname);
         setShowEdit(true);
     }
     const [showAdd, setShowAdd] = useState(false);
     const handleCloseAdd = () => setShowAdd(false);
-    const handleShowAdd = () => setShowAdd(true);
+    const handleShowAdd = () =>{
+        setError("");
+        setShowAdd(true);
+    }
     const [showDelete, setShowDelete] = useState(false);
     const handleCloseDelete = () => setShowDelete(false);
     const handleShowDelete = (id) => {
@@ -69,22 +73,19 @@ function Topic() {
             id:editTopicid,
             topicname:editTopicName
         }
+        if(editTopicName==="")
+            setError("Please enter topic name !!!")
+        else { 
         TopicService.editTopic(updatedTopic);
-        TopicService.getAllTopic(page).then(res=>{
-            if(res.data.content!==null){
-                setResult(res.data.content);
-                setPages(res.data.totalPages)
-            } else {
-                setResult("No topic is created")
-            }
-        });
         setShowEdit(false)
+        }
     }
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
     }
     const nextPage=()=>{
+        if(page<pages)
         setPage(page+1);
     }
     const prevPage=()=>{
@@ -97,13 +98,11 @@ function Topic() {
             if(res.data.content!==null){
                 setResult(res.data.content);
                 setPages(res.data.totalPages)
-            } else {
-                setResult("No topic is created")
             }
         });
         if(localStorage.getItem("role")!=="user")
             setCanAddTopic(true);
-    },[page,result]);
+    },[page]);
     return(
         <div>
             <Header/>
@@ -120,7 +119,7 @@ function Topic() {
                                     topic=>
                                     <tr key={topic.id}>
                                         <td>
-                                        <Card style={{marginBottom:"30px"}}>
+                                        <Card style={{marginBottom:"20px"}}>
                                             <Card.Header style={{color:"blue"}}>
                                                 Time created: {new Date(topic.created_at).toLocaleDateString(undefined,
                                                     { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}
@@ -134,7 +133,6 @@ function Topic() {
                                             </Card.Body>
                                         </Card>
                                         </td>
-                                        {/* <td style={{verticalAlign:"top"}}><button style={{border:"none",background:"none"} onClick={handleShow}>Edit Topic</button></td> */}
                                         <td style={{verticalAlign:"top"}}>
                                         {canAddTopic?
                                         <Dropdown>
@@ -156,9 +154,11 @@ function Topic() {
                                 )
                             }
                             <tr>
-                                <button onClick={prevPage}>{"<<<"} Previous Page</button>
-                                <button style={{marginLeft:"10px"}} onClick={nextPage}>Next Page {">>>"}</button>
-                                <label style={{marginLeft:"30px"}}>Page:</label><input min={1} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>     
+                            <ButtonGroup aria-label="Basic example">
+                                <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous Page</Button>
+                                <Button variant="secondary"onClick={nextPage}>Next Page {">>>"}</Button>
+                            </ButtonGroup>
+                                <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>     
                             </tr>
                         </tbody>
                     </table>
@@ -176,6 +176,7 @@ function Topic() {
                         <Modal.Title>Change Topic</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
+                        <p style={{color:"red"}}>{error}</p>
                         <input style={{width:"100%"}} value={editTopicName} onChange={enterEditTopicName}/>
                         </Modal.Body>
                         <Modal.Footer>
@@ -195,7 +196,7 @@ function Topic() {
                         <Modal.Title>Add Topic</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                        <label>{error}</label>
+                        <p style={{color:"red"}}>{error}</p>
                         <label>Enter new topic name :</label>    
                         <input style={{width:"100%"}} type="text" value={newTopicName} onChange={enterNewTopicName}/>
                         </Modal.Body>

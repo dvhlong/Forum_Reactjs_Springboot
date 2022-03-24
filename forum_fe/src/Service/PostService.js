@@ -1,47 +1,47 @@
 import axios from "axios";
 const token=localStorage.getItem("token");
-class TopicService{
-    getAllTopic(page){
+class PostService{
+    createPost(topicid,newPost){
         return axios(
             {
-                url:`topic/page=${page}`,
-                method:"get",
-                baseURL:"http://localhost:8080",
-                headers:{
-                    "Authorization": `Bearer ${token}`,
-                }
-            }
-        );
-    }
-    getTopicList(){
-        return axios(
-            {
-                url:`topic/all`,
-                method:"get",
-                baseURL:"http://localhost:8080",
-                headers:{
-                    "Authorization": `Bearer ${token}`,
-                }
-            }
-        );
-    }
-    addTopic(newTopic){
-        return axios(
-            {
-                url:`/topic/createTopic/${localStorage.getItem("accid")}`,
+                url:`/post/createPost/${topicid}/${localStorage.getItem("accid")}`,
                 method:"post",
                 baseURL:"http://localhost:8080",
                 headers:{
                     "Authorization": `Bearer ${token}`,
                 },
-                data: newTopic
+                data: newPost
             }
         );
     }
-    deleteTopic(id){
+    getPostsPage(page){
         return axios(
             {
-                url:`/topic/deleteTopic/${id}/${localStorage.getItem("accid")}`,
+                url:`post/page=${page}`,
+                method:"get",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${token}`,
+                }
+            }
+        );
+    }
+    getApprovePost(page){
+        return axios(
+            {
+                url:`post/approvePost/page=${page}`,
+                method:"get",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${token}`,
+                }
+            }
+        );
+    }
+    rejectPost(id){
+        return axios(
+            {
+                url:`/post/deletePost/${id}/${localStorage.getItem("accid")}`,
                 method:"delete",
                 baseURL:"http://localhost:8080",
                 headers:{
@@ -50,18 +50,17 @@ class TopicService{
             }
         );
     }
-    editTopic(updatedTopic){
+    approvePost(id){
         return axios(
             {
-                url:`/topic/editTopic/${localStorage.getItem("accid")}`,
+                url:`/post/approve/${localStorage.getItem("accid")}/${id}`,
                 method:"put",
                 baseURL:"http://localhost:8080",
                 headers:{
                     "Authorization": `Bearer ${token}`,
-                },
-                data: updatedTopic
+                }
             }
         );
     }
 }
-export default new TopicService(); 
+export default new PostService();

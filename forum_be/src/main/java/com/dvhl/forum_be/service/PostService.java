@@ -35,13 +35,13 @@ public class PostService {
         return postRepo.findByIdAndIsdeleted(post_id,false);
     }
     public Page<Post> getAllPostByTopic(long topic_id,int page){
-        return postRepo.findAllByTopicAndIsdeletedAndIsapproved(topic_id,false,true,PageRequest.of(page-1, 5));
+        return postRepo.findAllByTopicAndIsdeletedAndIsapproved(topic_id,false,true,PageRequest.of(page-1, 3));
     }
     public Page<Post> getAllPost(int page){
-        return postRepo.findAllByIsdeletedAndIsapproved(false,true,PageRequest.of(page-1, 5));
+        return postRepo.findAllByIsdeletedAndIsapproved(false,true,PageRequest.of(page-1, 3));
     }
     public Page<Post> getAllPostNotApproved(int page){
-        return postRepo.findAllByIsdeletedAndIsapproved(false,false,PageRequest.of(page-1, 5));
+        return postRepo.findAllByIsdeletedAndIsapproved(false,false,PageRequest.of(page-1, 3));
     }
     public Page<Post> getAllYourPostWaitingApproved(long acc_id,int page){
         return postRepo.findAllByCreatedaccAndIsdeletedAndIsapproved(acc_id,false,false,PageRequest.of(page-1, 5));
@@ -49,6 +49,8 @@ public class PostService {
     public ResponseEntity<Response> createNewPost(long topic_id,long acc_id,Post newPost){
         Optional<User> foundAcc=accountRepo.findById(acc_id);
         Optional<Topic> foundTopic=topicRepo.findById(topic_id);
+        if(foundAcc.get().getRole().getRolename()!="user")
+        newPost.setIsapproved(true);
         newPost.setCreated_acc(foundAcc.get());
         newPost.setTopic(foundTopic.get());
         newPost.setCreated_at(timeService.getCurrentTimestamp());

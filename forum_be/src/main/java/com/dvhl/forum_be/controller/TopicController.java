@@ -1,5 +1,7 @@
 package com.dvhl.forum_be.controller;
 
+import java.util.List;
+
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Topic;
 import com.dvhl.forum_be.service.TopicService;
@@ -27,6 +29,10 @@ public class TopicController{
     @GetMapping("/page={page}")
     Page<Topic> getAllTopics(@PathVariable int page){
         return topicService.getAllTopics(page);
+    }
+    @GetMapping("all")
+    List<Topic> getTopics(){
+        return topicService.getTopics();
     }
     @GetMapping("/amount/{topic_id}")
     long getAmountTopic(@PathVariable long topic_id){
