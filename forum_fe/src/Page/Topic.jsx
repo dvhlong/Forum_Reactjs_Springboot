@@ -17,14 +17,18 @@ function Topic() {
     const[error,setError]=useState("");
 
     const[newTopicName,setNewTopicName]=useState("");
-    // const[editTopicid,setEditTopicId]=useState(0)
-    // const[editTopicName,setEditTopicName]=useState("")
+    const[editTopicid,setEditTopicId]=useState(0)
+    const[editTopicName,setEditTopicName]=useState("")
     const[deleteTopicid,setDeleteTopicId]=useState(0);
 
     const[canAddTopic,setCanAddTopic]=useState(false);
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
-    const handleShowEdit = () => setShowEdit(true);
+    const handleShowEdit = (topic) => {
+        setEditTopicId(topic.id);
+        setEditTopicName(topic.topicname);
+        setShowEdit(true);
+    }
     const [showAdd, setShowAdd] = useState(false);
     const handleCloseAdd = () => setShowAdd(false);
     const handleShowAdd = () => setShowAdd(true);
@@ -37,7 +41,9 @@ function Topic() {
     const enterNewTopicName=(e)=>{
         setNewTopicName(e.target.value)
     }
-
+    const enterEditTopicName=(e)=>{
+        setEditTopicName(e.target.value)
+    }
     const addTopic=()=>{
         if(newTopicName==="")
             setError("Please enter topic name !!!")
@@ -57,6 +63,22 @@ function Topic() {
             setResult(result.filter(topic=>topic.id!==deleteTopicid));
         });
         setShowDelete(false);
+    }
+    const changeTopic=()=>{
+        let updatedTopic={
+            id:editTopicid,
+            topicname:editTopicName
+        }
+        TopicService.editTopic(updatedTopic);
+        TopicService.getAllTopic(page).then(res=>{
+            if(res.data.content!==null){
+                setResult(res.data.content);
+                setPages(res.data.totalPages)
+            } else {
+                setResult("No topic is created")
+            }
+        });
+        setShowEdit(false)
     }
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
@@ -81,7 +103,7 @@ function Topic() {
         });
         if(localStorage.getItem("role")!=="user")
             setCanAddTopic(true);
-    },[page]);
+    },[page,result]);
     return(
         <div>
             <Header/>
@@ -121,7 +143,7 @@ function Topic() {
                                             </Dropdown.Toggle>
                                             <Dropdown.Menu>
                                             <Dropdown.Item href="#">
-                                                <button style={{border:"none",background:"none",color:"blue"}} onClick={handleShowEdit}>Edit Topic</button>
+                                                <button style={{border:"none",background:"none",color:"blue"}} onClick={()=>handleShowEdit(topic)}>Edit Topic</button>
                                             </Dropdown.Item>
                                             <Dropdown.Item href="#">
                                                 <button style={{border:"none",background:"none",color:"red"}} onClick={()=>handleShowDelete(topic.id)}>Delete Topic</button>
@@ -154,13 +176,13 @@ function Topic() {
                         <Modal.Title>Change Topic</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                        <input style={{width:"100%"}}/>
+                        <input style={{width:"100%"}} value={editTopicName} onChange={enterEditTopicName}/>
                         </Modal.Body>
                         <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseEdit}>
                             Close
                         </Button>
-                        <Button variant="primary">Change</Button>
+                        <Button variant="primary" onClick={changeTopic}>Change</Button>
                         </Modal.Footer>
                     </Modal>
                     <Modal

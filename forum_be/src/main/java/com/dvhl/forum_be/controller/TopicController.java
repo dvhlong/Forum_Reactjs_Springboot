@@ -38,9 +38,9 @@ public class TopicController{
         return topicService.createNewTopic(created_acc, newTopic);
     }
     @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
-    @PutMapping("/editTopic/{topic_id}/{updated_acc}")
-    ResponseEntity<Response> editTopic(@PathVariable long topic_id,@PathVariable long updated_acc,@RequestBody Topic updated_topic){
-        return topicService.editTopic(topic_id, updated_acc, updated_topic);
+    @PutMapping("/editTopic/{updated_acc}")
+    ResponseEntity<Response> editTopic(@PathVariable long updated_acc,@RequestBody Topic updated_topic){
+        return topicService.editTopic(updated_acc, updated_topic);
     }
     @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
     @DeleteMapping("/deleteTopic/{topic_id}/{deleted_acc}")

@@ -43,8 +43,8 @@ public class TopicService {
         newTopic.setCreated_at(timeService.getCurrentTimestamp());
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",topicRepo.save(newTopic)));
     }
-    public ResponseEntity<Response> editTopic(long topic_id,long updated_acc,Topic updatedTopic){
-        topicRepo.findById(topic_id).map(topic ->{
+    public ResponseEntity<Response> editTopic(long updated_acc,Topic updatedTopic){
+        topicRepo.findById(updatedTopic.getId()).map(topic ->{
             topic.setUpdated_at(timeService.getCurrentTimestamp());
             topic.setUpdated_acc(accountRepo.findById(updated_acc).get());
             if(updatedTopic.getTopicname()!=null)
