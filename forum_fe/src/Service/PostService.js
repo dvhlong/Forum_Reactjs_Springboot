@@ -62,5 +62,30 @@ class PostService{
             }
         );
     }
+    editPost(topicid,updatedPost){
+        return axios(
+            {
+                url:`/post/editPost/${topicid}/${localStorage.getItem("accid")}`,
+                method:"put",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${token}`,
+                },
+                data: updatedPost
+            }
+        );
+    }
+    deletePost(id){
+        return axios(
+            {
+                url:`/post/deletePost/${id}/${localStorage.getItem("accid")}`,
+                method:"delete",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${token}`,
+                }
+            }
+        );
+    }
 }
 export default new PostService();

@@ -35,12 +35,13 @@ public class PostController {
     ResponseEntity<Response> createPost(@PathVariable long topic_id,@PathVariable long created_acc,@RequestBody Post newPost){
         return postService.createNewPost(topic_id, created_acc, newPost);
     }
-    @PutMapping("/editPost/{post_id}/{updated_acc}")
-    ResponseEntity<Response> editPost(@PathVariable long post_id,@PathVariable long updated_acc,@RequestBody Post updatedPost){
-        return postService.editPost(post_id, updated_acc, updatedPost);
+    @PutMapping("/editPost/{topic_id}/{updated_acc}")
+    ResponseEntity<Response> editPost(@PathVariable long topic_id,@PathVariable long updated_acc,@RequestBody Post updatedPost){
+        return postService.editPost(topic_id, updated_acc, updatedPost);
     }
     @DeleteMapping("/deletePost/{post_id}/{deleted_acc}")
     ResponseEntity<Response> deletePost(@PathVariable long post_id,@PathVariable long deleted_acc){
+        System.out.println("check");
         return postService.deletePost(post_id, deleted_acc);
     }
     @PutMapping("/approve/{acc_id}/{post_id}")

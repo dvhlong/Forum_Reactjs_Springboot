@@ -10,7 +10,13 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import yesIcon from '../SVG/yes.svg';
 import noIcon from '../SVG/no.svg';
 import SidebarComponent from '../Component/SidebarComponent';
+import Toast from 'react-bootstrap/Toast'
+import ToastContainer from 'react-bootstrap/ToastContainer'
 function ApprovePosts() {
+    const [show, setShow] = useState(false);
+    const [toastBg,setToastBg]=useState("success");
+    const [toastHeader,setToastHeader]=useState("SUCCESSFUL");
+    const [toastBody,setToastBody]=useState("Checked !!!");
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
@@ -31,12 +37,20 @@ function ApprovePosts() {
             console.log(res.data)
             setResult(result.filter(post=>post.id!==id))
         })
+        setToastBg("success");
+            setToastHeader("SUCCESSFUL");
+            setToastBody("Approved !!!!!")  
+            setShow(true);
     }
     const rejectPost=(id)=>{
         PostService.rejectPost(id).then(res=>{
             console.log(res.data)
             setResult(result.filter(post=>post.id!==id))
         })
+        setToastBg("danger");
+            setToastHeader("SUCCESSFUL");
+            setToastBody("Post Deleted !!!!!")  
+            setShow(true);
     }
     useEffect(()=>{
         PostService.getApprovePost(page).then(res=>{
@@ -98,7 +112,21 @@ function ApprovePosts() {
                     </table>
                 </td>
                 <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
-
+                <div
+                        aria-live="polite"
+                        aria-atomic="true"
+                        style={{ minHeight: '240px' }}
+                        >
+                        <ToastContainer position="middle-start" className="p-1">
+                            <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
+                            <Toast.Header>
+                                <strong className="me-auto">{toastHeader}</strong>
+                                <small className="text-muted">just now</small>
+                            </Toast.Header>
+                            <Toast.Body>{toastBody}</Toast.Body>
+                            </Toast>
+                        </ToastContainer>
+                    </div>
                 </td>
             </table>
         </div>

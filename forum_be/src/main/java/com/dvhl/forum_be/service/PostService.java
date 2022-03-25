@@ -49,8 +49,9 @@ public class PostService {
     public ResponseEntity<Response> createNewPost(long topic_id,long acc_id,Post newPost){
         Optional<User> foundAcc=accountRepo.findById(acc_id);
         Optional<Topic> foundTopic=topicRepo.findById(topic_id);
-        if(foundAcc.get().getRole().getRolename()!="user")
+        if(!foundAcc.get().getRole().getRolename().equals("user")){
         newPost.setIsapproved(true);
+        }
         newPost.setCreated_acc(foundAcc.get());
         newPost.setTopic(foundTopic.get());
         newPost.setCreated_at(timeService.getCurrentTimestamp());
@@ -70,13 +71,16 @@ public class PostService {
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Approved",""));
     }
-    public ResponseEntity<Response> editPost(long post_id,long updated_acc,Post updatedPost){
+    public ResponseEntity<Response> editPost(long topic_id,long updated_acc,Post updatedPost){
+        System.out.println("check");
         Optional<User> foundAcc=accountRepo.findById(updated_acc);
-        postRepo.findById(post_id).map(p->{
+        Optional<Topic> foundTopic=topicRepo.findById(topic_id);
+        postRepo.findById(updatedPost.getId()).map(p->{
             if(updatedPost.getTitle()!=null)
             p.setTitle(updatedPost.getTitle());
             if(updatedPost.getContent()!=null)
             p.setContent(updatedPost.getContent());
+            p.setTopic(foundTopic.get());
             p.setUpdated_acc(foundAcc.get());
             p.setUpdated_at(timeService.getCurrentTimestamp());
             return postRepo.save(p);
@@ -84,19 +88,22 @@ public class PostService {
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Updated",""));
     }
     public ResponseEntity<Response> deletePost(long post_id,long deleted_acc){
+        System.out.println("check");
         Optional<User> foundAcc=accountRepo.findById(deleted_acc);
-        postRepo.findById(post_id).map(p->{
+        Optional<Post>fountPost=postRepo.findById(post_id).map(p->{
+            System.out.println(p.getId());
             p.setDeleted_acc(foundAcc.get());
             p.setIsdeleted(true);
             p.setDeleted_at(timeService.getCurrentTimestamp());
-            topicRepo.findById(p.getTopic().getId()).map(tp->{
-                tp.setAmountTopic(tp.getAmountTopic()-1);
-                return topicRepo.save(tp);
-            });
+            // topicRepo.findById(p.getTopic().getId()).map(tp->{
+            //     tp.setAmountTopic(tp.getAmountTopic()-1);
+            //     return topicRepo.save(tp);
+            // });
+
             return postRepo.save(p);
         });
         commentService.deleteCommentWhenDeletePost(post_id, deleted_acc);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Deleted",""));
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Deleted",fountPost));
     }
     public ResponseEntity<Response> deletePostWhenDeleteTopic(Long topic_id,long deleted_acc){
         Optional<Topic> foundTopic=topicRepo.findById(topic_id);

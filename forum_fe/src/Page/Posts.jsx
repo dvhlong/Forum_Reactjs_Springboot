@@ -2,15 +2,98 @@ import React,{useState,useEffect} from 'react';
 import Header from '../Component/HeaderComponent';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
+import TopicService from '../Service/TopicService';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import moreIcon from '../SVG/more.svg';
 import PostService from '../Service/PostService';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Toast from 'react-bootstrap/Toast'
+import ToastContainer from 'react-bootstrap/ToastContainer'
+import Form from 'react-bootstrap/Form';
 function Posts(){
+    const[topicList,setTopicList]=useState([]);
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
+    const [show, setShow] = useState(false);
+    const [toastBg,setToastBg]=useState("success");
+    const [toastHeader,setToastHeader]=useState("SUCCESSFUL");
+    const [toastBody,setToastBody]=useState("Checked !!!");
+    const[editPostid,setEditPostId]=useState(0)
+    const [topicId,setTopicId]=useState("0");
+    const [topicName,setTopicName]=useState("");
+    const[editPostTitle,setEditPostTitle]=useState("")
+    const[editPostContent,setEditPostContent]=useState("")
+    const[deletePostid,setDeletePostId]=useState(0);
+    const [showEdit, setShowEdit] = useState(false);
+    const handleCloseEdit = () => setShowEdit(false);
+    const handleShowEdit=(post)=>{
+        setTopicId(post.topic.id)
+        setTopicName(post.topic.topicname)
+        setEditPostId(post.id);
+        setEditPostTitle(post.title);
+        setEditPostContent(post.content);
+        setShowEdit(true)
+    }
+    const [showDelete, setShowDelete] = useState(false);
+    const handleCloseDelete = () => setShowDelete(false);
+    const handleShowDelete=(id)=>{
+        setDeletePostId(id);
+        setShowDelete(true);
+    }
+    const enterEditPostContent=(e)=>{
+        setEditPostContent(e.target.value)
+    }
+    const enterEditPostTitle=(e)=>{
+        setEditPostTitle(e.target.value)
+    }
+    const chooseTopic=(e)=>{
+        setTopicId(e.target.value);
+    }
+    const changePost=()=>{
+        let updatedPost={
+            id:editPostid,
+            title:editPostTitle,
+            content:editPostContent
+        }
+        if(topicId==="0"){
+            setToastBg("danger");
+            setToastHeader("ERROR");
+            setToastBody("Please choose topic to change !!!!")
+            setShow(true);
+        } else if(editPostTitle===""){
+            setToastBg("danger");
+            setToastHeader("ERROR");
+            setToastBody("Please enter title !!!!")
+            setShow(true);
+        } else if(editPostContent===""){
+            setToastBg("danger");
+            setToastHeader("ERROR");
+            setToastBody("Please enter content !!!!")
+            setShow(true);
+        } else {
+            PostService.editPost(Number(topicId),updatedPost).then(res=>{
+                console.log(res.data);
+            })
+            handleCloseEdit();
+            setToastBg("success");
+            setToastHeader("SUCCESSFUL");
+            setToastBody("Post Edited !!!!!")  
+            setShow(true);
+        }
+    }
+    const deletePost=()=>{
+        console.log(deletePostid);
+        handleCloseDelete();
+        PostService.deletePost(deletePostid).then(res=>{
+            console.log(res.data);
+        });
+        setToastBg("success");
+        setToastHeader("SUCCESSFUL");
+        setToastBody("Post Deleted !!!!!")  
+        setShow(true);
+    }
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
@@ -30,6 +113,9 @@ function Posts(){
                 setResult(res.data.content);
                 setPages(res.data.totalPages)
             }
+        })
+        TopicService.getTopicList().then(res=>{
+            setTopicList(res.data);
         })
     },[page]);
     return(
@@ -73,10 +159,10 @@ function Posts(){
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu>
                                                     <Dropdown.Item href="#">
-                                                        <button style={{border:"none",background:"none",color:"blue"}}>Edit Topic</button>
+                                                        <button style={{border:"none",background:"none",color:"blue"}} onClick={()=>handleShowEdit(post)}>Edit Post</button>
                                                     </Dropdown.Item>
                                                     <Dropdown.Item href="#">
-                                                        <button style={{border:"none",background:"none",color:"red"}}>Delete Topic</button>
+                                                        <button style={{border:"none",background:"none",color:"red"}} onClick={()=>handleShowDelete(post.id)}>Delete Post</button>
                                                     </Dropdown.Item>
                                                     </Dropdown.Menu>
                                                 </Dropdown>)
@@ -97,7 +183,74 @@ function Posts(){
                     </table>
                 </td>
                 <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
-
+                    {/* <Button onClick={() => setShow(true)}>Show Toast</Button> */}
+                    <div
+                        aria-live="polite"
+                        aria-atomic="true"
+                        style={{ minHeight: '240px' }}
+                        >
+                        <ToastContainer position="middle-start" className="p-1">
+                            <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
+                            <Toast.Header>
+                                <strong className="me-auto">{toastHeader}</strong>
+                                <small className="text-muted">just now</small>
+                            </Toast.Header>
+                            <Toast.Body>{toastBody}</Toast.Body>
+                            </Toast>
+                        </ToastContainer>
+                    </div>
+                    <Modal
+                        show={showEdit}
+                        onHide={handleCloseEdit}
+                        backdrop="static"
+                        keyboard={false}
+                    >
+                        <Modal.Header closeButton>
+                        <Modal.Title>Edit Post</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                        <p>Topic :</p>
+                            <Form.Select aria-label="Default select example" value={topicId} onChange={chooseTopic}>
+                                <option value={topicId}> {topicName}</option>
+                                <option value="0"> Select Topic</option>
+                                {
+                                    topicList.map(
+                                        topic=>
+                                        <option key={topic.id} value={topic.id}>{topic.topicname}</option>
+                                    )
+                                }
+                            </Form.Select> 
+                            <p>Title :</p>
+                            <input style={{width:"100%"}} value={editPostTitle} onChange={enterEditPostTitle}/>
+                            <p>Content :</p>
+                        <textarea name="" id="" cols="60" rows="10" value={editPostContent} onChange={enterEditPostContent}></textarea>
+                        </Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseEdit}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={changePost} >Change</Button>
+                        </Modal.Footer>
+                    </Modal>
+                    <Modal
+                        show={showDelete}
+                        onHide={handleCloseDelete}
+                        backdrop="static"
+                        keyboard={false}
+                    >
+                        <Modal.Header closeButton>
+                        <Modal.Title>Delete Post</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                        You really want to delete this Post ???
+                        </Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseDelete}>
+                            Close
+                        </Button>
+                        <Button variant="primary" onClick={deletePost}>Delete</Button>
+                        </Modal.Footer>
+                    </Modal>
                 </td>
             </table>
         </div>
