@@ -89,6 +89,7 @@ function Posts(){
         PostService.deletePost(deletePostid).then(res=>{
             console.log(res.data);
         });
+        setResult(result.filter(post=>post.id!==deletePostid))
         setToastBg("success");
         setToastHeader("SUCCESSFUL");
         setToastBody("Post Deleted !!!!!")  
