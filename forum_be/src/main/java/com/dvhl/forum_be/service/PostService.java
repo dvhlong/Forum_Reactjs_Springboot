@@ -72,7 +72,6 @@ public class PostService {
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Approved",""));
     }
     public ResponseEntity<Response> editPost(long topic_id,long updated_acc,Post updatedPost){
-        System.out.println("check");
         Optional<User> foundAcc=accountRepo.findById(updated_acc);
         Optional<Topic> foundTopic=topicRepo.findById(topic_id);
         postRepo.findById(updatedPost.getId()).map(p->{
@@ -91,7 +90,6 @@ public class PostService {
         System.out.println("check");
         Optional<User> foundAcc=accountRepo.findById(deleted_acc);
         Optional<Post>fountPost=postRepo.findById(post_id).map(p->{
-            System.out.println(p.getId());
             p.setDeleted_acc(foundAcc.get());
             p.setIsdeleted(true);
             p.setDeleted_at(timeService.getCurrentTimestamp());

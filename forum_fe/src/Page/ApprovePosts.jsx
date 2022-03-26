@@ -13,13 +13,21 @@ import SidebarComponent from '../Component/SidebarComponent';
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 function ApprovePosts() {
+    const [update,setUpdate] = useState(false);
+    const reload=()=>{setUpdate(!update);}
     const [show, setShow] = useState(false);
-    const [toastBg,setToastBg]=useState("success");
-    const [toastHeader,setToastHeader]=useState("SUCCESSFUL");
-    const [toastBody,setToastBody]=useState("Checked !!!");
+    const [toastBg,setToastBg]=useState("");
+    const [toastHeader,setToastHeader]=useState("");
+    const [toastBody,setToastBody]=useState("");
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
+    const setToast=(tbg,theader,tbody)=>{
+        setToastBg(tbg);
+        setToastHeader(theader);
+        setToastBody(tbody);
+        setShow(true);
+    }
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
@@ -35,22 +43,16 @@ function ApprovePosts() {
     const approvePost=(id)=>{
         PostService.approvePost(id).then(res=>{
             console.log(res.data)
-            setResult(result.filter(post=>post.id!==id))
+            reload();
         })
-        setToastBg("success");
-            setToastHeader("SUCCESSFUL");
-            setToastBody("Approved !!!!!")  
-            setShow(true);
+        setToast("success","SUCCESSFUL","Approved !!!")
     }
     const rejectPost=(id)=>{
         PostService.rejectPost(id).then(res=>{
             console.log(res.data)
-            setResult(result.filter(post=>post.id!==id))
+            reload()
         })
-        setToastBg("danger");
-            setToastHeader("SUCCESSFUL");
-            setToastBody("Post Deleted !!!!!")  
-            setShow(true);
+        setToast("danger","SUCCESSFUL","Post Deleted !!!!")
     }
     useEffect(()=>{
         PostService.getApprovePost(page).then(res=>{
@@ -60,7 +62,7 @@ function ApprovePosts() {
                 setPages(res.data.totalPages)
             }
         })
-    },[page]);
+    },[page,update]);
     return (
         <div>
             <Header/>
@@ -126,7 +128,7 @@ function ApprovePosts() {
                             <Toast.Body>{toastBody}</Toast.Body>
                             </Toast>
                         </ToastContainer>
-                    </div>
+                </div>
                 </td>
             </table>
         </div>

@@ -12,14 +12,16 @@ import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 import Form from 'react-bootstrap/Form';
 function Posts(){
+    const [update,setUpdate] = useState(false);
+    const reload=()=>{setUpdate(!update);}
     const[topicList,setTopicList]=useState([]);
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
     const [show, setShow] = useState(false);
-    const [toastBg,setToastBg]=useState("success");
-    const [toastHeader,setToastHeader]=useState("SUCCESSFUL");
-    const [toastBody,setToastBody]=useState("Checked !!!");
+    const [toastBg,setToastBg]=useState("");
+    const [toastHeader,setToastHeader]=useState("");
+    const [toastBody,setToastBody]=useState("");
     const[editPostid,setEditPostId]=useState(0)
     const [topicId,setTopicId]=useState("0");
     const [topicName,setTopicName]=useState("");
@@ -35,6 +37,12 @@ function Posts(){
         setEditPostTitle(post.title);
         setEditPostContent(post.content);
         setShowEdit(true)
+    }
+    const setToast=(tbg,theader,tbody)=>{
+        setToastBg(tbg);
+        setToastHeader(theader);
+        setToastBody(tbody);
+        setShow(true);
     }
     const [showDelete, setShowDelete] = useState(false);
     const handleCloseDelete = () => setShowDelete(false);
@@ -58,29 +66,20 @@ function Posts(){
             content:editPostContent
         }
         if(topicId==="0"){
-            setToastBg("danger");
-            setToastHeader("ERROR");
-            setToastBody("Please choose topic to change !!!!")
-            setShow(true);
+            setToast("danger","ERROR","Please choose topic to change !!!!")
         } else if(editPostTitle===""){
-            setToastBg("danger");
-            setToastHeader("ERROR");
-            setToastBody("Please enter title !!!!")
-            setShow(true);
+            setToast("danger","ERROR","Please enter title !!!!")
         } else if(editPostContent===""){
-            setToastBg("danger");
-            setToastHeader("ERROR");
-            setToastBody("Please enter content !!!!")
-            setShow(true);
+            setToast("danger","ERROR","Please enter content !!!!");
         } else {
             PostService.editPost(Number(topicId),updatedPost).then(res=>{
+                reload();
                 console.log(res.data);
             })
+            console.log("check2")
             handleCloseEdit();
-            setToastBg("success");
-            setToastHeader("SUCCESSFUL");
-            setToastBody("Post Edited !!!!!")  
-            setShow(true);
+            setToast("success","SUCCESSFUL","Post Edited !!!")
+            
         }
     }
     const deletePost=()=>{
@@ -88,12 +87,9 @@ function Posts(){
         handleCloseDelete();
         PostService.deletePost(deletePostid).then(res=>{
             console.log(res.data);
+            reload();
         });
-        setResult(result.filter(post=>post.id!==deletePostid))
-        setToastBg("success");
-        setToastHeader("SUCCESSFUL");
-        setToastBody("Post Deleted !!!!!")  
-        setShow(true);
+        setToast("success","SUCCESSFUL","Post Deleted !!!!")
     }
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
@@ -108,9 +104,9 @@ function Posts(){
         setPage(page-1);
     }
     useEffect(()=>{
+        console.log("check")
         PostService.getPostsPage(page).then(res=>{
             if(res.data.content!==null){
-                // console.log(res.data.content);
                 setResult(res.data.content);
                 setPages(res.data.totalPages)
             }
@@ -118,7 +114,7 @@ function Posts(){
         TopicService.getTopicList().then(res=>{
             setTopicList(res.data);
         })
-    },[page]);
+    },[page,update]);
     return(
         <div>
             <Header/>
@@ -185,10 +181,10 @@ function Posts(){
                 </td>
                 <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
                     {/* <Button onClick={() => setShow(true)}>Show Toast</Button> */}
-                    <div
-                        aria-live="polite"
-                        aria-atomic="true"
-                        style={{ minHeight: '240px' }}
+                    <div 
+                        aria-live="assertive"
+                        aria-atomic="false"
+                        
                         >
                         <ToastContainer position="middle-start" className="p-1">
                             <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
@@ -212,7 +208,7 @@ function Posts(){
                         <Modal.Body>
                         <p>Topic :</p>
                             <Form.Select aria-label="Default select example" value={topicId} onChange={chooseTopic}>
-                                <option value={topicId}> {topicName}</option>
+                                {/* <option value={topicId}> {topicName}</option> */}
                                 <option value="0"> Select Topic</option>
                                 {
                                     topicList.map(

@@ -10,12 +10,24 @@ import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import moreIcon from '../SVG/more.svg';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import Toast from 'react-bootstrap/Toast'
+import ToastContainer from 'react-bootstrap/ToastContainer'
 function Topic() {
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
-    const[error,setError]=useState("");
-    
+    const [show, setShow] = useState(false);
+    const [toastBg,setToastBg]=useState("");
+    const [toastHeader,setToastHeader]=useState("");
+    const [toastBody,setToastBody]=useState("");
+    const setToast=(tbg,theader,tbody)=>{
+        setToastBg(tbg);
+        setToastHeader(theader);
+        setToastBody(tbody);
+        setShow(true);
+    }
+    const [update,setUpdate] = useState(false);
+    const reload=()=>{setUpdate(!update);}
     const[newTopicName,setNewTopicName]=useState("");
     const[editTopicid,setEditTopicId]=useState(0)
     const[editTopicName,setEditTopicName]=useState("")
@@ -25,7 +37,6 @@ function Topic() {
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit = (topic) => {
-        setError("");
         setEditTopicId(topic.id);
         setEditTopicName(topic.topicname);
         setShowEdit(true);
@@ -33,7 +44,6 @@ function Topic() {
     const [showAdd, setShowAdd] = useState(false);
     const handleCloseAdd = () => setShowAdd(false);
     const handleShowAdd = () =>{
-        setError("");
         setShowAdd(true);
     }
     const [showDelete, setShowDelete] = useState(false);
@@ -50,23 +60,27 @@ function Topic() {
     }
     const addTopic=()=>{
         if(newTopicName==="")
-            setError("Please enter topic name !!!")
+        setToast("danger","ERROR","Please enter topic name !!!!")
         else {
             let newtopic={
                 topicname:newTopicName
             }
             TopicService.addTopic(newtopic).then(res=>{
                 console.log(res.data.message)
+                reload();
             });
-            setShowAdd(false);
+            setToast("success","SUCCESSFUL","Added !!!")
+            handleCloseAdd();
         }   
     }
     const deleteTopic=()=>{
         TopicService.deleteTopic(deleteTopicid).then(res=>{
             console.log(res.data.message);
-            setResult(result.filter(topic=>topic.id!==deleteTopicid));
+            reload();
+
         });
-        setShowDelete(false);
+        setToast("success","SUCCESSFUL","Deleted !!!")
+        handleCloseDelete();
     }
     const changeTopic=()=>{
         let updatedTopic={
@@ -74,10 +88,13 @@ function Topic() {
             topicname:editTopicName
         }
         if(editTopicName==="")
-            setError("Please enter topic name !!!")
+            setToast("danger","ERROR","Please enter topic name")
         else { 
-        TopicService.editTopic(updatedTopic);
-        setShowEdit(false)
+        TopicService.editTopic(updatedTopic).then(res=>{
+            reload();
+        });
+        setToast("success","SUCCESSFUL","Topic changed !!!")
+        handleCloseEdit();
         }
     }
     const changePage=(e)=>{
@@ -102,7 +119,7 @@ function Topic() {
         });
         if(localStorage.getItem("role")!=="user")
             setCanAddTopic(true);
-    },[page]);
+    },[page,update]);
     return(
         <div>
             <Header/>
@@ -165,7 +182,21 @@ function Topic() {
                 </td>
                 <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
                     {canAddTopic?<button style={{background:"blue",color:"white"}} onClick={handleShowAdd} className='btn btn=primary'>Add Topic</button>:<></>}
-
+                    <div
+                        aria-live="polite"
+                        aria-atomic="true"
+                        style={{ minHeight: '240px' }}
+                        >
+                        <ToastContainer position="middle-start" className="p-1">
+                            <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
+                            <Toast.Header>
+                                <strong className="me-auto">{toastHeader}</strong>
+                                <small className="text-muted">just now</small>
+                            </Toast.Header>
+                            <Toast.Body>{toastBody}</Toast.Body>
+                            </Toast>
+                        </ToastContainer>
+                    </div>
                     <Modal
                         show={showEdit}
                         onHide={handleCloseEdit}
@@ -176,7 +207,6 @@ function Topic() {
                         <Modal.Title>Change Topic</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                        <p style={{color:"red"}}>{error}</p>
                         <input style={{width:"100%"}} value={editTopicName} onChange={enterEditTopicName}/>
                         </Modal.Body>
                         <Modal.Footer>
@@ -196,7 +226,6 @@ function Topic() {
                         <Modal.Title>Add Topic</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                        <p style={{color:"red"}}>{error}</p>
                         <label>Enter new topic name :</label>    
                         <input style={{width:"100%"}} type="text" value={newTopicName} onChange={enterNewTopicName}/>
                         </Modal.Body>
