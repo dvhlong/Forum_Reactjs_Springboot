@@ -111,6 +111,7 @@ function Topic() {
     }
 
     useEffect(()=>{
+        let controller = new AbortController();
         TopicService.getAllTopic(page).then(res=>{
             if(res.data.content!==null){
                 setResult(res.data.content);
@@ -119,6 +120,8 @@ function Topic() {
         });
         if(localStorage.getItem("role")!=="user")
             setCanAddTopic(true);
+        controller = null;
+        return () => controller?.abort();
     },[page,update]);
     return(
         <div>
