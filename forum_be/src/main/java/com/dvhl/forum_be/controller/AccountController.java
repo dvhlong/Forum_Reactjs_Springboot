@@ -33,6 +33,10 @@ public class AccountController {
     Page<User> getAllAccounts(@PathVariable int page){
         return accSV.getAllAccounts(page);
     }
+    @GetMapping("/getUserInfo/{id}")
+    ResponseEntity<?> getUserInfo(@PathVariable long id){
+        return accSV.getUserInfo(id);
+    }
     @PostMapping("/login")
     ResponseEntity<?> authenticateAccount(@Valid @RequestBody LoginRequest loginRequest){
         return accSV.authenticateAccount(loginRequest);

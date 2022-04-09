@@ -109,4 +109,7 @@ public class AccountService {
     public ResponseEntity<Response> getLogoutSuccess(){
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da Dang Xuat",""));
     }
+    public ResponseEntity<?> getUserInfo(long id){
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","OK",accountRepo.findById(id)));
+    } 
 }
