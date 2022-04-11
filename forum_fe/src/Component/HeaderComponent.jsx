@@ -1,5 +1,5 @@
 import React, { useCallback,useState } from 'react';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate,Link, Outlet } from 'react-router-dom';
 import searchIcon from '../SVG/search.svg';
 import accIcon from '../SVG/acc.svg';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -62,10 +62,10 @@ function HeaderComponent(){
     }
     return(
             <div>
-                <header style={{width:"1920px"}}>
-                    <nav className='navbar navbar-dark bg-primary nojt'>
+                <header style={{width:"100%"}}>
+                    <nav className='navbar navbar-dark bg-secondary nojt'>
                     <div style={{width:"auto"}}>
-                    <button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}}><Link style={{"text-decoration":"none",color:"white"}} to="/home">Home</Link></button>
+                    <button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}}><Link style={{"text-decoration":"none",color:"white"}} to="/topic">Home</Link></button>
                     <button className="navbar-brand btn btn-secondary"><Link style={{"text-decoration":"none",color:"white"}} to="/posts">Posts</Link></button>
                     {(localStorage.getItem("role")!=="user")?(<button className="navbar-brand btn btn-secondary"><Link style={{"text-decoration":"none",color:"white"}} to="/approve">Approve</Link></button>):<></>}
                     {(localStorage.getItem("role")==="admin")?(<button className="navbar-brand btn btn-secondary">Manage Account</button>):<></>}
@@ -73,7 +73,7 @@ function HeaderComponent(){
                     </div>
                     <div class="row" style={{marginLeft:"20px"}}>
                         <div class="col-auto">
-                            <input type="text" className="form-control" id="inputPassword2" placeholder="Search"/>
+                            <input type="text" className="form-control" id="inputPassword2" placeholder="Search Post"/>
                         </div>
                         <div class="col-auto">
                             <button className="btn btn-dark" ><img src={searchIcon} alt="logo"/></button>
@@ -81,16 +81,16 @@ function HeaderComponent(){
                     </div>
                     <div style={{marginRight:"30px"}}>
                     <Dropdown>
-                        <Dropdown.Toggle variant="warning">
+                        <Dropdown.Toggle variant="secondary">
                         <label><img src={accIcon} alt="logo"/> {localStorage.getItem("username")}</label>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                         <Dropdown.Item href="#">
                             <button style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/changeInfo">Personal Infomation</Link></button>
                         </Dropdown.Item>
-                        <Dropdown.Item href="#">
+                        {/* <Dropdown.Item href="#">
                             <button style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/changePass">Change Password</Link></button>
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
                         <Dropdown.Item href="#">
                             <button onClick={logout} style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/">Logout</Link></button>
                         </Dropdown.Item>
@@ -132,6 +132,7 @@ function HeaderComponent(){
                         <Button variant="primary" onClick={createPost}>Create</Button>
                         </Modal.Footer>
                 </Modal>
+                <Outlet/>
             </div>
     );
 } 

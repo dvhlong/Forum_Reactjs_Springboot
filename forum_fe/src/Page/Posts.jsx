@@ -117,9 +117,9 @@ function Posts(){
     },[page,update]);
     return(
         <div>
-            <Header/>
+            {/* <Header/> */}
             <h1 style={{textAlign:"center",color:"white"}}>POST LIST</h1>
-            <table style={{width:"1920px",border:"none"}}>
+            <table style={{width:"100%",border:"none"}}>
                 <td style={{width:"30%",color:"yellow"}}>
                 
                 </td>    

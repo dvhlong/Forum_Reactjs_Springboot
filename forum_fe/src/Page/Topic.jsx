@@ -121,11 +121,11 @@ function Topic() {
         if(localStorage.getItem("role")!=="user")
             setCanAddTopic(true);
         controller = null;
-        return () => controller?.abort();
+        return () => controller?.();
     },[page,update]);
     return(
         <div>
-            <Header/>
+            {/* <Header/> */}
             <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1>
             <table style={{width:"1920px",border:"none"}}>
                 <td style={{width:"30%",color:"yellow"}}>

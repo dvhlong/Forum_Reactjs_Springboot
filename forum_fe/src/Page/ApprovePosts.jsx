@@ -65,7 +65,8 @@ function ApprovePosts() {
     },[page,update]);
     return (
         <div>
-            <Header/>
+            {/* <Header/> */}
+            
             <h1 style={{textAlign:"center",color:"white"}}>APPROVE POST</h1>
             <table style={{width:"1920px",border:"none"}}>
                 <td style={{width:"30%",color:"yellow"}}>
@@ -112,6 +113,7 @@ function ApprovePosts() {
                             </tr>
                         </tbody>
                     </table>
+                    
                 </td>
                 <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
                 <div
@@ -128,8 +130,9 @@ function ApprovePosts() {
                             <Toast.Body>{toastBody}</Toast.Body>
                             </Toast>
                         </ToastContainer>
-                </div>
+            </div>
                 </td>
+                
             </table>
         </div>
     )

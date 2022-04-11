@@ -40,7 +40,6 @@
 body {
   background: url("https://images.hdqwalls.com/download/black-gradient-b9-1920x1080.jpg");
   font-family: Roboto, Arial, sans-serif;
-  display: flex;
   align-items: center;
   justify-content: center;
 }

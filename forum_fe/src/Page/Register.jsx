@@ -55,7 +55,7 @@ function Register() {
         setRepass(e.target.value)
     }
     return(
-        <div className="Container"> 
+        <div className="Container" style={{margin:"auto",width:"60%"}}> 
             <div class="system-name">FORUM</div>
             <div class="flex col-auto row" id="form">
             <div class="col flex column center">   

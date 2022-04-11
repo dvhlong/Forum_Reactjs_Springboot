@@ -6,8 +6,8 @@ import Card from 'react-bootstrap/Card';
 function ChangeInfo() {
     return(
         <div>
-            <HeaderComponent/>
-            <div style={{margin:"auto",width:"1200px"}}>
+            {/* <HeaderComponent/> */}
+            <div className='Container' style={{margin:"auto",width:"60%"}}>
             <Card>
                 <Card.Header>
                     <div style={{color:"red",fontSize:"30px"}}>PERSONAL INFO</div>

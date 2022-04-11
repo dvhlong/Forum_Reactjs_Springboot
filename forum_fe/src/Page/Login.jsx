@@ -14,21 +14,20 @@ function Login() {
             username:username,
             password:password
         }
-        console.log(acc);
         if(username==="")
             setError("Vui long nhap username !!!")
         else if(password==="")
             setError("Vui long nhap password !!!")
         else {
             accSV.checklogin(acc).then(res=>{
-                console.log(res.data);
+
                 if(res.data.status!==401){
                     localStorage.setItem("token",res.data.token);
                     localStorage.setItem("accid",res.data.acc.id);
                     localStorage.setItem("username",res.data.acc.username);
                     localStorage.setItem("role",res.data.acc.authorities[0].authority)
                     localStorage.setItem("accid",res.data.acc.id)
-                    navigate('/home');
+                    moveTopic();
                 } else if(res.data.message==="User account is locked"){
                     setError("Username da bi khoa !!!!");
                 } else {
@@ -38,6 +37,7 @@ function Login() {
         }
     
     },[username,password]);
+    const moveTopic=()=>navigate('/topic');
     const enterUsername=(e)=>{
         setUsername(e.target.value);
     }
@@ -46,7 +46,7 @@ function Login() {
     }
     const register=useCallback(()=>navigate('/register'),[navigate]);
     return(
-        <div className="Container">
+        <div className="Container" style={{margin:"auto",width:"60%"}}>
             <div class="system-name">FORUM</div>
             <div class="flex col-auto row" id="form">
             <div class="col flex column center">
