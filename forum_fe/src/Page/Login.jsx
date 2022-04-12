@@ -1,4 +1,4 @@
-import React,{useCallback, useEffect, useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import Keylogo from '../SVG/key.svg';
 import Userlogo from '../SVG/user.svg';
@@ -8,12 +8,13 @@ function Login() {
     const[username,setUsername]=useState("");
     const[password,setPassword]=useState("");
     const[error,setError]=useState("");
-    const login=useCallback((e)=>{
+    const login=(e)=>{
         e.preventDefault();
         let acc={
             username:username,
             password:password
         }
+        console.log(JSON.stringify(acc));
         if(username==="")
             setError("Vui long nhap username !!!")
         else if(password==="")
@@ -36,7 +37,7 @@ function Login() {
             });
         }
     
-    },[username,password]);
+    };
     const moveTopic=()=>navigate('/topic');
     const enterUsername=(e)=>{
         setUsername(e.target.value);
@@ -44,7 +45,7 @@ function Login() {
     const enterPassword=(e)=>{
         setPassword(e.target.value);
     }
-    const register=useCallback(()=>navigate('/register'),[navigate]);
+    const register=()=>navigate('/register');
     return(
         <div className="Container" style={{margin:"auto",width:"60%"}}>
             <div class="system-name">FORUM</div>

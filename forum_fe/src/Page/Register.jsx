@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Keylogo from '../SVG/key.svg';
 import Userlogo from '../SVG/user.svg';
 import Emaillogo from '../SVG/email.svg';
-import React,{useCallback, useEffect, useState} from 'react';
+import React,{ useState} from 'react';
 import accSV from '../Service/AccountService';
 function Register() {
     let navigate=useNavigate();
@@ -13,7 +13,7 @@ function Register() {
     const[email,setEmail]=useState("");
     const[repass,setRepass]=useState("");
     const[error,setError]=useState("");
-    const register=useCallback((e)=>{
+    const register=(e)=>{
         e.preventDefault();
         if (username==="")
             setError("Vui long nhap username !!!")
@@ -40,8 +40,8 @@ function Register() {
         } else {
             setError("Xac nhan password ko phu hop !!!")
         }
-    },[username, password, email, repass]);
-    const back=useCallback(()=>navigate('/'),[navigate]);
+    };
+    const back=()=>navigate('/');
     const enterUsername=(e)=>{
         setUsername(e.target.value);
     }

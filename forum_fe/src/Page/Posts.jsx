@@ -74,9 +74,7 @@ function Posts(){
         } else {
             PostService.editPost(Number(topicId),updatedPost).then(res=>{
                 reload();
-                console.log(res.data);
             })
-            console.log("check2")
             handleCloseEdit();
             setToast("success","SUCCESSFUL","Post Edited !!!")
             
@@ -86,7 +84,6 @@ function Posts(){
         console.log(deletePostid);
         handleCloseDelete();
         PostService.deletePost(deletePostid).then(res=>{
-            console.log(res.data);
             reload();
         });
         setToast("success","SUCCESSFUL","Post Deleted !!!!")
@@ -104,7 +101,6 @@ function Posts(){
         setPage(page-1);
     }
     useEffect(()=>{
-        console.log("check")
         PostService.getPostsPage(page).then(res=>{
             if(res.data.content!==null){
                 setResult(res.data.content);
