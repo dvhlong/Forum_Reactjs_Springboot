@@ -64,11 +64,11 @@ public class AccountService {
     }
     public ResponseEntity<Response> changeAccountInfo(User updatedAcc,long id){
         accountRepo.findById(id).map(acc ->{
-            if(updatedAcc.getName()!=null)
+            // if(updatedAcc.getName()!=null)
             acc.setName(updatedAcc.getName());
-            if(updatedAcc.getBirthdate()!=null)
+            // if(updatedAcc.getBirthdate()!=null)
             acc.setBirthdate(updatedAcc.getBirthdate());
-            if(updatedAcc.getPhone()!=null)
+            // if(updatedAcc.getPhone()!=null)
             acc.setPhone(updatedAcc.getPhone());
             acc.setUpdated_at(timeService.getCurrentTimestamp());
             return accountRepo.save(acc);

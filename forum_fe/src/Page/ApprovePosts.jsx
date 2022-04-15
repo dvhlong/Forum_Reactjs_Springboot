@@ -127,7 +127,7 @@ function ApprovePosts() {
                                 <strong className="me-auto">{toastHeader}</strong>
                                 <small className="text-muted">just now</small>
                             </Toast.Header>
-                            <Toast.Body>{toastBody}</Toast.Body>
+                            <Toast.Body style={{color:"white"}}>{toastBody}</Toast.Body>
                             </Toast>
                         </ToastContainer>
             </div>

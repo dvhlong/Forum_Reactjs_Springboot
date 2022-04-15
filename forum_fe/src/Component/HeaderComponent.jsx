@@ -86,7 +86,7 @@ function HeaderComponent(){
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                         <Dropdown.Item href="#">
-                            <button style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/changeInfo">Personal Infomation</Link></button>
+                            <button style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/changeInfo">Personal</Link></button>
                         </Dropdown.Item>
                         {/* <Dropdown.Item href="#">
                             <button style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/changePass">Change Password</Link></button>
