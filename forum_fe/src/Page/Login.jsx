@@ -20,9 +20,11 @@ function Login() {
         else if(password==="")
             setError("Vui long nhap password !!!")
         else {
+            try{
             accSV.checklogin(acc).then(res=>{
 
                 if(res.data.status!==401){
+                    console.log(res)
                     localStorage.setItem("token",res.data.token);
                     localStorage.setItem("accid",res.data.acc.id);
                     localStorage.setItem("username",res.data.acc.username);
@@ -35,6 +37,10 @@ function Login() {
                     setError("Username hoac password ko dung !!!!");
                 }
             });
+        }
+        catch{
+            console.log("fail");
+        }
         }
     
     };

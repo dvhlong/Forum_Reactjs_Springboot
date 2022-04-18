@@ -4,7 +4,10 @@ import java.util.Optional;
 
 import com.dvhl.forum_be.model.User;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface AccountRepo extends JpaRepository<User,Long>{
     Optional<User> findByUsername(String username);
@@ -12,5 +15,6 @@ public interface AccountRepo extends JpaRepository<User,Long>{
     Boolean existsByEmail(String email);
     Optional<User> findByEmail(String email);
     User findByUsernameAndPassword(String username,String password);
-    
+    @Query("SELECT u FROM User u WHERE u.role.rolename='user' OR u.role.rolename='mod'")
+    Page<User>getAllAcc(Pageable pageable);
 }

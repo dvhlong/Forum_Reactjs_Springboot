@@ -43,7 +43,7 @@ public class AccountService {
         return roleRepo.findAll();
     }
     public Page<User> getAllAccounts(int page){
-        return accountRepo.findAll(PageRequest.of(page-1, 5));
+        return accountRepo.getAllAcc(PageRequest.of(page-1, 5));
     }
     public ResponseEntity<Response> registerAccount(User newAcc){
         Optional<User> foundAcc= accountRepo.findByUsername(newAcc.getUsername());

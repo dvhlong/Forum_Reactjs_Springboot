@@ -16,13 +16,13 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class); //hien thi logger
 	private String jwtSecret="SecretKey"; //thong tin cua token
-	private int jwtExpirationMs=86400000; //thoi gian ton tai token (ms)
+	// private int jwtExpirationMs=86400000; //thoi gian ton tai token (ms)
 	public String generateJwtToken(UserDetailsImpl userDetailsImpl) { //tao token
 		//Jwt token gom 3 phan:Header,Payload,Signature
 		return Jwts.builder()
 				.setSubject((userDetailsImpl.getUsername())) //dua thong tin username (bat ky) vao token de co the lay ra kiem tra ->PayLoad
 				.setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)) //dua thoi han vao token ->Payload
+				// .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)) //dua thoi han vao token ->Payload
 				.signWith(SignatureAlgorithm.HS512, jwtSecret) //dua thong tin bao mat vao token ->Signature
 				.compact();
 	}

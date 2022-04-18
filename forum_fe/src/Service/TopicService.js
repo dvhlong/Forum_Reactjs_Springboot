@@ -1,5 +1,4 @@
 import axios from "axios";
-const token=localStorage.getItem("token");
 class TopicService{
     getAllTopic(page){
         return axios(
@@ -8,19 +7,20 @@ class TopicService{
                 method:"get",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
     }
     getTopicList(){
+        console.log(localStorage.getItem("token"));
         return axios(
             {
                 url:`topic/all`,
                 method:"get",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
@@ -32,7 +32,7 @@ class TopicService{
                 method:"post",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
                 data: newTopic
             }
@@ -45,7 +45,7 @@ class TopicService{
                 method:"delete",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
@@ -57,7 +57,7 @@ class TopicService{
                 method:"put",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
                 data: updatedTopic
             }

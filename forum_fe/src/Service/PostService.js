@@ -1,5 +1,4 @@
 import axios from "axios";
-const token=localStorage.getItem("token");
 class PostService{
     createPost(topicid,newPost){
         return axios(
@@ -8,7 +7,7 @@ class PostService{
                 method:"post",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
                 data: newPost
             }
@@ -21,7 +20,7 @@ class PostService{
                 method:"get",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
@@ -33,7 +32,7 @@ class PostService{
                 method:"get",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
@@ -45,7 +44,7 @@ class PostService{
                 method:"delete",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
@@ -57,7 +56,7 @@ class PostService{
                 method:"put",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
@@ -69,7 +68,7 @@ class PostService{
                 method:"put",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
                 data: updatedPost
             }
@@ -82,7 +81,7 @@ class PostService{
                 method:"delete",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );

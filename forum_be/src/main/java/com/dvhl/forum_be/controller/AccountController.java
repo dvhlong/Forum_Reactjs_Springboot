@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountController {
     @Autowired
     AccountService accSV;
-    @GetMapping("/getAccs/pages={page}")
+    @GetMapping("/getAllAcc/pages={page}")
     Page<User> getAllAccounts(@PathVariable int page){
         return accSV.getAllAccounts(page);
     }

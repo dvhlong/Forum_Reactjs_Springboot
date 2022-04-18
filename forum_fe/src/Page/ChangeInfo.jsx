@@ -86,7 +86,7 @@ function ChangeInfo() {
         <div>
             {/* <HeaderComponent/> */}
             <div className='Container' style={{margin:"auto",width:"60%"}}>
-            <Card>
+            <Card style={{marginTop:"20px"}}>
                 <Card.Header>
                     <div style={{color:"red",fontSize:"30px"}}>PERSONAL INFO</div>
                 </Card.Header>

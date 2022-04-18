@@ -1,5 +1,4 @@
 import axios from "axios";
-const token=localStorage.getItem("token");
 class AccountService{
     checklogin(account){
         return axios.post("http://localhost:8080/login",account);
@@ -14,7 +13,7 @@ class AccountService{
                 method:"get",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
@@ -26,7 +25,7 @@ class AccountService{
                 method:"put",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
                 data:updatedInfo
             }
@@ -39,7 +38,7 @@ class AccountService{
                 method:"put",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
                 data:pass
             }
