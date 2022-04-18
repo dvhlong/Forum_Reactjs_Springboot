@@ -68,7 +68,7 @@ function HeaderComponent(){
                     <button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}}><Link style={{"text-decoration":"none",color:"white"}} to="/topic">Home</Link></button>
                     <button className="navbar-brand btn btn-secondary"><Link style={{"text-decoration":"none",color:"white"}} to="/posts">Posts</Link></button>
                     {(localStorage.getItem("role")!=="user")?(<button className="navbar-brand btn btn-secondary"><Link style={{"text-decoration":"none",color:"white"}} to="/approve">Approve</Link></button>):<></>}
-                    {(localStorage.getItem("role")==="admin")?(<button className="navbar-brand btn btn-secondary">Manage Account</button>):<></>}
+                    {(localStorage.getItem("role")==="admin")?(<button className="navbar-brand btn btn-secondary"><Link style={{"text-decoration":"none",color:"white"}} to="/manageacc">Manage Acc</Link></button>):<></>}
                     <button className="navbar-brand btn btn-danger" onClick={handleShowAddPost} style={{marginLeft:"50px"}}>Create your post</button>
                     </div>
                     <div class="row" style={{marginLeft:"20px"}}>

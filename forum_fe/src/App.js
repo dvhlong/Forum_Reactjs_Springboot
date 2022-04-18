@@ -8,6 +8,7 @@ import Posts from './Page/Posts';
 import ApprovePosts from './Page/ApprovePosts';
 import ChangeInfo from './Page/ChangeInfo';
 import HeaderComponent from './Component/HeaderComponent';
+import ManageAcc from './Page/ManageAcc';
 function App() {
   return (
     
@@ -19,12 +20,12 @@ function App() {
             <Route path="/topic" element={<Topic/>}></Route>
             <Route path="/changeInfo" element={<ChangeInfo/>}></Route>
             <Route path="/approve" element={<ApprovePosts/>}></Route>
+            <Route path="/manageacc" element={<ManageAcc/>}></Route>
           </Route>
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/pinfo"></Route>
-          <Route paht="/main/post/"></Route>
-          <Route paht="/manageacc"></Route>
-          <Route paht="/notify"></Route>
+          <Route path="/main/post/"></Route>
+          <Route path="/notify"></Route>
         </Routes>
     </Router>
   );

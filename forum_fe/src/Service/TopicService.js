@@ -13,7 +13,6 @@ class TopicService{
         );
     }
     getTopicList(){
-        console.log(localStorage.getItem("token"));
         return axios(
             {
                 url:`topic/all`,

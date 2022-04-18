@@ -1,5 +1,17 @@
 import axios from "axios";
 class AccountService{
+    getAllAcc(page){
+        return axios(
+            {
+                url:`/getAllAcc/pages=${page}`,
+                method:"get",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                }
+            }
+        );
+    }
     checklogin(account){
         return axios.post("http://localhost:8080/login",account);
     }

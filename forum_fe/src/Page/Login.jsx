@@ -24,7 +24,6 @@ function Login() {
             accSV.checklogin(acc).then(res=>{
 
                 if(res.data.status!==401){
-                    console.log(res)
                     localStorage.setItem("token",res.data.token);
                     localStorage.setItem("accid",res.data.acc.id);
                     localStorage.setItem("username",res.data.acc.username);
