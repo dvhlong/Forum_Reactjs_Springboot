@@ -149,7 +149,7 @@ function Topic() {
                                                 <Card.Text style={{color:"black"}}>
                                                 <label>Account created: {topic.created_acc.username} ({topic.created_acc.role.rolename})</label>
                                                 </Card.Text>
-                                                <button variant="primary">View Posts</button>
+                                                <Button variant="primary">View Posts</Button>
                                             </Card.Body>
                                         </Card>
                                         </td>

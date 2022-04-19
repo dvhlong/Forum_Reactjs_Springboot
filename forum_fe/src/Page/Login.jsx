@@ -14,7 +14,7 @@ function Login() {
             username:username,
             password:password
         }
-        console.log(JSON.stringify(acc));
+        // console.log(JSON.stringify(acc));
         if(username==="")
             setError("Vui long nhap username !!!")
         else if(password==="")
@@ -53,7 +53,7 @@ function Login() {
     return(
         <div className="Container" style={{margin:"auto",width:"60%"}}>
             <div class="system-name">FORUM</div>
-            <div class="flex col-auto row" id="form">
+            <div class="flex col-auto row" style={{background:"#201D1D"}} id="form">
             <div class="col flex column center">
             <div class="col-spacer">
             <div class="form-header"><span>LOGIN</span></div>

@@ -133,6 +133,9 @@ function HeaderComponent(){
                         </Modal.Footer>
                 </Modal>
                 <Outlet/>
+                <footer className='footer' style={{textAlign:"center",color:"grey",marginTop:"30px"}}>
+                    <span className='text'>@FORUM Created by Doan Van Hoang Long</span>
+                </footer>
             </div>
     );
 } 

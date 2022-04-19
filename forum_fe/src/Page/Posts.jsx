@@ -11,7 +11,9 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
 function Posts(){
+    let navigate=useNavigate;
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
     const[topicList,setTopicList]=useState([]);
@@ -139,12 +141,13 @@ function Posts(){
                                                 <Card.Text style={{color:"black"}}>
                                                 <p style={{whiteSpace: "pre-wrap"}}>{post.content}</p>
                                                 </Card.Text>
+                                                <Button variant='secondary' onClick={()=>navigate(`postDetail/${post.id}`)}>Detail {'>>>'}</Button>
                                             </Card.Body>
                                         </Card>
                                         </td>
                                         <td style={{verticalAlign:"top"}}>
                                             {
-                                                (localStorage.getItem("role")!=="user"||localStorage.getItem("accid")===post.created_acc.id)
+                                                (localStorage.getItem("role")!=="user"||localStorage.getItem("accid")===String(post.created_acc.id))
                                                 ?
                                                 (<Dropdown>
                                                     <Dropdown.Toggle variant="warning">

@@ -43,7 +43,7 @@ public class AccountService {
         return roleRepo.findAll();
     }
     public Page<User> getAllAccounts(int page){
-        return accountRepo.getAllAcc(PageRequest.of(page-1, 5));
+        return accountRepo.getAllAcc(PageRequest.of(page-1, 10));
     }
     public ResponseEntity<Response> registerAccount(User newAcc){
         Optional<User> foundAcc= accountRepo.findByUsername(newAcc.getUsername());
@@ -86,8 +86,9 @@ public class AccountService {
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",""));
     }
     public ResponseEntity<Response> changeRole(long id,Role updatedRole) {
+        Role foundRole=roleRepo.findByRolename(updatedRole.getRolename());
         accountRepo.findById(id).map(acc ->{
-            acc.setRole(updatedRole);
+            acc.setRole(foundRole);
             return accountRepo.save(acc);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",""));

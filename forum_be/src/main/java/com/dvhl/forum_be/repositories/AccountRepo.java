@@ -15,6 +15,6 @@ public interface AccountRepo extends JpaRepository<User,Long>{
     Boolean existsByEmail(String email);
     Optional<User> findByEmail(String email);
     User findByUsernameAndPassword(String username,String password);
-    @Query("SELECT u FROM User u WHERE u.role.rolename='user' OR u.role.rolename='mod'")
+    @Query("SELECT u FROM User u WHERE u.role.rolename<>'admin' ORDER BY u.id asc")
     Page<User>getAllAcc(Pageable pageable);
 }
