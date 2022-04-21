@@ -1,5 +1,7 @@
 package com.dvhl.forum_be.controller;
 
+import java.util.Optional;
+
 import com.dvhl.forum_be.model.Post;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.service.PostService;
@@ -23,6 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
     @Autowired
     PostService postService;
+    @GetMapping("/{id}")
+    Optional<Post> getPost(@PathVariable long id){
+        return postService.getPostById(id);
+    }
     @GetMapping("/page={page}")
     Page<Post> getAllPost(@PathVariable int page){
         return postService.getAllPost(page);

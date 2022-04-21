@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import { useEffect } from 'react';
 import TopicService from '../Service/TopicService';
 import PostService from '../Service/PostService';
+import HomeIcon from '../SVG/home.svg';
 function HeaderComponent(){
     const [showAddPost, setShowAddPost] = useState(false);
     const[topicList,setTopicList]=useState([]);
@@ -65,7 +66,7 @@ function HeaderComponent(){
                 <header style={{width:"100%"}}>
                     <nav className='navbar navbar-dark bg-secondary nojt'>
                     <div style={{width:"auto"}}>
-                    <button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}}><Link style={{"text-decoration":"none",color:"white"}} to="/topic">Home</Link></button>
+                    <button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}}><Link style={{"text-decoration":"none",color:"white"}} to="/topic"><img src={HomeIcon} alt=''></img></Link></button>
                     <button className="navbar-brand btn btn-secondary"><Link style={{"text-decoration":"none",color:"white"}} to="/posts">Posts</Link></button>
                     {(localStorage.getItem("role")!=="user")?(<button className="navbar-brand btn btn-secondary"><Link style={{"text-decoration":"none",color:"white"}} to="/approve">Approve</Link></button>):<></>}
                     {(localStorage.getItem("role")==="admin")?(<button className="navbar-brand btn btn-secondary"><Link style={{"text-decoration":"none",color:"white"}} to="/manageacc">Manage Acc</Link></button>):<></>}

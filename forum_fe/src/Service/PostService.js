@@ -13,6 +13,18 @@ class PostService{
             }
         );
     }
+    getPost(id){
+        return axios(
+            {
+                url:`post/${id}`,
+                method:"get",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                }
+            }
+        ); 
+    }
     getPostsPage(page){
         return axios(
             {

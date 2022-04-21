@@ -1,0 +1,11 @@
+#input{
+    background-color: gray;
+    color: white;
+}
+#input:focus{
+    background-color: white;
+    color: black;
+}
+#input::placeholder{
+    color: white
+}
