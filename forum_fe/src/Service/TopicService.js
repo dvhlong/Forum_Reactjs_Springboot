@@ -1,6 +1,6 @@
 import axios from "axios";
 class TopicService{
-    getAllTopic(page){
+    getAllTopic(page,ourRequest){
         return axios(
             {
                 url:`topic/page=${page}`,
@@ -8,7 +8,8 @@ class TopicService{
                 baseURL:"http://localhost:8080",
                 headers:{
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                }
+                },
+                cancelToken:ourRequest.token
             }
         );
     }
@@ -20,7 +21,7 @@ class TopicService{
                 baseURL:"http://localhost:8080",
                 headers:{
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                }
+                },
             }
         );
     }

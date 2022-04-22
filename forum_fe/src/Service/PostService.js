@@ -13,7 +13,7 @@ class PostService{
             }
         );
     }
-    getPost(id){
+    getPost(id,ourRequest){
         return axios(
             {
                 url:`post/${id}`,
@@ -21,11 +21,12 @@ class PostService{
                 baseURL:"http://localhost:8080",
                 headers:{
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                }
+                },
+                cancelToken:ourRequest.token
             }
         ); 
     }
-    getPostsPage(page){
+    getPostsPage(page,ourRequest){
         return axios(
             {
                 url:`post/page=${page}`,
@@ -33,11 +34,12 @@ class PostService{
                 baseURL:"http://localhost:8080",
                 headers:{
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                }
+                },
+                cancelToken:ourRequest.token
             }
         );
     }
-    getApprovePost(page){
+    getApprovePost(page,ourRequest){
         return axios(
             {
                 url:`post/approvePost/page=${page}`,
@@ -45,7 +47,8 @@ class PostService{
                 baseURL:"http://localhost:8080",
                 headers:{
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                }
+                },
+                cancelToken:ourRequest.token
             }
         );
     }

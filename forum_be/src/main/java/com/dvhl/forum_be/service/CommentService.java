@@ -29,8 +29,9 @@ public class CommentService {
     AccountRepo accountRepo;
     @Autowired
     PostRepo postRepo;
-    public Page<Comment> getAllCommentFromPost(long post_id,int page){
-        return commentRepo.findAllByPostAndIsdeleted(post_id,false,PageRequest.of(page-1, 10));
+    public Page<Comment> getComments(int page, long postid){
+        Optional<Post> foundPost=postRepo.findByIdAndIsdeleted(postid,false);
+        return commentRepo.findAllByPostAndIsdeleted(foundPost,false,PageRequest.of(page-1, 5));
     }
     public ResponseEntity<Response> addComment(long post_id,long created_acc,long replied_cmt,Comment newCmt){
         Optional<User> foundAcc=accountRepo.findById(created_acc);
@@ -42,7 +43,8 @@ public class CommentService {
             Optional<Comment> cmtReplied=commentRepo.findById(replied_cmt);
             newCmt.setReplied_cmt(cmtReplied.get());
         }
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",commentRepo.save(newCmt)));
+        commentRepo.save(newCmt);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",""));
     }
     public ResponseEntity<Response> editComment(long cmt_id,long updated_acc,Comment updatedCmt){
         Optional<User> foundAcc=accountRepo.findById(updated_acc);

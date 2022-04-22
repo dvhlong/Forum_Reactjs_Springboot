@@ -3,7 +3,10 @@ import Table from 'react-bootstrap/Table'
 import AccountService from '../Service/AccountService';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import {TailSpin} from 'react-loader-spinner';
+import axios from "axios";
 function ManageAcc(){
+    const[loading,setLoading]=useState(false);
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
     const[result,setResult]=useState([]);
@@ -43,19 +46,36 @@ function ManageAcc(){
         setPage(page-1);
     }
     useEffect(()=>{
-        AccountService.getAllAcc(page).then(res=>{
-            if(res.data.content!==null){
-                setResult(res.data.content);
-                setPages(res.data.totalPages)
+        setLoading(true);
+        const ourRequest=axios.CancelToken.source();
+        setTimeout(async() => {
+            await AccountService.getAllAcc(page,ourRequest).then(res=>{
+                if(res.data.content!==null){
+                    setResult(res.data.content);
+                    setPages(res.data.totalPages)
+                }
+            })
+            setLoading(false);
+            return()=>{
+                ourRequest.cancel('Request is canceled by user');
             }
-        })
+        }, 1000);
     },[page,update]);
     return(
         <div>
             <h1 style={{textAlign:"center",color:"white"}}>USER LIST</h1>
             <table style={{width:"1920px",border:"none"}}>
-                <td style={{width:"10%",color:"yellow"}}>
-
+                <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
+                <table style={{width:"100%"}}>
+                    <tr>
+                        {
+                            (loading===true)
+                            ?<td style={{textAlign:"right"}}>
+                                <TailSpin wrapperStyle={{display:"block"}} color="red" height={50} width={50} />
+                            </td>:<></>
+                        }    
+                    </tr>
+                </table>
                 </td>
                 <td style={{width:"80%",color:"yellow"}}>
                     <Table striped hover variant="dark" size="sm" style={{width:"100%",textAlign:"center"}}>

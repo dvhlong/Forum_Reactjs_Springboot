@@ -25,7 +25,7 @@ class AccountService{
             }
         );
     }
-    getAllAcc(page){
+    getAllAcc(page,ourRequest){
         return axios(
             {
                 url:`/getAllAcc/pages=${page}`,
@@ -33,7 +33,8 @@ class AccountService{
                 baseURL:"http://localhost:8080",
                 headers:{
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                }
+                },
+                cancelToken:ourRequest.token
             }
         );
     }
@@ -43,7 +44,7 @@ class AccountService{
     createAccount(account){
         return axios.post("http://localhost:8080/register",account);
     }
-    getAccInfo(){
+    getAccInfo(ourRequest){
         return axios(
             {
                 url:`/getUserInfo/${localStorage.getItem("accid")}`,
@@ -51,7 +52,8 @@ class AccountService{
                 baseURL:"http://localhost:8080",
                 headers:{
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                }
+                },
+                cancelToken:ourRequest.token
             }
         );
     }

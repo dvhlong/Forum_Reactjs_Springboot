@@ -12,7 +12,10 @@ import noIcon from '../SVG/no.svg';
 import SidebarComponent from '../Component/SidebarComponent';
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
+import {TailSpin} from 'react-loader-spinner';
+import axios from "axios";
 function ApprovePosts() {
+    const [loading,setLoading]=useState(false);
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
     const [show, setShow] = useState(false);
@@ -55,13 +58,21 @@ function ApprovePosts() {
         setToast("danger","SUCCESSFUL","Post Deleted !!!!")
     }
     useEffect(()=>{
-        PostService.getApprovePost(page).then(res=>{
-            if(res.data.content!==null){
-                // console.log(res.data.content);
-                setResult(res.data.content);
-                setPages(res.data.totalPages)
+        setLoading(true);
+        const ourRequest=axios.CancelToken.source();
+        setTimeout(async() => {
+            await PostService.getApprovePost(page,ourRequest).then(res=>{
+                if(res.data.content!==null){
+                    // console.log(res.data.content);
+                    setResult(res.data.content);
+                    setPages(res.data.totalPages)
+                }
+            })
+            setLoading(false);
+            return()=>{
+                ourRequest.cancel('Request is canceled by user');
             }
-        })
+        }, 1000);
     },[page,update]);
     return (
         <div>
@@ -69,8 +80,17 @@ function ApprovePosts() {
             
             <h1 style={{textAlign:"center",color:"white"}}>APPROVE POST</h1>
             <table style={{width:"1920px",border:"none"}}>
-                <td style={{width:"30%",color:"yellow"}}>
-                
+                <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
+                <table style={{width:"100%"}}>
+                    <tr>
+                        {
+                            (loading===true)
+                            ?<td style={{textAlign:"right"}}>
+                                <TailSpin wrapperStyle={{display:"block"}} color="red" height={50} width={50} />
+                            </td>:<></>
+                        }    
+                    </tr>
+                </table>
                 </td>
                 <td style={{width:"60%",color:"yellow"}}>
                     <table style={{width:"100%"}}>

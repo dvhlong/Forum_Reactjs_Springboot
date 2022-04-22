@@ -6,7 +6,10 @@ import Card from 'react-bootstrap/Card';
 import AccSV from '../Service/AccountService';
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
+import {TailSpin} from 'react-loader-spinner';
+import axios from "axios";
 function ChangeInfo() {
+    const[loading,setLoading]=useState(false);
     const[name,setName]=useState("");
     const[phone,setPhone]=useState("");
     const[dateOfBirth,setDateOfBirth]=useState("");
@@ -26,12 +29,20 @@ function ChangeInfo() {
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
     useEffect(()=>{
-        AccSV.getAccInfo().then(res=>{
-            setName(res.data.data.name);
-            setPhone(res.data.data.phone);
-            setEmail(res.data.data.email);
-            setDateOfBirth(res.data.data.birthdate);
-        })
+        setLoading(true);
+        const ourRequest=axios.CancelToken.source();
+        setTimeout(async() => {
+            await AccSV.getAccInfo(ourRequest).then(res=>{
+                setName(res.data.data.name);
+                setPhone(res.data.data.phone);
+                setEmail(res.data.data.email);
+                setDateOfBirth(res.data.data.birthdate);
+            })
+            setLoading(false);
+            return()=>{
+                ourRequest.cancel('Request is canceled by user');
+            }
+        }, 1000);
     },[update]);
     const changeName=(e)=>{
         setName(e.target.value)
@@ -85,7 +96,16 @@ function ChangeInfo() {
     return(
         <div>
             {/* <HeaderComponent/> */}
+                <table style={{width:"100%"}}>
+                    <tr>  
+                    </tr>
+                </table>
             <div className='Container' style={{margin:"auto",width:"60%"}}>
+            {
+                            (loading===true)
+                            ?<TailSpin wrapperStyle={{display:"block"}} color="red" height={50} width={50} />
+                            :<></>
+            } 
             <Card style={{marginTop:"20px"}}>
                 <Card.Header>
                     <div style={{color:"red",fontSize:"30px"}}>PERSONAL INFO</div>

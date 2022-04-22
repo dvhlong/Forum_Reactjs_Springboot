@@ -12,7 +12,10 @@ import moreIcon from '../SVG/more.svg';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
+import {TailSpin} from 'react-loader-spinner';
+import axios from "axios";
 function Topic() {
+    const[loading,setLoading]=useState(false);
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
@@ -111,29 +114,43 @@ function Topic() {
     }
 
     useEffect(()=>{
-        let controller = new AbortController();
-        TopicService.getAllTopic(page).then(res=>{
-            if(res.data.content!==null){
-                setResult(res.data.content);
-                setPages(res.data.totalPages)
-            }
-        });
-        if(localStorage.getItem("role")!=="user")
-            setCanAddTopic(true);
-        controller = null;
-        return () => controller?.();
+        setLoading(true);
+        const ourRequest=axios.CancelToken.source();
+        setTimeout(async()=>{
+                await TopicService.getAllTopic(page,ourRequest).then(res=>{
+                    if(res.data.content!==null){
+                        setResult(res.data.content);
+                        setPages(res.data.totalPages)
+                    }
+                });
+                if(localStorage.getItem("role")!=="user")
+                    setCanAddTopic(true);
+                setLoading(false);
+        },1000);
+        return()=>{
+            ourRequest.cancel('Request is canceled by user');
+        }
     },[page,update]);
     return(
         <div>
             {/* <Header/> */}
             <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1>
-            <table style={{width:"1920px",border:"none"}}>
-                <td style={{width:"30%",color:"yellow"}}>
-                    
+            <table style={{width:"100%",border:"none"}}>
+                <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
+                <table style={{width:"100%"}}>
+                    <tr>
+                        {
+                            (loading===true)
+                            ?<td style={{textAlign:"right"}}>
+                                <TailSpin wrapperStyle={{display:"block"}} color="red" height={50} width={50} />
+                            </td>:<></>
+                        }    
+                    </tr>
+                </table>
                 </td>
                 <td style={{width:"60%",color:"yellow"}}>
                     <table style={{width:"100%"}}>
-                        <tbody>
+                        <tbody>                          
                             {
                                 result.map(
                                     topic=>
@@ -172,6 +189,7 @@ function Topic() {
                                     </tr>
                                 )
                             }
+                        
                             <tr>
                             <ButtonGroup aria-label="Basic example">
                                 <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous Page</Button>

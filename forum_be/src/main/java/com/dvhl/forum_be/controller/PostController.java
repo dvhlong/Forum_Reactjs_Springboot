@@ -2,8 +2,10 @@ package com.dvhl.forum_be.controller;
 
 import java.util.Optional;
 
+import com.dvhl.forum_be.model.Comment;
 import com.dvhl.forum_be.model.Post;
 import com.dvhl.forum_be.model.Response;
+import com.dvhl.forum_be.service.CommentService;
 import com.dvhl.forum_be.service.PostService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +27,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
     @Autowired
     PostService postService;
+    @Autowired
+    CommentService commentService;
     @GetMapping("/{id}")
     Optional<Post> getPost(@PathVariable long id){
         return postService.getPostById(id);
+    }
+    @GetMapping("/{postid}/comments/page={page}")
+    Page<Comment> getComments(@PathVariable long postid,@PathVariable int page){
+        return commentService.getComments(page, postid);
+    }
+    @PostMapping("/{postid}/{accid}/{replyid}/addComment")
+    ResponseEntity<Response> addComment(@PathVariable long postid,@PathVariable long replyid,@PathVariable long accid,@RequestBody Comment newComment ){
+        return commentService.addComment(postid,accid,replyid,newComment);
     }
     @GetMapping("/page={page}")
     Page<Post> getAllPost(@PathVariable int page){

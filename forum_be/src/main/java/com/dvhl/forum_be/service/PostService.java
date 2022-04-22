@@ -4,11 +4,13 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
+import com.dvhl.forum_be.model.Comment;
 import com.dvhl.forum_be.model.Post;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Topic;
 import com.dvhl.forum_be.model.User;
 import com.dvhl.forum_be.repositories.AccountRepo;
+import com.dvhl.forum_be.repositories.CommentRepo;
 import com.dvhl.forum_be.repositories.PostRepo;
 import com.dvhl.forum_be.repositories.TopicRepo;
 
@@ -31,6 +33,8 @@ public class PostService {
     AccountRepo accountRepo;
     @Autowired
     PostRepo postRepo;
+    @Autowired
+    CommentRepo commentRepo;
     public Optional<Post> getPostById(long post_id){
         return postRepo.findByIdAndIsdeleted(post_id,false);
     }
@@ -59,7 +63,8 @@ public class PostService {
             tp.setAmountTopic(tp.getAmountTopic()+1);
             return topicRepo.save(tp);
         });
-        return  ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",postRepo.save(newPost)));
+        postRepo.save(newPost);
+        return  ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",""));
     }
     public ResponseEntity<Response> approvePost(long acc_id,long post_id){
         Optional<User>foundAcc=accountRepo.findById(acc_id);

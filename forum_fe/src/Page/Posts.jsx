@@ -12,8 +12,11 @@ import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+import {TailSpin} from 'react-loader-spinner';
+import axios from "axios";
 function Posts(){
     let navigate=useNavigate();
+    const[loading,setLoading]=useState(false);
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
     const[topicList,setTopicList]=useState([]);
@@ -103,24 +106,50 @@ function Posts(){
         setPage(page-1);
     }
     useEffect(()=>{
-        PostService.getPostsPage(page).then(res=>{
-            if(res.data.content!==null){
-                setResult(res.data.content);
-                setPages(res.data.totalPages)
+        setLoading(true);
+        const ourRequest=axios.CancelToken.source();
+        setTimeout(async()=>{
+            await PostService.getPostsPage(page,ourRequest).then(res=>{
+                if(res.data.content!==null){
+                    setResult(res.data.content);
+                    setPages(res.data.totalPages)
+                }
+            })
+            await TopicService.getTopicList().then(res=>{
+                setTopicList(res.data);
+            })
+            setLoading(false);
+            return()=>{
+                ourRequest.cancel('Request is canceled by user');
             }
-        })
-        TopicService.getTopicList().then(res=>{
-            setTopicList(res.data);
-        })
+        },1000);
     },[page,update]);
+    useEffect(()=>{
+        setLoading(true);
+        setTimeout(async()=>{
+            await TopicService.getTopicList().then(res=>{
+                setTopicList(res.data);
+            })
+            setLoading(false);
+        },1000);
+    },[]);
     return(
         <div>
             {/* <Header/> */}
             <h1 style={{textAlign:"center",color:"white"}}>POST LIST</h1>
             <table style={{width:"100%",border:"none"}}>
-                <td style={{width:"30%",color:"yellow"}}>
-                
-                </td>    
+                <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
+                <table style={{width:"100%"}}>
+                    <tr>
+                        {
+                            (loading===true)
+                            ?<td style={{textAlign:"right"}}>
+                                <TailSpin wrapperStyle={{display:"block"}} color="red" height={50} width={50} />
+                            </td>:<></>
+                        }    
+                    </tr>
+                </table>
+                </td>   
                 <td style={{width:"60%",color:"yellow"}}>
                 <table style={{width:"100%"}}>
                         <tbody>

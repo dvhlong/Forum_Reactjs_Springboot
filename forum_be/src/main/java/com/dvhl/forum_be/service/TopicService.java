@@ -44,7 +44,8 @@ public class TopicService {
         Optional <User>foundAcc=accountRepo.findById(created_acc);
         newTopic.setCreated_acc(foundAcc.get());
         newTopic.setCreated_at(timeService.getCurrentTimestamp());
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",topicRepo.save(newTopic)));
+        topicRepo.save(newTopic);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",""));
     }
     public ResponseEntity<Response> editTopic(long updated_acc,Topic updatedTopic){
         topicRepo.findById(updatedTopic.getId()).map(topic ->{
