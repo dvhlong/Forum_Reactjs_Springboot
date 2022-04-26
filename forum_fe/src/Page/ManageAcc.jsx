@@ -4,8 +4,10 @@ import AccountService from '../Service/AccountService';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import {TailSpin} from 'react-loader-spinner';
+import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 function ManageAcc(){
+    let navigate=useNavigate()
     const[mount,setMount]=useState(false);
     const[loading,setLoading]=useState(false);
     const [update,setUpdate] = useState(false);
@@ -19,6 +21,10 @@ function ManageAcc(){
     }
     const block=(id)=>{
         AccountService.block(id).then(res=>{
+            if(res.data.status===401){
+                alert("session expired");
+                navigate("/")
+            }
             reload();
         })
     }
@@ -27,6 +33,10 @@ function ManageAcc(){
             rolename:"mod"
         }
         AccountService.chagneRole(id,role).then(res=>{
+            if(res.data.status===401){
+                alert("session expired");
+                navigate("/")
+            }
             reload();
         })
     }
@@ -35,6 +45,10 @@ function ManageAcc(){
             rolename:"user"
         }
         AccountService.chagneRole(id,role).then(res=>{
+            if(res.data.status===401){
+                alert("session expired");
+                navigate("/")
+            }
             reload();
         })
     }
@@ -51,6 +65,10 @@ function ManageAcc(){
         const ourRequest=axios.CancelToken.source();
         setTimeout(async() => {
             await AccountService.getAllAcc(page,ourRequest).then(res=>{
+                if(res.data.status===401){
+                    alert("session expired");
+                    navigate("/")
+                }
                 if(res.data.content!==null){
                     setResult(res.data.content);
                     setPages(res.data.totalPages)

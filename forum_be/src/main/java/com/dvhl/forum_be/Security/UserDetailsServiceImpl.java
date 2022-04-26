@@ -1,4 +1,4 @@
-package com.dvhl.forum_be.JWT;
+package com.dvhl.forum_be.Security;
 
 import com.dvhl.forum_be.model.User;
 import com.dvhl.forum_be.repositories.JwtRepo;

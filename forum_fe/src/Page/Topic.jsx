@@ -15,6 +15,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer'
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
 function Topic() {
+    let navigate=useNavigate()
     const[mount,setMount]=useState(false);
     const[loading,setLoading]=useState(false);
     const[result,setResult]=useState([]);
@@ -70,6 +71,10 @@ function Topic() {
                 topicname:newTopicName
             }
             TopicService.addTopic(newtopic).then(res=>{
+                if(res.data.status===401){
+                    alert("session expired");
+                    navigate("/")
+                }
                 console.log(res.data.message)
                 reload();
             });
@@ -79,9 +84,12 @@ function Topic() {
     }
     const deleteTopic=()=>{
         TopicService.deleteTopic(deleteTopicid).then(res=>{
+            if(res.data.status===401){
+                alert("session expired");
+                navigate("/")
+            }
             console.log(res.data.message);
             reload();
-
         });
         setToast("success","SUCCESSFUL","Deleted !!!")
         handleCloseDelete();
@@ -95,6 +103,10 @@ function Topic() {
             setToast("danger","ERROR","Please enter topic name")
         else { 
         TopicService.editTopic(updatedTopic).then(res=>{
+            if(res.data.status===401){
+                alert("session expired");
+                navigate("/")
+            }
             reload();
         });
         setToast("success","SUCCESSFUL","Topic changed !!!")
@@ -119,6 +131,10 @@ function Topic() {
         const ourRequest=axios.CancelToken.source();
         setTimeout(async()=>{
                 await TopicService.getAllTopic(page,ourRequest).then(res=>{
+                    if(res.data.status===401){
+                        alert("session expired");
+                        navigate("/")
+                    }
                     if(res.data.content!==null){
                         setResult(res.data.content);
                         setPages(res.data.totalPages)

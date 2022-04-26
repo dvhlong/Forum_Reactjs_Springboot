@@ -14,7 +14,9 @@ import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
+import {useNavigate} from 'react-router-dom';
 function ApprovePosts() {
+    let navigate=useNavigate();
     const[mount,setMount]=useState(false);
     const [loading,setLoading]=useState(false);
     const [update,setUpdate] = useState(false);
@@ -46,6 +48,10 @@ function ApprovePosts() {
     }
     const approvePost=(id)=>{
         PostService.approvePost(id).then(res=>{
+            if(res.data.status===401){
+                alert("session expired");
+                navigate("/");
+            }
             console.log(res.data)
             reload();
         })
@@ -53,6 +59,10 @@ function ApprovePosts() {
     }
     const rejectPost=(id)=>{
         PostService.rejectPost(id).then(res=>{
+            if(res.data.status===401){
+                alert("session expired");
+                navigate("/")
+            }
             console.log(res.data)
             reload()
         })
@@ -63,6 +73,10 @@ function ApprovePosts() {
         const ourRequest=axios.CancelToken.source();
         setTimeout(async() => {
             await PostService.getApprovePost(page,ourRequest).then(res=>{
+                if(res.data.status===401){
+                    alert("session expired");
+                    navigate("/")
+                }
                 if(res.data.content!==null){
                     // console.log(res.data.content);
                     setResult(res.data.content);

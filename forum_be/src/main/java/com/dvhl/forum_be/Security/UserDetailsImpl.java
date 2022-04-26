@@ -1,4 +1,4 @@
-package com.dvhl.forum_be.JWT;
+package com.dvhl.forum_be.Security;
 
 import java.util.Collection;
 import java.util.Collections;

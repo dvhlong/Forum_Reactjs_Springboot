@@ -135,6 +135,10 @@ function PostDetail(){
             setToast("danger","ERROR","Please enter content !!!!");
         } else {
             PostService.editPost(Number(topicId),updatedPost).then(res=>{
+                if(res.data.status===401){
+                    alert("session expired");
+                    navigate("/")
+                }
                 reload();
             })
             handleCloseEdit();
@@ -146,6 +150,10 @@ function PostDetail(){
         console.log(id);
         handleCloseDelete();
         PostService.deletePost(String(id)).then(res=>{
+            if(res.data.status===401){
+                alert("session expired");
+                navigate("/")
+            }
             navigate("/posts")
         });
     }
@@ -154,6 +162,10 @@ function PostDetail(){
         const ourRequest=axios.CancelToken.source();
         setTimeout(async() => {
             await PostService.getPost(String(id),ourRequest).then(res=>{
+                if(res.data.status===401){
+                    alert("session expired");
+                    navigate("/")
+                }
                 setPost(res.data);
             })
             setLoading(false);
@@ -168,7 +180,9 @@ function PostDetail(){
         setLoading(true);
         setTimeout(async() => {
             await PostService.getComments(String(id),page).then(res=>{
-                console.log(res.data);
+                if(res.data.status===401){
+                    navigate("/")
+                }
                 setComments(res.data.content);
                 setPages(res.data.totalPages)
             })
@@ -181,6 +195,9 @@ function PostDetail(){
         setLoading(true);
         setTimeout(async()=>{
             await TopicService.getTopicList().then(res=>{
+                if(res.data.status===401){
+                    navigate("/")
+                }
                 setTopicList(res.data);
             })
             setLoading(false);
@@ -215,11 +232,13 @@ function PostDetail(){
                                 <td>   
                                 <Card style={{marginBottom:"20px",marginTop:"30px"}}>
                                     <Card.Header style={{color:"blue"}}>
+                                        <img style={{width:"50px",height:"50px"}} src='//ssl.gstatic.com/accounts/ui/avatar_2x.png' alt=''></img>
+                                        <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
                                         {(post.updated_at===null)
-                                        ?<p><b>{post.created_acc.username}</b> ({post.created_acc.role.rolename}) | {new Date(post.created_at).toLocaleDateString(undefined,
-                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</p>
-                                        :<p><b>{post.created_acc.username}</b> ({post.created_acc.role.rolename}) | Last updated: {new Date(post.updated_at).toLocaleDateString(undefined,
-                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</p>}
+                                        ?<>| {new Date(post.created_at).toLocaleDateString(undefined,
+                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>
+                                        :<>| Last updated: {new Date(post.updated_at).toLocaleDateString(undefined,
+                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>}
                                         <p>Topic: {post.topic.topicname}</p>     
                                     </Card.Header>
                                     <Card.Body>
@@ -285,11 +304,13 @@ function PostDetail(){
                                         <td>
                                         <Card style={{marginBottom:"20px",marginTop:"30px"}}>
                                             <Card.Header style={{color:"blue"}}>
+                                                <img style={{width:"50px",height:"50px"}} src='//ssl.gstatic.com/accounts/ui/avatar_2x.png' alt=''></img>
+                                                <b>&nbsp;{comment.created_acc.username}</b> ({comment.created_acc.role.rolename})
                                                 {(comment.updated_at===null)
-                                                ?<p><b>{comment.created_acc.username}</b> ({comment.created_acc.role.rolename}) | {new Date(comment.created_at).toLocaleDateString(undefined,
-                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</p>
-                                                :<p><b>{comment.created_acc.username}</b> ({comment.created_acc.role.rolename}) | Last updated: {new Date(comment.updated_at).toLocaleDateString(undefined,
-                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</p>}     
+                                                ?<>| {new Date(comment.created_at).toLocaleDateString(undefined,
+                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>
+                                                :<>| Last updated: {new Date(comment.updated_at).toLocaleDateString(undefined,
+                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>}     
                                             </Card.Header>
                                             <Card.Body>
                                                 {

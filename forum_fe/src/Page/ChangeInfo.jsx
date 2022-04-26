@@ -7,8 +7,10 @@ import AccSV from '../Service/AccountService';
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 import {TailSpin} from 'react-loader-spinner';
+import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 function ChangeInfo() {
+    let navigate=useNavigate();
     const[loading,setLoading]=useState(false);
     const[name,setName]=useState("");
     const[phone,setPhone]=useState("");
@@ -33,6 +35,10 @@ function ChangeInfo() {
         const ourRequest=axios.CancelToken.source();
         setTimeout(async() => {
             await AccSV.getAccInfo(ourRequest).then(res=>{
+                if(res.data.status===401){
+                    alert("session expired");
+                    navigate("/")
+                }
                 setName(res.data.data.name);
                 setPhone(res.data.data.phone);
                 setEmail(res.data.data.email);
@@ -68,6 +74,10 @@ function ChangeInfo() {
         }
         console.log(JSON.stringify(info));
         AccSV.changeAccInfo(info).then(res=>{
+            if(res.data.status===401){
+                alert("session expired");
+                navigate("/")
+            }
             reload();
         })
         setToast("success","SUCCESSFUL","Info Changed !!!")
@@ -86,6 +96,10 @@ function ChangeInfo() {
                 password:pass
             }
             AccSV.changePass(updatedPass).then(res=>{
+                if(res.data.status===401){
+                    alert("session expired");
+                    navigate("/")
+                }
                 console.log(res.data);
             });
             setToast("success","SUCCESSFUL","Pass changed !!!")
@@ -112,29 +126,42 @@ function ChangeInfo() {
                     <div style={{color:"red",fontSize:"30px"}}>PERSONAL INFO</div>
                 </Card.Header>
                 <Card.Body>
-                    <Form>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Name :</Form.Label>
-                            <Form.Control type="text" value={name} onChange={changeName}/>
-                        </Form.Group>
-                        <Form.Group className="mb-3" >
-                            <Form.Label>Phone :</Form.Label>
-                            <Form.Control type="text" value={phone} onChange={changePhone}/>
-                        </Form.Group>
-                        <Form.Group className="mb-3" >
-                            <Form.Label>Date of birth :</Form.Label>
-                            <Form.Control type="date" value={dateOfBirth} onChange={changeDateOfBirth} />
-                        </Form.Group>
-                        <fieldset disabled>
-                            <Form.Group className="mb-3" >
-                                <Form.Label>Email :</Form.Label>
-                                <Form.Control type="text" value={email}/>
+                    <table style={{width:"100%"}}>
+                        <tr style={{textAlign:"center"}}>
+                        <td>
+                            <img style={{width:"200px",height:"200px"}} src='//ssl.gstatic.com/accounts/ui/avatar_2x.png' alt=''></img>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td>
+                        <Form>
+                            <Form.Group className="mb-3">
+                                <Form.Label>Name :</Form.Label>
+                                <Form.Control type="text" value={name} onChange={changeName}/>
                             </Form.Group>
-                        </fieldset>
-                        <Button variant="primary" onClick={changeInfo}>
-                            Update
-                        </Button>
-                    </Form>
+                            <Form.Group className="mb-3" >
+                                <Form.Label>Phone :</Form.Label>
+                                <Form.Control type="text" value={phone} onChange={changePhone}/>
+                            </Form.Group>
+                            <Form.Group className="mb-3" >
+                                <Form.Label>Date of birth :</Form.Label>
+                                <Form.Control type="date" value={dateOfBirth} onChange={changeDateOfBirth} />
+                            </Form.Group>
+                            <fieldset disabled>
+                                <Form.Group className="mb-3" >
+                                    <Form.Label>Email :</Form.Label>
+                                    <Form.Control type="text" value={email}/>
+                                </Form.Group>
+                            </fieldset>
+                            <Button variant="primary" onClick={changeInfo}>
+                                Update
+                            </Button>
+                        </Form>
+                        </td>
+                        </tr>
+                    </table>
+                    
+                    
                 </Card.Body>
             </Card>
             <Card style={{marginTop:"20px"}}>

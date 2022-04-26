@@ -66,10 +66,10 @@ function HeaderComponent(){
                 <header style={{width:"100%"}}>
                     <nav className='navbar navbar-dark bg-secondary nojt'>
                     <div style={{width:"auto"}}>
-                    <button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}}><Link style={{"text-decoration":"none",color:"white"}} to="/topic"><img src={HomeIcon} alt=''></img></Link></button>
-                    <button className="navbar-brand btn btn-secondary"><Link style={{"text-decoration":"none",color:"white"}} to="/posts">Posts</Link></button>
-                    {(localStorage.getItem("role")!=="user")?(<button className="navbar-brand btn btn-secondary"><Link style={{"text-decoration":"none",color:"white"}} to="/approve">Approve</Link></button>):<></>}
-                    {(localStorage.getItem("role")==="admin")?(<button className="navbar-brand btn btn-secondary"><Link style={{"text-decoration":"none",color:"white"}} to="/manageacc">Manage Acc</Link></button>):<></>}
+                    <Link style={{"text-decoration":"none",color:"white"}} to="/topic"><button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}}><img src={HomeIcon} alt=''></img></button></Link>
+                    <Link style={{"text-decoration":"none",color:"white"}} to="/posts"><button className="navbar-brand btn btn-secondary">Posts</button></Link>
+                    {(localStorage.getItem("role")!=="user")?(<Link style={{"text-decoration":"none",color:"white"}} to="/approve"><button className="navbar-brand btn btn-secondary">Approve</button></Link>):<></>}
+                    {(localStorage.getItem("role")==="admin")?(<Link style={{"text-decoration":"none",color:"white"}} to="/manageacc"><button className="navbar-brand btn btn-secondary">Manage Acc</button></Link>):<></>}
                     <button className="navbar-brand btn btn-danger" onClick={handleShowAddPost} style={{marginLeft:"50px"}}>Create your post</button>
                     </div>
                     <div class="row" style={{marginLeft:"20px"}}>
@@ -83,7 +83,7 @@ function HeaderComponent(){
                     <div style={{marginRight:"30px"}}>
                     <Dropdown>
                         <Dropdown.Toggle variant="secondary">
-                        <label><img src={accIcon} alt="logo"/> {localStorage.getItem("username")}</label>
+                        <label><img style={{width:"30px",height:"30px"}} src='//ssl.gstatic.com/accounts/ui/avatar_2x.png' alt=''></img> {localStorage.getItem("username")}</label>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                         <Dropdown.Item href="#">

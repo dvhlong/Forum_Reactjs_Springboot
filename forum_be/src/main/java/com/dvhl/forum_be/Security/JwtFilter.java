@@ -1,4 +1,4 @@
-package com.dvhl.forum_be.JWT;
+package com.dvhl.forum_be.Security;
 
 import java.io.IOException;
 
@@ -36,6 +36,7 @@ public class JwtFilter extends OncePerRequestFilter{
                     userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            
             }
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e); //ko the xac thuc user
