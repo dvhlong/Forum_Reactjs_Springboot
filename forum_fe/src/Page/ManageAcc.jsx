@@ -6,6 +6,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
 function ManageAcc(){
+    const[mount,setMount]=useState(false);
     const[loading,setLoading]=useState(false);
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
@@ -56,6 +57,8 @@ function ManageAcc(){
                 }
             })
             setLoading(false);
+            if (mount===false)
+                setMount(true);
             return()=>{
                 ourRequest.cancel('Request is canceled by user');
             }
@@ -63,69 +66,80 @@ function ManageAcc(){
     },[page,update]);
     return(
         <div>
-            <h1 style={{textAlign:"center",color:"white"}}>USER LIST</h1>
-            <table style={{width:"1920px",border:"none"}}>
-                <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
-                <table style={{width:"100%"}}>
-                    <tr>
-                        {
-                            (loading===true)
-                            ?<td style={{textAlign:"right"}}>
-                                <TailSpin wrapperStyle={{display:"block"}} color="red" height={50} width={50} />
-                            </td>:<></>
-                        }    
-                    </tr>
-                </table>
-                </td>
-                <td style={{width:"80%",color:"yellow"}}>
-                    <Table striped hover variant="dark" size="sm" style={{width:"100%",textAlign:"center"}}>
-                        <thead>
+            {
+                (mount===false)
+                ?
+                <div>
+                    <h1 style={{textAlign:"center",color:"white"}}>USER LIST</h1>
+                    <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
+                </div>
+                :
+                <div>
+                    <h1 style={{textAlign:"center",color:"white"}}>USER LIST</h1>
+                    <table style={{width:"1920px",border:"none"}}>
+                        <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
+                        <table style={{width:"100%"}}>
                             <tr>
-                                <th>Name</th>
-                                <th>Username</th>
-                                <th>Birthdate</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>Action</th>
-                                <th>Role</th>
+                                {
+                                    (loading===true)
+                                    ?<td style={{textAlign:"right"}}>
+                                        <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
+                                    </td>:<></>
+                                }    
                             </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                result.map(
-                                    acc=>
-                                    <tr key={acc.id}>
-                                        <td>{acc.name}</td>
-                                        <td>{acc.username}</td>
-                                        <td>{acc.birthdate}</td>
-                                        <td>{acc.email}</td>
-                                        <td>{acc.phone}</td>
-                                        <td>
-                                            {(acc.isblocked)?<button className="btn btn-warning" onClick={()=>block(acc.id)}>UnBlock</button>:<button className="btn btn-danger" onClick={()=>block(acc.id)}>Block</button>}
-                                        </td>
-                                        <td>
-                                            {(acc.role.rolename==="mod")?<Button className="btn btn-primary" active disabled>Mod</Button>:<Button className="btn btn-primary" onClick={()=>setRoleToMod(acc.id)}>Mod</Button>}
-                                            {(acc.role.rolename==="user")?<Button style={{marginLeft:"20px"}} className="btn btn-primary" active disabled>User</Button>:<Button style={{marginLeft:"20px"}} className="btn btn-primary" onClick={()=>setRoleToUser(acc.id)}>User</Button>}
-                                        </td>
+                        </table>
+                        </td>
+                        <td style={{width:"80%",color:"yellow"}}>
+                            <Table striped hover variant="dark" size="sm" style={{width:"100%",textAlign:"center"}}>
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Username</th>
+                                        <th>Birthdate</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Action</th>
+                                        <th>Role</th>
                                     </tr>
-                                )
-                            }
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <ButtonGroup aria-label="Basic example">
-                                    <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous Page</Button>
-                                    <Button variant="secondary"onClick={nextPage}>Next Page {">>>"}</Button>
-                                </ButtonGroup>
-                                <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px",background:"white"}} value={page} onChange={changePage}/>
-                            </tr>
-                        </tfoot>
-                    </Table>
-                </td>
-                <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
+                                </thead>
+                                <tbody>
+                                    {
+                                        result.map(
+                                            acc=>
+                                            <tr key={acc.id}>
+                                                <td>{acc.name}</td>
+                                                <td>{acc.username}</td>
+                                                <td>{acc.birthdate}</td>
+                                                <td>{acc.email}</td>
+                                                <td>{acc.phone}</td>
+                                                <td>
+                                                    {(acc.isblocked)?<button className="btn btn-warning" onClick={()=>block(acc.id)}>UnBlock</button>:<button className="btn btn-danger" onClick={()=>block(acc.id)}>Block</button>}
+                                                </td>
+                                                <td>
+                                                    {(acc.role.rolename==="mod")?<Button className="btn btn-primary" active disabled>Mod</Button>:<Button className="btn btn-primary" onClick={()=>setRoleToMod(acc.id)}>Mod</Button>}
+                                                    {(acc.role.rolename==="user")?<Button style={{marginLeft:"20px"}} className="btn btn-primary" active disabled>User</Button>:<Button style={{marginLeft:"20px"}} className="btn btn-primary" onClick={()=>setRoleToUser(acc.id)}>User</Button>}
+                                                </td>
+                                            </tr>
+                                        )
+                                    }
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <ButtonGroup aria-label="Basic example">
+                                            <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous Page</Button>
+                                            <Button variant="secondary"onClick={nextPage}>Next Page {">>>"}</Button>
+                                        </ButtonGroup>
+                                        <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px",background:"white"}} value={page} onChange={changePage}/>
+                                    </tr>
+                                </tfoot>
+                            </Table>
+                        </td>
+                        <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
 
-                </td>
-            </table>
+                        </td>
+                    </table>
+                </div>
+            }
         </div>
     );
 }

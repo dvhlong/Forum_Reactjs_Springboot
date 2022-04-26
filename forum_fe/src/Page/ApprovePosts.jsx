@@ -15,6 +15,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer'
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
 function ApprovePosts() {
+    const[mount,setMount]=useState(false);
     const [loading,setLoading]=useState(false);
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
@@ -69,6 +70,8 @@ function ApprovePosts() {
                 }
             })
             setLoading(false);
+            if (mount===false)
+                setMount(true);
             return()=>{
                 ourRequest.cancel('Request is canceled by user');
             }
@@ -76,84 +79,94 @@ function ApprovePosts() {
     },[page,update]);
     return (
         <div>
-            {/* <Header/> */}
-            
-            <h1 style={{textAlign:"center",color:"white"}}>APPROVE POST</h1>
-            <table style={{width:"1920px",border:"none"}}>
-                <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
-                <table style={{width:"100%"}}>
-                    <tr>
-                        {
-                            (loading===true)
-                            ?<td style={{textAlign:"right"}}>
-                                <TailSpin wrapperStyle={{display:"block"}} color="red" height={50} width={50} />
-                            </td>:<></>
-                        }    
-                    </tr>
-                </table>
-                </td>
-                <td style={{width:"60%",color:"yellow"}}>
-                    <table style={{width:"100%"}}>
-                        <tbody>
-                            {
-                                result.map(
-                                    post=>
-                                    <tr key={post.id}>
-                                        <td>
-                                        <Card style={{marginBottom:"20px"}}>
-                                            <Card.Header style={{color:"blue"}}>
-                                                <p>Time post: {new Date(post.created_at).toLocaleDateString(undefined,
-                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</p>     
-                                                <p>Account created: {post.created_acc.username} ({post.created_acc.role.rolename})</p>
-                                                <p>Topic: {post.topic.topicname}</p>
-                                            </Card.Header>
-                                            <Card.Body>
-                                                <Card.Title style={{color:"red"}}>{post.title}</Card.Title>
-                                                <Card.Text style={{color:"black"}}>
-                                                <p style={{whiteSpace: "pre-wrap"}}>{post.content}</p>
-                                                </Card.Text>
-                                            </Card.Body>
-                                        </Card>
-                                        </td>
-                                        <td style={{verticalAlign:"top"}}>
-                                        <ButtonGroup aria-label="Basic example">
-                                            <Button variant="success" onClick={()=>approvePost(post.id)}><img src={yesIcon} alt="" /></Button>
-                                            <Button variant="danger" onClick={()=>rejectPost(post.id)}><img src={noIcon} alt="" /></Button>
-                                        </ButtonGroup>
-                                        </td>
-                                    </tr>
-                                )
-                            }
+            {
+                (mount===false)
+                ?
+                <div>
+                    <h1 style={{textAlign:"center",color:"white"}}>APPROVE POST</h1>
+                    <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
+                </div>
+                :
+                <div>
+                    {/* <Header/> */}
+                    <h1 style={{textAlign:"center",color:"white"}}>APPROVE POST</h1>
+                    <table style={{width:"1920px",border:"none"}}>
+                        <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
+                        <table style={{width:"100%"}}>
                             <tr>
-                                <ButtonGroup aria-label="Basic example">
-                                    <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous Page</Button>
-                                    <Button variant="secondary"onClick={nextPage}>Next Page {">>>"}</Button>
-                                </ButtonGroup>
-                                    <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>
+                                {
+                                    (loading===true)
+                                    ?<td style={{textAlign:"right"}}>
+                                        <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
+                                    </td>:<></>
+                                }    
                             </tr>
-                        </tbody>
+                        </table>
+                        </td>
+                        <td style={{width:"60%",color:"yellow"}}>
+                            <table style={{width:"100%"}}>
+                                <tbody>
+                                    {
+                                        result.map(
+                                            post=>
+                                            <tr key={post.id}>
+                                                <td>
+                                                <Card style={{marginBottom:"20px"}}>
+                                                    <Card.Header style={{color:"blue"}}>
+                                                        <p>Time post: {new Date(post.created_at).toLocaleDateString(undefined,
+                                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</p>     
+                                                        <p>Account created: {post.created_acc.username} ({post.created_acc.role.rolename})</p>
+                                                        <p>Topic: {post.topic.topicname}</p>
+                                                    </Card.Header>
+                                                    <Card.Body>
+                                                        <Card.Title style={{color:"red"}}>{post.title}</Card.Title>
+                                                        <Card.Text style={{color:"black"}}>
+                                                        <p style={{whiteSpace: "pre-wrap"}}>{post.content}</p>
+                                                        </Card.Text>
+                                                    </Card.Body>
+                                                </Card>
+                                                </td>
+                                                <td style={{verticalAlign:"top"}}>
+                                                <ButtonGroup aria-label="Basic example">
+                                                    <Button variant="success" onClick={()=>approvePost(post.id)}><img src={yesIcon} alt="" /></Button>
+                                                    <Button variant="danger" onClick={()=>rejectPost(post.id)}><img src={noIcon} alt="" /></Button>
+                                                </ButtonGroup>
+                                                </td>
+                                            </tr>
+                                        )
+                                    }
+                                    <tr>
+                                        <ButtonGroup aria-label="Basic example">
+                                            <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous Page</Button>
+                                            <Button variant="secondary"onClick={nextPage}>Next Page {">>>"}</Button>
+                                        </ButtonGroup>
+                                            <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </td>
+                        <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
+                        <div
+                                aria-live="polite"
+                                aria-atomic="true"
+                                style={{ minHeight: '240px' }}
+                                >
+                                <ToastContainer position="middle-start" className="p-1">
+                                    <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
+                                    <Toast.Header>
+                                        <strong className="me-auto">{toastHeader}</strong>
+                                        <small className="text-muted">just now</small>
+                                    </Toast.Header>
+                                    <Toast.Body style={{color:"white"}}>{toastBody}</Toast.Body>
+                                    </Toast>
+                                </ToastContainer>
+                    </div>
+                        </td>
+                        
                     </table>
-                    
-                </td>
-                <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
-                <div
-                        aria-live="polite"
-                        aria-atomic="true"
-                        style={{ minHeight: '240px' }}
-                        >
-                        <ToastContainer position="middle-start" className="p-1">
-                            <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
-                            <Toast.Header>
-                                <strong className="me-auto">{toastHeader}</strong>
-                                <small className="text-muted">just now</small>
-                            </Toast.Header>
-                            <Toast.Body style={{color:"white"}}>{toastBody}</Toast.Body>
-                            </Toast>
-                        </ToastContainer>
-            </div>
-                </td>
-                
-            </table>
+                </div>
+            }
         </div>
     )
 }

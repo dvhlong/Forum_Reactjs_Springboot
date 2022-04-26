@@ -15,6 +15,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer'
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
 function Topic() {
+    const[mount,setMount]=useState(false);
     const[loading,setLoading]=useState(false);
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
@@ -126,159 +127,170 @@ function Topic() {
                 if(localStorage.getItem("role")!=="user")
                     setCanAddTopic(true);
                 setLoading(false);
+                if (mount===false)
+                setMount(true);
         },1000);
         return()=>{
             ourRequest.cancel('Request is canceled by user');
         }
-    },[page,update]);
+    },[page, update]);
     return(
         <div>
-            {/* <Header/> */}
-            <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1>
-            <table style={{width:"100%",border:"none"}}>
-                <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
-                <table style={{width:"100%"}}>
-                    <tr>
-                        {
-                            (loading===true)
-                            ?<td style={{textAlign:"right"}}>
-                                <TailSpin wrapperStyle={{display:"block"}} color="red" height={50} width={50} />
-                            </td>:<></>
-                        }    
-                    </tr>
-                </table>
-                </td>
-                <td style={{width:"60%",color:"yellow"}}>
-                    <table style={{width:"100%"}}>
-                        <tbody>                          
-                            {
-                                result.map(
-                                    topic=>
-                                    <tr key={topic.id}>
-                                        <td>
-                                        <Card style={{marginBottom:"20px"}}>
-                                            <Card.Header style={{color:"blue"}}>
-                                                Time created: {new Date(topic.created_at).toLocaleDateString(undefined,
-                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}
-                                            </Card.Header>
-                                            <Card.Body>
-                                                <Card.Title style={{color:"red"}}>{topic.topicname}</Card.Title>
-                                                <Card.Text style={{color:"black"}}>
-                                                </Card.Text>
-                                                <Button variant="primary">View Posts</Button>
-                                            </Card.Body>
-                                        </Card>
-                                        </td>
-                                        <td style={{verticalAlign:"top"}}>
-                                        {canAddTopic?
-                                        <Dropdown>
-                                            <Dropdown.Toggle variant="warning">
-                                            <img src={moreIcon} alt="logo"/>
-                                            </Dropdown.Toggle>
-                                            <Dropdown.Menu>
-                                            <Dropdown.Item href="#">
-                                                <button style={{border:"none",background:"none",color:"blue"}} onClick={()=>handleShowEdit(topic)}>Edit Topic</button>
-                                            </Dropdown.Item>
-                                            <Dropdown.Item href="#">
-                                                <button style={{border:"none",background:"none",color:"red"}} onClick={()=>handleShowDelete(topic.id)}>Delete Topic</button>
-                                            </Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>:<></>
-                                        }
-                                        </td>
-                                    </tr>
-                                )
-                            }
-                        
+            {
+                (mount===false)
+                ?<div>
+                    <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1>
+                    <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
+                </div>
+                :
+                <div>
+                    {/* <Header/> */}
+                    <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1>
+                    <table style={{width:"100%",border:"none"}}>
+                        <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
+                        <table style={{width:"100%"}}>
                             <tr>
-                            <ButtonGroup aria-label="Basic example">
-                                <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous Page</Button>
-                                <Button variant="secondary"onClick={nextPage}>Next Page {">>>"}</Button>
-                            </ButtonGroup>
-                                <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>     
+                                {
+                                    (loading===true)
+                                    ?<td style={{textAlign:"right"}}>
+                                        <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
+                                    </td>:<></>
+                                }    
                             </tr>
-                        </tbody>
+                        </table>
+                        </td>
+                        <td style={{width:"60%",color:"yellow"}}>
+                            <table style={{width:"100%"}}>
+                                <tbody>                          
+                                    {
+                                        result.map(
+                                            topic=>
+                                            <tr key={topic.id}>
+                                                <td>
+                                                <Card style={{marginBottom:"20px"}}>
+                                                    <Card.Header style={{color:"blue"}}>
+                                                        Time created: {new Date(topic.created_at).toLocaleDateString(undefined,
+                                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}
+                                                    </Card.Header>
+                                                    <Card.Body>
+                                                        <Card.Title style={{color:"red"}}>{topic.topicname}</Card.Title>
+                                                        <Card.Text style={{color:"black"}}>
+                                                        </Card.Text>
+                                                        <Button variant="primary">View Posts</Button>
+                                                    </Card.Body>
+                                                </Card>
+                                                </td>
+                                                <td style={{verticalAlign:"top"}}>
+                                                {canAddTopic?
+                                                <Dropdown>
+                                                    <Dropdown.Toggle variant="warning">
+                                                    <img src={moreIcon} alt="logo"/>
+                                                    </Dropdown.Toggle>
+                                                    <Dropdown.Menu>
+                                                    <Dropdown.Item href="#">
+                                                        <button style={{border:"none",background:"none",color:"blue"}} onClick={()=>handleShowEdit(topic)}>Edit Topic</button>
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item href="#">
+                                                        <button style={{border:"none",background:"none",color:"red"}} onClick={()=>handleShowDelete(topic.id)}>Delete Topic</button>
+                                                    </Dropdown.Item>
+                                                    </Dropdown.Menu>
+                                                </Dropdown>:<></>
+                                                }
+                                                </td>
+                                            </tr>
+                                        )
+                                    }
+                                
+                                    <tr>
+                                    <ButtonGroup aria-label="Basic example">
+                                        <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous Page</Button>
+                                        <Button variant="secondary"onClick={nextPage}>Next Page {">>>"}</Button>
+                                    </ButtonGroup>
+                                        <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>     
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
+                            {canAddTopic?<button style={{background:"blue",color:"white"}} onClick={handleShowAdd} className='btn btn=primary'>Add Topic</button>:<></>}
+                            <div
+                                aria-live="polite"
+                                aria-atomic="true"
+                                style={{ minHeight: '240px' }}
+                                >
+                                <ToastContainer position="middle-start" className="p-1">
+                                    <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
+                                    <Toast.Header>
+                                        <strong className="me-auto">{toastHeader}</strong>
+                                        <small className="text-muted">just now</small>
+                                    </Toast.Header>
+                                    <Toast.Body style={{color:"white"}}>{toastBody}</Toast.Body>
+                                    </Toast>
+                                </ToastContainer>
+                            </div>
+                            <Modal
+                                show={showEdit}
+                                onHide={handleCloseEdit}
+                                backdrop="static"
+                                keyboard={false}
+                            >
+                                <Modal.Header closeButton>
+                                <Modal.Title>Change Topic</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                <input style={{width:"100%"}} value={editTopicName} onChange={enterEditTopicName}/>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                <Button variant="secondary" onClick={handleCloseEdit}>
+                                    Close
+                                </Button>
+                                <Button variant="primary" onClick={changeTopic}>Change</Button>
+                                </Modal.Footer>
+                            </Modal>
+                            <Modal
+                                show={showAdd}
+                                onHide={handleCloseAdd}
+                                backdrop="static"
+                                keyboard={false}
+                            >
+                                <Modal.Header closeButton>
+                                <Modal.Title>Add Topic</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                <label>Enter new topic name :</label>    
+                                <input style={{width:"100%"}} type="text" value={newTopicName} onChange={enterNewTopicName}/>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                <Button variant="secondary" onClick={handleCloseAdd}>
+                                    Close
+                                </Button>
+                                <Button variant="primary" onClick={addTopic}>Add</Button>
+                                </Modal.Footer>
+                            </Modal>
+                            <Modal
+                                show={showDelete}
+                                onHide={handleCloseDelete}
+                                backdrop="static"
+                                keyboard={false}
+                            >
+                                <Modal.Header closeButton>
+                                <Modal.Title>Delete Topic</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                You really want to delete this topic ???
+                                </Modal.Body>
+                                <Modal.Footer>
+                                <Button variant="secondary" onClick={handleCloseDelete}>
+                                    Close
+                                </Button>
+                                <Button variant="primary" onClick={deleteTopic}>Delete</Button>
+                                </Modal.Footer>
+                            </Modal>
+                        </td>
                     </table>
-                </td>
-                <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
-                    {canAddTopic?<button style={{background:"blue",color:"white"}} onClick={handleShowAdd} className='btn btn=primary'>Add Topic</button>:<></>}
-                    <div
-                        aria-live="polite"
-                        aria-atomic="true"
-                        style={{ minHeight: '240px' }}
-                        >
-                        <ToastContainer position="middle-start" className="p-1">
-                            <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
-                            <Toast.Header>
-                                <strong className="me-auto">{toastHeader}</strong>
-                                <small className="text-muted">just now</small>
-                            </Toast.Header>
-                            <Toast.Body style={{color:"white"}}>{toastBody}</Toast.Body>
-                            </Toast>
-                        </ToastContainer>
-                    </div>
-                    <Modal
-                        show={showEdit}
-                        onHide={handleCloseEdit}
-                        backdrop="static"
-                        keyboard={false}
-                    >
-                        <Modal.Header closeButton>
-                        <Modal.Title>Change Topic</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                        <input style={{width:"100%"}} value={editTopicName} onChange={enterEditTopicName}/>
-                        </Modal.Body>
-                        <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseEdit}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={changeTopic}>Change</Button>
-                        </Modal.Footer>
-                    </Modal>
-                    <Modal
-                        show={showAdd}
-                        onHide={handleCloseAdd}
-                        backdrop="static"
-                        keyboard={false}
-                    >
-                        <Modal.Header closeButton>
-                        <Modal.Title>Add Topic</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                        <label>Enter new topic name :</label>    
-                        <input style={{width:"100%"}} type="text" value={newTopicName} onChange={enterNewTopicName}/>
-                        </Modal.Body>
-                        <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseAdd}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={addTopic}>Add</Button>
-                        </Modal.Footer>
-                    </Modal>
-                    <Modal
-                        show={showDelete}
-                        onHide={handleCloseDelete}
-                        backdrop="static"
-                        keyboard={false}
-                    >
-                        <Modal.Header closeButton>
-                        <Modal.Title>Delete Topic</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                        You really want to delete this topic ???
-                        </Modal.Body>
-                        <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseDelete}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={deleteTopic}>Delete</Button>
-                        </Modal.Footer>
-                    </Modal>
-                </td>
-            </table>
+                </div>
+            }
         </div>
-        
     );
 }
 export default Topic;

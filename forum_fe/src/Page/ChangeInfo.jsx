@@ -96,16 +96,17 @@ function ChangeInfo() {
     return(
         <div>
             {/* <HeaderComponent/> */}
+            {
+                            (loading===true)
+                            ?<TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
+                            :<></>
+            } 
                 <table style={{width:"100%"}}>
                     <tr>  
                     </tr>
                 </table>
             <div className='Container' style={{margin:"auto",width:"60%"}}>
-            {
-                            (loading===true)
-                            ?<TailSpin wrapperStyle={{display:"block"}} color="red" height={50} width={50} />
-                            :<></>
-            } 
+            
             <Card style={{marginTop:"20px"}}>
                 <Card.Header>
                     <div style={{color:"red",fontSize:"30px"}}>PERSONAL INFO</div>

@@ -26,6 +26,18 @@ class PostService{
             }
         ); 
     }
+    getComments(id,page){
+        return axios(
+            {
+                url:`post/${id}/comments/page=${page}`,
+                method:"get",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        ); 
+    }
     getPostsPage(page,ourRequest){
         return axios(
             {
