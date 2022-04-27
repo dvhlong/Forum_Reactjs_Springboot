@@ -224,7 +224,7 @@ function Posts(){
                                                                                             ?
                                                                                             <>{currentDay.getMinutes()-new Date(post.created_at).getMinutes()} minutes ago</>
                                                                                             :
-                                                                                            <>{currentDay.getSeconds()-new Date(post.created_at).getSeconds()} seconds ago</>
+                                                                                            <>few seconds ago</>
                                                                                         }
                                                                                     </>
                                                                                 }
