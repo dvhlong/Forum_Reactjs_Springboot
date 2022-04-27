@@ -55,6 +55,9 @@ function HeaderComponent(){
         else{
             console.log(JSON.stringify(newPost))
             PostService.createPost(Number(topicId),newPost).then(res=>{
+                setTopicId(0);
+                setNewTitle("");
+                setNewContent("");
                 console.log(res.data);
             })
             handleCloseAddPost();

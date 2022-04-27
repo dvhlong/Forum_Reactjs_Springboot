@@ -17,6 +17,7 @@ import axios from "axios";
 import {useNavigate} from 'react-router-dom';
 function ApprovePosts() {
     let navigate=useNavigate();
+    const currentDay=new Date();
     const[mount,setMount]=useState(false);
     const [loading,setLoading]=useState(false);
     const [update,setUpdate] = useState(false);
@@ -127,8 +128,52 @@ function ApprovePosts() {
                                                 <td>
                                                 <Card style={{marginBottom:"20px"}}>
                                                     <Card.Header style={{color:"blue"}}>
-                                                        <p>Time post: {new Date(post.created_at).toLocaleDateString(undefined,
-                                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</p>     
+                                                        <p>
+                                                            {
+                                                                <>
+                                                                    {(currentDay.getFullYear() > new Date(post.create_at).getFullYear())
+                                                                    ?
+                                                                    <>({currentDay.getFullYear()-new Date(post.created_at).getFullYear()} years ago)</>
+                                                                    :
+                                                                    <>
+                                                                        {
+                                                                            (currentDay.getMonth()> new Date(post.created_at).getMonth())
+                                                                            ?
+                                                                            <>{currentDay.getMonth()-new Date(post.created_at).getMonth()} months ago</>
+                                                                            :
+                                                                            <>
+                                                                                {
+                                                                                    (currentDay.getDate()> new Date(post.created_at).getDate())
+                                                                                    ?
+                                                                                    <>{currentDay.getDate()-new Date(post.created_at).getDate()} days ago</>
+                                                                                    :
+                                                                                    <>
+                                                                                        {
+                                                                                            (currentDay.getHours()> new Date(post.created_at).getHours())
+                                                                                            ?
+                                                                                            <>{currentDay.getHours()-new Date(post.creadted_at).getHours()} hours ago</>
+                                                                                            :
+                                                                                            <>
+                                                                                                {
+                                                                                                    (currentDay.getMinutes()> new Date(post.created_at).getMinutes())
+                                                                                                    ?
+                                                                                                    <>{currentDay.getMinutes()-new Date(post.created_at).getMinutes()} minutes ago</>
+                                                                                                    :
+                                                                                                    <>{currentDay.getSeconds()-new Date(post.created_at).getSeconds()} seconds ago</>
+                                                                                                }
+                                                                                            </>
+                                                                                        }
+                                                                                    </>
+                                                                                }
+                                                                            </>
+                                                                        }
+                                                                    </>
+                                                                    }
+                                                                    &nbsp;({new Date(post.created_at).toLocaleDateString(undefined,
+                                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })})
+                                                                </>
+                                                            }
+                                                        </p>     
                                                         <p>Account created: {post.created_acc.username} ({post.created_acc.role.rolename})</p>
                                                         <p>Topic: {post.topic.topicname}</p>
                                                     </Card.Header>

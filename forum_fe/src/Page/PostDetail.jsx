@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect, useDebugValue} from 'react';
 import Card from 'react-bootstrap/Card';
 import PostService from '../Service/PostService';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -15,6 +15,7 @@ import moreIcon from '../SVG/more.svg';
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
 function PostDetail(){
+    const currentDay=new Date();
     const role=localStorage.getItem("role");
     const accid=localStorage.getItem("accid");
     let navigate=useNavigate();
@@ -70,8 +71,23 @@ function PostDetail(){
         },
         topic:{
             topicname:""
-        }
+        },
     });
+    
+    // var div,index, imgs, img,imgSrc;
+    // div = document.createElement('div');
+    // div.innerHTML = document.getElementsByClassName('arr-value')[0];
+    // console.log(div.innerHTML);
+    // imgs=div.getElementsByTagName('img');
+    // for(index = 0; index < imgs.length; ++index){
+    //     img=imgs[index];
+    //     console.log(div.innerHTML.length);
+    //     imgSrc=img.src
+    //     div.innerHTML=`<img src=${imgSrc} alt=''/>`;
+    // }
+    var div = document.createElement('div');
+    div.innerHTML = post.content;
+    div.innerHTML.replace(/img="https:[a-z,.0-9/-_]+"/g,"changed !!!!!!!!")
     const[newComment,setNewComment]=useState("");
     const[comments,setComments]=useState([
         // {
@@ -167,6 +183,8 @@ function PostDetail(){
                     navigate("/")
                 }
                 setPost(res.data);
+                // firstImage="changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                // /img="https:[a-z,.0-9/-_]+\w"/g
             })
             setLoading(false);
             if (mount===false)
@@ -234,17 +252,61 @@ function PostDetail(){
                                     <Card.Header style={{color:"blue"}}>
                                         <img style={{width:"50px",height:"50px"}} src='//ssl.gstatic.com/accounts/ui/avatar_2x.png' alt=''></img>
                                         <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
-                                        {(post.updated_at===null)
+                                        {/* {(post.updated_at===null)
                                         ?<>| {new Date(post.created_at).toLocaleDateString(undefined,
                                             { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>
                                         :<>| Last updated: {new Date(post.updated_at).toLocaleDateString(undefined,
-                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>}
+                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>} */}
+                                        {
+                                                        <>&nbsp;|&nbsp;
+                                                            {(currentDay.getFullYear() > new Date(post.created_at).getFullYear())
+                                                            ?
+                                                            <>({currentDay.getFullYear()-new Date(post.created_at).getFullYear()} years ago)</>
+                                                            :
+                                                            <>
+                                                                {
+                                                                    (currentDay.getMonth()> new Date(post.created_at).getMonth())
+                                                                    ?
+                                                                    <>{currentDay.getMonth()-new Date(post.created_at).getMonth()} months ago</>
+                                                                    :
+                                                                    <>
+                                                                        {
+                                                                            (currentDay.getDate()> new Date(post.created_at).getDate())
+                                                                            ?
+                                                                            <>{currentDay.getDate()-new Date(post.created_at).getDate()} days ago</>
+                                                                            :
+                                                                            <>
+                                                                                {
+                                                                                    (currentDay.getHours()> new Date(post.created_at).getHours())
+                                                                                    ?
+                                                                                    <>{currentDay.getHours()-new Date(post.created_at).getHours()} hours ago</>
+                                                                                    :
+                                                                                    <>
+                                                                                        {
+                                                                                            (currentDay.getMinutes()> new Date(post.created_at).getMinutes())
+                                                                                            ?
+                                                                                            <>{currentDay.getMinutes()-new Date(post.created_at).getMinutes()} minutes ago</>
+                                                                                            :
+                                                                                            <>{currentDay.getSeconds()-new Date(post.created_at).getSeconds()} seconds ago</>
+                                                                                        }
+                                                                                    </>
+                                                                                }
+                                                                            </>
+                                                                        }
+                                                                    </>
+                                                                }
+                                                            </>
+                                                            }
+                                                            &nbsp;({new Date(post.created_at).toLocaleDateString(undefined,
+                                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })})
+                                                        </>
+                                        }
                                         <p>Topic: {post.topic.topicname}</p>     
                                     </Card.Header>
                                     <Card.Body>
                                         <Card.Title style={{color:"red"}}>{post.title}</Card.Title>
                                         <Card.Text style={{color:"black"}}>
-                                        <p style={{whiteSpace: "pre-wrap"}}>{post.content}</p>
+                                        <p className='arr-value' style={{whiteSpace: "pre-wrap"}}>{post.content}</p>
                                         </Card.Text>
                                     </Card.Body>               
                                 </Card>
@@ -306,11 +368,55 @@ function PostDetail(){
                                             <Card.Header style={{color:"blue"}}>
                                                 <img style={{width:"50px",height:"50px"}} src='//ssl.gstatic.com/accounts/ui/avatar_2x.png' alt=''></img>
                                                 <b>&nbsp;{comment.created_acc.username}</b> ({comment.created_acc.role.rolename})
-                                                {(comment.updated_at===null)
+                                                {/* {(comment.updated_at===null)
                                                 ?<>| {new Date(comment.created_at).toLocaleDateString(undefined,
                                                     { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>
                                                 :<>| Last updated: {new Date(comment.updated_at).toLocaleDateString(undefined,
-                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>}     
+                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>}      */}
+                                                {
+                                                    <>&nbsp;|&nbsp;
+                                                        {(currentDay.getFullYear() > new Date(comment.created_at).getFullYear())
+                                                        ?
+                                                        <>({currentDay.getFullYear()-new Date(comment.created_at).getFullYear()} years ago)</>
+                                                        :
+                                                        <>
+                                                            {
+                                                                (currentDay.getMonth()> new Date(comment.created_at).getMonth())
+                                                                ?
+                                                                <>{currentDay.getMonth()-new Date(comment.created_at).getMonth()} months ago</>
+                                                                :
+                                                                <>
+                                                                    {
+                                                                        (currentDay.getDate()> new Date(comment.created_at).getDate())
+                                                                        ?
+                                                                        <>{currentDay.getDate()-new Date(comment.created_at).getDate()} days ago</>
+                                                                        :
+                                                                        <>
+                                                                            {
+                                                                                (currentDay.getHours()> new Date(comment.created_at).getHours())
+                                                                                ?
+                                                                                <>{currentDay.getHours()-new Date(comment.created_at).getHours()} hours ago</>
+                                                                                :
+                                                                                <>
+                                                                                    {
+                                                                                        (currentDay.getMinutes()> new Date(comment.created_at).getMinutes())
+                                                                                        ?
+                                                                                        <>{currentDay.getMinutes()-new Date(comment.created_at).getMinutes()} minutes ago</>
+                                                                                        :
+                                                                                        <>{currentDay.getSeconds()-new Date(comment.created_at).getSeconds()} seconds ago</>
+                                                                                    }
+                                                                                </>
+                                                                            }
+                                                                        </>
+                                                                    }
+                                                                </>
+                                                            }
+                                                        </>
+                                                        }
+                                                        &nbsp;({new Date(comment.created_at).toLocaleDateString(undefined,
+                                                        { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })})
+                                                    </>
+                                                }
                                             </Card.Header>
                                             <Card.Body>
                                                 {
