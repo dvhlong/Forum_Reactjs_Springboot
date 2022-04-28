@@ -1,16 +1,19 @@
 import axios from "axios";
 class AccountService{
-    block(id){
+    checkToken(){
         return axios(
             {
-                url:`/blockAcc/${id}`,
-                method:"put",
+                url:`/checkToken`,
+                method:"get",
                 baseURL:"http://localhost:8080",
                 headers:{
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
+    }
+    block(id){
+        
     }
     chagneRole(id,role){
         return axios(

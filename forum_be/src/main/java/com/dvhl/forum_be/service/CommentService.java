@@ -31,7 +31,7 @@ public class CommentService {
     PostRepo postRepo;
     public Page<Comment> getComments(int page, long postid){
         Optional<Post> foundPost=postRepo.findByIdAndIsdeleted(postid,false);
-        return commentRepo.findAllByPostAndIsdeleted(foundPost,false,PageRequest.of(page-1, 5));
+        return commentRepo.findAllByPostAndIsdeletedOrderByCreatedatDesc(foundPost,false,PageRequest.of(page-1, 5));
     }
     public ResponseEntity<Response> addComment(long post_id,long created_acc,long replied_cmt,Comment newCmt){
         Optional<User> foundAcc=accountRepo.findById(created_acc);

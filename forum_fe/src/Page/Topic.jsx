@@ -145,37 +145,41 @@ function Topic() {
                 setLoading(false);
                 if (mount===false)
                 setMount(true);
-        },1000);
+        },800);
         return()=>{
             ourRequest.cancel('Request is canceled by user');
         }
     },[page, update]);
     return(
         <div>
-            {
-                (mount===false)
-                ?<div>
-                    <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1>
-                    <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
-                </div>
-                :
                 <div>
                     {/* <Header/> */}
                     <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1>
                     <table style={{width:"100%",border:"none"}}>
                         <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
-                        <table style={{width:"100%"}}>
+                        <table style={{width:"100%",textAlign:"center"}}>
                             <tr>
                                 {
                                     (loading===true)
-                                    ?<td style={{textAlign:"right"}}>
+                                    ?<td>
                                         <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
                                     </td>:<></>
                                 }    
                             </tr>
+                            <tr>
+                                <td><td><img style={{width:"80%",borderRadius:"2%"}} src='https://i.ytimg.com/vi/x0fSBAgBrOQ/maxresdefault.jpg' alt=''></img></td></td>
+                            </tr>
+                            <tr>
+                                <td><img style={{width:"80%",marginTop:"10px",borderRadius:"2%"}} src='https://www.zekelabs.com/static/media/photos/2019/06/30/Springboot-training-in-bangalore-800-500-img.jpg' alt=''></img></td>
+                            </tr>
                         </table>
                         </td>
                         <td style={{width:"60%",color:"yellow"}}>
+                        {
+                            (mount===false)
+                            ?
+                            <></>
+                            :
                             <table style={{width:"100%"}}>
                                 <tbody>                          
                                     {
@@ -199,15 +203,15 @@ function Topic() {
                                                 <td style={{verticalAlign:"top"}}>
                                                 {canAddTopic?
                                                 <Dropdown>
-                                                    <Dropdown.Toggle variant="warning">
+                                                    <Dropdown.Toggle variant="dark">
                                                     <img src={moreIcon} alt="logo"/>
                                                     </Dropdown.Toggle>
-                                                    <Dropdown.Menu>
-                                                    <Dropdown.Item href="#">
-                                                        <button style={{border:"none",background:"none",color:"blue"}} onClick={()=>handleShowEdit(topic)}>Edit Topic</button>
+                                                    <Dropdown.Menu variant='dark'>
+                                                    <Dropdown.Item href="#" onClick={()=>handleShowEdit(topic)}>
+                                                        Edit Topic
                                                     </Dropdown.Item>
-                                                    <Dropdown.Item href="#">
-                                                        <button style={{border:"none",background:"none",color:"red"}} onClick={()=>handleShowDelete(topic.id)}>Delete Topic</button>
+                                                    <Dropdown.Item href="#" onClick={()=>handleShowDelete(topic.id)}>
+                                                        Delete Topic
                                                     </Dropdown.Item>
                                                     </Dropdown.Menu>
                                                 </Dropdown>:<></>
@@ -226,6 +230,7 @@ function Topic() {
                                     </tr>
                                 </tbody>
                             </table>
+                        }
                         </td>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
                             {canAddTopic?<button style={{background:"blue",color:"white"}} onClick={handleShowAdd} className='btn btn=primary'>Add Topic</button>:<></>}
@@ -305,7 +310,6 @@ function Topic() {
                         </td>
                     </table>
                 </div>
-            }
         </div>
     );
 }

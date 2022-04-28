@@ -13,8 +13,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CommentRepo extends JpaRepository<Comment,Long>{
 
+    Page<Comment> findAllByPostAndIsdeletedOrderByCreatedatDesc(Optional<Post> foundPost, boolean b, Pageable pageable);
     Page<Comment> findAllByPostAndIsdeleted(Optional<Post> foundPost, boolean b, Pageable pageable);
-
     List<Comment> findAllByPostAndIsdeleted(Post post, boolean b);
     
 }

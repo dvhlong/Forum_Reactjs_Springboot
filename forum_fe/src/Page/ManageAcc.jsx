@@ -80,7 +80,7 @@ function ManageAcc(){
             return()=>{
                 ourRequest.cancel('Request is canceled by user');
             }
-        }, 1000);
+        }, 800);
     },[page,update]);
     return(
         <div>

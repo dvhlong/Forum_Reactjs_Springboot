@@ -54,14 +54,6 @@ function PostDetail(){
         setToastBody(tbody);
         setShow(true);
     }
-    const[editCommentId,setEditCommentId]=useState(0);
-    const[editCommentContent,setEditCommentContent]=useState("");
-    const showEditComment=(comment)=>{
-        setIsEdit(true);
-        setEditCommentId(comment.id);
-        setEditCommentContent(comment.content);
-    }
-    const cancelEditComment=()=>setIsEdit(false)
     const[post,setPost]=useState({
         created_acc:{
             username:"",
@@ -85,32 +77,33 @@ function PostDetail(){
     //     imgSrc=img.src
     //     div.innerHTML=`<img src=${imgSrc} alt=''/>`;
     // }
-    var div = document.createElement('div');
-    div.innerHTML = post.content;
-    div.innerHTML.replace(/img="https:[a-z,.0-9/-_]+"/g,"changed !!!!!!!!")
+    // var div = document.createElement('div');
+    // div.innerHTML = post.content;
+    // div.innerHTML.replace(/img="https:[a-z,.0-9/-_]+"/g,"changed !!!!!!!!")
     const[newComment,setNewComment]=useState("");
-    const[comments,setComments]=useState([
-        // {
-        //     content:'',
-        //     created_acc:{
-        //         username:'',
-        //         role:{
-        //             rolename:""
-        //         }
-        //     },
-        //     replied_cmt:{
-        //         created_acc:{
-        //             username:"",
-        //         },
-        //         content:""
-        //     }
-        // }
-    ]);
+    const[comments,setComments]=useState([]);
+    const[isReply,setIsReply]=useState(false);
+    const[replyCommentId,setReplyCommentId]=useState(0);
+    const[editCommentId,setEditCommentId]=useState(0);
+    const[editCommentContent,setEditCommentContent]=useState("");
+    const showEditComment=(comment)=>{
+        setIsEdit(true);
+        setEditCommentId(comment.id);
+        setEditCommentContent(comment.content);
+    }
+    const cancelEditComment=()=>setIsEdit(false)
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
     const nextPage=()=>{
         if(page<pages)
         setPage(page+1);
+    }
+    const replyComment=(commentid)=>{
+        setReplyCommentId(commentid);
+        setIsReply(true);
+    }
+    const cancelReply=()=>{
+        setIsReply(false);
     }
     const prevPage=()=>{
         if(page>1)
@@ -123,10 +116,18 @@ function PostDetail(){
     const changeNewComment=(e)=>{
         setNewComment(e.target.value);
     }
-    const addComment=()=>{
-        console.log(newComment);
-        setNewComment("");
-        reload();
+    const addComment=(postid,replyid)=>{
+        let comment={
+            content:newComment
+        }
+        PostService.addComment(postid,replyid,comment).then(res=>{
+            if(page!==1)
+                setPage(1);
+            else 
+                reload();
+        })
+        setIsReply(false);
+        setNewComment("");  
     }
     const chooseTopic=(e)=>{
         setTopicId(e.target.value);
@@ -192,7 +193,7 @@ function PostDetail(){
             return()=>{
                 ourRequest.cancel('Request is canceled by user');
             }
-        }, 1000);
+        }, 800);
     },[id, update])
     useEffect(()=>{
         setLoading(true);
@@ -207,7 +208,7 @@ function PostDetail(){
             setLoading(false);
             if (mount===false)
                 setMount(true);
-        }, 1000);
+        }, 800);
     },[id, page, update])
     useEffect(()=>{
         setLoading(true);
@@ -225,16 +226,10 @@ function PostDetail(){
     },[]);
     return (
         <div>
-            {
-                (mount===false)
-                ?<>
-                    <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
-                </>
-                :
                 <div>
-                    <table style={{width:"1920px",border:"none"}}>
+                    <table style={{width:"1920px",border:"none",marginTop:"30px"}}>
                         <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
-                        <table style={{width:"100%"}}>
+                        <table style={{width:"100%",textAlign:"center"}}>
                             <tr>
                                 {
                                     (loading===true)
@@ -243,14 +238,25 @@ function PostDetail(){
                                     </td>:<></>
                                 }    
                             </tr>
+                            <tr>
+                                <td><td><img style={{width:"80%",borderRadius:"2%"}} src='https://i.ytimg.com/vi/x0fSBAgBrOQ/maxresdefault.jpg' alt=''></img></td></td>
+                            </tr>
+                            <tr>
+                                <td><img style={{width:"80%",marginTop:"10px",borderRadius:"2%"}} src='https://www.zekelabs.com/static/media/photos/2019/06/30/Springboot-training-in-bangalore-800-500-img.jpg' alt=''></img></td>
+                            </tr>
                         </table>
                         </td>
+                        {
+                        (mount===false)
+                        ?
+                        <td style={{width:"60%",color:"yellow"}}></td>
+                        :
                         <td style={{width:"60%",color:"yellow"}}>
                             <tr style={{marginBottom:"20px"}}>
                                 <td>   
-                                <Card style={{marginBottom:"20px",marginTop:"30px"}}>
+                                <Card style={{marginBottom:"20px"}}>
                                     <Card.Header style={{color:"blue"}}>
-                                        <img style={{width:"50px",height:"50px"}} src='//ssl.gstatic.com/accounts/ui/avatar_2x.png' alt=''></img>
+                                        <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                                         <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
                                         {/* {(post.updated_at===null)
                                         ?<>| {new Date(post.created_at).toLocaleDateString(undefined,
@@ -311,8 +317,8 @@ function PostDetail(){
                                     </Card.Body>               
                                 </Card>
                                 <Form.Group style={{marginTop:"30px"}}>
-                                    <Form.Control as="textarea" rows={3} placeholder='Type your comment.....' value={newComment} onChange={changeNewComment}></Form.Control>
-                                    <Button style={{color:"white"}} onClick={addComment}>Comment</Button>
+                                    <Form.Control as="textarea" rows={3} placeholder='Type your comment.....' onChange={changeNewComment}></Form.Control>
+                                    <Button style={{color:"white"}} onClick={()=>addComment(post.id,0)}>Comment</Button>
                                 </Form.Group>
                                 {/* <Form.Group style={{marginTop:"30px"}}>
                                     {(isEdit===false)?<p>hellooooooooooooooo, not edit !!!!!!</p>:<Form.Control as="textarea" rows={5} placeholder='Type your comment.....' onChange={changeNewComment}></Form.Control>}
@@ -323,16 +329,16 @@ function PostDetail(){
                                     {
                                         (role!=="user"||accid===String(post.created_acc.id))
                                         ?
-                                        <Dropdown style={{marginTop:"30px"}}>
-                                            <Dropdown.Toggle variant="warning">
+                                        <Dropdown>
+                                            <Dropdown.Toggle variant="dark">
                                             <img src={moreIcon} alt="logo"/>
                                             </Dropdown.Toggle>
-                                            <Dropdown.Menu>
+                                            <Dropdown.Menu variant='dark'>
                                             {
                                                 (accid===String(post.created_acc.id))
                                                 ?
-                                                <Dropdown.Item href="#">
-                                                    <button style={{border:"none",background:"none",color:"blue"}} onClick={handleShowEdit}>Edit Post</button>
+                                                <Dropdown.Item href="#" onClick={handleShowEdit}>
+                                                    Edit Post
                                                 </Dropdown.Item>
                                                 :
                                                 <></>
@@ -340,8 +346,8 @@ function PostDetail(){
                                             {
                                                 (role!=="user"||accid===String(post.created_acc.id))
                                                 ?
-                                                <Dropdown.Item href="#">
-                                                    <button style={{border:"none",background:"none",color:"red"}} onClick={handleShowDelete}>Delete Post</button>
+                                                <Dropdown.Item href="#" onClick={handleShowDelete}>
+                                                    Delete Post
                                                 </Dropdown.Item>
                                                 :
                                                 <></>
@@ -366,7 +372,7 @@ function PostDetail(){
                                         <td>
                                         <Card style={{marginBottom:"20px",marginTop:"30px"}}>
                                             <Card.Header style={{color:"blue"}}>
-                                                <img style={{width:"50px",height:"50px"}} src='//ssl.gstatic.com/accounts/ui/avatar_2x.png' alt=''></img>
+                                                <img style={{width:"50px",height:"50px",borderRadius:"50px"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                                                 <b>&nbsp;{comment.created_acc.username}</b> ({comment.created_acc.role.rolename})
                                                 {/* {(comment.updated_at===null)
                                                 ?<>| {new Date(comment.created_at).toLocaleDateString(undefined,
@@ -442,10 +448,19 @@ function PostDetail(){
                                                 }
                                                 
                                             </Card.Body>
-                                            <Card.Footer>
-                                                <Form.Control type="text" placeholder='Reply comment.....' value={newComment} onChange={changeNewComment}></Form.Control>
-                                                <Button style={{color:"white"}}>Reply</Button>  
-                                            </Card.Footer>               
+                                            {
+                                                (isReply===true&&replyCommentId===comment.id)
+                                                ?
+                                                <Card.Footer>
+                                                    <Form.Control type="text" placeholder='Reply comment.....'  onChange={changeNewComment}></Form.Control>
+                                                    <Button style={{color:"white"}} onClick={()=>addComment(post.id,comment.id)}>Reply</Button>
+                                                    <Button style={{color:"white"}} onClick={cancelReply}>Cancel</Button>   
+                                                </Card.Footer>
+                                                :
+                                                <Card.Footer>
+                                                    <Button style={{color:"white"}} onClick={()=>replyComment(comment.id)}>Reply this comment</Button>
+                                                </Card.Footer>
+                                            }               
                                         </Card>
                                         </td>
                                         <td style={{verticalAlign:"top"}}>
@@ -453,15 +468,15 @@ function PostDetail(){
                                                 (role!=="user"||accid===String(comment.created_acc.id)||accid===String(post.created_acc.id))
                                                 ?
                                                 <Dropdown style={{marginTop:"30px"}}>
-                                                    <Dropdown.Toggle variant="warning">
+                                                    <Dropdown.Toggle variant="dark">
                                                     <img src={moreIcon} alt="logo"/>
                                                     </Dropdown.Toggle>
-                                                    <Dropdown.Menu>
+                                                    <Dropdown.Menu variant="dark">
                                                     {
                                                         (accid===String(comment.created_acc.id))
                                                         ?
-                                                        <Dropdown.Item href="#">
-                                                            <button style={{border:"none",background:"none",color:"blue"}} onClick={()=>showEditComment(comment)}>Edit Comment</button>
+                                                        <Dropdown.Item href="#" onClick={()=>showEditComment(comment)}>
+                                                            Edit Comment
                                                         </Dropdown.Item>
                                                         :
                                                         <></>
@@ -470,7 +485,7 @@ function PostDetail(){
                                                         (role!=="user"||accid===String(comment.created_acc.id)||accid===String(post.created_acc.id))
                                                         ?
                                                         <Dropdown.Item href="#">
-                                                            <button style={{border:"none",background:"none",color:"red"}}>Delete Comment</button>
+                                                            Delete Comment
                                                         </Dropdown.Item>
                                                         :
                                                         <></>
@@ -487,6 +502,7 @@ function PostDetail(){
 
                             </tr>
                         </td>
+                        }
                         <td style={{width:"10%",color:"yellow"}}>
                         <div 
                                 aria-live="assertive"
@@ -558,7 +574,6 @@ function PostDetail(){
                         </td>
                     </table>
                 </div>
-            }
         </div>   
     )
 }

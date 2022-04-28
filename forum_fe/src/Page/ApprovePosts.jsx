@@ -90,24 +90,16 @@ function ApprovePosts() {
             return()=>{
                 ourRequest.cancel('Request is canceled by user');
             }
-        }, 1000);
+        }, 800);
     },[page,update]);
     return (
         <div>
-            {
-                (mount===false)
-                ?
-                <div>
-                    <h1 style={{textAlign:"center",color:"white"}}>APPROVE POST</h1>
-                    <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
-                </div>
-                :
                 <div>
                     {/* <Header/> */}
                     <h1 style={{textAlign:"center",color:"white"}}>APPROVE POST</h1>
                     <table style={{width:"1920px",border:"none"}}>
                         <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
-                        <table style={{width:"100%"}}>
+                        <table style={{width:"100%",textAlign:"center"}}>
                             <tr>
                                 {
                                     (loading===true)
@@ -116,9 +108,20 @@ function ApprovePosts() {
                                     </td>:<></>
                                 }    
                             </tr>
+                            <tr>
+                                <td><td><img style={{width:"80%",borderRadius:"2%"}} src='https://i.ytimg.com/vi/x0fSBAgBrOQ/maxresdefault.jpg' alt=''></img></td></td>
+                            </tr>
+                            <tr>
+                                <td><img style={{width:"80%",marginTop:"10px",borderRadius:"2%"}} src='https://www.zekelabs.com/static/media/photos/2019/06/30/Springboot-training-in-bangalore-800-500-img.jpg' alt=''></img></td>
+                            </tr>
                         </table>
                         </td>
                         <td style={{width:"60%",color:"yellow"}}>
+                            {
+                            (mount===false)
+                            ?
+                            <></>
+                            :
                             <table style={{width:"100%"}}>
                                 <tbody>
                                     {
@@ -131,7 +134,7 @@ function ApprovePosts() {
                                                         <p>
                                                             {
                                                                 <>
-                                                                    {(currentDay.getFullYear() > new Date(post.create_at).getFullYear())
+                                                                    {(currentDay.getFullYear() > new Date(post.createf_at).getFullYear())
                                                                     ?
                                                                     <>({currentDay.getFullYear()-new Date(post.created_at).getFullYear()} years ago)</>
                                                                     :
@@ -151,7 +154,7 @@ function ApprovePosts() {
                                                                                         {
                                                                                             (currentDay.getHours()> new Date(post.created_at).getHours())
                                                                                             ?
-                                                                                            <>{currentDay.getHours()-new Date(post.creadted_at).getHours()} hours ago</>
+                                                                                            <>{currentDay.getHours()-new Date(post.created_at).getHours()} hours ago</>
                                                                                             :
                                                                                             <>
                                                                                                 {
@@ -203,7 +206,7 @@ function ApprovePosts() {
                                     </tr>
                                 </tbody>
                             </table>
-                            
+                        }
                         </td>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
                         <div
@@ -225,7 +228,6 @@ function ApprovePosts() {
                         
                     </table>
                 </div>
-            }
         </div>
     )
 }

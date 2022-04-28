@@ -48,7 +48,7 @@ function ChangeInfo() {
             return()=>{
                 ourRequest.cancel('Request is canceled by user');
             }
-        }, 1000);
+        }, 800);
     },[update]);
     const changeName=(e)=>{
         setName(e.target.value)
@@ -129,7 +129,7 @@ function ChangeInfo() {
                     <table style={{width:"100%"}}>
                         <tr style={{textAlign:"center"}}>
                         <td>
-                            <img style={{width:"200px",height:"200px"}} src='//ssl.gstatic.com/accounts/ui/avatar_2x.png' alt=''></img>
+                            <img style={{width:"200px",height:"200px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                         </td>
                         </tr>
                         <tr>

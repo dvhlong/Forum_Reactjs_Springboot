@@ -38,6 +38,19 @@ class PostService{
             }
         ); 
     }
+    addComment(postid,replyid,comment){
+        return axios(
+            {
+                url:`post/${postid}/${localStorage.getItem("accid")}/${replyid}/addComment`,
+                method:"post",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+                data:comment
+            }
+        );
+    }
     getPostsPage(page,ourRequest){
         return axios(
             {

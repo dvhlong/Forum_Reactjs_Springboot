@@ -140,7 +140,7 @@ function Posts(){
             return()=>{
                 ourRequest.cancel('Request is canceled by user');
             }
-        },1000);
+        },800);
     },[page, update]);
     useEffect(()=>{
         setLoading(true);
@@ -154,24 +154,16 @@ function Posts(){
             setLoading(false);
             if (mount===false)
                 setMount(true);
-        },1000);
+        },800);
     },[]);
     return(
         <div>
-            {
-                (mount===false)
-                ?
-                <div>
-                    <h1 style={{textAlign:"center",color:"white"}}>POST LIST</h1>
-                    <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
-                </div>
-                :
                 <div>
                     {/* <Header/> */}
                     <h1 style={{textAlign:"center",color:"white"}}>POST LIST</h1>
                     <table style={{width:"100%",border:"none"}}>
                         <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
-                        <table style={{width:"100%"}}>
+                        <table style={{width:"100%",textAlign:"center"}}>
                             <tr>
                                 {
                                     (loading===true)
@@ -180,9 +172,20 @@ function Posts(){
                                     </td>:<></>
                                 }    
                             </tr>
+                            <tr>
+                                <td><td><img style={{width:"80%",borderRadius:"2%"}} src='https://i.ytimg.com/vi/x0fSBAgBrOQ/maxresdefault.jpg' alt=''></img></td></td>
+                            </tr>
+                            <tr>
+                                <td><img style={{width:"80%",marginTop:"10px",borderRadius:"2%"}} src='https://www.zekelabs.com/static/media/photos/2019/06/30/Springboot-training-in-bangalore-800-500-img.jpg' alt=''></img></td>
+                            </tr>
                         </table>
                         </td>   
                         <td style={{width:"60%",color:"yellow"}}>
+                        {
+                        (mount===false)
+                        ?
+                        <></>
+                        :    
                         <table style={{width:"100%"}}>
                                 <tbody>
                                 {
@@ -192,7 +195,7 @@ function Posts(){
                                                 <td>
                                                 <Card style={{marginBottom:"20px"}}>
                                                     <Card.Header style={{color:"blue"}}>
-                                                    <img style={{width:"50px",height:"50px"}} src='//ssl.gstatic.com/accounts/ui/avatar_2x.png' alt=''></img>
+                                                    <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                                                     <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
                                                     {
                                                         <>&nbsp;|&nbsp;
@@ -254,15 +257,15 @@ function Posts(){
                                                     (role!=="user"||accid===String(post.created_acc.id))
                                                     ?
                                                     <Dropdown>
-                                                        <Dropdown.Toggle variant="warning">
+                                                        <Dropdown.Toggle variant="dark">
                                                         <img src={moreIcon} alt="logo"/>
                                                         </Dropdown.Toggle>
-                                                        <Dropdown.Menu>
+                                                        <Dropdown.Menu variant='dark'>
                                                         {
                                                             (accid===String(post.created_acc.id))
                                                             ?
-                                                            <Dropdown.Item href="#">
-                                                                <button style={{border:"none",background:"none",color:"blue"}} onClick={()=>handleShowEdit(post)}>Edit Post</button>
+                                                            <Dropdown.Item href="#" onClick={()=>handleShowEdit(post)}>
+                                                                Edit Post
                                                             </Dropdown.Item>
                                                             :
                                                             <></>
@@ -270,8 +273,8 @@ function Posts(){
                                                         {
                                                             (role!=="user"||accid===String(post.created_acc.id))
                                                             ?
-                                                            <Dropdown.Item href="#">
-                                                                <button style={{border:"none",background:"none",color:"red"}} onClick={()=>handleShowDelete(post.id)}>Delete Post</button>
+                                                            <Dropdown.Item href="#" onClick={()=>handleShowDelete(post.id)}>
+                                                                Delete Post
                                                             </Dropdown.Item>
                                                             :
                                                             <></>
@@ -293,6 +296,7 @@ function Posts(){
                                     </tr>
                                 </tbody>
                             </table>
+                        }
                         </td>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
                             {/* <Button onClick={() => setShow(true)}>Show Toast</Button> */}
@@ -366,7 +370,6 @@ function Posts(){
                         </td>
                     </table>
                 </div>
-            }
         </div>
     )
 }

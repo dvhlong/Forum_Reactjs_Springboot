@@ -34,7 +34,6 @@ function HeaderComponent(){
         localStorage.removeItem("token");
         localStorage.removeItem("accid");
         localStorage.removeItem("username");
-        // navigate("/");
     };
     useEffect(()=>{
         TopicService.getTopicList().then(res=>{
@@ -86,17 +85,17 @@ function HeaderComponent(){
                     <div style={{marginRight:"30px"}}>
                     <Dropdown>
                         <Dropdown.Toggle variant="secondary">
-                        <label><img style={{width:"30px",height:"30px"}} src='//ssl.gstatic.com/accounts/ui/avatar_2x.png' alt=''></img> {localStorage.getItem("username")}</label>
+                        <label><img style={{width:"30px",height:"30px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img> {localStorage.getItem("username")}</label>
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                         <Dropdown.Item href="#">
-                            <button style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/changeInfo">Personal</Link></button>
+                            <Link style={{"text-decoration":"none"}} to="/changeInfo">Personal</Link>                          
                         </Dropdown.Item>
                         {/* <Dropdown.Item href="#">
                             <button style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/changePass">Change Password</Link></button>
                         </Dropdown.Item> */}
-                        <Dropdown.Item href="#">
-                            <button onClick={logout} style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/">Logout</Link></button>
+                        <Dropdown.Item href="#" onClick={logout}>
+                            <Link style={{"text-decoration":"none"}} to="/">Logout</Link>
                         </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>

@@ -12,6 +12,7 @@ import com.dvhl.forum_be.service.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,6 +30,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountController {
     @Autowired
     AccountService accSV;
+    @GetMapping("/checkToken")
+    ResponseEntity<?> checkToken(){
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("200","successful", ""));
+    }
     @GetMapping("/getAllAcc/pages={page}")
     Page<User> getAllAccounts(@PathVariable int page){
         return accSV.getAllAccounts(page);

@@ -42,10 +42,10 @@ public class PostService {
         return postRepo.findAllByTopicAndIsdeletedAndIsapproved(topic_id,false,true,PageRequest.of(page-1, 3));
     }
     public Page<Post> getAllPost(int page){
-        return postRepo.findAllByIsdeletedAndIsapproved(false,true,PageRequest.of(page-1, 3));
+        return postRepo.findAllByIsdeletedAndIsapprovedOrderByCreatedatDesc(false,true,PageRequest.of(page-1, 3));
     }
     public Page<Post> getAllPostNotApproved(int page){
-        return postRepo.findAllByIsdeletedAndIsapproved(false,false,PageRequest.of(page-1, 3));
+        return postRepo.findAllByIsdeletedAndIsapprovedOrderByCreatedatDesc(false,false,PageRequest.of(page-1, 3));
     }
     public Page<Post> getAllYourPostWaitingApproved(long acc_id,int page){
         return postRepo.findAllByCreatedaccAndIsdeletedAndIsapproved(acc_id,false,false,PageRequest.of(page-1, 5));

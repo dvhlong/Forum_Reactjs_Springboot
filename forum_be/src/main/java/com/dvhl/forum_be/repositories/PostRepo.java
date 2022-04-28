@@ -16,7 +16,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PostRepo extends JpaRepository<Post,Long>{
 
 
-    Page<Post> findAllByIsdeletedAndIsapproved(boolean b, boolean c, Pageable pageable);
+    Page<Post> findAllByIsdeletedAndIsapprovedOrderByCreatedatDesc(boolean b, boolean c, Pageable pageable);
 
     Page<Post> findAllByTopicAndIsdeletedAndIsapproved(long topic_id, boolean b, boolean c, PageRequest of);
 
