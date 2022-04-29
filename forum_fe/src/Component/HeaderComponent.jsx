@@ -11,6 +11,7 @@ import TopicService from '../Service/TopicService';
 import PostService from '../Service/PostService';
 import HomeIcon from '../SVG/home.svg';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
 function HeaderComponent(){
     const [showAddPost, setShowAddPost] = useState(false);
     const[topicList,setTopicList]=useState([]);
@@ -21,9 +22,9 @@ function HeaderComponent(){
     const handleShowAddPost = () => {setError("");setShowAddPost(true);}
     const [topicId,setTopicId]=useState("0");
     let navigate=useNavigate;
-    const enterContent=(e)=>{
-        setNewContent(e.target.value)
-    }
+    // const enterContent=(e)=>{
+    //     setNewContent(e.target.value)
+    // }
     const enterTitle=(e)=>{
         setNewTitle(e.target.value)
     }
@@ -128,15 +129,15 @@ function HeaderComponent(){
                             <p>Title :</p>
                             <input style={{width:"100%"}} value={newTitle} onChange={enterTitle}/>
                             <p>Content :</p>
-                            <textarea name="" id="" cols="60" rows="10" value={newContent} onChange={enterContent}></textarea>
-                            {/* <CKEditor 
-                                editor={DocumentEditor}
-                                data={newContent}
-                                onChange={ ( event, editor ) => {
-                                    const data = editor.getData();
-                                    setNewContent(data);
-                                } }                    
-                            /> */}
+                            {/* <textarea name="" id="" cols="60" rows="10" value={newContent} onChange={enterContent}></textarea> */}
+                                        <CKEditor 
+                                            editor={Editor}
+                                            data={newContent}
+                                            onChange={ ( event, editor ) => {
+                                                const data = editor.getData();
+                                                setNewContent(data);
+                                            } }                    
+                                        />
                         {/* </Modal.Body> */}
                         <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAddPost}>

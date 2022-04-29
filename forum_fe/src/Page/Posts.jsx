@@ -1,5 +1,4 @@
 import React,{useState,useEffect} from 'react';
-import Header from '../Component/HeaderComponent';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import TopicService from '../Service/TopicService';
@@ -10,7 +9,7 @@ import PostService from '../Service/PostService';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
-import Form from 'react-bootstrap/Form';
+// import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
@@ -23,88 +22,88 @@ function Posts(){
     const[loading,setLoading]=useState(false);
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
-    const[topicList,setTopicList]=useState([]);
+    // const[topicList,setTopicList]=useState([]);
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
-    const [show, setShow] = useState(false);
-    const [toastBg,setToastBg]=useState("");
-    const [toastHeader,setToastHeader]=useState("");
-    const [toastBody,setToastBody]=useState("");
-    const[editPostid,setEditPostId]=useState(0)
-    const [topicId,setTopicId]=useState("0");
-    const [topicName,setTopicName]=useState("");
-    const[editPostTitle,setEditPostTitle]=useState("")
-    const[editPostContent,setEditPostContent]=useState("")
-    const[deletePostid,setDeletePostId]=useState(0);
-    const [showEdit, setShowEdit] = useState(false);
-    const handleCloseEdit = () => setShowEdit(false);
-    const handleShowEdit=(post)=>{
-        setTopicId(post.topic.id)
-        setTopicName(post.topic.topicname)
-        setEditPostId(post.id);
-        setEditPostTitle(post.title);
-        setEditPostContent(post.content);
-        setShowEdit(true)
-    }
-    const setToast=(tbg,theader,tbody)=>{
-        setToastBg(tbg);
-        setToastHeader(theader);
-        setToastBody(tbody);
-        setShow(true);
-    }
-    const [showDelete, setShowDelete] = useState(false);
-    const handleCloseDelete = () => setShowDelete(false);
-    const handleShowDelete=(id)=>{
-        setDeletePostId(id);
-        setShowDelete(true);
-    }
-    const enterEditPostContent=(e)=>{
-        setEditPostContent(e.target.value)
-    }
-    const enterEditPostTitle=(e)=>{
-        setEditPostTitle(e.target.value)
-    }
-    const chooseTopic=(e)=>{
-        setTopicId(e.target.value);
-    }
-    const changePost=()=>{
-        let updatedPost={
-            id:editPostid,
-            title:editPostTitle,
-            content:editPostContent
-        }
-        if(topicId==="0"){
-            setToast("danger","ERROR","Please choose topic to change !!!!")
-        } else if(editPostTitle===""){
-            setToast("danger","ERROR","Please enter title !!!!")
-        } else if(editPostContent===""){
-            setToast("danger","ERROR","Please enter content !!!!");
-        } else {
-            PostService.editPost(Number(topicId),updatedPost).then(res=>{
-                if(res.data.status===401){
-                    alert("session expired");
-                    navigate("/")
-                }
-                reload();
-            })
-            handleCloseEdit();
-            setToast("success","SUCCESSFUL","Post Edited !!!")
+    // const [show, setShow] = useState(false);
+    // const [toastBg,setToastBg]=useState("");
+    // const [toastHeader,setToastHeader]=useState("");
+    // const [toastBody,setToastBody]=useState("");
+    // const[editPostid,setEditPostId]=useState(0)
+    // const [topicId,setTopicId]=useState("0");
+    // const [topicName,setTopicName]=useState("");
+    // const[editPostTitle,setEditPostTitle]=useState("")
+    // const[editPostContent,setEditPostContent]=useState("")
+    // const[deletePostid,setDeletePostId]=useState(0);
+    // const [showEdit, setShowEdit] = useState(false);
+    // const handleCloseEdit = () => setShowEdit(false);
+    // const handleShowEdit=(post)=>{
+    //     setTopicId(post.topic.id)
+    //     setTopicName(post.topic.topicname)
+    //     setEditPostId(post.id);
+    //     setEditPostTitle(post.title);
+    //     setEditPostContent(post.content);
+    //     setShowEdit(true)
+    // }
+    // const setToast=(tbg,theader,tbody)=>{
+    //     setToastBg(tbg);
+    //     setToastHeader(theader);
+    //     setToastBody(tbody);
+    //     setShow(true);
+    // }
+    // const [showDelete, setShowDelete] = useState(false);
+    // const handleCloseDelete = () => setShowDelete(false);
+    // const handleShowDelete=(id)=>{
+    //     setDeletePostId(id);
+    //     setShowDelete(true);
+    // }
+    // const enterEditPostContent=(e)=>{
+    //     setEditPostContent(e.target.value)
+    // }
+    // const enterEditPostTitle=(e)=>{
+    //     setEditPostTitle(e.target.value)
+    // }
+    // const chooseTopic=(e)=>{
+    //     setTopicId(e.target.value);
+    // }
+    // const changePost=()=>{
+    //     let updatedPost={
+    //         id:editPostid,
+    //         title:editPostTitle,
+    //         content:editPostContent
+    //     }
+    //     if(topicId==="0"){
+    //         setToast("danger","ERROR","Please choose topic to change !!!!")
+    //     } else if(editPostTitle===""){
+    //         setToast("danger","ERROR","Please enter title !!!!")
+    //     } else if(editPostContent===""){
+    //         setToast("danger","ERROR","Please enter content !!!!");
+    //     } else {
+    //         PostService.editPost(Number(topicId),updatedPost).then(res=>{
+    //             if(res.data.status===401){
+    //                 alert("session expired");
+    //                 navigate("/")
+    //             }
+    //             reload();
+    //         })
+    //         handleCloseEdit();
+    //         setToast("success","SUCCESSFUL","Post Edited !!!")
             
-        }
-    }
-    const deletePost=()=>{
-        console.log(deletePostid);
-        handleCloseDelete();
-        PostService.deletePost(deletePostid).then(res=>{
-            if(res.data.status===401){
-                alert("session expired");
-                navigate("/")
-            }
-            reload();
-        });
-        setToast("success","SUCCESSFUL","Post Deleted !!!!")
-    }
+    //     }
+    // }
+    // const deletePost=()=>{
+    //     console.log(deletePostid);
+    //     handleCloseDelete();
+    //     PostService.deletePost(deletePostid).then(res=>{
+    //         if(res.data.status===401){
+    //             alert("session expired");
+    //             navigate("/")
+    //         }
+    //         reload();
+    //     });
+    //     setToast("success","SUCCESSFUL","Post Deleted !!!!")
+    // }
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
@@ -131,9 +130,6 @@ function Posts(){
                     setPages(res.data.totalPages)
                 }
             })
-            await TopicService.getTopicList().then(res=>{
-                setTopicList(res.data);
-            })
             setLoading(false);
             if (mount===false)
                 setMount(true);
@@ -142,20 +138,20 @@ function Posts(){
             }
         },800);
     },[page, update]);
-    useEffect(()=>{
-        setLoading(true);
-        setTimeout(async()=>{
-            await TopicService.getTopicList().then(res=>{
-                if(res.data.status===401){
-                    navigate("/")
-                }
-                setTopicList(res.data);
-            })
-            setLoading(false);
-            if (mount===false)
-                setMount(true);
-        },800);
-    },[]);
+    // useEffect(()=>{
+    //     setLoading(true);
+    //     setTimeout(async()=>{
+    //         await TopicService.getTopicList().then(res=>{
+    //             if(res.data.status===401){
+    //                 navigate("/")
+    //             }
+    //             setTopicList(res.data);
+    //         })
+    //         setLoading(false);
+    //         if (mount===false)
+    //             setMount(true);
+    //     },800);
+    // },[]);
     return(
         <div>
                 <div>
@@ -253,7 +249,7 @@ function Posts(){
                                                 </Card>
                                                 </td>
                                                 <td style={{verticalAlign:"top"}}>
-                                                {
+                                                {/* {
                                                     (role!=="user"||accid===String(post.created_acc.id))
                                                     ?
                                                     <Dropdown>
@@ -282,7 +278,7 @@ function Posts(){
                                                         </Dropdown.Menu>
                                                     </Dropdown>
                                                     :<></>
-                                                }
+                                                } */}
                                                 </td>
                                             </tr>
                                         )
@@ -300,7 +296,7 @@ function Posts(){
                         </td>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
                             {/* <Button onClick={() => setShow(true)}>Show Toast</Button> */}
-                            <div 
+                            {/* <div 
                                 aria-live="assertive"
                                 aria-atomic="false"
                                 
@@ -314,8 +310,8 @@ function Posts(){
                                     <Toast.Body style={{color:"white"}}>{toastBody}</Toast.Body>
                                     </Toast>
                                 </ToastContainer>
-                            </div>
-                            <Modal
+                            </div> */}
+                            {/* <Modal
                                 show={showEdit}
                                 onHide={handleCloseEdit}
                                 backdrop="static"
@@ -327,7 +323,7 @@ function Posts(){
                                 <Modal.Body>
                                 <p>Topic :</p>
                                     <Form.Select aria-label="Default select example" value={topicId} onChange={chooseTopic}>
-                                        {/* <option value={topicId}> {topicName}</option> */}
+                                        <option value={topicId}> {topicName}</option> 
                                         <option value="0"> Select Topic</option>
                                         {
                                             topicList.map(
@@ -347,8 +343,8 @@ function Posts(){
                                 </Button>
                                 <Button variant="primary" onClick={changePost} >Change</Button>
                                 </Modal.Footer>
-                            </Modal>
-                            <Modal
+                            </Modal> */}
+                            {/* <Modal
                                 show={showDelete}
                                 onHide={handleCloseDelete}
                                 backdrop="static"
@@ -366,7 +362,7 @@ function Posts(){
                                 </Button>
                                 <Button variant="primary" onClick={deletePost}>Delete</Button>
                                 </Modal.Footer>
-                            </Modal>
+                            </Modal> */}
                         </td>
                     </table>
                 </div>

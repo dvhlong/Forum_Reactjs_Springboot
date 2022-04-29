@@ -15,6 +15,7 @@ import ToastContainer from 'react-bootstrap/ToastContainer'
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
 import {useNavigate} from 'react-router-dom';
+import parse from "html-react-parser";
 function ApprovePosts() {
     let navigate=useNavigate();
     const currentDay=new Date();
@@ -183,7 +184,7 @@ function ApprovePosts() {
                                                     <Card.Body>
                                                         <Card.Title style={{color:"red"}}>{post.title}</Card.Title>
                                                         <Card.Text style={{color:"black"}}>
-                                                        <p style={{whiteSpace: "pre-wrap"}}>{post.content}</p>
+                                                        <div>{parse(post.content)}</div>
                                                         </Card.Text>
                                                     </Card.Body>
                                                 </Card>

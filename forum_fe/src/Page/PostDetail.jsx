@@ -22,9 +22,11 @@ function PostDetail(){
     const role=localStorage.getItem("role");
     const accid=localStorage.getItem("accid");
     let navigate=useNavigate();
+    const [error,setError]=useState("");
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit=()=>{
+        setError("");
         setTopicId(post.topic.id)
         setTopicName(post.topic.topicname)
         setEditPostTitle(post.title);
@@ -69,21 +71,6 @@ function PostDetail(){
             topicname:""
         },
     });
-    
-    // var div,index, imgs, img,imgSrc;
-    // div = document.createElement('div');
-    // div.innerHTML = document.getElementsByClassName('arr-value')[0];
-    // console.log(div.innerHTML);
-    // imgs=div.getElementsByTagName('img');
-    // for(index = 0; index < imgs.length; ++index){
-    //     img=imgs[index];
-    //     console.log(div.innerHTML.length);
-    //     imgSrc=img.src
-    //     div.innerHTML=`<img src=${imgSrc} alt=''/>`;
-    // }
-    // var div = document.createElement('div');
-    // div.innerHTML = post.content;
-    // div.innerHTML.replace(/img="https:[a-z,.0-9/-_]+"/g,"changed !!!!!!!!")
     const[newComment,setNewComment]=useState("");
     const[comments,setComments]=useState([]);
     const[isReply,setIsReply]=useState(false);
@@ -96,17 +83,16 @@ function PostDetail(){
         setEditCommentContent(comment.content);
     }
     const cancelEditComment=()=>setIsEdit(false);
-    const changeEditComment=(e)=>{
-        setEditCommentContent(e.target.value);
-    }
     const submitEditComment=()=>{
         let comment={
             content:editCommentContent
         }
-        PostService.editComment(editCommentId,comment).then(res=>{
-            reload();
-            setIsEdit(false);
-        })
+        if(editCommentContent!==""){
+            PostService.editComment(editCommentId,comment).then(res=>{
+                reload();
+                setIsEdit(false);
+            })
+        }
     }
     const [deleteCommentId,setDeleteCommentId]=useState(0);
     const showDeleteComment=(commentid)=>{
@@ -124,6 +110,7 @@ function PostDetail(){
         PostService.deleteComment(deleteCommentId).then(res=>{
             reload();
         })
+        handleCloseDeleteCommentModal();
     }
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
@@ -132,6 +119,7 @@ function PostDetail(){
         setPage(page+1);
     }
     const replyComment=(commentid)=>{
+        setError("");
         setReplyCommentId(commentid);
         setIsReply(true);
     }
@@ -146,27 +134,23 @@ function PostDetail(){
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
     }
-    const changeNewComment=(e)=>{
-        setNewComment(e.target.value);
-    }
     const addComment=(postid,replyid)=>{
         let comment={
             content:newComment
         }
-        PostService.addComment(postid,replyid,comment).then(res=>{
-            if(page!==1)
-                setPage(1);
-            else 
-                reload();
-        })
-        setIsReply(false);
-        setNewComment("");  
+        if(newComment!==""){
+            PostService.addComment(postid,replyid,comment).then(res=>{
+                if(page!==1)
+                    setPage(1);
+                else 
+                    reload();
+            })
+            setIsReply(false);
+            setNewComment(""); 
+        }
     }
     const chooseTopic=(e)=>{
         setTopicId(e.target.value);
-    }
-    const enterEditPostContent=(e)=>{
-        setEditPostContent(e.target.value)
     }
     const enterEditPostTitle=(e)=>{
         setEditPostTitle(e.target.value)
@@ -178,11 +162,11 @@ function PostDetail(){
             content:editPostContent
         }
         if(topicId==="0"){
-            setToast("danger","ERROR","Please choose topic to change !!!!")
+            setError("Please choose Topic !!!")
         } else if(editPostTitle===""){
-            setToast("danger","ERROR","Please enter title !!!!")
+            setError("Please enter title !!!")
         } else if(editPostContent===""){
-            setToast("danger","ERROR","Please enter content !!!!");
+            setError("Please enter content !!!")
         } else {
             PostService.editPost(Number(topicId),updatedPost).then(res=>{
                 if(res.data.status===401){
@@ -192,8 +176,7 @@ function PostDetail(){
                 reload();
             })
             handleCloseEdit();
-            setToast("success","SUCCESSFUL","Post Edited !!!")
-            
+            setToast("success","SUCCESSFUL","Post Edited !!!")          
         }
     }
     const deletePost=()=>{
@@ -217,8 +200,6 @@ function PostDetail(){
                     navigate("/")
                 }
                 setPost(res.data);
-                // firstImage="changed !!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-                // /img="https:[a-z,.0-9/-_]+\w"/g
             })
             setLoading(false);
             if (mount===false)
@@ -261,7 +242,7 @@ function PostDetail(){
         <div>
                 <div>
                     <table style={{width:"1920px",border:"none",marginTop:"30px"}}>
-                        <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
+                        <td style={{width:"30%",verticalAlign:"top"}}>
                         <table style={{width:"100%",textAlign:"center"}}>
                             <tr>
                                 {
@@ -282,9 +263,9 @@ function PostDetail(){
                         {
                         (mount===false)
                         ?
-                        <td style={{width:"60%",color:"yellow"}}></td>
+                        <td style={{width:"60%"}}></td>
                         :
-                        <td style={{width:"60%",color:"yellow"}}>
+                        <td style={{width:"60%"}}>
                             <tr style={{marginBottom:"20px"}}>
                                 <td>   
                                 <Card style={{marginBottom:"20px"}}>
@@ -345,15 +326,23 @@ function PostDetail(){
                                     <Card.Body>
                                         <Card.Title style={{color:"red"}}>{post.title}</Card.Title>
                                         <Card.Text style={{color:"black"}}>
-                                        <p style={{whiteSpace: "pre-wrap"}}>
-                                            <div dangerouslySetInnerHTML={{ __html: post.content }} />  
-                                            {/* <div>{parse(post.content)}</div> */}
-                                        </p>
+
+                                            <div>{parse(post.content)}</div>
                                         </Card.Text>
                                     </Card.Body>               
                                 </Card>
                                 <Form.Group style={{marginTop:"30px"}}>
-                                    <Form.Control as="textarea" rows={3} placeholder='Type your comment.....' onChange={changeNewComment}></Form.Control>
+                                    {/* <Form.Control as="textarea" rows={3} placeholder='Type your comment.....' onChange={changeNewComment}></Form.Control> */}
+                                                        <CKEditor 
+                                                            editor={Editor}
+                                                            config={{
+                                                                placeholder:'Type your comment.....'
+                                                            }}
+                                                            onChange={ ( event, editor ) => {
+                                                                const data = editor.getData();
+                                                                setNewComment(data);
+                                                            } }                    
+                                                        />
                                     <Button style={{color:"white"}} onClick={()=>addComment(post.id,0)}>Comment</Button>
                                 </Form.Group>
                                 {/* <Form.Group style={{marginTop:"30px"}}>
@@ -473,13 +462,22 @@ function PostDetail(){
                                                     (isEdit===true&&editCommentId===comment.id)
                                                     ?
                                                     <div>
-                                                        <Form.Control as="textarea" cols={4} value={editCommentContent} onChange={changeEditComment}></Form.Control>
+                                                        {/* <Form.Control as="textarea" cols={4} value={editCommentContent} onChange={changeEditComment}></Form.Control> */}
+                                                        <CKEditor 
+                                                            editor={Editor}
+                                                            data={editCommentContent}
+                                                            onChange={ ( event, editor ) => {
+                                                                const data = editor.getData();
+                                                                setEditCommentContent(data);
+                                                            } }                    
+                                                        />
                                                         <Button style={{color:"white"}} onClick={cancelEditComment}>Cancel</Button>
                                                         <Button style={{color:"white"}} onClick={submitEditComment}>Edit</Button>
                                                     </div>
                                                     :
                                                     <Card.Text style={{color:"black"}}>
-                                                        <p style={{whiteSpace: "pre-wrap"}}>{comment.content}</p>
+                                                        {/* <p style={{whiteSpace: "pre-wrap"}}>{comment.content}</p> */}
+                                                        <div>{parse(comment.content)}</div>
                                                     </Card.Text>
                                                 }
                                                 
@@ -488,7 +486,18 @@ function PostDetail(){
                                                 (isReply===true&&replyCommentId===comment.id)
                                                 ?
                                                 <Card.Footer>
-                                                    <Form.Control type="text" placeholder='Reply comment.....'  onChange={changeNewComment}></Form.Control>
+                                                    {/* <Form.Control type="text" placeholder='Reply comment.....'  onChange={changeNewComment}></Form.Control> */}
+                                                    <CKEditor 
+                                                        
+                                                        editor={Editor}
+                                                        config={{
+                                                            placeholder:'Reply comment.....'
+                                                        }}
+                                                        onChange={ ( event, editor ) => {
+                                                            const data = editor.getData();
+                                                            setNewComment(data);
+                                                        } }                    
+                                                    />
                                                     <Button style={{color:"white"}} onClick={()=>addComment(post.id,comment.id)}>Reply</Button>
                                                     <Button style={{color:"white"}} onClick={cancelReply}>Cancel</Button>   
                                                 </Card.Footer>
@@ -566,6 +575,7 @@ function PostDetail(){
                                 <Modal.Title>Edit Post</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
+                                <p style={{color:"red"}}>{error}</p>
                                 <p>Topic :</p>
                                     <Form.Select aria-label="Default select example" value={topicId} onChange={chooseTopic}>
                                         {/* <option value={topicId}> {topicName}</option> */}
@@ -585,16 +595,11 @@ function PostDetail(){
                                         <CKEditor 
                                             editor={Editor}
                                             data={editPostContent}
-                                            // config={ {
-                                            //     plugins: [ Alignment ],
-                                            //     toolbar: [ 'alignment' ]
-                                            // } }
                                             onChange={ ( event, editor ) => {
                                                 const data = editor.getData();
                                                 setEditPostContent(data);
                                             } }                    
-                                        />
-                                 
+                                        />    
                                 </Modal.Body>
                                 <Modal.Footer>
                                 <Button variant="secondary" onClick={handleCloseEdit}>
@@ -629,7 +634,7 @@ function PostDetail(){
                                 keyboard={false}
                             >
                                 <Modal.Header closeButton>
-                                <Modal.Title>Delete Post</Modal.Title>
+                                <Modal.Title>Delete Comment</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                 You really want to delete this comment ???
