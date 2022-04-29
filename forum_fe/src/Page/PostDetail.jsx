@@ -8,12 +8,15 @@ import Form from 'react-bootstrap/Form';
 import {useParams,useNavigate} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import TopicService from '../Service/TopicService';
-// import styles from '../CSS/style.css';
+import '../CSS/ckeditorStyle.css';
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 import moreIcon from '../SVG/more.svg';
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import Editor from 'ckeditor5-custom-build/build/ckeditor';
+import parse from "html-react-parser";
 function PostDetail(){
     const currentDay=new Date();
     const role=localStorage.getItem("role");
@@ -33,6 +36,7 @@ function PostDetail(){
     const handleShowDelete=()=>{
         setShowDelete(true);
     }
+    
     const[topicList,setTopicList]=useState([]);
     const [topicId,setTopicId]=useState("0");
     const [topicName,setTopicName]=useState("");
@@ -91,7 +95,36 @@ function PostDetail(){
         setEditCommentId(comment.id);
         setEditCommentContent(comment.content);
     }
-    const cancelEditComment=()=>setIsEdit(false)
+    const cancelEditComment=()=>setIsEdit(false);
+    const changeEditComment=(e)=>{
+        setEditCommentContent(e.target.value);
+    }
+    const submitEditComment=()=>{
+        let comment={
+            content:editCommentContent
+        }
+        PostService.editComment(editCommentId,comment).then(res=>{
+            reload();
+            setIsEdit(false);
+        })
+    }
+    const [deleteCommentId,setDeleteCommentId]=useState(0);
+    const showDeleteComment=(commentid)=>{
+        setDeleteCommentId(commentid);
+        handleShowDeleteCommentModal();
+    }
+    const [deleteCommentModal,setDeleteCommentModal]=useState(false);
+    const handleShowDeleteCommentModal=()=>{
+        setDeleteCommentModal(true);
+    }
+    const handleCloseDeleteCommentModal=()=>{
+        setDeleteCommentModal(false);
+    }
+    const deleteComment=()=>{
+        PostService.deleteComment(deleteCommentId).then(res=>{
+            reload();
+        })
+    }
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
     const nextPage=()=>{
@@ -312,7 +345,10 @@ function PostDetail(){
                                     <Card.Body>
                                         <Card.Title style={{color:"red"}}>{post.title}</Card.Title>
                                         <Card.Text style={{color:"black"}}>
-                                        <p className='arr-value' style={{whiteSpace: "pre-wrap"}}>{post.content}</p>
+                                        <p style={{whiteSpace: "pre-wrap"}}>
+                                            <div dangerouslySetInnerHTML={{ __html: post.content }} />  
+                                            {/* <div>{parse(post.content)}</div> */}
+                                        </p>
                                         </Card.Text>
                                     </Card.Body>               
                                 </Card>
@@ -437,9 +473,9 @@ function PostDetail(){
                                                     (isEdit===true&&editCommentId===comment.id)
                                                     ?
                                                     <div>
-                                                        <Form.Control as="textarea" cols={4} value={editCommentContent}></Form.Control>
+                                                        <Form.Control as="textarea" cols={4} value={editCommentContent} onChange={changeEditComment}></Form.Control>
                                                         <Button style={{color:"white"}} onClick={cancelEditComment}>Cancel</Button>
-                                                        <Button style={{color:"white"}}>Edit</Button>
+                                                        <Button style={{color:"white"}} onClick={submitEditComment}>Edit</Button>
                                                     </div>
                                                     :
                                                     <Card.Text style={{color:"black"}}>
@@ -484,7 +520,7 @@ function PostDetail(){
                                                     {
                                                         (role!=="user"||accid===String(comment.created_acc.id)||accid===String(post.created_acc.id))
                                                         ?
-                                                        <Dropdown.Item href="#">
+                                                        <Dropdown.Item href="#" onClick={()=>showDeleteComment(comment.id)}>
                                                             Delete Comment
                                                         </Dropdown.Item>
                                                         :
@@ -520,6 +556,7 @@ function PostDetail(){
                                 </ToastContainer>
                             </div>
                             <Modal
+                                fullscreen={true}
                                 show={showEdit}
                                 onHide={handleCloseEdit}
                                 backdrop="static"
@@ -541,9 +578,23 @@ function PostDetail(){
                                         }
                                     </Form.Select> 
                                     <p>Title :</p>
-                                    <input style={{width:"100%"}} value={editPostTitle} onChange={enterEditPostTitle}/>
+                                    <input style={{width:"100%"}} value={editPostTitle} onChange={enterEditPostTitle}/>          
                                     <p>Content :</p>
-                                <textarea name="" id="" cols="60" rows="10" value={editPostContent} onChange={enterEditPostContent}></textarea>
+                                    {/* <textarea name="" id="" cols="60" rows="10" value={editPostContent} onChange={enterEditPostContent}></textarea> */}
+                        
+                                        <CKEditor 
+                                            editor={Editor}
+                                            data={editPostContent}
+                                            // config={ {
+                                            //     plugins: [ Alignment ],
+                                            //     toolbar: [ 'alignment' ]
+                                            // } }
+                                            onChange={ ( event, editor ) => {
+                                                const data = editor.getData();
+                                                setEditPostContent(data);
+                                            } }                    
+                                        />
+                                 
                                 </Modal.Body>
                                 <Modal.Footer>
                                 <Button variant="secondary" onClick={handleCloseEdit}>
@@ -569,6 +620,25 @@ function PostDetail(){
                                     Close
                                 </Button>
                                 <Button variant="primary" onClick={deletePost}>Delete</Button>
+                                </Modal.Footer>
+                            </Modal>
+                            <Modal
+                                show={deleteCommentModal}
+                                onHide={handleCloseDeleteCommentModal}
+                                backdrop="static"
+                                keyboard={false}
+                            >
+                                <Modal.Header closeButton>
+                                <Modal.Title>Delete Post</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                You really want to delete this comment ???
+                                </Modal.Body>
+                                <Modal.Footer>
+                                <Button variant="secondary" onClick={handleCloseDeleteCommentModal}>
+                                    Close
+                                </Button>
+                                <Button variant="primary" onClick={deleteComment}>Delete</Button>
                                 </Modal.Footer>
                             </Modal>
                         </td>

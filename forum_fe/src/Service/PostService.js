@@ -51,6 +51,31 @@ class PostService{
             }
         );
     }
+    editComment(commentid,comment){
+        return axios(
+            {
+                url:`post/${commentid}/${localStorage.getItem("accid")}/editComment`,
+                method:"put",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+                data:comment
+            }
+        );
+    }
+    deleteComment(commentid){
+        return axios(
+            {
+                url:`post/${commentid}/${localStorage.getItem("accid")}/deleteComment`,
+                method:"delete",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        );
+    }
     getPostsPage(page,ourRequest){
         return axios(
             {

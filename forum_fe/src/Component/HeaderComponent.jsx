@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import TopicService from '../Service/TopicService';
 import PostService from '../Service/PostService';
 import HomeIcon from '../SVG/home.svg';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
 function HeaderComponent(){
     const [showAddPost, setShowAddPost] = useState(false);
     const[topicList,setTopicList]=useState([]);
@@ -95,7 +96,7 @@ function HeaderComponent(){
                             <button style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/changePass">Change Password</Link></button>
                         </Dropdown.Item> */}
                         <Dropdown.Item href="#" onClick={logout}>
-                            <Link style={{"text-decoration":"none"}} to="/">Logout</Link>
+                            <Link style={{"text-decoration":"none"}} to="/login">Logout</Link>
                         </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
@@ -103,6 +104,7 @@ function HeaderComponent(){
                     </nav>
                 </header>
                 <Modal
+                        fullscreen={true}
                         show={showAddPost}
                         onHide={handleCloseAddPost}
                         backdrop="static"
@@ -111,7 +113,7 @@ function HeaderComponent(){
                         <Modal.Header closeButton>
                         <Modal.Title>Create New Post</Modal.Title>
                         </Modal.Header>
-                        <Modal.Body>
+                        {/* <Modal.Body> */}
                             <p style={{color:"red"}}>{error}</p>
                             <p>Topic :</p>
                             <Form.Select aria-label="Default select example" onChange={chooseTopic} value={topicId}>
@@ -127,7 +129,15 @@ function HeaderComponent(){
                             <input style={{width:"100%"}} value={newTitle} onChange={enterTitle}/>
                             <p>Content :</p>
                             <textarea name="" id="" cols="60" rows="10" value={newContent} onChange={enterContent}></textarea>
-                        </Modal.Body>
+                            {/* <CKEditor 
+                                editor={DocumentEditor}
+                                data={newContent}
+                                onChange={ ( event, editor ) => {
+                                    const data = editor.getData();
+                                    setNewContent(data);
+                                } }                    
+                            /> */}
+                        {/* </Modal.Body> */}
                         <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAddPost}>
                             Close

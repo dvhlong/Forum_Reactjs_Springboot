@@ -1,0 +1,15 @@
+.text-tiny {
+    font-size: .7em;
+}
+/* ckeditor5-font/theme/fontsize.css */
+.text-small {
+    font-size: .85em;
+}
+/* ckeditor5-font/theme/fontsize.css */
+.text-big {
+    font-size: 1.4em;
+}
+/* ckeditor5-font/theme/fontsize.css */
+.text-huge {
+    font-size: 1.8em;
+}

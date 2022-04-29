@@ -41,6 +41,14 @@ public class PostController {
     ResponseEntity<Response> addComment(@PathVariable long postid,@PathVariable long replyid,@PathVariable long accid,@RequestBody Comment newComment ){
         return commentService.addComment(postid,accid,replyid,newComment);
     }
+    @PutMapping("/{cmt_id}/{updated_acc}/editComment")
+    ResponseEntity<Response> editComment(@PathVariable long cmt_id,@PathVariable long updated_acc,@RequestBody Comment updatedComment){
+        return commentService.editComment(cmt_id, updated_acc, updatedComment);
+    }
+    @DeleteMapping("/{cmt_id}/{deleted_acc}/deleteComment")
+    ResponseEntity<Response> deleteComment(@PathVariable long cmt_id,@PathVariable long deleted_acc){
+        return commentService.deleteComment(cmt_id, deleted_acc);
+    }
     @GetMapping("/page={page}")
     Page<Post> getAllPost(@PathVariable int page){
         return postService.getAllPost(page);

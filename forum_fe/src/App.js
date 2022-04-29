@@ -29,12 +29,15 @@ function App() {
           {
             (authenticated)
             ?
+            <>      
             <Route path="/" element={<HeaderComponent/>}>
               <Route path="/" element={<Topic/>}></Route>
             </Route>
+            </>
             :
             <Route path="/" element={<Login/>}></Route>
           }
+          <Route path="/login" element={<Login/>}></Route>
           <Route path="/" element={<HeaderComponent/>}>
             <Route path="/posts" element={<Posts/>}></Route>
             <Route path="/posts/:key" element={<Posts/>}></Route>

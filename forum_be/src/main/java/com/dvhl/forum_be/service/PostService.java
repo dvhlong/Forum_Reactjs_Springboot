@@ -105,7 +105,7 @@ public class PostService {
 
             return postRepo.save(p);
         });
-        commentService.deleteCommentWhenDeletePost(post_id, deleted_acc);
+        // commentService.deleteCommentWhenDeletePost(post_id, deleted_acc);
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Deleted",fountPost));
     }
     public ResponseEntity<Response> deletePostWhenDeleteTopic(Long topic_id,long deleted_acc){
