@@ -14,6 +14,7 @@ import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
+import Moment from 'react-moment';
 function Topic() {
     let navigate=useNavigate()
     const[mount,setMount]=useState(false);
@@ -189,8 +190,7 @@ function Topic() {
                                                 <td>
                                                 <Card style={{marginBottom:"20px"}}>
                                                     <Card.Header style={{color:"blue"}}>
-                                                        Time created: {new Date(topic.created_at).toLocaleDateString(undefined,
-                                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}
+                                                        Time created: <Moment format='DD/MM/YYYY HH:mm'>{topic.created_at}</Moment>
                                                     </Card.Header>
                                                     <Card.Body>
                                                         <Card.Title style={{color:"red"}}>{topic.topicname}</Card.Title>

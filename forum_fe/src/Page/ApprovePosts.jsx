@@ -1,10 +1,6 @@
 import React,{useState,useEffect} from 'react';
-import Header from '../Component/HeaderComponent';
 import Card from 'react-bootstrap/Card';
-import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import moreIcon from '../SVG/more.svg';
 import PostService from '../Service/PostService';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import yesIcon from '../SVG/yes.svg';
@@ -16,9 +12,9 @@ import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
 import {useNavigate} from 'react-router-dom';
 import parse from "html-react-parser";
+import Moment from 'react-moment';
 function ApprovePosts() {
     let navigate=useNavigate();
-    const currentDay=new Date();
     const[mount,setMount]=useState(false);
     const [loading,setLoading]=useState(false);
     const [update,setUpdate] = useState(false);
@@ -133,50 +129,9 @@ function ApprovePosts() {
                                                 <Card style={{marginBottom:"20px"}}>
                                                     <Card.Header style={{color:"blue"}}>
                                                         <p>
-                                                            {
-                                                                <>
-                                                                    {(currentDay.getFullYear() > new Date(post.createf_at).getFullYear())
-                                                                    ?
-                                                                    <>({currentDay.getFullYear()-new Date(post.created_at).getFullYear()} years ago)</>
-                                                                    :
-                                                                    <>
-                                                                        {
-                                                                            (currentDay.getMonth()> new Date(post.created_at).getMonth())
-                                                                            ?
-                                                                            <>{currentDay.getMonth()-new Date(post.created_at).getMonth()} months ago</>
-                                                                            :
-                                                                            <>
-                                                                                {
-                                                                                    (currentDay.getDate()> new Date(post.created_at).getDate())
-                                                                                    ?
-                                                                                    <>{currentDay.getDate()-new Date(post.created_at).getDate()} days ago</>
-                                                                                    :
-                                                                                    <>
-                                                                                        {
-                                                                                            (currentDay.getHours()> new Date(post.created_at).getHours())
-                                                                                            ?
-                                                                                            <>{currentDay.getHours()-new Date(post.created_at).getHours()} hours ago</>
-                                                                                            :
-                                                                                            <>
-                                                                                                {
-                                                                                                    (currentDay.getMinutes()> new Date(post.created_at).getMinutes())
-                                                                                                    ?
-                                                                                                    <>{currentDay.getMinutes()-new Date(post.created_at).getMinutes()} minutes ago</>
-                                                                                                    :
-                                                                                                    <>few seconds ago</>
-                                                                                                }
-                                                                                            </>
-                                                                                        }
-                                                                                    </>
-                                                                                }
-                                                                            </>
-                                                                        }
-                                                                    </>
-                                                                    }
-                                                                    &nbsp;({new Date(post.created_at).toLocaleDateString(undefined,
-                                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })})
-                                                                </>
-                                                            }
+                                                                    <Moment fromNow>{post.created_at}</Moment>
+                                                                    &nbsp;
+                                                                    (<Moment format='DD/MM/YYYY HH:mm'>{post.created_at}</Moment>)
                                                         </p>     
                                                         <p>Account created: {post.created_acc.username} ({post.created_acc.role.rolename})</p>
                                                         <p>Topic: {post.topic.topicname}</p>

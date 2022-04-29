@@ -17,8 +17,8 @@ import axios from "axios";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import parse from "html-react-parser";
+import Moment from 'react-moment';
 function PostDetail(){
-    const currentDay=new Date();
     const role=localStorage.getItem("role");
     const accid=localStorage.getItem("accid");
     let navigate=useNavigate();
@@ -72,6 +72,7 @@ function PostDetail(){
         },
     });
     const[newComment,setNewComment]=useState("");
+    const changeNewComment=(e)=>setNewComment(e.target.value);
     const[comments,setComments]=useState([]);
     const[isReply,setIsReply]=useState(false);
     const[replyCommentId,setReplyCommentId]=useState(0);
@@ -83,6 +84,7 @@ function PostDetail(){
         setEditCommentContent(comment.content);
     }
     const cancelEditComment=()=>setIsEdit(false);
+    const changeEditComment=(e)=>setEditCommentContent(e.target.value)
     const submitEditComment=()=>{
         let comment={
             content:editCommentContent
@@ -272,53 +274,11 @@ function PostDetail(){
                                     <Card.Header style={{color:"blue"}}>
                                         <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                                         <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
-                                        {/* {(post.updated_at===null)
-                                        ?<>| {new Date(post.created_at).toLocaleDateString(undefined,
-                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>
-                                        :<>| Last updated: {new Date(post.updated_at).toLocaleDateString(undefined,
-                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>} */}
                                         {
                                                         <>&nbsp;|&nbsp;
-                                                            {(currentDay.getFullYear() > new Date(post.created_at).getFullYear())
-                                                            ?
-                                                            <>({currentDay.getFullYear()-new Date(post.created_at).getFullYear()} years ago)</>
-                                                            :
-                                                            <>
-                                                                {
-                                                                    (currentDay.getMonth()> new Date(post.created_at).getMonth())
-                                                                    ?
-                                                                    <>{currentDay.getMonth()-new Date(post.created_at).getMonth()} months ago</>
-                                                                    :
-                                                                    <>
-                                                                        {
-                                                                            (currentDay.getDate()> new Date(post.created_at).getDate())
-                                                                            ?
-                                                                            <>{currentDay.getDate()-new Date(post.created_at).getDate()} days ago</>
-                                                                            :
-                                                                            <>
-                                                                                {
-                                                                                    (currentDay.getHours()> new Date(post.created_at).getHours())
-                                                                                    ?
-                                                                                    <>{currentDay.getHours()-new Date(post.created_at).getHours()} hours ago</>
-                                                                                    :
-                                                                                    <>
-                                                                                        {
-                                                                                            (currentDay.getMinutes()> new Date(post.created_at).getMinutes())
-                                                                                            ?
-                                                                                            <>{currentDay.getMinutes()-new Date(post.created_at).getMinutes()} minutes ago</>
-                                                                                            :
-                                                                                            <>few seconds ago</>
-                                                                                        }
-                                                                                    </>
-                                                                                }
-                                                                            </>
-                                                                        }
-                                                                    </>
-                                                                }
-                                                            </>
-                                                            }
-                                                            &nbsp;({new Date(post.created_at).toLocaleDateString(undefined,
-                                                            { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })})
+                                                            <Moment fromNow>{post.created_at}</Moment>
+                                                            &nbsp;
+                                                        (<Moment format='DD/MM/YYYY HH:mm'></Moment>)
                                                         </>
                                         }
                                         <p>Topic: {post.topic.topicname}</p>     
@@ -332,23 +292,9 @@ function PostDetail(){
                                     </Card.Body>               
                                 </Card>
                                 <Form.Group style={{marginTop:"30px"}}>
-                                    {/* <Form.Control as="textarea" rows={3} placeholder='Type your comment.....' onChange={changeNewComment}></Form.Control> */}
-                                                        <CKEditor 
-                                                            editor={Editor}
-                                                            config={{
-                                                                placeholder:'Type your comment.....'
-                                                            }}
-                                                            onChange={ ( event, editor ) => {
-                                                                const data = editor.getData();
-                                                                setNewComment(data);
-                                                            } }                    
-                                                        />
+                                    <Form.Control as="textarea" rows={3} placeholder='Type your comment.....' onChange={changeNewComment}></Form.Control>
                                     <Button style={{color:"white"}} onClick={()=>addComment(post.id,0)}>Comment</Button>
                                 </Form.Group>
-                                {/* <Form.Group style={{marginTop:"30px"}}>
-                                    {(isEdit===false)?<p>hellooooooooooooooo, not edit !!!!!!</p>:<Form.Control as="textarea" rows={5} placeholder='Type your comment.....' onChange={changeNewComment}></Form.Control>}
-                                    <Button style={{color:"white"}} onClick={showInput}>Edit</Button>
-                                </Form.Group> */}
                                 </td>
                                 <td style={{verticalAlign:"top"}}>
                                     {
@@ -399,53 +345,13 @@ function PostDetail(){
                                             <Card.Header style={{color:"blue"}}>
                                                 <img style={{width:"50px",height:"50px",borderRadius:"50px"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                                                 <b>&nbsp;{comment.created_acc.username}</b> ({comment.created_acc.role.rolename})
-                                                {/* {(comment.updated_at===null)
-                                                ?<>| {new Date(comment.created_at).toLocaleDateString(undefined,
-                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>
-                                                :<>| Last updated: {new Date(comment.updated_at).toLocaleDateString(undefined,
-                                                    { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}</>}      */}
                                                 {
                                                     <>&nbsp;|&nbsp;
-                                                        {(currentDay.getFullYear() > new Date(comment.created_at).getFullYear())
-                                                        ?
-                                                        <>({currentDay.getFullYear()-new Date(comment.created_at).getFullYear()} years ago)</>
-                                                        :
-                                                        <>
-                                                            {
-                                                                (currentDay.getMonth()> new Date(comment.created_at).getMonth())
-                                                                ?
-                                                                <>{currentDay.getMonth()-new Date(comment.created_at).getMonth()} months ago</>
-                                                                :
-                                                                <>
-                                                                    {
-                                                                        (currentDay.getDate()> new Date(comment.created_at).getDate())
-                                                                        ?
-                                                                        <>{currentDay.getDate()-new Date(comment.created_at).getDate()} days ago</>
-                                                                        :
-                                                                        <>
-                                                                            {
-                                                                                (currentDay.getHours()> new Date(comment.created_at).getHours())
-                                                                                ?
-                                                                                <>{currentDay.getHours()-new Date(comment.created_at).getHours()} hours ago</>
-                                                                                :
-                                                                                <>
-                                                                                    {
-                                                                                        (currentDay.getMinutes()> new Date(comment.created_at).getMinutes())
-                                                                                        ?
-                                                                                        <>{currentDay.getMinutes()-new Date(comment.created_at).getMinutes()} minutes ago</>
-                                                                                        :
-                                                                                        <>few seconds ago</>
-                                                                                    }
-                                                                                </>
-                                                                            }
-                                                                        </>
-                                                                    }
-                                                                </>
-                                                            }
-                                                        </>
-                                                        }
-                                                        &nbsp;({new Date(comment.created_at).toLocaleDateString(undefined,
-                                                        { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })})
+                                                        <Moment fromNow>{comment.created_at}</Moment>
+                                                        &nbsp;
+                                                        {/* ({new Date(comment.created_at).toLocaleDateString(undefined,
+                                                        { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}) */}
+                                                        (<Moment format='DD/MM/YYYY HH:mm'>{comment.created_at}</Moment>)
                                                     </>
                                                 }
                                             </Card.Header>
@@ -454,7 +360,7 @@ function PostDetail(){
                                                     (comment.replied_cmt!==null)
                                                     ?<>
                                                         <p style={{color:"#DDD8D8",fontSize:"15px"}}>(Replied from <b>@{comment.replied_cmt.created_acc.username}</b>)</p>
-                                                        <p style={{color:"#DDD8D8",fontSize:"15px"}}>{comment.replied_cmt.content}</p>
+                                                        <p style={{color:"#DDD8D8",fontSize:"15px",whiteSpace: "pre-wrap"}}>{comment.replied_cmt.content}</p>
                                                     </>
                                                     :<></>
                                                 }
@@ -462,22 +368,13 @@ function PostDetail(){
                                                     (isEdit===true&&editCommentId===comment.id)
                                                     ?
                                                     <div>
-                                                        {/* <Form.Control as="textarea" cols={4} value={editCommentContent} onChange={changeEditComment}></Form.Control> */}
-                                                        <CKEditor 
-                                                            editor={Editor}
-                                                            data={editCommentContent}
-                                                            onChange={ ( event, editor ) => {
-                                                                const data = editor.getData();
-                                                                setEditCommentContent(data);
-                                                            } }                    
-                                                        />
+                                                        <Form.Control as="textarea" cols={4} value={editCommentContent} onChange={changeEditComment}></Form.Control>
                                                         <Button style={{color:"white"}} onClick={cancelEditComment}>Cancel</Button>
                                                         <Button style={{color:"white"}} onClick={submitEditComment}>Edit</Button>
                                                     </div>
                                                     :
                                                     <Card.Text style={{color:"black"}}>
-                                                        {/* <p style={{whiteSpace: "pre-wrap"}}>{comment.content}</p> */}
-                                                        <div>{parse(comment.content)}</div>
+                                                        <p style={{whiteSpace: "pre-wrap"}}>{comment.content}</p>
                                                     </Card.Text>
                                                 }
                                                 
@@ -486,18 +383,7 @@ function PostDetail(){
                                                 (isReply===true&&replyCommentId===comment.id)
                                                 ?
                                                 <Card.Footer>
-                                                    {/* <Form.Control type="text" placeholder='Reply comment.....'  onChange={changeNewComment}></Form.Control> */}
-                                                    <CKEditor 
-                                                        
-                                                        editor={Editor}
-                                                        config={{
-                                                            placeholder:'Reply comment.....'
-                                                        }}
-                                                        onChange={ ( event, editor ) => {
-                                                            const data = editor.getData();
-                                                            setNewComment(data);
-                                                        } }                    
-                                                    />
+                                                    <Form.Control as="textarea" cols={1} placeholder='Reply comment.....'  onChange={changeNewComment}></Form.Control>
                                                     <Button style={{color:"white"}} onClick={()=>addComment(post.id,comment.id)}>Reply</Button>
                                                     <Button style={{color:"white"}} onClick={cancelReply}>Cancel</Button>   
                                                 </Card.Footer>
@@ -565,7 +451,8 @@ function PostDetail(){
                                 </ToastContainer>
                             </div>
                             <Modal
-                                fullscreen={true}
+                                // fullscreen={true}
+                                size="lg"
                                 show={showEdit}
                                 onHide={handleCloseEdit}
                                 backdrop="static"

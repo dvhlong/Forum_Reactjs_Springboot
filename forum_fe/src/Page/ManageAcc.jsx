@@ -6,6 +6,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import {TailSpin} from 'react-loader-spinner';
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
+import Moment from 'react-moment';
 function ManageAcc(){
     let navigate=useNavigate()
     const[mount,setMount]=useState(false);
@@ -127,7 +128,13 @@ function ManageAcc(){
                                             <tr key={acc.id}>
                                                 <td>{acc.name}</td>
                                                 <td>{acc.username}</td>
-                                                <td>{acc.birthdate}</td>
+                                                <td>
+                                                    {
+                                                        (acc.birthdate===null)
+                                                        ?<>{acc.birthdate}</>
+                                                        :<Moment format='DD/MM/YYYY'>{acc.birthdate}</Moment>
+                                                    }
+                                                </td>
                                                 <td>{acc.email}</td>
                                                 <td>{acc.phone}</td>
                                                 <td>

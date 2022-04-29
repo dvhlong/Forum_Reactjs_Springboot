@@ -105,16 +105,17 @@ function HeaderComponent(){
                     </nav>
                 </header>
                 <Modal
-                        fullscreen={true}
+                        // fullscreen={true}
+                        size="lg"
                         show={showAddPost}
                         onHide={handleCloseAddPost}
                         backdrop="static"
                         keyboard={false}
-                    >
+                >
                         <Modal.Header closeButton>
                         <Modal.Title>Create New Post</Modal.Title>
                         </Modal.Header>
-                        {/* <Modal.Body> */}
+                        <Modal.Body>
                             <p style={{color:"red"}}>{error}</p>
                             <p>Topic :</p>
                             <Form.Select aria-label="Default select example" onChange={chooseTopic} value={topicId}>
@@ -138,7 +139,7 @@ function HeaderComponent(){
                                                 setNewContent(data);
                                             } }                    
                                         />
-                        {/* </Modal.Body> */}
+                        </Modal.Body>
                         <Modal.Footer>
                         <Button variant="secondary" onClick={handleCloseAddPost}>
                             Close
