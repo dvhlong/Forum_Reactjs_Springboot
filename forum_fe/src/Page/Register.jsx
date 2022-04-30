@@ -5,6 +5,7 @@ import Userlogo from '../SVG/user.svg';
 import Emaillogo from '../SVG/email.svg';
 import React,{ useState} from 'react';
 import accSV from '../Service/AccountService';
+import Swal from 'sweetalert2'
 function Register() {
     let navigate=useNavigate();
     
@@ -31,7 +32,11 @@ function Register() {
             }
             accSV.createAccount(acc).then(res=>{
                 if(res.data.status!=="Fail"){
-                    alert("Dang ky thanh cong !!!");
+                    Swal.fire({
+                        position: 'middle',
+                        icon: 'success',
+                        title: 'Sign up successful !!!!', 
+                    })
                     navigate("/");
                 } else {
                     setError(res.data.message);

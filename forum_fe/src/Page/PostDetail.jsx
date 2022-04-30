@@ -18,15 +18,14 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import parse from "html-react-parser";
 import Moment from 'react-moment';
+import Swal from 'sweetalert2'
 function PostDetail(){
     const role=localStorage.getItem("role");
     const accid=localStorage.getItem("accid");
     let navigate=useNavigate();
-    const [error,setError]=useState("");
     const [showEdit, setShowEdit] = useState(false);
     const handleCloseEdit = () => setShowEdit(false);
     const handleShowEdit=()=>{
-        setError("");
         setTopicId(post.topic.id)
         setTopicName(post.topic.topicname)
         setEditPostTitle(post.title);
@@ -50,16 +49,6 @@ function PostDetail(){
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
     const[isEdit,setIsEdit]=useState(false);
-    const [show, setShow] = useState(false);
-    const [toastBg,setToastBg]=useState("");
-    const [toastHeader,setToastHeader]=useState("");
-    const [toastBody,setToastBody]=useState("");
-    const setToast=(tbg,theader,tbody)=>{
-        setToastBg(tbg);
-        setToastHeader(theader);
-        setToastBody(tbody);
-        setShow(true);
-    }
     const[post,setPost]=useState({
         created_acc:{
             username:"",
@@ -121,7 +110,6 @@ function PostDetail(){
         setPage(page+1);
     }
     const replyComment=(commentid)=>{
-        setError("");
         setReplyCommentId(commentid);
         setIsReply(true);
     }
@@ -164,11 +152,29 @@ function PostDetail(){
             content:editPostContent
         }
         if(topicId==="0"){
-            setError("Please choose Topic !!!")
+            Swal.fire({
+                position: 'middle',
+                icon: 'error',
+                title: 'Please choose topic !!!!',
+                showConfirmButton: false,
+                timer: 1500
+            })
         } else if(editPostTitle===""){
-            setError("Please enter title !!!")
+            Swal.fire({
+                position: 'middle',
+                icon: 'error',
+                title: 'Please enter title !!!!',
+                showConfirmButton: false,
+                timer: 1500
+            })
         } else if(editPostContent===""){
-            setError("Please enter content !!!")
+            Swal.fire({
+                position: 'middle',
+                icon: 'error',
+                title: 'Please enter content name !!!!',
+                showConfirmButton: false,
+                timer: 1500
+            })
         } else {
             PostService.editPost(Number(topicId),updatedPost).then(res=>{
                 if(res.data.status===401){
@@ -178,7 +184,13 @@ function PostDetail(){
                 reload();
             })
             handleCloseEdit();
-            setToast("success","SUCCESSFUL","Post Edited !!!")          
+            Swal.fire({
+                position: 'middle',
+                icon: 'success',
+                title: 'Post edited !!!!',
+                showConfirmButton: false,
+                timer: 1500
+            })         
         }
     }
     const deletePost=()=>{
@@ -287,7 +299,7 @@ function PostDetail(){
                                         <Card.Title style={{color:"red"}}>{post.title}</Card.Title>
                                         <Card.Text style={{color:"black"}}>
 
-                                            <div>{parse(post.content)}</div>
+                                            {parse(post.content)}
                                         </Card.Text>
                                     </Card.Body>               
                                 </Card>
@@ -435,21 +447,6 @@ function PostDetail(){
                         </td>
                         }
                         <td style={{width:"10%",color:"yellow"}}>
-                        <div 
-                                aria-live="assertive"
-                                aria-atomic="false"
-                                
-                                >
-                                <ToastContainer position="middle-start" className="p-1">
-                                    <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
-                                    <Toast.Header>
-                                        <strong className="me-auto">{toastHeader}</strong>
-                                        <small className="text-muted">just now</small>
-                                    </Toast.Header>
-                                    <Toast.Body style={{color:"white"}}>{toastBody}</Toast.Body>
-                                    </Toast>
-                                </ToastContainer>
-                            </div>
                             <Modal
                                 // fullscreen={true}
                                 size="lg"
@@ -462,7 +459,6 @@ function PostDetail(){
                                 <Modal.Title>Edit Post</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                <p style={{color:"red"}}>{error}</p>
                                 <p>Topic :</p>
                                     <Form.Select aria-label="Default select example" value={topicId} onChange={chooseTopic}>
                                         {/* <option value={topicId}> {topicName}</option> */}

@@ -5,33 +5,21 @@ import PostService from '../Service/PostService';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import yesIcon from '../SVG/yes.svg';
 import noIcon from '../SVG/no.svg';
-import SidebarComponent from '../Component/SidebarComponent';
-import Toast from 'react-bootstrap/Toast'
-import ToastContainer from 'react-bootstrap/ToastContainer'
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
 import {useNavigate} from 'react-router-dom';
 import parse from "html-react-parser";
 import Moment from 'react-moment';
+import Swal from 'sweetalert2'
 function ApprovePosts() {
     let navigate=useNavigate();
     const[mount,setMount]=useState(false);
     const [loading,setLoading]=useState(false);
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
-    const [show, setShow] = useState(false);
-    const [toastBg,setToastBg]=useState("");
-    const [toastHeader,setToastHeader]=useState("");
-    const [toastBody,setToastBody]=useState("");
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
-    const setToast=(tbg,theader,tbody)=>{
-        setToastBg(tbg);
-        setToastHeader(theader);
-        setToastBody(tbody);
-        setShow(true);
-    }
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
@@ -53,7 +41,13 @@ function ApprovePosts() {
             console.log(res.data)
             reload();
         })
-        setToast("success","SUCCESSFUL","Approved !!!")
+        Swal.fire({
+            position: 'middle',
+            icon: 'success',
+            title: 'Approved !!!!',
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
     const rejectPost=(id)=>{
         PostService.rejectPost(id).then(res=>{
@@ -64,7 +58,13 @@ function ApprovePosts() {
             console.log(res.data)
             reload()
         })
-        setToast("danger","SUCCESSFUL","Post Deleted !!!!")
+        Swal.fire({
+            position: 'middle',
+            icon: 'success',
+            title: 'Reject !!!!',
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
     useEffect(()=>{
         setLoading(true);
@@ -165,21 +165,6 @@ function ApprovePosts() {
                         }
                         </td>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
-                        <div
-                                aria-live="polite"
-                                aria-atomic="true"
-                                style={{ minHeight: '240px' }}
-                                >
-                                <ToastContainer position="middle-start" className="p-1">
-                                    <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
-                                    <Toast.Header>
-                                        <strong className="me-auto">{toastHeader}</strong>
-                                        <small className="text-muted">just now</small>
-                                    </Toast.Header>
-                                    <Toast.Body style={{color:"white"}}>{toastBody}</Toast.Body>
-                                    </Toast>
-                                </ToastContainer>
-                    </div>
                         </td>
                         
                     </table>

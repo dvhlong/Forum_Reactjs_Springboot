@@ -10,11 +10,10 @@ import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import moreIcon from '../SVG/more.svg';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import Toast from 'react-bootstrap/Toast'
-import ToastContainer from 'react-bootstrap/ToastContainer'
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
 import Moment from 'react-moment';
+import Swal from 'sweetalert2'
 function Topic() {
     let navigate=useNavigate()
     const[mount,setMount]=useState(false);
@@ -22,16 +21,6 @@ function Topic() {
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
-    const [show, setShow] = useState(false);
-    const [toastBg,setToastBg]=useState("");
-    const [toastHeader,setToastHeader]=useState("");
-    const [toastBody,setToastBody]=useState("");
-    const setToast=(tbg,theader,tbody)=>{
-        setToastBg(tbg);
-        setToastHeader(theader);
-        setToastBody(tbody);
-        setShow(true);
-    }
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
     const[newTopicName,setNewTopicName]=useState("");
@@ -66,7 +55,13 @@ function Topic() {
     }
     const addTopic=()=>{
         if(newTopicName==="")
-        setToast("danger","ERROR","Please enter topic name !!!!")
+        Swal.fire({
+            position: 'middle',
+            icon: 'error',
+            title: 'Please enter topic name !!!!',
+            showConfirmButton: false,
+            timer: 1500
+        })
         else {
             let newtopic={
                 topicname:newTopicName
@@ -79,7 +74,13 @@ function Topic() {
                 console.log(res.data.message)
                 reload();
             });
-            setToast("success","SUCCESSFUL","Added !!!")
+            Swal.fire({
+                position: 'middle',
+                icon: 'success',
+                title: 'Added !!!',
+                showConfirmButton: false,
+                timer: 1500
+            })
             handleCloseAdd();
         }   
     }
@@ -92,7 +93,13 @@ function Topic() {
             console.log(res.data.message);
             reload();
         });
-        setToast("success","SUCCESSFUL","Deleted !!!")
+        Swal.fire({
+            position: 'middle',
+            icon: 'success',
+            title: 'Deleted !!!',
+            showConfirmButton: false,
+            timer: 1500
+        })
         handleCloseDelete();
     }
     const changeTopic=()=>{
@@ -101,7 +108,13 @@ function Topic() {
             topicname:editTopicName
         }
         if(editTopicName==="")
-            setToast("danger","ERROR","Please enter topic name")
+            Swal.fire({
+                position: 'middle',
+                icon: 'error',
+                title: 'Please enter topic name !!!!',
+                showConfirmButton: false,
+                timer: 1500
+            })
         else { 
         TopicService.editTopic(updatedTopic).then(res=>{
             if(res.data.status===401){
@@ -110,7 +123,13 @@ function Topic() {
             }
             reload();
         });
-        setToast("success","SUCCESSFUL","Topic changed !!!")
+        Swal.fire({
+            position: 'middle',
+            icon: 'success',
+            title: 'Topic changed !!!',
+            showConfirmButton: false,
+            timer: 1500
+        })
         handleCloseEdit();
         }
     }
@@ -234,21 +253,6 @@ function Topic() {
                         </td>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
                             {canAddTopic?<button style={{background:"blue",color:"white"}} onClick={handleShowAdd} className='btn btn=primary'>Add Topic</button>:<></>}
-                            <div
-                                aria-live="polite"
-                                aria-atomic="true"
-                                style={{ minHeight: '240px' }}
-                                >
-                                <ToastContainer position="middle-start" className="p-1">
-                                    <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
-                                    <Toast.Header>
-                                        <strong className="me-auto">{toastHeader}</strong>
-                                        <small className="text-muted">just now</small>
-                                    </Toast.Header>
-                                    <Toast.Body style={{color:"white"}}>{toastBody}</Toast.Body>
-                                    </Toast>
-                                </ToastContainer>
-                            </div>
                             <Modal
                                 show={showEdit}
                                 onHide={handleCloseEdit}

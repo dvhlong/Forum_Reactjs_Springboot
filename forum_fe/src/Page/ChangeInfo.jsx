@@ -1,14 +1,12 @@
 import React,{useState,useEffect} from 'react';
-import HeaderComponent from '../Component/HeaderComponent';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import AccSV from '../Service/AccountService';
-import Toast from 'react-bootstrap/Toast'
-import ToastContainer from 'react-bootstrap/ToastContainer'
 import {TailSpin} from 'react-loader-spinner';
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
+import Swal from 'sweetalert2'
 function ChangeInfo() {
     let navigate=useNavigate();
     const[loading,setLoading]=useState(false);
@@ -18,16 +16,6 @@ function ChangeInfo() {
     const[email,setEmail]=useState("");
     const[pass,setPass]=useState("");
     const[repass,setRepass]=useState("");
-    const [show, setShow] = useState(false);
-    const [toastBg,setToastBg]=useState("");
-    const [toastHeader,setToastHeader]=useState("");
-    const [toastBody,setToastBody]=useState("");
-    const setToast=(tbg,theader,tbody)=>{
-        setToastBg(tbg);
-        setToastHeader(theader);
-        setToastBody(tbody);
-        setShow(true);
-    }
     const [update,setUpdate] = useState(false);
     const reload=()=>{setUpdate(!update);}
     useEffect(()=>{
@@ -80,15 +68,39 @@ function ChangeInfo() {
             }
             reload();
         })
-        setToast("success","SUCCESSFUL","Info Changed !!!")
+        Swal.fire({
+            position: 'middle',
+            icon: 'success',
+            title: 'Info changed !!!!',
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
     const changeNewPass=()=>{
         if(pass==="")
-            setToast("danger","ERROR","Please enter new pass !!!")
+        Swal.fire({
+            position: 'middle',
+            icon: 'error',
+            title: 'Please enter new pass !!!!',
+            showConfirmButton: false,
+            timer: 1500
+        })
         else if(repass==="")
-            setToast("danger","ERROR","Please re-enter new pass !!!")
+        Swal.fire({
+            position: 'middle',
+            icon: 'error',
+            title: 'Please re-enter new pass !!!!',
+            showConfirmButton: false,
+            timer: 1500
+        })
         else if(pass!==repass){
-            setToast("danger","ERROR","Pass not match !!!")
+            Swal.fire({
+                position: 'middle',
+                icon: 'error',
+                title: 'Pass does not match !!!!',
+                showConfirmButton: false,
+                timer: 1500
+            })
             setPass("");
             setRepass("");
         } else {
@@ -102,7 +114,13 @@ function ChangeInfo() {
                 }
                 console.log(res.data);
             });
-            setToast("success","SUCCESSFUL","Pass changed !!!")
+            Swal.fire({
+                position: 'middle',
+                icon: 'success',
+                title: 'Pass changed',
+                showConfirmButton: false,
+                timer: 1500
+            })
             setPass("");
             setRepass("");
         }
@@ -184,20 +202,6 @@ function ChangeInfo() {
                     </Form>
                 </Card.Body>
             </Card>
-            </div>
-            <div 
-                        aria-live="assertive"
-                        aria-atomic="false"
-                        >
-                        <ToastContainer position="middle-start" className="p-1">
-                            <Toast onClose={() => setShow(false)} show={show} delay={1500} autohide bg={toastBg}>
-                            <Toast.Header>
-                                <strong className="me-auto">{toastHeader}</strong>
-                                <small className="text-muted">just now</small>
-                            </Toast.Header>
-                            <Toast.Body style={{color:"white"}}>{toastBody}</Toast.Body>
-                            </Toast>
-                        </ToastContainer>
             </div>
         </div>
     )
