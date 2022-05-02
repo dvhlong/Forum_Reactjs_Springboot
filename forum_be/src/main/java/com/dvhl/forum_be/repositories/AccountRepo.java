@@ -17,4 +17,5 @@ public interface AccountRepo extends JpaRepository<User,Long>{
     User findByUsernameAndPassword(String username,String password);
     @Query("SELECT u FROM User u WHERE u.role.rolename<>'admin' ORDER BY u.id asc")
     Page<User>getAllAcc(Pageable pageable);
+    User findFirstByOrderByCreatedatDesc();
 }

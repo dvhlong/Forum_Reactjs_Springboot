@@ -95,7 +95,7 @@ function ManageAcc(){
                 :
                 <div>
                     <h1 style={{textAlign:"center",color:"white"}}>USER LIST</h1>
-                    <table style={{width:"1920px",border:"none"}}>
+                    <table style={{width:"100%",border:"none"}}>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
                         <table style={{width:"100%"}}>
                             <tr>
@@ -117,8 +117,7 @@ function ManageAcc(){
                                         <th>Birthdate</th>
                                         <th>Email</th>
                                         <th>Phone</th>
-                                        <th>Action</th>
-                                        <th>Role</th>
+                                        <th colSpan={2}>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -139,10 +138,8 @@ function ManageAcc(){
                                                 <td>{acc.phone}</td>
                                                 <td>
                                                     {(acc.isblocked)?<button className="btn btn-warning" onClick={()=>block(acc.id)}>UnBlock</button>:<button className="btn btn-danger" onClick={()=>block(acc.id)}>Block</button>}
-                                                </td>
-                                                <td>
                                                     {(acc.role.rolename==="mod")?<Button className="btn btn-primary" active disabled>Mod</Button>:<Button className="btn btn-primary" onClick={()=>setRoleToMod(acc.id)}>Mod</Button>}
-                                                    {(acc.role.rolename==="user")?<Button style={{marginLeft:"20px"}} className="btn btn-primary" active disabled>User</Button>:<Button style={{marginLeft:"20px"}} className="btn btn-primary" onClick={()=>setRoleToUser(acc.id)}>User</Button>}
+                                                    {(acc.role.rolename==="user")?<Button className="btn btn-primary" active disabled>User</Button>:<Button className="btn btn-primary" onClick={()=>setRoleToUser(acc.id)}>User</Button>}
                                                 </td>
                                             </tr>
                                         )

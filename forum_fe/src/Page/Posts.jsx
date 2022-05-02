@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import {TailSpin} from 'react-loader-spinner';
 import Moment from 'react-moment';
 import axios from "axios";
+import SideComponent from '../Component/SideComponent';
 function Posts(){
     let navigate=useNavigate();
     // const role=localStorage.getItem("role");
@@ -26,6 +27,7 @@ function Posts(){
     const[result,setResult]=useState([]);
     const[page,setPage]=useState(1);
     const[pages,setPages]=useState(0);
+    
     // const [show, setShow] = useState(false);
     // const [toastBg,setToastBg]=useState("");
     // const [toastHeader,setToastHeader]=useState("");
@@ -168,11 +170,14 @@ function Posts(){
                                     </td>:<></>
                                 }    
                             </tr>
-                            <tr>
+                            {/* <tr>
                                 <td><td><img style={{width:"80%",borderRadius:"2%"}} src='https://i.ytimg.com/vi/x0fSBAgBrOQ/maxresdefault.jpg' alt=''></img></td></td>
                             </tr>
                             <tr>
                                 <td><img style={{width:"80%",marginTop:"10px",borderRadius:"2%"}} src='https://www.zekelabs.com/static/media/photos/2019/06/30/Springboot-training-in-bangalore-800-500-img.jpg' alt=''></img></td>
+                            </tr> */}
+                            <tr>
+                                <td><SideComponent/></td>
                             </tr>
                         </table>
                         </td>   

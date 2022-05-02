@@ -32,8 +32,8 @@ public class User {
     private String email;
     private String phone;
     private Date birthdate;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private Timestamp createdat;
+    private Timestamp updatedat;
     public User() {
     }
 
@@ -48,8 +48,8 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.birthdate = birthdate;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdat = created_at;
+        this.updatedat = updated_at;
     }
 
 
@@ -112,15 +112,15 @@ public class User {
         this.birthdate = birthdate;
     }
     public Timestamp getCreated_at() {
-        return created_at;
+        return createdat;
     }
     public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+        this.createdat = created_at;
     }
     public Timestamp getUpdated_at() {
-        return updated_at;
+        return updatedat;
     }
     public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+        this.updatedat = updated_at;
     }
 }

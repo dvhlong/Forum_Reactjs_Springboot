@@ -13,3 +13,6 @@
 .text-huge {
     font-size: 1.8em;
 }
+figure.image {
+    display: flex;
+}

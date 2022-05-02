@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 import {useParams,useNavigate} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import TopicService from '../Service/TopicService';
-import '../CSS/ckeditorStyle.css';
+import '../CSS/PostDetail.css';
 import Toast from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 import moreIcon from '../SVG/more.svg';
@@ -18,7 +18,8 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import parse from "html-react-parser";
 import Moment from 'react-moment';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import SideComponent from '../Component/SideComponent';
 function PostDetail(){
     const role=localStorage.getItem("role");
     const accid=localStorage.getItem("accid");
@@ -59,6 +60,7 @@ function PostDetail(){
         topic:{
             topicname:""
         },
+        content:'',
     });
     const[newComment,setNewComment]=useState("");
     const changeNewComment=(e)=>setNewComment(e.target.value);
@@ -82,6 +84,13 @@ function PostDetail(){
             PostService.editComment(editCommentId,comment).then(res=>{
                 reload();
                 setIsEdit(false);
+                Swal.fire({
+                    position: 'middle',
+                    icon: 'success',
+                    title: 'Comment Changed !!!!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             })
         }
     }
@@ -99,6 +108,13 @@ function PostDetail(){
     }
     const deleteComment=()=>{
         PostService.deleteComment(deleteCommentId).then(res=>{
+            Swal.fire({
+                position: 'middle',
+                icon: 'success',
+                title: 'Comment deleted !!!!',
+                showConfirmButton: false,
+                timer: 1500
+            })
             reload();
         })
         handleCloseDeleteCommentModal();
@@ -255,7 +271,8 @@ function PostDetail(){
     return (
         <div>
                 <div>
-                    <table style={{width:"1920px",border:"none",marginTop:"30px"}}>
+                    <table style={{width:"100%",border:"none",marginTop:"30px"}}>
+                        <tr>
                         <td style={{width:"30%",verticalAlign:"top"}}>
                         <table style={{width:"100%",textAlign:"center"}}>
                             <tr>
@@ -266,11 +283,14 @@ function PostDetail(){
                                     </td>:<></>
                                 }    
                             </tr>
-                            <tr>
+                            {/* <tr>
                                 <td><td><img style={{width:"80%",borderRadius:"2%"}} src='https://i.ytimg.com/vi/x0fSBAgBrOQ/maxresdefault.jpg' alt=''></img></td></td>
                             </tr>
                             <tr>
                                 <td><img style={{width:"80%",marginTop:"10px",borderRadius:"2%"}} src='https://www.zekelabs.com/static/media/photos/2019/06/30/Springboot-training-in-bangalore-800-500-img.jpg' alt=''></img></td>
+                            </tr> */}
+                            <tr>
+                                <td><SideComponent/></td>
                             </tr>
                         </table>
                         </td>
@@ -297,10 +317,7 @@ function PostDetail(){
                                     </Card.Header>
                                     <Card.Body>
                                         <Card.Title style={{color:"red"}}>{post.title}</Card.Title>
-                                        <Card.Text style={{color:"black"}}>
-
                                             {parse(post.content)}
-                                        </Card.Text>
                                     </Card.Body>               
                                 </Card>
                                 <Form.Group style={{marginTop:"30px"}}>
@@ -530,6 +547,7 @@ function PostDetail(){
                                 </Modal.Footer>
                             </Modal>
                         </td>
+                        </tr>
                     </table>
                 </div>
         </div>   
