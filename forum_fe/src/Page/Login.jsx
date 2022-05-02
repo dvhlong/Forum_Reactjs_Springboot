@@ -8,6 +8,15 @@ function Login() {
     const[username,setUsername]=useState("");
     const[password,setPassword]=useState("");
     const[error,setError]=useState("");
+    useEffect(()=>{
+        if(localStorage.getItem("token")!==null)
+            accSV.checkToken().then(res=>{
+                
+                if(res.data.status==="200"){
+                    navigate("/topic")
+                }
+            })
+    },[])
     const login=(e)=>{
         e.preventDefault();
         let acc={

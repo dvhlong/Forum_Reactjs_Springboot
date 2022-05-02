@@ -10,34 +10,11 @@ import ChangeInfo from './Page/ChangeInfo';
 import HeaderComponent from './Component/HeaderComponent';
 import ManageAcc from './Page/ManageAcc';
 import PostDetail from './Page/PostDetail';
-import { useEffect, useState } from 'react';
-import accSV from './Service/AccountService';
 function App() {
-  const [authenticated,setAuthenticated]=useState(false)
-  useEffect(()=>{
-    if(localStorage.getItem("token")!==null)
-        accSV.checkToken().then(res=>{
-            
-            if(res.data.status==="200"){
-                setAuthenticated(true);
-            }
-        })
-  },[])
   return (
     <Router>
         <Routes>
-          {
-            (authenticated)
-            ?
-            <>      
-            <Route path="/" element={<HeaderComponent/>}>
-              <Route path="/" element={<Topic/>}></Route>
-            </Route>
-            </>
-            :
-            <Route path="/" element={<Login/>}></Route>
-          }
-          <Route path="/login" element={<Login/>}></Route>
+          <Route path="/" element={<Login/>}></Route>
           <Route path="/" element={<HeaderComponent/>}>
             <Route path="/posts" element={<Posts/>}></Route>
             <Route path="/posts/:key" element={<Posts/>}></Route>

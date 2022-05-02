@@ -97,7 +97,7 @@ function HeaderComponent(){
                             <button style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/changePass">Change Password</Link></button>
                         </Dropdown.Item> */}
                         <Dropdown.Item href="#" onClick={logout}>
-                            <Link style={{"text-decoration":"none"}} to="/login">Logout</Link>
+                            <Link style={{"text-decoration":"none"}} to="/">Logout</Link>
                         </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
