@@ -4,6 +4,7 @@ import axios from "axios";
 import statisticService from '../Service/StatisticService';
 import { useNavigate } from 'react-router-dom';
 import '../CSS/SideComponent.css';
+import ChartIcon from '../SVG/chart.svg';
 function SidebarComponent() {
     let navigate=useNavigate();
     const[statistic,setStatistic]=useState({
@@ -29,12 +30,12 @@ function SidebarComponent() {
     return (
         <Card className='side-card'>
             <Card.Header className='side-header'>
-                STATISTIC
+                <img src={ChartIcon} alt=''/>STATISTIC
             </Card.Header>
             <Card.Body className='side-body'>
-                <p><b className='red'>Post quantity: </b>{statistic.postQuantity}</p>
-                <p><b className='red'>Member quantity: </b>{statistic.memberQuantity}</p>
-                <p><b className='red'>Newest member: </b><img src="https://www.w3schools.com/howto/img_avatar.png" alt="" style={{width: "30px", height: "30px", borderRadius:"50%"}}></img> {statistic.newMember.username}</p>
+                <p><b className='red'>Post quantity: </b><b>{statistic.postQuantity}</b></p>
+                <p><b className='red'>Member quantity: </b><b>{statistic.memberQuantity}</b></p>
+                <p><b className='red'>Newest member: </b><img src="https://www.w3schools.com/howto/img_avatar.png" alt="" style={{width: "30px", height: "30px", borderRadius:"50%"}}></img> <b>{statistic.newMember.username}</b></p>
             </Card.Body>
         </Card>
     )

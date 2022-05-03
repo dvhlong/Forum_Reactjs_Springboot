@@ -24,6 +24,7 @@ function App() {
             <Route path="/approve" element={<ApprovePosts/>}></Route>
             <Route path="/manageacc" element={<ManageAcc/>}></Route>
             <Route path="/postDetail/:id" element={<PostDetail/>}></Route>
+            <Route path="/notifications" element={<Posts/>}></Route>
           </Route>
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/notify"></Route>

@@ -4,12 +4,15 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "notification")
@@ -24,45 +27,71 @@ public class Notification {
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "notified_acc",referencedColumnName = "id")
     private User notifiedacc;
+    @ManyToOne(targetEntity = User.class)
+    @JsonIgnore
+    @JoinColumn(name = "received_acc",referencedColumnName = "id")
+    private User receivedacc;
     @Column(name = "notified_at")
     private Timestamp notifiedat;
     public Notification() {
     }
-    public Notification(String content, Post post, User notified_acc, Timestamp notified_at) {
+    
+    public Notification(String content, Post post, User notifiedacc, User receivedacc, Timestamp notifiedat) {
         this.content = content;
         this.post = post;
-        this.notifiedacc = notified_acc;
-        this.notifiedat = notified_at;
+        this.notifiedacc = notifiedacc;
+        this.receivedacc = receivedacc;
+        this.notifiedat = notifiedat;
     }
+
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public String getContent() {
         return content;
     }
+
     public void setContent(String content) {
         this.content = content;
     }
+
     public Post getPost() {
         return post;
     }
+
     public void setPost(Post post) {
         this.post = post;
     }
-    public User getNotified_acc() {
+
+    public User getNotifiedacc() {
         return notifiedacc;
     }
-    public void setNotified_acc(User notified_acc) {
-        this.notifiedacc = notified_acc;
+
+    public void setNotifiedacc(User notifiedacc) {
+        this.notifiedacc = notifiedacc;
     }
-    public Timestamp getNotified_at() {
+
+    public User getReceivedacc() {
+        return receivedacc;
+    }
+
+    public void setReceivedacc(User receivedacc) {
+        this.receivedacc = receivedacc;
+    }
+
+    public Timestamp getNotifiedat() {
         return notifiedat;
     }
-    public void setNotified_at(Timestamp notified_at) {
-        this.notifiedat = notified_at;
+
+    public void setNotifiedat(Timestamp notifiedat) {
+        this.notifiedat = notifiedat;
     }
+    
+
     
 }

@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "post")
 public class Post {
@@ -35,16 +37,19 @@ public class Post {
     private Timestamp createdat;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "updated_acc",referencedColumnName = "id")
+    @JsonIgnore
     private User updatedacc;
     @Column(name = "updated_at")
     private Timestamp updatedat;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "deleted_acc",referencedColumnName = "id")
+    @JsonIgnore
     private User deletedacc;
     @Column(name = "deleted_at")
     private Timestamp deletedat;
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "approved_acc",referencedColumnName = "id")
+    @JsonIgnore
     private User approvedacc;
     @Column(name = "approved_at")
     private Timestamp approvedat;

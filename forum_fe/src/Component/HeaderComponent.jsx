@@ -12,6 +12,9 @@ import PostService from '../Service/PostService';
 import HomeIcon from '../SVG/home.svg';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
+import Bell from '../SVG/bell.svg'
+import Card from 'react-bootstrap/Card';
+import '../CSS/HeaderComponent.css';
 function HeaderComponent(){
     const [showAddPost, setShowAddPost] = useState(false);
     const[topicList,setTopicList]=useState([]);
@@ -84,6 +87,49 @@ function HeaderComponent(){
                             <button className="btn btn-dark" ><img src={searchIcon} alt="logo"/></button>
                         </div>
                     </div>
+                    <div>
+                    <Dropdown align="end">
+                        <Dropdown.Toggle variant="secondary">
+                            <img src={Bell} alt=''></img>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu style={{width:"300px"}} className='notification-menu'>
+                            <Dropdown.Header style={{fontSize:"20px"}}>
+                                NOTIFICATION
+                            </Dropdown.Header>
+                                <div className='notifications'>
+                                    <div className='notification'>
+                                        <div className='notification-avatar'>
+                                            <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
+                                        </div>
+                                        <div className='notification-content'>
+                                            <div className='notification-text'>
+                                                <label><b>@dvhl</b> commented to your post</label>
+                                            </div>
+                                            <div className='notification-time'>
+                                                2 days ago
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='notification'>
+                                        <div className='notification-avatar'>
+                                            <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
+                                        </div>
+                                        <div className='notification-content'>
+                                            <div className='notification-text'>
+                                                <label><b>@admin</b> replied your comment</label>
+                                            </div>
+                                            <div className='notification-time'>
+                                                1 months ago
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <Dropdown.Header style={{textAlign:"center"}}>
+                                <Link to='/notifications' style={{margin:"center"}}>View All</Link>
+                            </Dropdown.Header>              
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    </div>
                     <div style={{marginRight:"30px"}}>
                     <Dropdown>
                         <Dropdown.Toggle variant="secondary">
@@ -96,7 +142,7 @@ function HeaderComponent(){
                         {/* <Dropdown.Item href="#">
                             <button style={{border:"none",background:"none"}}><Link style={{"text-decoration":"none"}} to="/changePass">Change Password</Link></button>
                         </Dropdown.Item> */}
-                        <Dropdown.Item href="#" onClick={logout}>
+                        <Dropdown.Item href="/" onClick={logout}>
                             <Link style={{"text-decoration":"none"}} to="/">Logout</Link>
                         </Dropdown.Item>
                         </Dropdown.Menu>
