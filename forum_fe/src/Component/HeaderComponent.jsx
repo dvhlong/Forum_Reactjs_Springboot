@@ -1,7 +1,6 @@
 import React, { useCallback,useState } from 'react';
 import { useNavigate,Link, Outlet } from 'react-router-dom';
 import searchIcon from '../SVG/search.svg';
-import accIcon from '../SVG/acc.svg';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -13,7 +12,6 @@ import HomeIcon from '../SVG/home.svg';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import Bell from '../SVG/bell.svg'
-import Card from 'react-bootstrap/Card';
 import '../CSS/HeaderComponent.css';
 function HeaderComponent(){
     const [showAddPost, setShowAddPost] = useState(false);
@@ -92,38 +90,46 @@ function HeaderComponent(){
                         <Dropdown.Toggle variant="secondary">
                             <img src={Bell} alt=''></img>
                         </Dropdown.Toggle>
-                        <Dropdown.Menu style={{width:"300px"}} className='notification-menu'>
+                        <Dropdown.Menu style={{width:"400px"}} className='notification-menu'>
                             <Dropdown.Header style={{fontSize:"20px"}}>
                                 NOTIFICATION
                             </Dropdown.Header>
-                                <div className='notifications'>
-                                    <div className='notification'>
-                                        <div className='notification-avatar'>
+                            <Dropdown.Divider/>
+                                <div className='notifications-drop'>
+                                    <Link style={{textDecoration:"none",width:"100%",color:'black'}} to="#">
+                                    <div className='notification-drop'>
+                                        <div className='notification-drop-avatar'>
                                             <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                                         </div>
-                                        <div className='notification-content'>
-                                            <div className='notification-text'>
+                                        <div className='notification-drop-content'>
+                                            <div className='notification-drop-text'>
                                                 <label><b>@dvhl</b> commented to your post</label>
                                             </div>
-                                            <div className='notification-time'>
+                                            <div className='notification-drop-time'>
                                                 2 days ago
                                             </div>
                                         </div>
+                                        <div className='notification-drop-mark'>
+                                        </div>
                                     </div>
-                                    <div className='notification'>
-                                        <div className='notification-avatar'>
+                                    </Link>
+                                    <div className='notification-drop notification-drop-unread'>
+                                        <div className='notification-drop-avatar'>
                                             <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                                         </div>
-                                        <div className='notification-content'>
-                                            <div className='notification-text'>
+                                        <div className='notification-drop-content'>
+                                            <div className='notification-drop-text'>
                                                 <label><b>@admin</b> replied your comment</label>
                                             </div>
-                                            <div className='notification-time'>
+                                            <div className='notification-drop-time'>
                                                 1 months ago
                                             </div>
                                         </div>
+                                        <div className='notification-drop-mark'>
+                                        </div>
                                     </div>
                                 </div>
+                            <Dropdown.Divider/>
                             <Dropdown.Header style={{textAlign:"center"}}>
                                 <Link to='/notifications' style={{margin:"center"}}>View All</Link>
                             </Dropdown.Header>              

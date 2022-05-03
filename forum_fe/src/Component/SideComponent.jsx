@@ -30,7 +30,7 @@ function SidebarComponent() {
     return (
         <Card className='side-card'>
             <Card.Header className='side-header'>
-                <img src={ChartIcon} alt=''/>STATISTIC
+                <img src={ChartIcon} alt=''/>&nbsp;STATISTIC
             </Card.Header>
             <Card.Body className='side-body'>
                 <p><b className='red'>Post quantity: </b><b>{statistic.postQuantity}</b></p>

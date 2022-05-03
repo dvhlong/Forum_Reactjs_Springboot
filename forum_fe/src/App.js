@@ -10,6 +10,7 @@ import ChangeInfo from './Page/ChangeInfo';
 import HeaderComponent from './Component/HeaderComponent';
 import ManageAcc from './Page/ManageAcc';
 import PostDetail from './Page/PostDetail';
+import Notification from './Page/Notification';
 function App() {
   return (
     <Router>
@@ -24,7 +25,7 @@ function App() {
             <Route path="/approve" element={<ApprovePosts/>}></Route>
             <Route path="/manageacc" element={<ManageAcc/>}></Route>
             <Route path="/postDetail/:id" element={<PostDetail/>}></Route>
-            <Route path="/notifications" element={<Posts/>}></Route>
+            <Route path="/notifications" element={<Notification/>}></Route>
           </Route>
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/notify"></Route>

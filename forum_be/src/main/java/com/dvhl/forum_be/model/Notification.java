@@ -33,16 +33,36 @@ public class Notification {
     private User receivedacc;
     @Column(name = "notified_at")
     private Timestamp notifiedat;
+    @Column(columnDefinition = "boolean default false")
+    private boolean isReaded;
     public Notification() {
     }
     
-    public Notification(String content, Post post, User notifiedacc, User receivedacc, Timestamp notifiedat) {
+    
+
+    public Notification(String content, Post post, User notifiedacc, User receivedacc, Timestamp notifiedat,
+            boolean isReaded) {
         this.content = content;
         this.post = post;
         this.notifiedacc = notifiedacc;
         this.receivedacc = receivedacc;
         this.notifiedat = notifiedat;
+        this.isReaded = isReaded;
     }
+
+    
+
+    public boolean isReaded() {
+        return isReaded;
+    }
+
+
+
+    public void setReaded(boolean isReaded) {
+        this.isReaded = isReaded;
+    }
+
+
 
     public long getId() {
         return id;

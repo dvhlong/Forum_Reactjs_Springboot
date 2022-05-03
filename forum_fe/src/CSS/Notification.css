@@ -1,4 +1,4 @@
-.notifications-drop{
+.notifications{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,45 +6,44 @@
     margin-left: 10px;
     margin-right: 10px;
 }
-.notification-drop{
+.notification{
     display: flex;
     flex-direction: row;
     width: 100%;
     align-items: center;
     margin-bottom: 10px;
+    background-color: white;
     border-radius: 5px;
 }
-.notification-drop:hover{
+.notification:hover{
     background-color: rgb(210, 228, 228);
 }
-.notification-drop-content{
+.notification-content{
     display: flex;
     flex-direction: column;
-    margin-right: 20px;
 }
-.notification-drop-time{
+.notification-time{
     display: flex;
     font-size: 13px;
     color: rgb(94, 94, 197);
     margin-left: 10px;
 }
-.notification-drop-text{
+.notification-text{
     display: flex;
     font-size: 16px;
     margin-left: 10px;
 }
-.notification-drop-avatar{
+.notification-avatar{
     margin-left: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
-.notification-drop-mark{
+.notification-mark{
     display: flex;
     justify-self: end;
     margin-left: auto;
     margin-right: 30px;
 }
-
-.notification-drop-unread{
-    background-color: rgb(207, 209, 211);
+.notification-unread{
+    background-color: rgb(207, 209, 211);;
 }
