@@ -25,7 +25,7 @@ function Notification(){
                 </td>
                 <td style={{width:"40%"}}>
                     <div className='notifications'>
-                        <Link style={{textDecoration:"none",width:"100%",color:"black"}} to="#">
+                        <Link style={{textDecoration:"none",width:"100%",color:"black"}} to="/postDetail/13">
                         <div className='notification'>
                             <div className='notification-avatar'>
                                 <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
@@ -42,7 +42,7 @@ function Notification(){
                             </div>
                         </div>
                         </Link>
-                        <div className='notification notification-unread'>
+                        <div className='notification'>
                             <div className='notification-avatar'>
                                 <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                             </div>
@@ -57,7 +57,7 @@ function Notification(){
                             <div className='notification-mark'>
                             </div>
                         </div>
-                        <div className='notification notification-unread'>
+                        <div className='notification'>
                             <div className='notification-avatar'>
                                 <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                             </div>

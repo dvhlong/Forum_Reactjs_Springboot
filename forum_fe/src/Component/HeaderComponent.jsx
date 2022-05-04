@@ -96,7 +96,7 @@ function HeaderComponent(){
                             </Dropdown.Header>
                             <Dropdown.Divider/>
                                 <div className='notifications-drop'>
-                                    <Link style={{textDecoration:"none",width:"100%",color:'black'}} to="#">
+                                    <Link style={{textDecoration:"none",width:"100%",color:'black'}} to="/postDetail/6">
                                     <div className='notification-drop'>
                                         <div className='notification-drop-avatar'>
                                             <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
@@ -113,7 +113,8 @@ function HeaderComponent(){
                                         </div>
                                     </div>
                                     </Link>
-                                    <div className='notification-drop notification-drop-unread'>
+                                    <Link style={{textDecoration:"none",width:"100%",color:'black'}} to="/postDetail/7">
+                                    <div className='notification-drop'>
                                         <div className='notification-drop-avatar'>
                                             <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                                         </div>
@@ -128,6 +129,7 @@ function HeaderComponent(){
                                         <div className='notification-drop-mark'>
                                         </div>
                                     </div>
+                                    </Link>
                                 </div>
                             <Dropdown.Divider/>
                             <Dropdown.Header style={{textAlign:"center"}}>
