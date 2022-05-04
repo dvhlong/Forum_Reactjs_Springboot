@@ -11,6 +11,8 @@ import HeaderComponent from './Component/HeaderComponent';
 import ManageAcc from './Page/ManageAcc';
 import PostDetail from './Page/PostDetail';
 import Notification from './Page/Notification';
+import CreatePost from './Page/CreatePost';
+import EditPost from './Page/EditPost';
 function App() {
   return (
     <Router>
@@ -26,6 +28,8 @@ function App() {
             <Route path="/manageacc" element={<ManageAcc/>}></Route>
             <Route path="/postDetail/:id" element={<PostDetail/>}></Route>
             <Route path="/notifications" element={<Notification/>}></Route>
+            <Route path="/createpost" element={<CreatePost/>}></Route>
+            <Route path="/editpost/:postid" element={<EditPost/>}></Route>
           </Route>
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/notify"></Route>

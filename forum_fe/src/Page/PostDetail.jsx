@@ -1,4 +1,4 @@
-import React,{useState,useEffect, useDebugValue} from 'react';
+import React,{useState,useEffect} from 'react';
 import Card from 'react-bootstrap/Card';
 import PostService from '../Service/PostService';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -301,7 +301,7 @@ function PostDetail(){
                         :
                         <td style={{width:"60%"}}>
                             <tr style={{marginBottom:"20px"}}>
-                                <td>   
+                                <td style={{width:"100%"}}>   
                                 <Card style={{marginBottom:"20px"}}>
                                     <Card.Header style={{color:"blue"}}>
                                         <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
