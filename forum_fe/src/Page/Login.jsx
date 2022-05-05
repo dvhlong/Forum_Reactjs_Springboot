@@ -25,9 +25,9 @@ function Login() {
         }
         // console.log(JSON.stringify(acc));
         if(username==="")
-            setError("Vui long nhap username !!!")
+            setError("Please type username !!!")
         else if(password==="")
-            setError("Vui long nhap password !!!")
+            setError("Please type password !!!")
         else {
             try{
             accSV.checklogin(acc).then(res=>{
@@ -40,9 +40,9 @@ function Login() {
                     localStorage.setItem("accid",res.data.acc.id)
                     navigate('/topic');
                 } else if(res.data.message==="User account is locked"){
-                    setError("Username da bi khoa !!!!");
+                    setError("Username is blocked !!!!");
                 } else {
-                    setError("Username hoac password ko dung !!!!");
+                    setError("Username or password is incorrect !!!!");
                 }
             });
         }

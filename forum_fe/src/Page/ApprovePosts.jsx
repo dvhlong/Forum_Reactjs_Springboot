@@ -12,6 +12,7 @@ import parse from "html-react-parser";
 import Moment from 'react-moment';
 import Swal from 'sweetalert2';
 import SideComponent from '../Component/SideComponent';
+import '../CSS/PostDetail.css';
 function ApprovePosts() {
     let navigate=useNavigate();
     const[mount,setMount]=useState(false);
@@ -106,12 +107,6 @@ function ApprovePosts() {
                                     </td>:<></>
                                 }    
                             </tr>
-                            {/* <tr>
-                                <td><td><img style={{width:"80%",borderRadius:"2%"}} src='https://i.ytimg.com/vi/x0fSBAgBrOQ/maxresdefault.jpg' alt=''></img></td></td>
-                            </tr>
-                            <tr>
-                                <td><img style={{width:"80%",marginTop:"10px",borderRadius:"2%"}} src='https://www.zekelabs.com/static/media/photos/2019/06/30/Springboot-training-in-bangalore-800-500-img.jpg' alt=''></img></td>
-                            </tr> */}
                             <tr>
                                 <td><SideComponent/></td>
                             </tr>

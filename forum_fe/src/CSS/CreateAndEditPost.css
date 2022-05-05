@@ -5,6 +5,7 @@
     background-color: white;
     border-radius: 0.5cm;
     flex-direction: column;
+    zoom: normal;
 }
 .post-label{
     display: flex;
@@ -38,3 +39,9 @@
     justify-content: flex-end;
     margin-bottom: 20px;
 }
+.ck.ck-editor{
+	width: 100%;
+}
+/* .ck.ck-editor__main>.ck-editor__editable:not(.ck-focused){
+    border-color: white;
+} */

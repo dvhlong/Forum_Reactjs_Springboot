@@ -14,5 +14,13 @@
     font-size: 1.8em;
 }
 figure.image {
-    display: flex;
+    /* display: flex; */
+    margin: auto;
+}
+figure>img{
+    width: 100%;
+    height: 100%;
+}
+.p-content{
+    border-color: white;
 }

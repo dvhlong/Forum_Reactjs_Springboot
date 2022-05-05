@@ -20,8 +20,8 @@ function App() {
           <Route path="/" element={<Login/>}></Route>
           <Route path="/" element={<HeaderComponent/>}>
             <Route path="/posts" element={<Posts/>}></Route>
-            <Route path="/posts/:key" element={<Posts/>}></Route>
-            <Route path="/posts/:topicid" element={<Posts/>}></Route>
+            <Route path="/posts/key=:key" element={<Posts/>}></Route>
+            <Route path="/posts/:topic=topicid" element={<Posts/>}></Route>
             <Route path="/topic" element={<Topic/>}></Route>
             <Route path="/changeInfo" element={<ChangeInfo/>}></Route>
             <Route path="/approve" element={<ApprovePosts/>}></Route>
@@ -29,7 +29,7 @@ function App() {
             <Route path="/postDetail/:id" element={<PostDetail/>}></Route>
             <Route path="/notifications" element={<Notification/>}></Route>
             <Route path="/createpost" element={<CreatePost/>}></Route>
-            <Route path="/editpost/:postid" element={<EditPost/>}></Route>
+            <Route path="/editpost/:id" element={<EditPost/>}></Route>
           </Route>
           <Route path="/register" element={<Register/>}></Route>
           <Route path="/notify"></Route>

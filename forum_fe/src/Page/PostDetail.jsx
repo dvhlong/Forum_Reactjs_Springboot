@@ -7,15 +7,10 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Form from 'react-bootstrap/Form';
 import {useParams,useNavigate} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
-import TopicService from '../Service/TopicService';
 import '../CSS/PostDetail.css';
-import Toast from 'react-bootstrap/Toast'
-import ToastContainer from 'react-bootstrap/ToastContainer'
 import moreIcon from '../SVG/more.svg';
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import parse from "html-react-parser";
 import Moment from 'react-moment';
 import Swal from 'sweetalert2';
@@ -24,14 +19,8 @@ function PostDetail(){
     const role=localStorage.getItem("role");
     const accid=localStorage.getItem("accid");
     let navigate=useNavigate();
-    const [showEdit, setShowEdit] = useState(false);
-    const handleCloseEdit = () => setShowEdit(false);
-    const handleShowEdit=()=>{
-        setTopicId(post.topic.id)
-        setTopicName(post.topic.topicname)
-        setEditPostTitle(post.title);
-        setEditPostContent(post.content);
-        setShowEdit(true)
+    const handleShowEdit=(postid)=>{
+        navigate(`/editpost/${postid}`);
     }
     const [showDelete, setShowDelete] = useState(false);
     const handleCloseDelete = () => setShowDelete(false);
@@ -39,11 +28,6 @@ function PostDetail(){
         setShowDelete(true);
     }
     
-    const[topicList,setTopicList]=useState([]);
-    const [topicId,setTopicId]=useState("0");
-    const [topicName,setTopicName]=useState("");
-    const[editPostTitle,setEditPostTitle]=useState("")
-    const[editPostContent,setEditPostContent]=useState("")
     const[mount,setMount]=useState(false);
     let {id}=useParams();
     const[loading,setLoading]=useState(false);
@@ -155,60 +139,6 @@ function PostDetail(){
             setNewComment(""); 
         }
     }
-    const chooseTopic=(e)=>{
-        setTopicId(e.target.value);
-    }
-    const enterEditPostTitle=(e)=>{
-        setEditPostTitle(e.target.value)
-    }
-    const changePost=()=>{
-        let updatedPost={
-            id:String(id),
-            title:editPostTitle,
-            content:editPostContent
-        }
-        if(topicId==="0"){
-            Swal.fire({
-                position: 'middle',
-                icon: 'error',
-                title: 'Please choose topic !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        } else if(editPostTitle===""){
-            Swal.fire({
-                position: 'middle',
-                icon: 'error',
-                title: 'Please enter title !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        } else if(editPostContent===""){
-            Swal.fire({
-                position: 'middle',
-                icon: 'error',
-                title: 'Please enter content name !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
-        } else {
-            PostService.editPost(Number(topicId),updatedPost).then(res=>{
-                if(res.data.status===401){
-                    alert("session expired");
-                    navigate("/")
-                }
-                reload();
-            })
-            handleCloseEdit();
-            Swal.fire({
-                position: 'middle',
-                icon: 'success',
-                title: 'Post edited !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })         
-        }
-    }
     const deletePost=()=>{
         console.log(id);
         handleCloseDelete();
@@ -254,20 +184,6 @@ function PostDetail(){
                 setMount(true);
         }, 800);
     },[id, page, update])
-    useEffect(()=>{
-        setLoading(true);
-        setTimeout(async()=>{
-            await TopicService.getTopicList().then(res=>{
-                if(res.data.status===401){
-                    navigate("/")
-                }
-                setTopicList(res.data);
-            })
-            setLoading(false);
-            if (mount===false)
-                setMount(true);
-        },1000);
-    },[]);
     return (
         <div>
                 <div>
@@ -283,12 +199,6 @@ function PostDetail(){
                                     </td>:<></>
                                 }    
                             </tr>
-                            {/* <tr>
-                                <td><td><img style={{width:"80%",borderRadius:"2%"}} src='https://i.ytimg.com/vi/x0fSBAgBrOQ/maxresdefault.jpg' alt=''></img></td></td>
-                            </tr>
-                            <tr>
-                                <td><img style={{width:"80%",marginTop:"10px",borderRadius:"2%"}} src='https://www.zekelabs.com/static/media/photos/2019/06/30/Springboot-training-in-bangalore-800-500-img.jpg' alt=''></img></td>
-                            </tr> */}
                             <tr>
                                 <td><SideComponent/></td>
                             </tr>
@@ -337,7 +247,7 @@ function PostDetail(){
                                             {
                                                 (accid===String(post.created_acc.id))
                                                 ?
-                                                <Dropdown.Item href="#" onClick={handleShowEdit}>
+                                                <Dropdown.Item href="#" onClick={()=>handleShowEdit(post.id)}>
                                                     Edit Post
                                                 </Dropdown.Item>
                                                 :
@@ -378,8 +288,6 @@ function PostDetail(){
                                                     <>&nbsp;|&nbsp;
                                                         <Moment fromNow>{comment.created_at}</Moment>
                                                         &nbsp;
-                                                        {/* ({new Date(comment.created_at).toLocaleDateString(undefined,
-                                                        { year: "numeric", month: "long", day: "numeric", hour:"2-digit",minute:"2-digit",second:"2-digit" })}) */}
                                                         (<Moment format='DD/MM/YYYY HH:mm'>{comment.created_at}</Moment>)
                                                     </>
                                                 }
@@ -414,7 +322,7 @@ function PostDetail(){
                                                 <Card.Footer>
                                                     <Form.Control as="textarea" cols={1} placeholder='Reply comment.....'  onChange={changeNewComment}></Form.Control>
                                                     <Button style={{color:"white"}} onClick={()=>addComment(post.id,comment.id)}>Reply</Button>
-                                                    <Button style={{color:"white"}} onClick={cancelReply}>Cancel</Button>   
+                                                    <Button style={{color:"white",marginLeft:"10px"}} onClick={cancelReply}>Cancel</Button>   
                                                 </Card.Footer>
                                                 :
                                                 <Card.Footer>
@@ -464,50 +372,6 @@ function PostDetail(){
                         </td>
                         }
                         <td style={{width:"10%",color:"yellow"}}>
-                            <Modal
-                                // fullscreen={true}
-                                size="lg"
-                                show={showEdit}
-                                onHide={handleCloseEdit}
-                                backdrop="static"
-                                keyboard={false}
-                            >
-                                <Modal.Header closeButton>
-                                <Modal.Title>Edit Post</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                <p>Topic :</p>
-                                    <Form.Select aria-label="Default select example" value={topicId} onChange={chooseTopic}>
-                                        {/* <option value={topicId}> {topicName}</option> */}
-                                        <option value="0"> Select Topic</option>
-                                        {
-                                            topicList.map(
-                                                topic=>
-                                                <option key={topic.id} value={topic.id}>{topic.topicname}</option>
-                                            )
-                                        }
-                                    </Form.Select> 
-                                    <p>Title :</p>
-                                    <input style={{width:"100%"}} value={editPostTitle} onChange={enterEditPostTitle}/>          
-                                    <p>Content :</p>
-                                    {/* <textarea name="" id="" cols="60" rows="10" value={editPostContent} onChange={enterEditPostContent}></textarea> */}
-                        
-                                        <CKEditor 
-                                            editor={Editor}
-                                            data={editPostContent}
-                                            onChange={ ( event, editor ) => {
-                                                const data = editor.getData();
-                                                setEditPostContent(data);
-                                            } }                    
-                                        />    
-                                </Modal.Body>
-                                <Modal.Footer>
-                                <Button variant="secondary" onClick={handleCloseEdit}>
-                                    Close
-                                </Button>
-                                <Button variant="primary" onClick={changePost} >Change</Button>
-                                </Modal.Footer>
-                            </Modal>
                             <Modal
                                 show={showDelete}
                                 onHide={handleCloseDelete}

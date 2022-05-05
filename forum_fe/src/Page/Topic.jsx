@@ -174,7 +174,6 @@ function Topic() {
     return(
         <div>
                 <div>
-                    {/* <Header/> */}
                     <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1>
                     <table style={{width:"100%",border:"none"}}>
                         <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
@@ -187,12 +186,6 @@ function Topic() {
                                     </td>:<></>
                                 }    
                             </tr>
-                            {/* <tr>
-                                <td><td><img style={{width:"80%",borderRadius:"2%"}} src='https://i.ytimg.com/vi/x0fSBAgBrOQ/maxresdefault.jpg' alt=''></img></td></td>
-                            </tr>
-                            <tr>
-                                <td><img style={{width:"80%",marginTop:"10px",borderRadius:"2%"}} src='https://www.zekelabs.com/static/media/photos/2019/06/30/Springboot-training-in-bangalore-800-500-img.jpg' alt=''></img></td>
-                            </tr> */}
                             <tr>
                                 <td><SideComponent/></td>
                             </tr>

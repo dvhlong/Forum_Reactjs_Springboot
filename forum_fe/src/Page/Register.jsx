@@ -17,13 +17,13 @@ function Register() {
     const register=(e)=>{
         e.preventDefault();
         if (username==="")
-            setError("Vui long nhap username !!!")
+            setError("Please type username !!!")
         else if(password==="")
-            setError("Vui long nhap password !!!")
+            setError("Please type password !!!")
         else if(email==="")
-            setError("Vui long nhap email !!!")
+            setError("Please type email !!!")
         else if(repass==="")
-            setError("Vui long xac nhan lai password !!!")
+            setError("Please re-type password !!!")
         else if(password===repass){
             let acc={
                 username:username,
@@ -43,7 +43,7 @@ function Register() {
                 }
             });
         } else {
-            setError("Xac nhan password ko phu hop !!!")
+            setError("password does not match !!!")
         }
     };
     const back=()=>navigate('/');

@@ -127,7 +127,6 @@ function ChangeInfo() {
     }
     return(
         <div>
-            {/* <HeaderComponent/> */}
             {
                             (loading===true)
                             ?<TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
