@@ -148,7 +148,10 @@ function EditPost(){
                 <CKEditor 
                     editor={Editor}
                     config={{
-                        placeholder:"Type content here......"
+                        placeholder:"Type content here......",
+                        mediaEmbed:{
+                            previewsInData:true
+                        }
                     }}
                     data={editPostContent}
                     onChange={ ( event, editor ) => {

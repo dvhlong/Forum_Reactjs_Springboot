@@ -104,7 +104,10 @@ function CreatePost(){
                 <div className='post-content'>
                     <CKEditor 
                         config={{
-                            placeholder:"Type content here......"
+                            placeholder:"Type content here......",
+                            mediaEmbed:{
+                                previewsInData:true
+                            }
                         }}
                         editor={Editor}
                         data={newContent}
