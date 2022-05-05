@@ -147,6 +147,9 @@ function EditPost(){
                 <div className='post-content'>
                 <CKEditor 
                     editor={Editor}
+                    config={{
+                        placeholder:"Type content here......"
+                    }}
                     data={editPostContent}
                     onChange={ ( event, editor ) => {
                         const data = editor.getData();

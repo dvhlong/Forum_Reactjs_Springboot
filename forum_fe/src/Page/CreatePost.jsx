@@ -103,6 +103,9 @@ function CreatePost(){
                 </div>
                 <div className='post-content'>
                     <CKEditor 
+                        config={{
+                            placeholder:"Type content here......"
+                        }}
                         editor={Editor}
                         data={newContent}
                         onChange={ ( event, editor ) => {
