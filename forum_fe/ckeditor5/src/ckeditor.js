@@ -2,15 +2,17 @@
  * @license Copyright (c) 2014-2022, CKSource Holding sp. z o.o. All rights reserved.
  * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
-import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor.js';
+import BalloonBlockEditor from '@ckeditor/ckeditor5-editor-balloon/src/ballooneditor.js';
 import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment.js';
 import Autoformat from '@ckeditor/ckeditor5-autoformat/src/autoformat.js';
 import AutoImage from '@ckeditor/ckeditor5-image/src/autoimage.js';
+import AutoLink from '@ckeditor/ckeditor5-link/src/autolink.js';
 import Base64UploadAdapter from '@ckeditor/ckeditor5-upload/src/adapters/base64uploadadapter.js';
 import BlockQuote from '@ckeditor/ckeditor5-block-quote/src/blockquote.js';
+import BlockToolbar from '@ckeditor/ckeditor5-ui/src/toolbar/block/blocktoolbar.js';
 import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold.js';
-import CloudServices from '@ckeditor/ckeditor5-cloud-services/src/cloudservices.js';
 import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials.js';
+import FontBackgroundColor from '@ckeditor/ckeditor5-font/src/fontbackgroundcolor.js';
 import FontColor from '@ckeditor/ckeditor5-font/src/fontcolor.js';
 import FontFamily from '@ckeditor/ckeditor5-font/src/fontfamily.js';
 import FontSize from '@ckeditor/ckeditor5-font/src/fontsize.js';
@@ -33,19 +35,22 @@ import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefrom
 import Table from '@ckeditor/ckeditor5-table/src/table.js';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar.js';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation.js';
+import WordCount from '@ckeditor/ckeditor5-word-count/src/wordcount.js';
 
-class Editor extends ClassicEditor {}
+class Editor extends BalloonBlockEditor {}
 
 // Plugins to include in the build.
 Editor.builtinPlugins = [
 	Alignment,
 	Autoformat,
 	AutoImage,
+	AutoLink,
 	Base64UploadAdapter,
 	BlockQuote,
+	BlockToolbar,
 	Bold,
-	CloudServices,
 	Essentials,
+	FontBackgroundColor,
 	FontColor,
 	FontFamily,
 	FontSize,
@@ -67,38 +72,39 @@ Editor.builtinPlugins = [
 	PasteFromOffice,
 	Table,
 	TableToolbar,
-	TextTransformation
+	TextTransformation,
+	WordCount
 ];
 
 // Editor configuration.
 Editor.defaultConfig = {
 	toolbar: {
 		items: [
-			'heading',
-			'|',
 			'bold',
 			'italic',
-			'link',
-			'bulletedList',
-			'numberedList',
-			'|',
-			'outdent',
-			'indent',
-			'|',
-			'imageUpload',
-			'blockQuote',
-			'insertTable',
-			'mediaEmbed',
-			'undo',
-			'redo',
-			'alignment',
+			'fontBackgroundColor',
 			'fontColor',
-			'fontFamily',
 			'fontSize',
-			'imageInsert'
+			'fontFamily'
 		]
 	},
 	language: 'en',
+	blockToolbar: [
+		'heading',
+		'blockQuote',
+		'link',
+		'indent',
+		'outdent',
+		'numberedList',
+		'bulletedList',
+		'alignment',
+		'insertTable',
+		'undo',
+		'redo',
+		'imageUpload',
+		'imageInsert',
+		'mediaEmbed'
+	],
 	image: {
 		toolbar: [
 			'imageTextAlternative',
