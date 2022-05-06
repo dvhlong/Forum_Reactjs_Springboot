@@ -35,6 +35,7 @@ function ChangeInfo() {
                 setEmail(res.data.data.email);
                 setDateOfBirth(res.data.data.birthdate);
                 setAvatar(res.data.data.avatar);
+                localStorage.setItem("avatar",res.data.data.avatar);
             })
             setLoading(false);
             return()=>{

@@ -7,7 +7,6 @@ import Bell from '../SVG/bell.svg'
 import '../CSS/HeaderComponent.css';
 import Button from 'react-bootstrap/esm/Button';
 function HeaderComponent(){   
-    const avatar=localStorage.getItem("avatar");
     let navigate=useNavigate();
     const logout=()=>{
         localStorage.removeItem("token");
@@ -16,9 +15,6 @@ function HeaderComponent(){
         localStorage.removeItem("avatar");
         navigate("/");
     };
-    useEffect(()=>{
-        const avatar=localStorage.getItem("avatar");
-    },[localStorage.getItem("avatar")])
     return(
             <div className='forum-container'>
                 <header style={{width:"100%"}}>
@@ -91,7 +87,7 @@ function HeaderComponent(){
                     <Dropdown>
                         <Dropdown.Toggle variant="secondary">
                         <label>
-                                <img style={{width:"30px",height:"30px",borderRadius:"50%"}} src={"http://localhost:8080/files/"+avatar} alt=''></img> {localStorage.getItem("username")}</label>
+                                <img style={{width:"30px",height:"30px",borderRadius:"50%"}} src={"http://localhost:8080/files/"+localStorage.getItem("avatar")} alt=''></img> {localStorage.getItem("username")}</label>
                         </Dropdown.Toggle>
                         <Dropdown.Menu variant='light'>
                         <Dropdown.Item href="#" onClick={()=>navigate('/changeinfo')} style={{textAlign:"center"}}>
