@@ -21,7 +21,6 @@ function SidebarComponent() {
                 alert("session expired");
                 navigate("/")
             }
-            console.log(res.data);
             setStatistic(res.data.data);
         })
         return()=>{
