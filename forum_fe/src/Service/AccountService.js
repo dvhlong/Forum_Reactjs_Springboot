@@ -86,5 +86,19 @@ class AccountService{
             }
         );
     }
+    uploadAvatar(formData){
+        return axios(
+            {
+                url:`/uploadAvatar/${localStorage.getItem("accid")}`,
+                method:"post",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "multipart/form-data",
+                },
+                data:formData
+            }
+        );
+    }
 }
 export default new AccountService();

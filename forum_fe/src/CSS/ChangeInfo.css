@@ -1,0 +1,9 @@
+.upload-avatar{
+    display: flex;
+    flex-direction: row;
+    flex-flow: wrap;
+    width: 30%;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}

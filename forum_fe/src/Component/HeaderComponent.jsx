@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate, Outlet } from 'react-router-dom';
 import searchIcon from '../SVG/search.svg';
 import Dropdown from 'react-bootstrap/Dropdown';
 import HomeIcon from '../SVG/home.svg';
@@ -7,21 +7,28 @@ import Bell from '../SVG/bell.svg'
 import '../CSS/HeaderComponent.css';
 import Button from 'react-bootstrap/esm/Button';
 function HeaderComponent(){   
+    const avatar=localStorage.getItem("avatar");
+    let navigate=useNavigate();
     const logout=()=>{
         localStorage.removeItem("token");
         localStorage.removeItem("accid");
         localStorage.removeItem("username");
+        localStorage.removeItem("avatar");
+        navigate("/");
     };
+    useEffect(()=>{
+        const avatar=localStorage.getItem("avatar");
+    },[localStorage.getItem("avatar")])
     return(
             <div className='forum-container'>
                 <header style={{width:"100%"}}>
                     <nav className='navbar navbar-dark bg-secondary nojt'>
                     <div style={{width:"auto"}}>
-                    <Link style={{"text-decoration":"none",color:"white"}} to="/topic"><button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}}><img src={HomeIcon} alt=''></img></button></Link>
-                    <Link style={{"text-decoration":"none",color:"white"}} to="/posts"><button className="navbar-brand btn btn-secondary">Posts</button></Link>
-                    {(localStorage.getItem("role")!=="user")?(<Link style={{"text-decoration":"none",color:"white"}} to="/approve"><button className="navbar-brand btn btn-secondary">Approve</button></Link>):<></>}
-                    {(localStorage.getItem("role")==="admin")?(<Link style={{"text-decoration":"none",color:"white"}} to="/manageacc"><button className="navbar-brand btn btn-secondary">Manage Acc</button></Link>):<></>}
-                    <Link style={{"text-decoration":"none",color:"white"}} to="/createpost"><button className="navbar-brand btn btn-danger" style={{marginLeft:"50px"}}>Create your post</button></Link>
+                    <button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}} onClick={()=>navigate("/topic")}><img src={HomeIcon} alt=''></img></button>
+                    <button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/posts")}>Posts</button>
+                    {(localStorage.getItem("role")!=="user")?(<button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/approve")}>Approve</button>):<></>}
+                    {(localStorage.getItem("role")==="admin")?(<button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/manageacc")}>Manage Acc</button>):<></>}
+                    <button className="navbar-brand btn btn-danger" style={{marginLeft:"50px"}} onClick={()=>navigate("/createpost")}>Create your post</button>
                     </div>
                     <div class="row" style={{marginLeft:"20px"}}>
                         <div class="col-auto">
@@ -42,8 +49,7 @@ function HeaderComponent(){
                             </Dropdown.Header>
                             <Dropdown.Divider/>
                                 <div className='notifications-drop'>
-                                    <Link style={{textDecoration:"none",width:"100%",color:'black'}} to="/postDetail/6">
-                                    <div className='notification-drop'>
+                                    <div className='notification-drop' onClick={()=>navigate("/postDetail/6")}>
                                         <div className='notification-drop-avatar'>
                                             <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                                         </div>
@@ -58,9 +64,7 @@ function HeaderComponent(){
                                         <div className='notification-drop-mark'>
                                         </div>
                                     </div>
-                                    </Link>
-                                    <Link style={{textDecoration:"none",width:"100%",color:'black'}} to="/postDetail/7">
-                                    <div className='notification-drop'>
+                                    <div className='notification-drop' onClick={()=>navigate("/postDetail/7")}>
                                         <div className='notification-drop-avatar'>
                                             <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                                         </div>
@@ -75,7 +79,6 @@ function HeaderComponent(){
                                         <div className='notification-drop-mark'>
                                         </div>
                                     </div>
-                                    </Link>
                                 </div>
                             <Dropdown.Divider/>
                             <Dropdown.Header style={{textAlign:"center"}}>
@@ -87,14 +90,15 @@ function HeaderComponent(){
                     <div style={{marginRight:"30px"}}>
                     <Dropdown>
                         <Dropdown.Toggle variant="secondary">
-                        <label><img style={{width:"30px",height:"30px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img> {localStorage.getItem("username")}</label>
+                        <label>
+                                <img style={{width:"30px",height:"30px",borderRadius:"50%"}} src={"http://localhost:8080/files/"+avatar} alt=''></img> {localStorage.getItem("username")}</label>
                         </Dropdown.Toggle>
                         <Dropdown.Menu variant='light'>
-                        <Dropdown.Item href="#">
-                            <Link style={{"text-decoration":"none"}} to="/changeInfo"><Button style={{width:"100%"}} variant='light'>Personal</Button></Link>                          
+                        <Dropdown.Item href="#" onClick={()=>navigate('/changeinfo')} style={{textAlign:"center"}}>
+                            Personal                          
                         </Dropdown.Item>
-                        <Dropdown.Item href="/" onClick={logout}>
-                            <Link style={{"text-decoration":"none"}} to="/"><Button style={{width:"100%"}} variant='light'>Logout</Button></Link>
+                        <Dropdown.Item href="#" onClick={logout} style={{textAlign:"center"}}>
+                            Logout
                         </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>

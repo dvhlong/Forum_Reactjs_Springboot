@@ -32,14 +32,19 @@ public class User {
     private String email;
     private String phone;
     private Date birthdate;
+    private String avatar;
     private Timestamp createdat;
     private Timestamp updatedat;
+
     public User() {
     }
 
 
-    public User(String username, String password, Role role, boolean isblocked, String name, String email,
-            String phone, Date birthdate, Timestamp created_at, Timestamp updated_at) {
+    
+    
+
+    public User(String username, String password, Role role, boolean isblocked, String name, String email, String phone,
+            Date birthdate, String avatar, Timestamp createdat, Timestamp updatedat) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -48,8 +53,22 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.birthdate = birthdate;
-        this.createdat = created_at;
-        this.updatedat = updated_at;
+        this.avatar = avatar;
+        this.createdat = createdat;
+        this.updatedat = updatedat;
+    }
+
+
+
+
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
 

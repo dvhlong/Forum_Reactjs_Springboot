@@ -18,7 +18,8 @@
 }
 .notification:hover{
     background-color: rgb(210, 228, 228);
-    transform: scale(1.1)
+    transform: scale(1.1);
+    cursor:pointer;
 }
 .notification-content{
     display: flex;

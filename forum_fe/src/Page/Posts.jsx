@@ -85,7 +85,7 @@ function Posts(){
                                                 <td>
                                                 <Card style={{marginBottom:"20px"}}>
                                                     <Card.Header style={{color:"blue"}}>
-                                                    <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
+                                                    <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src={"http://localhost:8080/files/"+post.created_acc.avatar} alt=''></img>
                                                     <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
                                                     {
                                                         <>&nbsp;|&nbsp;

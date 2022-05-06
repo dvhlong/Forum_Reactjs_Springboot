@@ -10,7 +10,9 @@ import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Role;
 import com.dvhl.forum_be.service.AccountService;
 
+import org.aspectj.internal.lang.annotation.ajcDeclareAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +24,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-@CrossOrigin(origins = "http://localhost:3000")
+// @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(path = "/")
 public class AccountController {
@@ -76,5 +81,12 @@ public class AccountController {
     ResponseEntity<Response> getLogoutSuccess(){
         return accSV.getLogoutSuccess();
     }
-    
+    @PostMapping("/uploadAvatar/{id}")
+    ResponseEntity<Response> uploadAvatar(@PathVariable long id,@RequestParam("avatar") MultipartFile file){
+        return accSV.uploadAvatar(file,id);
+    }
+    @GetMapping("/files/{filename}")
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+        return accSV.loadAvatar(filename);
+    }
 }

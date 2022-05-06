@@ -4,8 +4,9 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import {TailSpin} from 'react-loader-spinner';
 import '../CSS/Notification.css';
 import Dropdown from 'react-bootstrap/Dropdown';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 function Notification(){
+    let navigate=useNavigate();
     const[loading,setLoading]=useState(false);
     return(
         <div>
@@ -25,8 +26,7 @@ function Notification(){
                 </td>
                 <td style={{width:"40%"}}>
                     <div className='notifications'>
-                        <Link style={{textDecoration:"none",width:"100%",color:"black"}} to="/postDetail/13">
-                        <div className='notification'>
+                        <div className='notification' onClick={()=>navigate("/postDetail/13")}>
                             <div className='notification-avatar'>
                                 <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
                             </div>
@@ -41,7 +41,6 @@ function Notification(){
                             <div className='notification-mark'>
                             </div>
                         </div>
-                        </Link>
                         <div className='notification'>
                             <div className='notification-avatar'>
                                 <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>

@@ -7,8 +7,11 @@ import {TailSpin} from 'react-loader-spinner';
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 import Swal from 'sweetalert2'
+import '../CSS/ChangeInfo.css';
 function ChangeInfo() {
     let navigate=useNavigate();
+    const [newAvatar,setNewAvatar]=useState();
+    const [avatar,setAvatar]=useState();
     const[loading,setLoading]=useState(false);
     const[name,setName]=useState("");
     const[phone,setPhone]=useState("");
@@ -31,6 +34,7 @@ function ChangeInfo() {
                 setPhone(res.data.data.phone);
                 setEmail(res.data.data.email);
                 setDateOfBirth(res.data.data.birthdate);
+                setAvatar(res.data.data.avatar);
             })
             setLoading(false);
             return()=>{
@@ -38,6 +42,27 @@ function ChangeInfo() {
             }
         }, 800);
     },[update]);
+    const changeAvatar=(e)=>{
+        setNewAvatar(e.target.files[0]);
+    }
+    const uploadAvatar=()=>{
+        const formData=new FormData();
+        if(newAvatar===undefined){
+            Swal.fire({
+                icon: 'error',
+                title: 'Please choose avatar !!!!',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        } else {
+            formData.append("avatar",newAvatar,newAvatar.name);
+            AccSV.uploadAvatar(formData).then(res=>{
+                console.log(res);
+                reload();
+            })
+            setNewAvatar();
+        }
+    }
     const changeName=(e)=>{
         setName(e.target.value)
     }
@@ -146,8 +171,16 @@ function ChangeInfo() {
                     <table style={{width:"100%"}}>
                         <tr style={{textAlign:"center"}}>
                         <td>
-                            <img style={{width:"200px",height:"200px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
+                                <img style={{width:"200px",height:"200px",borderRadius:"50%"}} src={"http://localhost:8080/files/"+avatar} key={avatar} alt=''></img>                            
                         </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div className='upload-avatar'>
+                                    <Form.Control type="file"  onChange={changeAvatar}/>
+                                    <Button variant='secondary' onClick={uploadAvatar}>Upload</Button>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                         <td>
