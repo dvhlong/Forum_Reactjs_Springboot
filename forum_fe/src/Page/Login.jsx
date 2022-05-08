@@ -85,13 +85,13 @@ function Login() {
                     <input type="password" placeholder="Password" value={password} onChange={enterPassword}/>
                 </div>
                 </div>
-                <GoogleLogin
+                {/* <GoogleLogin
                     clientId='792414514880-ebhfenibc2r1v9501o8e8vt4p0dggi2s.apps.googleusercontent.com'
                     buttonText='Login with Google'
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
                     cookiePolicy={'single_host_origin'}
-                ></GoogleLogin>
+                ></GoogleLogin> */}
                 <div class="mt-5">
                 <button class="pri big btnn" onClick={login}>LOGIN</button>
                 <button class="pri big btnn" onClick={register}>REGISTER</button>
