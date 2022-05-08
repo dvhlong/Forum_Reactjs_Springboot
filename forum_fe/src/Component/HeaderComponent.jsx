@@ -87,7 +87,7 @@ function HeaderComponent(){
                     <Dropdown>
                         <Dropdown.Toggle variant="secondary">
                         <label>
-                                <img style={{width:"30px",height:"30px",borderRadius:"50%"}} src={"http://localhost:8080/files/"+localStorage.getItem("avatar")} alt=''></img> {localStorage.getItem("username")}</label>
+                                <img style={{width:"30px",height:"30px",borderRadius:"50%"}} src={localStorage.getItem("avatar")} alt=''></img> {localStorage.getItem("username")}</label>
                         </Dropdown.Toggle>
                         <Dropdown.Menu variant='light'>
                         <Dropdown.Item href="#" onClick={()=>navigate('/changeinfo')} style={{textAlign:"center"}}>

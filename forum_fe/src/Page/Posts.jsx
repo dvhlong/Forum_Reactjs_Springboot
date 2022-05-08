@@ -3,11 +3,12 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import PostService from '../Service/PostService';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {TailSpin} from 'react-loader-spinner';
 import Moment from 'react-moment';
 import axios from "axios";
 import SideComponent from '../Component/SideComponent';
+import '../CSS/PostAndTopic.css';
 function Posts(){
     let navigate=useNavigate();
     const[mount,setMount]=useState(false);
@@ -53,8 +54,8 @@ function Posts(){
     return(
         <div>
                 <div>
-                    <h1 style={{textAlign:"center",color:"white"}}>POST LIST</h1>
-                    <table style={{width:"100%",border:"none"}}>
+                    {/* <h1 style={{textAlign:"center",color:"white"}}>POST</h1> */}
+                    <table style={{width:"100%",border:"none",marginTop:"30px"}}>
                         <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
                         <table style={{width:"100%",textAlign:"center"}}>
                             <tr>
@@ -85,7 +86,7 @@ function Posts(){
                                                 <td>
                                                 <Card style={{marginBottom:"20px"}}>
                                                     <Card.Header style={{color:"blue"}}>
-                                                    <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src={"http://localhost:8080/files/"+post.created_acc.avatar} alt=''></img>
+                                                    <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src={post.created_acc.avatarUrl} alt=''></img>
                                                     <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
                                                     {
                                                         <>&nbsp;|&nbsp;
@@ -97,8 +98,7 @@ function Posts(){
                                                     <p>Topic: {post.topic.topicname}</p>    
                                                     </Card.Header>
                                                     <Card.Body>
-                                                        <Card.Title style={{color:"red"}}>{post.title}</Card.Title>
-                                                        <Button variant='secondary' onClick={()=>navigate(`/postDetail/${post.id}`)}>Detail {'>>>'}</Button>
+                                                        <Card.Title ><Link className='post-title' style={{textDecoration:"none"}} to={`/postDetail/${post.id}`}>{post.title}</Link></Card.Title>
                                                     </Card.Body>
                                                 </Card>
                                                 </td>
@@ -109,8 +109,8 @@ function Posts(){
                                     }
                                     <tr>
                                         <ButtonGroup aria-label="Basic example">
-                                            <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous Page</Button>
-                                            <Button variant="secondary"onClick={nextPage}>Next Page {">>>"}</Button>
+                                            <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous</Button>
+                                            <Button variant="secondary"onClick={nextPage}>Next {">>>"}</Button>
                                         </ButtonGroup>
                                             <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>
                                     </tr>

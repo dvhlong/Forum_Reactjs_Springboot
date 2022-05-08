@@ -174,8 +174,8 @@ function Topic() {
     return(
         <div>
                 <div>
-                    <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1>
-                    <table style={{width:"100%",border:"none"}}>
+                    {/* <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1> */}
+                    <table style={{width:"100%",border:"none",marginTop:"30px"}}>
                         <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
                         <table style={{width:"100%",textAlign:"center"}}>
                             <tr>
@@ -212,7 +212,6 @@ function Topic() {
                                                         <Card.Title style={{color:"red"}}>{topic.topicname}</Card.Title>
                                                         <Card.Text style={{color:"black"}}>
                                                         </Card.Text>
-                                                        <Button variant="primary">View Posts</Button>
                                                     </Card.Body>
                                                 </Card>
                                                 </td>
@@ -239,8 +238,8 @@ function Topic() {
                                 
                                     <tr>
                                     <ButtonGroup aria-label="Basic example">
-                                        <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous Page</Button>
-                                        <Button variant="secondary"onClick={nextPage}>Next Page {">>>"}</Button>
+                                        <Button variant="secondary"onClick={prevPage}>{"<<<"} Previous</Button>
+                                        <Button variant="secondary"onClick={nextPage}>Next {">>>"}</Button>
                                     </ButtonGroup>
                                         <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>     
                                     </tr>

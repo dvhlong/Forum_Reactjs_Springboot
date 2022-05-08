@@ -126,11 +126,13 @@ public class AccountService {
         try {
             String newfilename = id+"."+file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
             accountRepo.findById(id).map(acc->{
-                if(acc.getAvatar()==null)
+                if(acc.getAvatar()==null){
                     acc.setAvatar(newfilename);
-                else {
+                    acc.setAvatarUrl("http://localhost:8080/files/"+newfilename);
+                }else {
                     storageService.delete(acc.getAvatar());
                     acc.setAvatar(newfilename);
+                    acc.setAvatarUrl("http://localhost:8080/files/"+newfilename);
                 }
                 storageService.save(file,newfilename);
                 return accountRepo.save(acc);

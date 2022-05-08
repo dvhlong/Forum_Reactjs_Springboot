@@ -27,8 +27,8 @@ public class UserDetailsImpl implements UserDetails{
     public String getEmail() {
         return user.getEmail();
     }
-    public String getAvatar(){
-        return user.getAvatar();
+    public String getAvatarUrl(){
+        return user.getAvatarUrl();
     }
     @Override
     public String getPassword() {

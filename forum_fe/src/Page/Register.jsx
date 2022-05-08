@@ -65,7 +65,7 @@ function Register() {
             <div class="flex col-auto row" style={{background:"#201D1D"}} id="form">
             <div class="col flex column center">   
             <div class="col-spacer">
-            <div class="form-header"><i class="fas fa-lock icon txtglow"></i><span>SIGN-UP</span></div>
+            <div class="form-header"><i class="fas fa-lock icon txtglow"></i><span className='system-name'>SIGN-UP</span></div>
             <label style={{color:"orange",textAlign:"center"}}>{error}</label>
                 </div>
                 <div class="input-wrap">

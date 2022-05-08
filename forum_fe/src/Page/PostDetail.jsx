@@ -214,7 +214,7 @@ function PostDetail(){
                                 <td style={{width:"100%"}}>   
                                 <Card style={{marginBottom:"20px"}}>
                                     <Card.Header style={{color:"blue"}}>
-                                        <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src={"http://localhost:8080/files/"+post.created_acc.avatar} alt=''></img>
+                                        <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src={post.created_acc.avatarUrl} alt=''></img>
                                         <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
                                         {
                                                         <>&nbsp;|&nbsp;
@@ -282,7 +282,7 @@ function PostDetail(){
                                         <td>
                                         <Card style={{marginBottom:"20px",marginTop:"30px"}}>
                                             <Card.Header style={{color:"blue"}}>
-                                                <img style={{width:"50px",height:"50px",borderRadius:"50px"}} src={"http://localhost:8080/files/"+comment.created_acc.avatar} alt=''></img>
+                                                <img style={{width:"50px",height:"50px",borderRadius:"50px"}} src={comment.created_acc.avatarUrl} alt=''></img>
                                                 <b>&nbsp;{comment.created_acc.username}</b> ({comment.created_acc.role.rolename})
                                                 {
                                                     <>&nbsp;|&nbsp;
@@ -326,7 +326,7 @@ function PostDetail(){
                                                 </Card.Footer>
                                                 :
                                                 <Card.Footer>
-                                                    <Button style={{color:"white"}} onClick={()=>replyComment(comment.id)}>Reply this comment</Button>
+                                                    <Button style={{color:"white"}} onClick={()=>replyComment(comment.id)}>Reply</Button>
                                                 </Card.Footer>
                                             }               
                                         </Card>

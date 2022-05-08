@@ -1,0 +1,6 @@
+.post-title:hover,.topic-title:hover{
+    color: blue;
+}
+.post-title,.topic-title{
+    color: red;
+}

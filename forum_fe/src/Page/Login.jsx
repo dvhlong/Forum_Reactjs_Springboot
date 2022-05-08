@@ -3,8 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Keylogo from '../SVG/key.svg';
 import Userlogo from '../SVG/user.svg';
 import accSV from '../Service/AccountService';
+import {GoogleLogin} from 'react-google-login';
 function Login() {
     let navigate=useNavigate();
+    const responseGoogle=(res)=>{
+        console.log("error code: "+res.error)
+        console.log("error details: "+res.details);
+    }
     const[username,setUsername]=useState("");
     const[password,setPassword]=useState("");
     const[error,setError]=useState("");
@@ -37,7 +42,7 @@ function Login() {
                     localStorage.setItem("accid",res.data.acc.id);
                     localStorage.setItem("username",res.data.acc.username);
                     localStorage.setItem("role",res.data.acc.authorities[0].authority)
-                    localStorage.setItem("avatar",res.data.acc.avatar)
+                    localStorage.setItem("avatar",res.data.acc.avatarUrl)
                     navigate('/topic');
                 } else if(res.data.message==="User account is locked"){
                     setError("Username is blocked !!!!");
@@ -65,7 +70,7 @@ function Login() {
             <div class="flex col-auto row" style={{background:"#201D1D"}} id="form">
             <div class="col flex column center">
             <div class="col-spacer">
-            <div class="form-header"><span>LOGIN</span></div>
+            <div class="form-header"><span className='system-name'>LOGIN</span></div>
                 <label style={{color:"orange",textAlign:"center"}}>{error}</label>
                 </div>
                 <div class="input-wrap">
@@ -80,7 +85,13 @@ function Login() {
                     <input type="password" placeholder="Password" value={password} onChange={enterPassword}/>
                 </div>
                 </div>
-                
+                <GoogleLogin
+                    clientId='792414514880-ebhfenibc2r1v9501o8e8vt4p0dggi2s.apps.googleusercontent.com'
+                    buttonText='Login with Google'
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                    cookiePolicy={'single_host_origin'}
+                ></GoogleLogin>
                 <div class="mt-5">
                 <button class="pri big btnn" onClick={login}>LOGIN</button>
                 <button class="pri big btnn" onClick={register}>REGISTER</button>

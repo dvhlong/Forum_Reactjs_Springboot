@@ -95,8 +95,8 @@ function ApprovePosts() {
         <div>
                 <div>
                     {/* <Header/> */}
-                    <h1 style={{textAlign:"center",color:"white"}}>APPROVE POST</h1>
-                    <table style={{width:"100%",border:"none"}}>
+                    {/* <h1 style={{textAlign:"center",color:"white"}}>APPROVE POST</h1> */}
+                    <table style={{width:"100%",border:"none",marginTop:"30px"}}>
                         <td style={{width:"30%",color:"yellow",verticalAlign:"top"}}>
                         <table style={{width:"100%",textAlign:"center"}}>
                             <tr>

@@ -33,18 +33,18 @@ public class User {
     private String phone;
     private Date birthdate;
     private String avatar;
+    @Column(columnDefinition = "varchar(255) default 'http://localhost:8080/files/null'")
+    private String avatarUrl;
     private Timestamp createdat;
     private Timestamp updatedat;
 
     public User() {
     }
 
-
-    
     
 
     public User(String username, String password, Role role, boolean isblocked, String name, String email, String phone,
-            Date birthdate, String avatar, Timestamp createdat, Timestamp updatedat) {
+            Date birthdate, String avatar, String avatarUrl, Timestamp createdat, Timestamp updatedat) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -54,13 +54,20 @@ public class User {
         this.phone = phone;
         this.birthdate = birthdate;
         this.avatar = avatar;
+        this.avatarUrl = avatarUrl;
         this.createdat = createdat;
         this.updatedat = updatedat;
     }
 
 
 
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
 
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public String getAvatar() {
         return avatar;

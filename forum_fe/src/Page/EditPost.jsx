@@ -117,8 +117,8 @@ function EditPost(){
                 ?<TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
                 :<></>
             } 
-            <h1 style={{textAlign:"center",color:"white"}}>Edit Post</h1>
-            <div className='post-container'>
+            {/* <h1 style={{textAlign:"center",color:"white"}}>Edit Post</h1> */}
+            <div className='post-container' style={{marginTop:"30px"}}>
                 <div className='post-label'>
                     Topic:
                 </div>
