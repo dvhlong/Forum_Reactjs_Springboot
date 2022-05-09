@@ -35,11 +35,11 @@ function HeaderComponent(){
                         </div>
                     </div>
                     <div>
-                    <Dropdown align="end">
+                    <Dropdown>
                         <Dropdown.Toggle variant="secondary">
                             <img src={Bell} alt=''></img>
                         </Dropdown.Toggle>
-                        <Dropdown.Menu style={{width:"400px"}} className='notification-menu'>
+                        <Dropdown.Menu style={{width:"400px"}} className='notification-menu' align="end">
                             <Dropdown.Header style={{fontSize:"20px"}}>
                                 NOTIFICATION
                             </Dropdown.Header>
@@ -89,7 +89,7 @@ function HeaderComponent(){
                         <label>
                                 <img style={{width:"30px",height:"30px",borderRadius:"50%"}} src={localStorage.getItem("avatar")} alt=''></img> {localStorage.getItem("username")}</label>
                         </Dropdown.Toggle>
-                        <Dropdown.Menu variant='light'>
+                        <Dropdown.Menu variant='light' align="end">
                         <Dropdown.Item href="#" onClick={()=>navigate('/changeinfo')} style={{textAlign:"center"}}>
                             Personal                          
                         </Dropdown.Item>

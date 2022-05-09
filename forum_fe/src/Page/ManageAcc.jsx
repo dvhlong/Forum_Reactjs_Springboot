@@ -89,13 +89,13 @@ function ManageAcc(){
                 (mount===false)
                 ?
                 <div>
-                    <h1 style={{textAlign:"center",color:"white"}}>USER LIST</h1>
+                    {/* <h1 style={{textAlign:"center",color:"white"}}>USER LIST</h1> */}
                     <TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
                 </div>
                 :
                 <div>
-                    <h1 style={{textAlign:"center",color:"white"}}>USER LIST</h1>
-                    <table style={{width:"100%",border:"none"}}>
+                    {/* <h1 style={{textAlign:"center",color:"white"}}>USER LIST</h1> */}
+                    <table style={{width:"100%",border:"none",marginTop:"30px"}}>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
                         <table style={{width:"100%"}}>
                             <tr>
