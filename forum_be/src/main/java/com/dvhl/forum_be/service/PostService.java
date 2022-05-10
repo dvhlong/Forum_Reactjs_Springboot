@@ -43,7 +43,10 @@ public class PostService {
         return postRepo.findAllByTopicAndIsdeletedAndIsapprovedOrderByCreatedatDesc(foundTopic.get(),false,true,PageRequest.of(page-1, 3));
     }
     public Page<Post> getAllPostByKeyword(String key, int page){
-        return postRepo.findAllByTitleContainingAndIsdeletedAndIsapprovedOrderByCreatedatDesc(key,false,true,PageRequest.of(page-1, 3));
+        // return postRepo.findAllByIsdeletedAndIsapprovedAndCreatedaccUsernameContainingOrIsdeletedAndIsapprovedAndTitleContainingOrderByCreatedatDesc(
+        //     false,true,key,false,true,key,PageRequest.of(page-1, 3)
+        // );
+        return postRepo.getPostsWithKeyword(key, PageRequest.of(page-1, 3));
     }
     public Page<Post> getAllPost(int page){
         return postRepo.findAllByIsdeletedAndIsapprovedOrderByCreatedatDesc(false,true,PageRequest.of(page-1, 3));

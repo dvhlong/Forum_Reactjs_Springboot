@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.data.util.Streamable;
 
 
 
@@ -35,8 +38,15 @@ public interface PostRepo extends JpaRepository<Post,Long>{
 
 
 
-    Page<Post> findAllByTitleContainingAndIsdeletedAndIsapprovedOrderByCreatedatDesc(String key,boolean b, boolean c, Pageable pageable);
-
+    // Page<Post> findAllByIsdeletedAndIsapprovedAndCreatedaccUsernameContainingOrIsdeletedAndIsapprovedAndTitleContainingOrderByCreatedatDesc(boolean b, boolean c, String key1,boolean b1, boolean c1, String key2, Pageable pageable);
+    
+    @Query("SELECT p"
+            +" FROM Post p"
+            +" WHERE p.isdeleted=false AND p.isapproved=true AND p.content LIKE %:key%"
+            +" OR p.isdeleted=false AND p.isapproved=true AND p.title LIKE %:key%"
+            +" OR p.isdeleted=false AND p.isapproved=true AND p.createdacc.username LIKE %:key%"
+            +" Order By p.createdat desc")
+    Page<Post> getPostsWithKeyword(@Param("key") String key,Pageable pageable);
     
     
 }
