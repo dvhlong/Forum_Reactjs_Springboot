@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, Outlet } from 'react-router-dom';
 import searchIcon from '../SVG/search.svg';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -8,6 +8,10 @@ import '../CSS/HeaderComponent.css';
 import Button from 'react-bootstrap/esm/Button';
 function HeaderComponent(){   
     let navigate=useNavigate();
+    const [key,setKey]=useState("");
+    const changeKeyWord=(e)=>{
+        setKey(e.target.value)
+    }
     const logout=()=>{
         localStorage.removeItem("token");
         localStorage.removeItem("accid");
@@ -28,10 +32,10 @@ function HeaderComponent(){
                     </div>
                     <div class="row" style={{marginLeft:"20px"}}>
                         <div class="col-auto">
-                            <input type="text" className="form-control" id="inputPassword2" placeholder="Search Post"/>
+                            <input type="text" value={key} className="form-control" onChange={changeKeyWord} id="inputPassword2" placeholder="Search Post"/>
                         </div>
                         <div class="col-auto">
-                            <button className="btn btn-dark" ><img src={searchIcon} alt="logo"/></button>
+                            <button className="btn btn-dark" onClick={()=>navigate(`/posts/key=${key}`)} ><img src={searchIcon} alt="logo"/></button>
                         </div>
                     </div>
                     <div>

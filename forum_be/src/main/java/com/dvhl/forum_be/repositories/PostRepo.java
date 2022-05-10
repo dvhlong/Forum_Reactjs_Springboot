@@ -18,7 +18,7 @@ public interface PostRepo extends JpaRepository<Post,Long>{
 
     Page<Post> findAllByIsdeletedAndIsapprovedOrderByCreatedatDesc(boolean b, boolean c, Pageable pageable);
 
-    Page<Post> findAllByTopicAndIsdeletedAndIsapproved(long topic_id, boolean b, boolean c, PageRequest of);
+    
 
     Page<Post> findAllByCreatedaccAndIsdeletedAndIsapproved(long acc_id, boolean b, boolean c, PageRequest of);
 
@@ -28,6 +28,14 @@ public interface PostRepo extends JpaRepository<Post,Long>{
     long countByTopic(long topic_id);
 
     List<Post> findAllByTopic(Topic topic);
+
+
+
+    Page<Post> findAllByTopicAndIsdeletedAndIsapprovedOrderByCreatedatDesc(Topic topic, boolean b, boolean c,Pageable pageable);
+
+
+
+    Page<Post> findAllByTitleContainingAndIsdeletedAndIsapprovedOrderByCreatedatDesc(String key,boolean b, boolean c, Pageable pageable);
 
     
     

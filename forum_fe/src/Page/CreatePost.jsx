@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import TopicService from '../Service/TopicService';
 import PostService from '../Service/PostService';
 import Swal from 'sweetalert2';
+import { motion } from "framer-motion"
 function CreatePost(){
     const role=localStorage.getItem("role");
     const[topicList,setTopicList]=useState([]);
@@ -75,7 +76,12 @@ function CreatePost(){
     return(
         <div>
             <h1 style={{textAlign:"center",color:"white"}}>Create New Post</h1>
-            <div className='post-container'>
+            <motion.div className='post-container'
+                animate={{
+                    opacity:[0,1],
+                    translateY:[80,0],
+                }}
+            >
                 <div className='post-label'>
                     Topic:
                 </div>
@@ -120,7 +126,7 @@ function CreatePost(){
                 <div className='post-footer'>
                     <Button variant="primary" onClick={createPost} >Create</Button>
                 </div>
-            </div>
+            </motion.div>
         </div>
     )
 }

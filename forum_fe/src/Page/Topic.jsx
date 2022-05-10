@@ -15,6 +15,8 @@ import axios from "axios";
 import Moment from 'react-moment';
 import Swal from 'sweetalert2'
 import SideComponent from '../Component/SideComponent';
+import { motion } from "framer-motion";
+import '../CSS/PostAndTopic.css';
 function Topic() {
     let navigate=useNavigate()
     const[mount,setMount]=useState(false);
@@ -197,19 +199,24 @@ function Topic() {
                             ?
                             <></>
                             :
-                            <table style={{width:"100%"}}>
+                            <motion.table style={{width:"100%"}}
+                            animate={{
+                                opacity:[0,1],
+                                translateY:[80,0],
+                            }}
+                            >
                                 <tbody>                          
                                     {
                                         result.map(
                                             topic=>
-                                            <tr key={topic.id}>
+                                            <motion.tr key={topic.id}>
                                                 <td>
                                                 <Card style={{marginBottom:"20px"}}>
                                                     <Card.Header style={{color:"blue"}}>
                                                         Time created: <Moment format='DD/MM/YYYY HH:mm'>{topic.created_at}</Moment>
                                                     </Card.Header>
                                                     <Card.Body>
-                                                        <Card.Title style={{color:"red"}}>{topic.topicname}</Card.Title>
+                                                        <Card.Title style={{textAlign:"center"}} className='topic-title' onClick={()=>navigate(`/posts/topic=${topic.id}`)}>{topic.topicname}</Card.Title>
                                                         <Card.Text style={{color:"black"}}>
                                                         </Card.Text>
                                                     </Card.Body>
@@ -232,7 +239,7 @@ function Topic() {
                                                 </Dropdown>:<></>
                                                 }
                                                 </td>
-                                            </tr>
+                                            </motion.tr>
                                         )
                                     }
                                 
@@ -244,7 +251,7 @@ function Topic() {
                                         <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>     
                                     </tr>
                                 </tbody>
-                            </table>
+                            </motion.table>
                         }
                         </td>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>

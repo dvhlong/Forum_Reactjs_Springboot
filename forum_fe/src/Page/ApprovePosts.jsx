@@ -13,6 +13,7 @@ import Moment from 'react-moment';
 import Swal from 'sweetalert2';
 import SideComponent from '../Component/SideComponent';
 import '../CSS/PostDetail.css';
+import { motion } from "framer-motion"
 function ApprovePosts() {
     let navigate=useNavigate();
     const[mount,setMount]=useState(false);
@@ -72,7 +73,7 @@ function ApprovePosts() {
         setLoading(true);
         const ourRequest=axios.CancelToken.source();
         setTimeout(async() => {
-            await PostService.getApprovePost(page,ourRequest).then(res=>{
+            await PostService.getPostsNotApprove(page,ourRequest).then(res=>{
                 if(res.data.status===401){
                     alert("session expired");
                     navigate("/")
@@ -118,7 +119,12 @@ function ApprovePosts() {
                             ?
                             <></>
                             :
-                            <table style={{width:"100%"}}>
+                            <motion.table style={{width:"100%"}}
+                            animate={{
+                                opacity:[0,1],
+                                translateY:[80,0],
+                            }}
+                            >
                                 <tbody>
                                     {
                                         result.map(
@@ -160,7 +166,7 @@ function ApprovePosts() {
                                             <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </motion.table>
                         }
                         </td>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>

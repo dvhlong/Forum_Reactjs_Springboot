@@ -53,6 +53,14 @@ public class PostController {
     Page<Post> getAllPost(@PathVariable int page){
         return postService.getAllPost(page);
     }
+    @GetMapping("/topic/{topicid}/page={page}")
+    Page<Post> getAllPostByTopic(@PathVariable long topicid,@PathVariable int page){
+        return postService.getAllPostByTopic(topicid, page);
+    }
+    @GetMapping("/key={key}/page={page}")
+    Page<Post> getAllPostByKeyword(@PathVariable String key,@PathVariable int page){
+        return postService.getAllPostByKeyword(key, page);
+    }
     @GetMapping("/approvePost/page={page}")
     Page<Post> approvePost(@PathVariable int page){
         return postService.getAllPostNotApproved(page);

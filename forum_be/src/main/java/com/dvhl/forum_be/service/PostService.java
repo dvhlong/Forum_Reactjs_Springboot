@@ -39,7 +39,11 @@ public class PostService {
         return postRepo.findByIdAndIsdeleted(post_id,false);
     }
     public Page<Post> getAllPostByTopic(long topic_id,int page){
-        return postRepo.findAllByTopicAndIsdeletedAndIsapproved(topic_id,false,true,PageRequest.of(page-1, 3));
+        Optional<Topic> foundTopic=topicRepo.findById(topic_id);
+        return postRepo.findAllByTopicAndIsdeletedAndIsapprovedOrderByCreatedatDesc(foundTopic.get(),false,true,PageRequest.of(page-1, 3));
+    }
+    public Page<Post> getAllPostByKeyword(String key, int page){
+        return postRepo.findAllByTitleContainingAndIsdeletedAndIsapprovedOrderByCreatedatDesc(key,false,true,PageRequest.of(page-1, 3));
     }
     public Page<Post> getAllPost(int page){
         return postRepo.findAllByIsdeletedAndIsapprovedOrderByCreatedatDesc(false,true,PageRequest.of(page-1, 3));

@@ -7,6 +7,7 @@ import {TailSpin} from 'react-loader-spinner';
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 import Moment from 'react-moment';
+import { motion } from "framer-motion"
 function ManageAcc(){
     let navigate=useNavigate()
     const[mount,setMount]=useState(false);
@@ -108,7 +109,12 @@ function ManageAcc(){
                             </tr>
                         </table>
                         </td>
-                        <td style={{width:"80%",color:"yellow"}}>
+                        <motion.td style={{width:"80%",color:"yellow"}}
+                            animate={{
+                                opacity:[0,1],
+                                translateY:[80,0],
+                            }}
+                        >
                             <Table striped hover variant="dark" size="sm" style={{width:"100%",textAlign:"center"}}>
                                 <thead>
                                     <tr>
@@ -155,7 +161,7 @@ function ManageAcc(){
                                     </tr>
                                 </tfoot>
                             </Table>
-                        </td>
+                        </motion.td>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
 
                         </td>

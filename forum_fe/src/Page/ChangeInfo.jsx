@@ -8,6 +8,7 @@ import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 import Swal from 'sweetalert2'
 import '../CSS/ChangeInfo.css';
+import { motion } from "framer-motion"
 function ChangeInfo() {
     let navigate=useNavigate();
     const [newAvatar,setNewAvatar]=useState();
@@ -157,12 +158,12 @@ function ChangeInfo() {
                             ?<TailSpin wrapperStyle={{display:"block",position:"fixed",bottom:"5px"}} color="red" height={200} width={200} />
                             :<></>
             } 
-                <table style={{width:"100%"}}>
-                    <tr>  
-                    </tr>
-                </table>
-            <div className='Container' style={{margin:"auto",width:"60%"}}>
-            
+            <motion.div className='Container' style={{margin:"auto",width:"60%"}}
+                animate={{
+                    opacity:[0,1],
+                    translateY:[80,0],
+                }}
+            >
             <Card style={{marginTop:"20px"}}>
                 <Card.Header>
                     <div style={{color:"red",fontSize:"30px"}}>PERSONAL INFO</div>
@@ -234,7 +235,7 @@ function ChangeInfo() {
                     </Form>
                 </Card.Body>
             </Card>
-            </div>
+            </motion.div>
         </div>
     )
 }

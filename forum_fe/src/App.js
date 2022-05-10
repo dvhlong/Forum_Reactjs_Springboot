@@ -21,7 +21,7 @@ function App() {
           <Route path="/" element={<HeaderComponent/>}>
             <Route path="/posts" element={<Posts/>}></Route>
             <Route path="/posts/key=:key" element={<Posts/>}></Route>
-            <Route path="/posts/:topic=topicid" element={<Posts/>}></Route>
+            <Route path="/posts/topic=:topicid" element={<Posts/>}></Route>
             <Route path="/topic" element={<Topic/>}></Route>
             <Route path="/changeInfo" element={<ChangeInfo/>}></Route>
             <Route path="/approve" element={<ApprovePosts/>}></Route>
@@ -32,7 +32,6 @@ function App() {
             <Route path="/editpost/:id" element={<EditPost/>}></Route>
           </Route>
           <Route path="/register" element={<Register/>}></Route>
-          <Route path="/notify"></Route>
         </Routes>
     </Router>
   );

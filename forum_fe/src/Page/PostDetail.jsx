@@ -15,6 +15,7 @@ import parse from "html-react-parser";
 import Moment from 'react-moment';
 import Swal from 'sweetalert2';
 import SideComponent from '../Component/SideComponent';
+import { motion } from "framer-motion"
 function PostDetail(){
     const role=localStorage.getItem("role");
     const accid=localStorage.getItem("accid");
@@ -209,7 +210,12 @@ function PostDetail(){
                         ?
                         <td style={{width:"60%"}}></td>
                         :
-                        <td style={{width:"60%"}}>
+                        <motion.td style={{width:"60%"}}
+                        animate={{
+                            opacity:[0,1],
+                            translateY:[80,0],
+                        }}
+                        >
                             <tr style={{marginBottom:"20px"}}>
                                 <td style={{width:"100%"}}>   
                                 <Card style={{marginBottom:"20px"}}>
@@ -369,7 +375,7 @@ function PostDetail(){
                             <tr>
 
                             </tr>
-                        </td>
+                        </motion.td>
                         }
                         <td style={{width:"10%",color:"yellow"}}>
                             <Modal

@@ -10,6 +10,7 @@ import PostService from '../Service/PostService';
 import TopicService from '../Service/TopicService';
 import axios from "axios";
 import {TailSpin} from 'react-loader-spinner';
+import { motion } from "framer-motion"
 function EditPost(){
     let navigate=useNavigate();
     let {id}=useParams();
@@ -118,7 +119,12 @@ function EditPost(){
                 :<></>
             } 
             {/* <h1 style={{textAlign:"center",color:"white"}}>Edit Post</h1> */}
-            <div className='post-container' style={{marginTop:"30px"}}>
+            <motion.div className='post-container' style={{marginTop:"30px"}}
+                animate={{
+                    opacity:[0,1],
+                    translateY:[80,0],
+                }}
+            >
                 <div className='post-label'>
                     Topic:
                 </div>
@@ -164,7 +170,7 @@ function EditPost(){
                     <Button variant="secondary" onClick={()=>navigate(-1)} >Back</Button>
                     <Button variant="primary" style={{marginLeft:"10px"}} onClick={changePost}>Change</Button>
                 </div>
-            </div>
+            </motion.div>
         </div>
     )
 }

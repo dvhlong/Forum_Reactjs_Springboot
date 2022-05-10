@@ -76,7 +76,7 @@ class PostService{
             }
         );
     }
-    getPostsPage(page,ourRequest){
+    getPosts(page,ourRequest){
         return axios(
             {
                 url:`post/page=${page}`,
@@ -89,7 +89,33 @@ class PostService{
             }
         );
     }
-    getApprovePost(page,ourRequest){
+    getPostsByKeyword(key,page,ourRequest){
+        return axios(
+            {
+                url:`post/key=${key}/page=${page}`,
+                method:"get",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+                cancelToken:ourRequest.token
+            }
+        );
+    }
+    getPostsByTopic(topicid,page,ourRequest){
+        return axios(
+            {
+                url:`post/topic/${topicid}/page=${page}`,
+                method:"get",
+                baseURL:"http://localhost:8080",
+                headers:{
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+                cancelToken:ourRequest.token
+            }
+        );
+    }
+    getPostsNotApprove(page,ourRequest){
         return axios(
             {
                 url:`post/approvePost/page=${page}`,

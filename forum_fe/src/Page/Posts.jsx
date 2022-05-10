@@ -3,12 +3,13 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import PostService from '../Service/PostService';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {TailSpin} from 'react-loader-spinner';
 import Moment from 'react-moment';
 import axios from "axios";
 import SideComponent from '../Component/SideComponent';
 import '../CSS/PostAndTopic.css';
+import { animate, motion } from "framer-motion"
 function Posts(){
     let navigate=useNavigate();
     const[mount,setMount]=useState(false);
@@ -21,6 +22,8 @@ function Posts(){
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
     }
+    let{topicid}=useParams();
+    let{key}=useParams();
     const nextPage=()=>{
         if(page<pages)
         setPage(page+1);
@@ -33,7 +36,29 @@ function Posts(){
         setLoading(true);
         const ourRequest=axios.CancelToken.source();
         setTimeout(async()=>{
-            await PostService.getPostsPage(page,ourRequest).then(res=>{
+            if(key!==undefined)
+                await PostService.getPostsByKeyword(key,page,ourRequest).then(res=>{
+                    if(res.data.status===401){
+                        alert("session expired");
+                        navigate("/")
+                    }
+                    if(res.data.content!==null){
+                        setResult(res.data.content);
+                        setPages(res.data.totalPages)
+                    }
+                })
+            else if(topicid!==undefined)
+                await PostService.getPostsByTopic(topicid,page,ourRequest).then(res=>{
+                    if(res.data.status===401){
+                        alert("session expired");
+                        navigate("/")
+                    }
+                    if(res.data.content!==null){
+                        setResult(res.data.content);
+                        setPages(res.data.totalPages)
+                    }
+                })
+            else await PostService.getPosts(page,ourRequest).then(res=>{
                 if(res.data.status===401){
                     alert("session expired");
                     navigate("/")
@@ -50,7 +75,7 @@ function Posts(){
                 ourRequest.cancel('Request is canceled by user');
             }
         },800);
-    },[page, update]);
+    },[page, update, key]);
     return(
         <div>
                 <div>
@@ -77,7 +102,12 @@ function Posts(){
                         ?
                         <></>
                         :    
-                        <table style={{width:"100%"}}>
+                        <motion.table style={{width:"100%"}}
+                            animate={{
+                                opacity:[0,1],
+                                translateY:[80,0],
+                            }}
+                        >
                                 <tbody>
                                 {
                                         result.map(
@@ -98,7 +128,7 @@ function Posts(){
                                                     <p>Topic: {post.topic.topicname}</p>    
                                                     </Card.Header>
                                                     <Card.Body>
-                                                        <Card.Title ><Link className='post-title' style={{textDecoration:"none"}} to={`/postDetail/${post.id}`}>{post.title}</Link></Card.Title>
+                                                        <Card.Title className='post-title' onClick={()=>navigate(`/postDetail/${post.id}`)} >{post.title}</Card.Title>
                                                     </Card.Body>
                                                 </Card>
                                                 </td>
@@ -115,7 +145,7 @@ function Posts(){
                                             <label style={{marginLeft:"30px"}}>Page:</label><input min={1} max={pages} type="number" style={{width:"50px",marginLeft:"10px"}} value={page} onChange={changePage}/>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </motion.table>
                         }
                         </td>
                         <td style={{width:"10%",color:"yellow",verticalAlign:"top"}}>
