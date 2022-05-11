@@ -40,11 +40,11 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(new Response("200","successful", ""));
     }
     @GetMapping("/getAllAcc/pages={page}")
-    Page<User> getAllAccounts(@PathVariable int page){
+    Page<User> getAccounts(@PathVariable int page){
         return accSV.getAllAccounts(page);
     }
     @GetMapping("/getUserInfo/{id}")
-    ResponseEntity<?> getUserInfo(@PathVariable long id){
+    ResponseEntity<?> getUser(@PathVariable long id){
         return accSV.getUserInfo(id);
     }
     @PostMapping("/login")

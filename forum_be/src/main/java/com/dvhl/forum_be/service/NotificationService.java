@@ -7,9 +7,9 @@ import com.dvhl.forum_be.model.Notification;
 import com.dvhl.forum_be.model.Post;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.User;
-import com.dvhl.forum_be.repositories.AccountRepo;
-import com.dvhl.forum_be.repositories.NotificationRepo;
-import com.dvhl.forum_be.repositories.PostRepo;
+import com.dvhl.forum_be.repositories.AccountRepository;
+import com.dvhl.forum_be.repositories.NotificationRepository;
+import com.dvhl.forum_be.repositories.PostRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,22 +22,28 @@ import org.springframework.stereotype.Service;
 public class NotificationService {
     @Autowired
     TimeService timeService;
+
     @Autowired
-    NotificationRepo notificationRepo;
+    NotificationRepository notificationRepository;
+
     @Autowired
-    AccountRepo accountRepo;
+    AccountRepository accountRepository;
+
     @Autowired
-    PostRepo postRepo;
-    public Page<Notification> getYourNotifications(long received_acc,int page){
-        Optional<User> foundUser=accountRepo.findById(received_acc);
-        return notificationRepo.findByReceivedacc(foundUser.get(),PageRequest.of(page-1, 5));
+    PostRepository postRepository;
+
+    public Page<Notification> getNotificationsPage(long receivedUserId,int page){
+        int elementQuantityInPage=5;
+        Optional<User> uOptional=accountRepository.findById(receivedUserId);
+        return notificationRepository.findByReceivedacc(uOptional.get(),PageRequest.of(page-1, elementQuantityInPage));
     }
-    public ResponseEntity<Response> notify(long notified_acc,long post_id,Notification newNotify){
-        Optional<Post> foundPost=postRepo.findById(post_id);
-        Optional<User> foundUser=accountRepo.findById(notified_acc);
-        newNotify.setNotifiedacc(foundUser.get());
-        newNotify.setPost(foundPost.get());
-        newNotify.setNotifiedat(timeService.getCurrentTimestamp());
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",notificationRepo.save(newNotify)));
+
+    public ResponseEntity<Response> addNotification(long notifiedUserId,long postId,Notification newNotification){
+        Optional<Post> pOptional=postRepository.findById(postId);
+        Optional<User> uOptional=accountRepository.findById(notifiedUserId);
+        newNotification.setNotifiedacc(uOptional.get());
+        newNotification.setPost(pOptional.get());
+        newNotification.setNotifiedat(timeService.getCurrentTimestamp());
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",notificationRepository.save(newNotification)));
     }
 }

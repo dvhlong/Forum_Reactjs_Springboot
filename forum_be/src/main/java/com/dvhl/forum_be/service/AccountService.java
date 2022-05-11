@@ -12,8 +12,8 @@ import com.dvhl.forum_be.Security.LoginRequest;
 import com.dvhl.forum_be.Security.UserDetailsImpl;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Role;
-import com.dvhl.forum_be.repositories.AccountRepo;
-import com.dvhl.forum_be.repositories.RoleRepo;
+import com.dvhl.forum_be.repositories.AccountRepository;
+import com.dvhl.forum_be.repositories.RoleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -35,80 +35,89 @@ import org.springframework.web.multipart.MultipartFile;
 public class AccountService {
     @Autowired
     FilesStorageServiceImpl storageService;
+
     @Autowired
     TimeService timeService;
+
     @Autowired
     AuthenticationManager authenticationManager;
+
     @Autowired
-    AccountRepo accountRepo;
+    AccountRepository accountRepository;
+
     @Autowired
-    RoleRepo roleRepo;
+    RoleRepository roleRepository;
+
     @Autowired
     JwtUtils jwtUtils;
+
     @Autowired
     PasswordEncoder passwordEncoder;
-    public List<Role> getRole(){
-        return roleRepo.findAll();
+
+    public List<Role> getRoles(){
+        return roleRepository.findAll();
     }
-    public Page<User> getAllAccounts(int page){
-        return accountRepo.getAllAcc(PageRequest.of(page-1, 10));
+
+    public Page<User> getAccountsPage(int page){
+        int elementQuantityInPage=10;
+        return accountRepository.getAccsPage(PageRequest.of(page-1, elementQuantityInPage));
     }
-    public ResponseEntity<Response> registerAccount(User newAcc){
-        Optional<User> foundAcc= accountRepo.findByUsername(newAcc.getUsername());
-        if(foundAcc.isPresent()){
+
+    public ResponseEntity<Response> registerAccount(User newUser){
+        Optional<User> uOptional= accountRepository.findByUsername(newUser.getUsername());
+        if(uOptional.isPresent()){
             return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail","ten dang nhap da ton tai",""));
         } else {
-            foundAcc=accountRepo.findByEmail(newAcc.getEmail());
-            if(foundAcc.isPresent()){
+            uOptional=accountRepository.findByEmail(newUser.getEmail());
+            if(uOptional.isPresent()){
                 return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail","Email da ton tai",""));
             } else {
-                Role newRole=roleRepo.findByRolename("user");
-                newAcc.setRole(newRole);
-                newAcc.setPassword(passwordEncoder.encode(newAcc.getPassword()));
-                newAcc.setCreated_at(timeService.getCurrentTimestamp());
-                accountRepo.save(newAcc);
+                Role role=roleRepository.findByRolename("user");
+                newUser.setRole(role);
+                newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+                newUser.setCreated_at(timeService.getCurrentTimestamp());
+                accountRepository.save(newUser);
                 return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da Dang ky thanh cong",""));
             } 
         }
     }
-    public ResponseEntity<Response> changeAccountInfo(User updatedAcc,long id){
-        accountRepo.findById(id).map(acc ->{
-            // if(updatedAcc.getName()!=null)
-            acc.setName(updatedAcc.getName());
-            // if(updatedAcc.getBirthdate()!=null)
-            acc.setBirthdate(updatedAcc.getBirthdate());
-            // if(updatedAcc.getPhone()!=null)
-            acc.setPhone(updatedAcc.getPhone());
-            acc.setUpdated_at(timeService.getCurrentTimestamp());
-            return accountRepo.save(acc);
+
+    public ResponseEntity<Response> updateUser(User updatedUser,long userId){
+        accountRepository.findById(userId).map(user ->{
+            user.setName(updatedUser.getName());
+            user.setBirthdate(updatedUser.getBirthdate());
+            user.setPhone(updatedUser.getPhone());
+            user.setUpdated_at(timeService.getCurrentTimestamp());
+            return accountRepository.save(user);
         });
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",updatedAcc));
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",updatedUser));
     }
-    public ResponseEntity<Response> block(long id){
-        accountRepo.findById(id).map(acc ->{
-            if(acc.isIsblocked()==false) 
-                acc.setIsblocked(true);
-            else
-                acc.setIsblocked(false);
-            return accountRepo.save(acc);
+
+    public ResponseEntity<Response> blockOrUnblockUser(long userId){
+        accountRepository.findById(userId).map(user ->{
+            user.setIsblocked(!user.getIsblocked());
+            return accountRepository.save(user);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",""));
     }
-    public ResponseEntity<Response> changeRole(long id,Role updatedRole) {
-        Role foundRole=roleRepo.findByRolename(updatedRole.getRolename());
-        accountRepo.findById(id).map(acc ->{
-            acc.setRole(foundRole);
-            return accountRepo.save(acc);
+
+    public ResponseEntity<Response> updateUserRole(long userId,Role updatedRole) {
+        Role role=roleRepository.findByRolename(updatedRole.getRolename());
+        accountRepository.findById(userId).map(user ->{
+            user.setRole(role);
+            return accountRepository.save(user);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",""));
     }
-    public ResponseEntity<Response> changePass(long id,User updatedAcc) {
-        accountRepo.findById(id).map(acc ->{
-            acc.setPassword(passwordEncoder.encode(updatedAcc.getPassword()));
-            return accountRepo.save(acc);
+
+    public ResponseEntity<Response> updatePassword(long userId,User updatedUser) {
+        accountRepository.findById(userId).map(user ->{
+            user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+            return accountRepository.save(user);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",""));
     }
+
     public ResponseEntity<?> authenticateAccount(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -116,34 +125,38 @@ public class AccountService {
         UserDetailsImpl accDetails = (UserDetailsImpl) authentication.getPrincipal();    
         return ResponseEntity.ok(new JwtResponse(jwt, accDetails)); 
     }
+
     public ResponseEntity<Response> getLogoutSuccess(){
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da Dang Xuat",""));
     }
-    public ResponseEntity<?> getUserInfo(long id){
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","OK",accountRepo.findById(id)));
+
+    public ResponseEntity<?> getUser(long userId){
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","OK",accountRepository.findById(userId)));
     } 
-    public ResponseEntity<Response> uploadAvatar(MultipartFile file,long id){
+
+    public ResponseEntity<Response> uploadAvatar(MultipartFile file,long userId){
         try {
-            String newfilename = id+"."+file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-            accountRepo.findById(id).map(acc->{
-                if(acc.getAvatar()==null){
-                    acc.setAvatar(newfilename);
-                    acc.setAvatarUrl("http://localhost:8080/files/"+newfilename);
+            String fileRename = userId+"."+file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+            accountRepository.findById(userId).map(user->{
+                if(user.getAvatar()==null){
+                    user.setAvatar(fileRename);
+                    user.setAvatarUrl("http://localhost:8080/files/"+fileRename);
                 }else {
-                    storageService.delete(acc.getAvatar());
-                    acc.setAvatar(newfilename);
-                    acc.setAvatarUrl("http://localhost:8080/files/"+newfilename);
+                    storageService.delete(user.getAvatar());
+                    user.setAvatar(fileRename);
+                    user.setAvatarUrl("http://localhost:8080/files/"+fileRename);
                 }
-                storageService.save(file,newfilename);
-                return accountRepo.save(acc);
+                storageService.save(file,fileRename);
+                return accountRepository.save(user);
             });
-            return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Successful","Uploaded the file successfully: " + newfilename));
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Successful","Uploaded the file successfully: " + fileRename));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail","Error","Could not upload the file !"));
             
         }
     }
+
     public ResponseEntity<Resource> loadAvatar(String filename){
         Resource file = storageService.load(filename);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(file);

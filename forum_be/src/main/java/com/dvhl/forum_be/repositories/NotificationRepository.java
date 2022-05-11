@@ -9,8 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface NotificationRepo extends JpaRepository<Notification,Long>{
+public interface NotificationRepository extends JpaRepository<Notification,Long>{
 
-    Page<Notification> findByReceivedacc(User user, Pageable pageable);
+    Page<Notification> findByReceivedacc(User receivedUser, Pageable pageable);
     
 }

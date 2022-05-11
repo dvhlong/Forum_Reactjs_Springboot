@@ -9,10 +9,10 @@ import com.dvhl.forum_be.model.Post;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Topic;
 import com.dvhl.forum_be.model.User;
-import com.dvhl.forum_be.repositories.AccountRepo;
-import com.dvhl.forum_be.repositories.CommentRepo;
-import com.dvhl.forum_be.repositories.PostRepo;
-import com.dvhl.forum_be.repositories.TopicRepo;
+import com.dvhl.forum_be.repositories.AccountRepository;
+import com.dvhl.forum_be.repositories.CommentRepository;
+import com.dvhl.forum_be.repositories.PostRepository;
+import com.dvhl.forum_be.repositories.TopicRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,107 +25,123 @@ import org.springframework.stereotype.Service;
 public class PostService {
     @Autowired
     TimeService timeService;
+
     @Autowired
     CommentService commentService;
+
     @Autowired
-    TopicRepo topicRepo;
+    TopicRepository topicRepository;
+
     @Autowired
-    AccountRepo accountRepo;
+    AccountRepository accountRepository;
+
     @Autowired
-    PostRepo postRepo;
+    PostRepository postRepository;
+
     @Autowired
-    CommentRepo commentRepo;
-    public Optional<Post> getPostById(long post_id){
-        return postRepo.findByIdAndIsdeleted(post_id,false);
+    CommentRepository commentRepository;
+
+    public Optional<Post> getPost(long postId){
+        return postRepository.findByIdAndIsdeleted(postId,false);
     }
-    public Page<Post> getAllPostByTopic(long topic_id,int page){
-        Optional<Topic> foundTopic=topicRepo.findById(topic_id);
-        return postRepo.findAllByTopicAndIsdeletedAndIsapprovedOrderByCreatedatDesc(foundTopic.get(),false,true,PageRequest.of(page-1, 3));
+
+    public Page<Post> getPostsByTopicPage(long topicId,int page){
+        int elementQuantityInPage=5;
+        Optional<Topic> tOptional=topicRepository.findById(topicId);
+        return postRepository.findAllByTopicAndIsdeletedAndIsapprovedOrderByCreatedatDesc(tOptional.get(),false,true,PageRequest.of(page-1, elementQuantityInPage));
     }
-    public Page<Post> getAllPostByKeyword(String key, int page){
-        // return postRepo.findAllByIsdeletedAndIsapprovedAndCreatedaccUsernameContainingOrIsdeletedAndIsapprovedAndTitleContainingOrderByCreatedatDesc(
-        //     false,true,key,false,true,key,PageRequest.of(page-1, 3)
-        // );
-        return postRepo.getPostsWithKeyword(key, PageRequest.of(page-1, 3));
+
+    public Page<Post> getPostsByKeywordPage(String keyword, int page){
+        int elementQuantityInPage=5;
+        return postRepository.getPostsByKeyword(keyword, PageRequest.of(page-1, elementQuantityInPage));
     }
-    public Page<Post> getAllPost(int page){
-        return postRepo.findAllByIsdeletedAndIsapprovedOrderByCreatedatDesc(false,true,PageRequest.of(page-1, 3));
+
+    public Page<Post> getPostsPage(int page){
+        int elementQuantityInPage=5;
+        return postRepository.findAllByIsdeletedAndIsapprovedOrderByCreatedatDesc(false,true,PageRequest.of(page-1, elementQuantityInPage));
     }
-    public Page<Post> getAllPostNotApproved(int page){
-        return postRepo.findAllByIsdeletedAndIsapprovedOrderByCreatedatDesc(false,false,PageRequest.of(page-1, 3));
+
+    public Page<Post> getPostsNotApprovedPage(int page){
+        int elementQuantityInPage=3;
+        return postRepository.findAllByIsdeletedAndIsapprovedOrderByCreatedatDesc(false,false,PageRequest.of(page-1, elementQuantityInPage));
     }
-    public Page<Post> getAllYourPostWaitingApproved(long acc_id,int page){
-        return postRepo.findAllByCreatedaccAndIsdeletedAndIsapproved(acc_id,false,false,PageRequest.of(page-1, 5));
+
+    public Page<Post> getPostsWaitingApprovedByUser(long userId,int page){
+        int elementQuantityInPage=5;
+        return postRepository.findAllByCreatedaccAndIsdeletedAndIsapproved(userId,false,false,PageRequest.of(page-1, elementQuantityInPage));
     }
-    public ResponseEntity<Response> createNewPost(long topic_id,long acc_id,Post newPost){
-        Optional<User> foundAcc=accountRepo.findById(acc_id);
-        Optional<Topic> foundTopic=topicRepo.findById(topic_id);
-        if(!foundAcc.get().getRole().getRolename().equals("user")){
-        newPost.setIsapproved(true);
+
+    public ResponseEntity<Response> insertPost(long topicId,long createdUserId,Post newPost){
+        Optional<User> uOptional=accountRepository.findById(createdUserId);
+        Optional<Topic> tOptional=topicRepository.findById(topicId);
+        if(!uOptional.get().getRole().getRolename().equals("user")){
+            newPost.setIsapproved(true);
         }
-        newPost.setCreated_acc(foundAcc.get());
-        newPost.setTopic(foundTopic.get());
+        newPost.setCreated_acc(uOptional.get());
+        newPost.setTopic(tOptional.get());
         newPost.setCreated_at(timeService.getCurrentTimestamp());
-        foundTopic.map(tp->{
-            tp.setAmountTopic(tp.getAmountTopic()+1);
-            return topicRepo.save(tp);
+        tOptional.map(topic->{
+            topic.setAmountTopic(topic.getAmountTopic()+1);
+            return topicRepository.save(topic);
         });
-        postRepo.save(newPost);
+        postRepository.save(newPost);
         return  ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",""));
     }
-    public ResponseEntity<Response> approvePost(long acc_id,long post_id){
-        Optional<User>foundAcc=accountRepo.findById(acc_id);
-        postRepo.findById(post_id).map(p->{
-            p.setIsapproved(true);
-            p.setApproved_acc(foundAcc.get());
-            p.setApproved_at(timeService.getCurrentTimestamp());
-            return postRepo.save(p);
+
+    public ResponseEntity<Response> approvePost(long approvedUserId,long postId){
+        Optional<User>uOptional=accountRepository.findById(approvedUserId);
+        postRepository.findById(postId).map(post->{
+            post.setIsapproved(true);
+            post.setApproved_acc(uOptional.get());
+            post.setApproved_at(timeService.getCurrentTimestamp());
+            return postRepository.save(post);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Approved",""));
     }
-    public ResponseEntity<Response> editPost(long topic_id,long updated_acc,Post updatedPost){
-        Optional<User> foundAcc=accountRepo.findById(updated_acc);
-        Optional<Topic> foundTopic=topicRepo.findById(topic_id);
-        postRepo.findById(updatedPost.getId()).map(p->{
+
+    public ResponseEntity<Response> updatePost(long updatedTopicId,long updatedUserId,Post updatedPost){
+        Optional<User> uOptional=accountRepository.findById(updatedUserId);
+        Optional<Topic> tOptional=topicRepository.findById(updatedTopicId);
+        postRepository.findById(updatedPost.getId()).map(post->{
             if(updatedPost.getTitle()!=null)
-            p.setTitle(updatedPost.getTitle());
+                post.setTitle(updatedPost.getTitle());
             if(updatedPost.getContent()!=null)
-            p.setContent(updatedPost.getContent());
-            p.setTopic(foundTopic.get());
-            p.setUpdated_acc(foundAcc.get());
-            p.setUpdated_at(timeService.getCurrentTimestamp());
-            return postRepo.save(p);
+                post.setContent(updatedPost.getContent());
+            post.setTopic(tOptional.get());
+            post.setUpdated_acc(uOptional.get());
+            post.setUpdated_at(timeService.getCurrentTimestamp());
+            return postRepository.save(post);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Updated",""));
     }
-    public ResponseEntity<Response> deletePost(long post_id,long deleted_acc){
-        System.out.println("check");
-        Optional<User> foundAcc=accountRepo.findById(deleted_acc);
-        Optional<Post>fountPost=postRepo.findById(post_id).map(p->{
-            p.setDeleted_acc(foundAcc.get());
-            p.setIsdeleted(true);
-            p.setDeleted_at(timeService.getCurrentTimestamp());
+
+    public ResponseEntity<Response> deletePost(long postId,long deletedUserId){
+        Optional<User> uOptional=accountRepository.findById(deletedUserId);
+        Optional<Post> pOptional=postRepository.findById(postId).map(post->{
+            post.setDeleted_acc(uOptional.get());
+            post.setIsdeleted(true);
+            post.setDeleted_at(timeService.getCurrentTimestamp());
             // topicRepo.findById(p.getTopic().getId()).map(tp->{
             //     tp.setAmountTopic(tp.getAmountTopic()-1);
             //     return topicRepo.save(tp);
             // });
-
-            return postRepo.save(p);
+            return postRepository.save(post);
         });
         // commentService.deleteCommentWhenDeletePost(post_id, deleted_acc);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Deleted",fountPost));
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Deleted",pOptional));
     }
-    public ResponseEntity<Response> deletePostWhenDeleteTopic(Long topic_id,long deleted_acc){
-        Optional<Topic> foundTopic=topicRepo.findById(topic_id);
-        List<Post> found=postRepo.findAllByTopic(foundTopic.get());
-        Optional<User> foundAcc=accountRepo.findById(deleted_acc);
+
+    public ResponseEntity<Response> deletePostWhenDeleteTopic(long topicId,long deletedUserId){
+        Optional<Topic> tOptional=topicRepository.findById(topicId);
+        List<Post> posts=postRepository.findAllByTopic(tOptional.get());
+        Optional<User> uOptional=accountRepository.findById(deletedUserId);
         Timestamp timeDelete=timeService.getCurrentTimestamp();
-        if(found.size()>0)
-        for(Post p:found){
-            p.setDeleted_acc(foundAcc.get());
-            p.setDeleted_at(timeDelete);
-            p.setIsdeleted(true);
-            postRepo.save(p);
+        if(posts.size()>0)
+        for(Post post:posts){
+            post.setDeleted_acc(uOptional.get());
+            post.setDeleted_at(timeDelete);
+            post.setIsdeleted(true);
+            postRepository.save(post);
         }
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Deleted",""));
     }

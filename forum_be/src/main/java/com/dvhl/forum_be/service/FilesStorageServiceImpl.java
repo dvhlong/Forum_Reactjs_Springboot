@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
     private final Path root = Paths.get("avatars");
+
     @Override
     public void init() {
         try {
@@ -24,6 +25,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
         throw new RuntimeException("Could not initialize folder for upload!");
         }
     }
+
     @Override
     public void save(MultipartFile file,String newfilename) {
         try {
@@ -32,6 +34,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
         throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
     }
+
     @Override
     public Resource load(String filename) {
         try {
@@ -53,6 +56,7 @@ public class FilesStorageServiceImpl implements FilesStorageService {
         throw new RuntimeException("Error: " + e.getMessage());
         }
     }
+    
     @Override
     public void delete(String filename) {
         try {

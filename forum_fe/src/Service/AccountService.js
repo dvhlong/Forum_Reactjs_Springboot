@@ -1,5 +1,6 @@
 import axios from "axios";
 class AccountService{
+    token=localStorage.getItem("token");
     checkToken(){
         return axios(
             {
@@ -7,7 +8,7 @@ class AccountService{
                 method:"get",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Authorization": `Bearer ${this.token}`,
                 }
             }
         );
@@ -19,7 +20,7 @@ class AccountService{
                 method:"put",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Authorization": `Bearer ${this.token}`,
                 },
             }
         );
@@ -31,7 +32,7 @@ class AccountService{
                 method:"put",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Authorization": `Bearer ${this.token}`,
                 },
                 data:role
             }
@@ -44,7 +45,7 @@ class AccountService{
                 method:"get",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Authorization": `Bearer ${this.token}`,
                 },
                 cancelToken:ourRequest.token
             }
@@ -63,7 +64,7 @@ class AccountService{
                 method:"get",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Authorization": `Bearer ${this.token}`,
                 },
                 cancelToken:ourRequest.token
             }
@@ -76,7 +77,7 @@ class AccountService{
                 method:"put",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Authorization": `Bearer ${this.token}`,
                 },
                 data:updatedInfo
             }
@@ -89,7 +90,7 @@ class AccountService{
                 method:"put",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Authorization": `Bearer ${this.token}`,
                 },
                 data:pass
             }
@@ -102,7 +103,7 @@ class AccountService{
                 method:"post",
                 baseURL:"http://localhost:8080",
                 headers:{
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                    "Authorization": `Bearer ${this.token}`,
                     "Content-Type": "multipart/form-data",
                 },
                 data:formData

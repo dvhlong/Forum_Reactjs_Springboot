@@ -107,7 +107,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    public boolean isIsblocked() {
+    public boolean getIsblocked() {
         return isblocked;
     }
     public void setIsblocked(boolean isblocked) {

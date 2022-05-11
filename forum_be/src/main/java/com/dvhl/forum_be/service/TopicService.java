@@ -10,7 +10,7 @@ import com.dvhl.forum_be.model.Topic;
 import com.dvhl.forum_be.model.User;
 import com.dvhl.forum_be.repositories.AccountRepo;
 import com.dvhl.forum_be.repositories.PostRepo;
-import com.dvhl.forum_be.repositories.TopicRepo;
+import com.dvhl.forum_be.repositories.TopicRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,7 +26,7 @@ public class TopicService {
     @Autowired
     PostService postService;
     @Autowired
-    TopicRepo topicRepo;
+    TopicRepository topicRepo;
     @Autowired
     AccountRepo accountRepo;
     @Autowired

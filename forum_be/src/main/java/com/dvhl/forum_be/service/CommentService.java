@@ -8,9 +8,9 @@ import com.dvhl.forum_be.model.Comment;
 import com.dvhl.forum_be.model.Post;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.User;
-import com.dvhl.forum_be.repositories.AccountRepo;
-import com.dvhl.forum_be.repositories.CommentRepo;
-import com.dvhl.forum_be.repositories.PostRepo;
+import com.dvhl.forum_be.repositories.AccountRepository;
+import com.dvhl.forum_be.repositories.CommentRepository;
+import com.dvhl.forum_be.repositories.PostRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,59 +23,68 @@ import org.springframework.stereotype.Service;
 public class CommentService {
     @Autowired
     TimeService timeService;
+
     @Autowired
-    CommentRepo commentRepo;
+    CommentRepository commentRepository;
+
     @Autowired
-    AccountRepo accountRepo;
+    AccountRepository accountRepository;
+
     @Autowired
-    PostRepo postRepo;
-    public Page<Comment> getComments(int page, long postid){
-        Optional<Post> foundPost=postRepo.findByIdAndIsdeleted(postid,false);
-        return commentRepo.findAllByPostAndIsdeletedOrderByCreatedatDesc(foundPost,false,PageRequest.of(page-1, 5));
+    PostRepository postRepository;
+
+    public Page<Comment> getCommentsPage(int page, long postId){
+        int elementQuantityInPage=5;
+        Optional<Post> pOptional=postRepository.findByIdAndIsdeleted(postId,false);
+        return commentRepository.findAllByPostAndIsdeletedOrderByCreatedatDesc(pOptional,false,PageRequest.of(page-1, elementQuantityInPage));
     }
-    public ResponseEntity<Response> addComment(long post_id,long created_acc,long replied_cmt,Comment newCmt){
-        Optional<User> foundAcc=accountRepo.findById(created_acc);
-        Optional<Post> foundPost=postRepo.findById(post_id);
-        newCmt.setCreated_acc(foundAcc.get());
-        newCmt.setPost(foundPost.get());
-        newCmt.setCreated_at(timeService.getCurrentTimestamp());
-        if(replied_cmt !=0){
-            Optional<Comment> cmtReplied=commentRepo.findById(replied_cmt);
-            newCmt.setReplied_cmt(cmtReplied.get());
+
+    public ResponseEntity<Response> insertComment(long postId,long createdUserId,long repliedCommentId,Comment newComment){
+        Optional<User> uOptional=accountRepository.findById(createdUserId);
+        Optional<Post> pOptional=postRepository.findById(postId);
+        newComment.setCreated_acc(uOptional.get());
+        newComment.setPost(pOptional.get());
+        newComment.setCreated_at(timeService.getCurrentTimestamp());
+        if(repliedCommentId !=0){
+            Optional<Comment> rOptional=commentRepository.findById(repliedCommentId);
+            newComment.setReplied_cmt(rOptional.get());
         }
-        commentRepo.save(newCmt);
+        commentRepository.save(newComment);
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",""));
     }
-    public ResponseEntity<Response> editComment(long cmt_id,long updated_acc,Comment updatedCmt){
-        Optional<User> foundAcc=accountRepo.findById(updated_acc);
-        commentRepo.findById(cmt_id).map(c->{
-            c.setContent(updatedCmt.getContent());
-            c.setUpdated_acc(foundAcc.get());
-            c.setUpdated_at(timeService.getCurrentTimestamp());
-            return commentRepo.save(c);
+
+    public ResponseEntity<Response> updateComment(long commentId,long updatedUserId,Comment updatedComment){
+        Optional<User> uOptional=accountRepository.findById(updatedUserId);
+        commentRepository.findById(commentId).map(comment->{
+            comment.setContent(updatedComment.getContent());
+            comment.setUpdated_acc(uOptional.get());
+            comment.setUpdated_at(timeService.getCurrentTimestamp());
+            return commentRepository.save(comment);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("Ok","Updated",""));
     }
-    public ResponseEntity<Response> deleteComment(long cmt_id,long deleted_acc){
-        Optional<User> foundAcc=accountRepo.findById(deleted_acc);
-        commentRepo.findById(cmt_id).map(c->{
-            c.setIsdeleted(true);
-            c.setDeleted_acc(foundAcc.get());
-            c.setDeleted_at(timeService.getCurrentTimestamp());
-            return commentRepo.save(c);
+
+    public ResponseEntity<Response> deleteComment(long commentId,long deletedUserId){
+        Optional<User> uOptional=accountRepository.findById(deletedUserId);
+        commentRepository.findById(commentId).map(comment->{
+            comment.setIsdeleted(true);
+            comment.setDeleted_acc(uOptional.get());
+            comment.setDeleted_at(timeService.getCurrentTimestamp());
+            return commentRepository.save(comment);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Deleted",""));
     }
-    public void deleteCommentWhenDeletePost(long post_id,long deleted_acc){
-        Optional<User> foundAcc=accountRepo.findById(deleted_acc);
-        Optional<Post> foundPost=postRepo.findById(post_id);
-        List<Comment> found=commentRepo.findAllByPostAndIsdeleted(foundPost.get(),false);
+
+    public void deleteCommentWhenDeletePost(long postId,long deletedUserId){
+        Optional<User> uOptional=accountRepository.findById(deletedUserId);
+        Optional<Post> pOptional=postRepository.findById(postId);
+        List<Comment> comments=commentRepository.findAllByPostAndIsdeleted(pOptional.get(),false);
         Timestamp timeDelete=timeService.getCurrentTimestamp();
-        for(Comment c:found){
-            c.setIsdeleted(true);
-            c.setDeleted_acc(foundAcc.get());
-            c.setDeleted_at(timeDelete);
-            commentRepo.save(c);
+        for(Comment comment:comments){
+            comment.setIsdeleted(true);
+            comment.setDeleted_acc(uOptional.get());
+            comment.setDeleted_at(timeDelete);
+            commentRepository.save(comment);
         }
     }
 }

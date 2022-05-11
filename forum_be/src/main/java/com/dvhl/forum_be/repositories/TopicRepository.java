@@ -8,10 +8,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TopicRepo extends JpaRepository<Topic,Long>{
+public interface TopicRepository extends JpaRepository<Topic,Long>{
 
-    Page<Topic> findAllByIsdeleted(Pageable pageable, boolean b);
+    Page<Topic> findAllByIsdeleted(Pageable pageable, boolean isDeleted);
 
-    List<Topic> findAllByIsdeleted(boolean b);
+    List<Topic> findAllByIsdeleted(boolean isDeleted);
 
 }
