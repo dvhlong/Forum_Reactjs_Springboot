@@ -34,59 +34,72 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(path = "/")
 public class AccountController {
     @Autowired
-    AccountService accSV;
+    AccountService accountService;
+
     @GetMapping("/checkToken")
     ResponseEntity<?> checkToken(){
         return ResponseEntity.status(HttpStatus.OK).body(new Response("200","successful", ""));
     }
+
     @GetMapping("/getAllAcc/pages={page}")
-    Page<User> getAccounts(@PathVariable int page){
-        return accSV.getAllAccounts(page);
+    Page<User> getAccountsPage(@PathVariable int page){
+        return accountService.getAccountsPage(page);
     }
-    @GetMapping("/getUserInfo/{id}")
-    ResponseEntity<?> getUser(@PathVariable long id){
-        return accSV.getUserInfo(id);
+
+    @GetMapping("/getUserInfo/{userId}")
+    ResponseEntity<?> getUser(@PathVariable long userId){
+        return accountService.getUser(userId);
     }
+
     @PostMapping("/login")
     ResponseEntity<?> authenticateAccount(@Valid @RequestBody LoginRequest loginRequest){
-        return accSV.authenticateAccount(loginRequest);
+        return accountService.authenticateAccount(loginRequest);
     }
+
     @PostMapping("/register")
-    ResponseEntity<Response> registerAccount(@RequestBody User newAcc){
-        return accSV.registerAccount(newAcc);
+    ResponseEntity<Response> registerAccount(@RequestBody User newUser){
+        return accountService.registerAccount(newUser);
     }
-    @PutMapping("/changeAccInfo/{id}")
-    ResponseEntity<Response> changeAccountInfo(@RequestBody User updatedAcc,@PathVariable long id){
-        return accSV.changeAccountInfo(updatedAcc,id);
+
+    @PutMapping("/changeAccInfo/{userId}")
+    ResponseEntity<Response> changeAccountInfo(@RequestBody User updatedUser,@PathVariable long userId){
+        return accountService.updateUser(updatedUser,userId);
     }
+
     @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
-    @PutMapping("/blockAcc/{id}")
-    ResponseEntity<Response> block(@PathVariable long id){
-        return accSV.block(id);
+    @PutMapping("/blockAcc/{userId}")
+    ResponseEntity<Response> block(@PathVariable long userId){
+        return accountService.blockOrUnblockUser(userId);
     }
-    @PutMapping("/changeAccRole/{id}")
-    ResponseEntity<Response> changeRole(@RequestBody Role updatedRole,@PathVariable long id){
-        return accSV.changeRole(id,updatedRole);
+
+    @PutMapping("/changeAccRole/{userId}")
+    ResponseEntity<Response> updateUserRole(@RequestBody Role updatedRole,@PathVariable long userId){
+        return accountService.updateUserRole(userId,updatedRole);
     }
-    @PutMapping("/changeAccPass/{id}")
-    ResponseEntity<Response> changePass(@RequestBody User updatedAcc,@PathVariable long id){
-        return accSV.changePass(id,updatedAcc);
+
+    @PutMapping("/changeAccPass/{userId}")
+    ResponseEntity<Response> changePass(@RequestBody User updatedUser,@PathVariable long userId){
+        return accountService.updatePassword(userId,updatedUser);
     }
+
     @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/getAllRole")
-    List<Role> getRole(){
-        return accSV.getRole();
+    List<Role> getRoles(){
+        return accountService.getRoles();
     }
+
     @GetMapping("/logoutsuccess")
     ResponseEntity<Response> getLogoutSuccess(){
-        return accSV.getLogoutSuccess();
+        return accountService.getLogoutSuccess();
     }
-    @PostMapping("/uploadAvatar/{id}")
-    ResponseEntity<Response> uploadAvatar(@PathVariable long id,@RequestParam("avatar") MultipartFile file){
-        return accSV.uploadAvatar(file,id);
+
+    @PostMapping("/uploadAvatar/{userId}")
+    ResponseEntity<Response> uploadAvatar(@PathVariable long userId,@RequestParam("avatar") MultipartFile file){
+        return accountService.uploadAvatar(file,userId);
     }
+
     @GetMapping("/files/{filename}")
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-        return accSV.loadAvatar(filename);
+    public ResponseEntity<Resource> loadAvatar(@PathVariable String filename) {
+        return accountService.loadAvatar(filename);
     }
 }

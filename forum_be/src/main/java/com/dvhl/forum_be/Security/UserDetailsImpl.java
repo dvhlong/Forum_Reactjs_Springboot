@@ -15,7 +15,6 @@ public class UserDetailsImpl implements UserDetails{
         return Collections.singleton(new SimpleGrantedAuthority(user.getRole().getRolename()));
     }
     
-
     public UserDetailsImpl(User user) {
         this.user = user;
     }

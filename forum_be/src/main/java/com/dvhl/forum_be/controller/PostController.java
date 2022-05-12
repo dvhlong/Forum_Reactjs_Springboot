@@ -27,59 +27,72 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
     @Autowired
     PostService postService;
+
     @Autowired
     CommentService commentService;
-    @GetMapping("/{id}")
-    Optional<Post> getPost(@PathVariable long id){
-        return postService.getPostById(id);
+
+    @GetMapping("/{postId}")
+    Optional<Post> getPost(@PathVariable long postId){
+        return postService.getPost(postId);
     }
-    @GetMapping("/{postid}/comments/page={page}")
-    Page<Comment> getComments(@PathVariable long postid,@PathVariable int page){
-        return commentService.getComments(page, postid);
+
+    @GetMapping("/{postId}/comments/page={page}")
+    Page<Comment> getCommentsPage(@PathVariable long postId,@PathVariable int page){
+        return commentService.getCommentsPage(page, postId);
     }
-    @PostMapping("/{postid}/{accid}/{replyid}/addComment")
-    ResponseEntity<Response> addComment(@PathVariable long postid,@PathVariable long replyid,@PathVariable long accid,@RequestBody Comment newComment ){
-        return commentService.addComment(postid,accid,replyid,newComment);
+
+    @PostMapping("/{postId}/{userId}/{repliedCommentId}/addComment")
+    ResponseEntity<Response> insertComment(@PathVariable long postId,@PathVariable long repliedCommentId,@PathVariable long userId,@RequestBody Comment newComment ){
+        return commentService.insertComment(postId,userId,repliedCommentId,newComment);
     }
-    @PutMapping("/{cmt_id}/{updated_acc}/editComment")
-    ResponseEntity<Response> editComment(@PathVariable long cmt_id,@PathVariable long updated_acc,@RequestBody Comment updatedComment){
-        return commentService.editComment(cmt_id, updated_acc, updatedComment);
+
+    @PutMapping("/{commentId}/{updatedUserId}/editComment")
+    ResponseEntity<Response> updateComment(@PathVariable long commentId,@PathVariable long updatedUserId,@RequestBody Comment updatedComment){
+        return commentService.updateComment(commentId, updatedUserId, updatedComment);
     }
-    @DeleteMapping("/{cmt_id}/{deleted_acc}/deleteComment")
-    ResponseEntity<Response> deleteComment(@PathVariable long cmt_id,@PathVariable long deleted_acc){
-        return commentService.deleteComment(cmt_id, deleted_acc);
+
+    @DeleteMapping("/{commentId}/{deletedUserId}/deleteComment")
+    ResponseEntity<Response> deleteComment(@PathVariable long commentId,@PathVariable long deletedUserId){
+        return commentService.deleteComment(commentId, deletedUserId);
     }
+
     @GetMapping("/page={page}")
-    Page<Post> getAllPost(@PathVariable int page){
-        return postService.getAllPost(page);
+    Page<Post> getPostsPage(@PathVariable int page){
+        return postService.getPostsPage(page);
     }
-    @GetMapping("/topic/{topicid}/page={page}")
-    Page<Post> getAllPostByTopic(@PathVariable long topicid,@PathVariable int page){
-        return postService.getAllPostByTopic(topicid, page);
+
+    @GetMapping("/topic/{topicId}/page={page}")
+    Page<Post> getPostByTopiPage(@PathVariable long topicId,@PathVariable int page){
+        return postService.getPostsByTopicPage(topicId, page);
     }
-    @GetMapping("/key={key}/page={page}")
-    Page<Post> getAllPostByKeyword(@PathVariable String key,@PathVariable int page){
-        return postService.getAllPostByKeyword(key, page);
+
+    @GetMapping("/key={keyword}/page={page}")
+    Page<Post> getAllPostByKeywordPage(@PathVariable String keyword,@PathVariable int page){
+        return postService.getPostsByKeywordPage(keyword, page);
     }
+
     @GetMapping("/approvePost/page={page}")
-    Page<Post> approvePost(@PathVariable int page){
-        return postService.getAllPostNotApproved(page);
+    Page<Post> getPostNotApprovePage(@PathVariable int page){
+        return postService.getPostsNotApprovedPage(page);
     }
-    @PostMapping("/createPost/{topic_id}/{created_acc}")
-    ResponseEntity<Response> createPost(@PathVariable long topic_id,@PathVariable long created_acc,@RequestBody Post newPost){
-        return postService.createNewPost(topic_id, created_acc, newPost);
+
+    @PostMapping("/createPost/{topicId}/{createdUserId}")
+    ResponseEntity<Response> inserPost(@PathVariable long topicId,@PathVariable long createdUserId,@RequestBody Post newPost){
+        return postService.insertPost(topicId, createdUserId, newPost);
     }
-    @PutMapping("/editPost/{topic_id}/{updated_acc}")
-    ResponseEntity<Response> editPost(@PathVariable long topic_id,@PathVariable long updated_acc,@RequestBody Post updatedPost){
-        return postService.editPost(topic_id, updated_acc, updatedPost);
+
+    @PutMapping("/editPost/{updatedTopicId}/{updatedUserId}")
+    ResponseEntity<Response> updatePost(@PathVariable long updatedTopicId,@PathVariable long updatedUserId,@RequestBody Post updatedPost){
+        return postService.updatePost(updatedTopicId, updatedUserId, updatedPost);
     }
-    @DeleteMapping("/deletePost/{post_id}/{deleted_acc}")
-    ResponseEntity<Response> deletePost(@PathVariable long post_id,@PathVariable long deleted_acc){
-        System.out.println("check");
-        return postService.deletePost(post_id, deleted_acc);
+
+    @DeleteMapping("/deletePost/{postId}/{deletedUserId}")
+    ResponseEntity<Response> deletePost(@PathVariable long postId,@PathVariable long deletedUserId){
+        return postService.deletePost(postId, deletedUserId);
     }
-    @PutMapping("/approve/{acc_id}/{post_id}")
-    ResponseEntity<Response> approve(@PathVariable long acc_id,@PathVariable long post_id){
-        return postService.approvePost(acc_id, post_id);
+
+    @PutMapping("/approve/{approvedUserId}/{postId}")
+    ResponseEntity<Response> approve(@PathVariable long approvedUserId,@PathVariable long postId){
+        return postService.approvePost(approvedUserId, postId);
     }
 }

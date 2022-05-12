@@ -24,8 +24,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     @Autowired
     UserDetailsServiceImpl userDetailsService;
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -37,23 +39,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
     @Bean
     public JwtFilter authenticationJwtTokenFilter() {
         return new JwtFilter();
     }
+
     @Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+
     @Bean
 	@Override
 	protected AuthenticationManager authenticationManager() throws Exception { //fix loi Bean cua AuthenticationManager
 		return super.authenticationManager();
 	}
+
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); //Tu dong ma hoa mat khau
     }
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()

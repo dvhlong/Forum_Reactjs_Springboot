@@ -26,31 +26,37 @@ import org.springframework.web.bind.annotation.RestController;
 public class TopicController{
     @Autowired
     TopicService topicService;
+
     @GetMapping("/page={page}")
-    Page<Topic> getAllTopics(@PathVariable int page){
-        return topicService.getAllTopics(page);
+    Page<Topic> getTopicsPage(@PathVariable int page){
+        return topicService.getTopicsPage(page);
     }
-    @GetMapping("all")
+
+    @GetMapping("/all")
     List<Topic> getTopics(){
         return topicService.getTopics();
     }
-    @GetMapping("/amount/{topic_id}")
-    long getAmountTopic(@PathVariable long topic_id){
-        return topicService.countPost(topic_id);
+
+    @GetMapping("/amount/{topicId}")
+    long postAmount(@PathVariable long topicId){
+        return topicService.countPost(topicId);
     }
+
     @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
-    @PostMapping("/createTopic/{created_acc}")
-    ResponseEntity<Response> createTopic(@PathVariable long created_acc,@RequestBody Topic newTopic){
-        return topicService.createNewTopic(created_acc, newTopic);
+    @PostMapping("/createTopic/{createdUserId}")
+    ResponseEntity<Response> insertTopic(@PathVariable long createdUserId,@RequestBody Topic newTopic){
+        return topicService.insertTopic(createdUserId, newTopic);
     }
+
     @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
-    @PutMapping("/editTopic/{updated_acc}")
-    ResponseEntity<Response> editTopic(@PathVariable long updated_acc,@RequestBody Topic updated_topic){
-        return topicService.editTopic(updated_acc, updated_topic);
+    @PutMapping("/editTopic/{updatedUserId}")
+    ResponseEntity<Response> updateTopic(@PathVariable long updatedUserId,@RequestBody Topic updatedTopic){
+        return topicService.updateTopic(updatedUserId, updatedTopic);
     }
+
     @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
-    @DeleteMapping("/deleteTopic/{topic_id}/{deleted_acc}")
-    ResponseEntity<Response> deleteTopic(@PathVariable long topic_id,@PathVariable long deleted_acc){
-        return topicService.deleteTopic(topic_id, deleted_acc);
+    @DeleteMapping("/deleteTopic/{topicId}/{deletedUserId}")
+    ResponseEntity<Response> deleteTopic(@PathVariable long topicId,@PathVariable long deletedUserId){
+        return topicService.deleteTopic(topicId, deletedUserId);
     }
 }

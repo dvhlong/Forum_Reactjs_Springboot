@@ -20,28 +20,38 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(unique = true)
     private String username;
+
     private String password;
+
     @ManyToOne(targetEntity = Role.class)
     @JoinColumn(name = "role_id",referencedColumnName = "id")
     private Role role;
+
     @Column(nullable = false)
     private boolean isblocked;
+
     private String name;
+
     private String email;
+
     private String phone;
+
     private Date birthdate;
+
     private String avatar;
+
     @Column(columnDefinition = "varchar(255) default 'http://localhost:8080/files/null'")
     private String avatarUrl;
+
     private Timestamp createdat;
+
     private Timestamp updatedat;
 
     public User() {
     }
-
-    
 
     public User(String username, String password, Role role, boolean isblocked, String name, String email, String phone,
             Date birthdate, String avatar, String avatarUrl, Timestamp createdat, Timestamp updatedat) {
@@ -59,8 +69,6 @@ public class User {
         this.updatedat = updatedat;
     }
 
-
-
     public String getAvatarUrl() {
         return avatarUrl;
     }
@@ -73,79 +81,94 @@ public class User {
         return avatar;
     }
 
-
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
-
 
     public Role getRole() {
         return role;
     }
 
-
     public void setRole(Role role) {
         this.role = role;
     }
 
-
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
     public boolean getIsblocked() {
         return isblocked;
     }
+
     public void setIsblocked(boolean isblocked) {
         this.isblocked = isblocked;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getPhone() {
         return phone;
     }
+
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
     public Date getBirthdate() {
         return birthdate;
     }
+
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
+
     public Timestamp getCreated_at() {
         return createdat;
     }
+
     public void setCreated_at(Timestamp created_at) {
         this.createdat = created_at;
     }
+
     public Timestamp getUpdated_at() {
         return updatedat;
     }
+    
     public void setUpdated_at(Timestamp updated_at) {
         this.updatedat = updated_at;
     }

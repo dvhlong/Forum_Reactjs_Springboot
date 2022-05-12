@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class NotificationController {
     @Autowired
     NotificationService notificationService;
+
     @GetMapping("/{receivedAcc}/page={page}")
-    Page<Notification> getNotification(@PathVariable long receivedAcc,@PathVariable int page){
-        return notificationService.getYourNotifications(receivedAcc, page);
+    Page<Notification> getNotificationsPage(@PathVariable long receivedUserId,@PathVariable int page){
+        return notificationService.getNotificationsPage(receivedUserId, page);
     }
 }

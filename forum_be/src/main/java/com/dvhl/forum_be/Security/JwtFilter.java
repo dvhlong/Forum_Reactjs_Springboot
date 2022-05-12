@@ -18,8 +18,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class JwtFilter extends OncePerRequestFilter{
     @Autowired
     private JwtUtils jwtUtils;
+
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -43,6 +45,7 @@ public class JwtFilter extends OncePerRequestFilter{
         }
         filterChain.doFilter(request, response);
     }
+    
     private String parseJwt(HttpServletRequest request) { //Lay thong tin token
         String headerAuth = request.getHeader("Authorization");
     

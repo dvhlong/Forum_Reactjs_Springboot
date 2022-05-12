@@ -121,10 +121,6 @@ public class PostService {
             post.setDeleted_acc(uOptional.get());
             post.setIsdeleted(true);
             post.setDeleted_at(timeService.getCurrentTimestamp());
-            // topicRepo.findById(p.getTopic().getId()).map(tp->{
-            //     tp.setAmountTopic(tp.getAmountTopic()-1);
-            //     return topicRepo.save(tp);
-            // });
             return postRepository.save(post);
         });
         // commentService.deleteCommentWhenDeletePost(post_id, deleted_acc);

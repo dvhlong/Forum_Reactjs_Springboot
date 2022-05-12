@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService{
     @Autowired
     JwtRepository jwtRepository;
+    
     @Override
     public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException { //lay thong tin user khi nhan token
         User user = jwtRepository.findByUsername(username);

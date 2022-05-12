@@ -13,22 +13,29 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(unique = true)
     private String rolename;
+
     public Role() {
     }
+
     public Role(String rolename) {
         this.rolename = rolename;
     }
+
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public String getRolename() {
         return rolename;
     }
+    
     public void setRolename(String rolename) {
         this.rolename = rolename;
     }
