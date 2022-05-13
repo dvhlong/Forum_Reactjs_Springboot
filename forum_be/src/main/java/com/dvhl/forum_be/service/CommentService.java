@@ -51,7 +51,7 @@ public class CommentService {
         if(repliedCommentId !=0){
             Optional<Comment> repliedCommentOptional=commentRepository.findById(repliedCommentId);
             newComment.setReplied_cmt(repliedCommentOptional.get());
-            notificationService.insertNotification(createdUserId, repliedCommentOptional.get().getCreated_acc().getId(), postId, "replied your comment");
+            notificationService.insertNotification(createdUserId, repliedCommentOptional.get().getCreated_acc().getId(), postId, "replied your comment in post");
         } else {
             notificationService.insertNotification(createdUserId, pOptional.get().getCreated_acc().getId(), postId, "commented to your post");
         }
