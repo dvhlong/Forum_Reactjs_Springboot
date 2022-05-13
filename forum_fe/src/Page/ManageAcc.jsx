@@ -8,19 +8,29 @@ import {useNavigate} from 'react-router-dom';
 import axios from "axios";
 import Moment from 'react-moment';
 import { motion } from "framer-motion"
+
 function ManageAcc(){
     let navigate=useNavigate()
+
     const[mount,setMount]=useState(false);
+
     const[loading,setLoading]=useState(false);
+
     const [update,setUpdate] = useState(false);
+
     const reload=()=>{setUpdate(!update);}
+
     const[result,setResult]=useState([]);
+
     const[page,setPage]=useState(1);
+
     const[pages,setPages]=useState(0);
+
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
     }
+
     const block=(id)=>{
         AccountService.block(id).then(res=>{
             if(res.data.status===401){
@@ -30,6 +40,7 @@ function ManageAcc(){
             reload();
         })
     }
+
     const setRoleToMod=(id)=>{
         let role={
             rolename:"mod"
@@ -42,6 +53,7 @@ function ManageAcc(){
             reload();
         })
     }
+
     const setRoleToUser=(id)=>{
         let role={
             rolename:"user"
@@ -54,14 +66,17 @@ function ManageAcc(){
             reload();
         })
     }
+
     const nextPage=()=>{
         if(page<pages)
         setPage(page+1);
     }
+
     const prevPage=()=>{
         if(page>1)
         setPage(page-1);
     }
+
     useEffect(()=>{
         setLoading(true);
         const ourRequest=axios.CancelToken.source();
@@ -84,6 +99,7 @@ function ManageAcc(){
             }
         }, 800);
     },[page,update]);
+    
     return(
         <div>
             {

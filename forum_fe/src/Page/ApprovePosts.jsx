@@ -14,27 +14,39 @@ import Swal from 'sweetalert2';
 import SideComponent from '../Component/SideComponent';
 import '../CSS/PostDetail.css';
 import { motion } from "framer-motion"
+
 function ApprovePosts() {
     let navigate=useNavigate();
+
     const[mount,setMount]=useState(false);
+
     const [loading,setLoading]=useState(false);
+
     const [update,setUpdate] = useState(false);
+
     const reload=()=>{setUpdate(!update);}
+
     const[result,setResult]=useState([]);
+
     const[page,setPage]=useState(1);
+
     const[pages,setPages]=useState(0);
+
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
     }
+
     const nextPage=()=>{
         if(page<pages)
         setPage(page+1);
     }
+
     const prevPage=()=>{
         if(page>1)
         setPage(page-1);
     }
+
     const approvePost=(id)=>{
         PostService.approvePost(id).then(res=>{
             if(res.data.status===401){
@@ -52,6 +64,7 @@ function ApprovePosts() {
             timer: 1500
         })
     }
+
     const rejectPost=(id)=>{
         PostService.rejectPost(id).then(res=>{
             if(res.data.status===401){
@@ -69,6 +82,7 @@ function ApprovePosts() {
             timer: 1500
         })
     }
+
     useEffect(()=>{
         setLoading(true);
         const ourRequest=axios.CancelToken.source();
@@ -92,6 +106,7 @@ function ApprovePosts() {
             }
         }, 800);
     },[page,update]);
+
     return (
         <div>
                 <div>

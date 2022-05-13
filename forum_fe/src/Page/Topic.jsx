@@ -17,45 +17,68 @@ import Swal from 'sweetalert2'
 import SideComponent from '../Component/SideComponent';
 import { motion } from "framer-motion";
 import '../CSS/PostAndTopic.css';
+
 function Topic() {
     let navigate=useNavigate()
+
     const[mount,setMount]=useState(false);
+
     const[loading,setLoading]=useState(false);
+
     const[result,setResult]=useState([]);
+
     const[page,setPage]=useState(1);
+
     const[pages,setPages]=useState(0);
+
     const [update,setUpdate] = useState(false);
+
     const reload=()=>{setUpdate(!update);}
+
     const[newTopicName,setNewTopicName]=useState("");
+
     const[editTopicid,setEditTopicId]=useState(0)
+
     const[editTopicName,setEditTopicName]=useState("")
+
     const[deleteTopicid,setDeleteTopicId]=useState(0);
 
     const[canAddTopic,setCanAddTopic]=useState(false);
+
     const [showEdit, setShowEdit] = useState(false);
+
     const handleCloseEdit = () => setShowEdit(false);
+
     const handleShowEdit = (topic) => {
         setEditTopicId(topic.id);
         setEditTopicName(topic.topicname);
         setShowEdit(true);
     }
+
     const [showAdd, setShowAdd] = useState(false);
+
     const handleCloseAdd = () => setShowAdd(false);
     const handleShowAdd = () =>{
         setShowAdd(true);
     }
+
     const [showDelete, setShowDelete] = useState(false);
+
     const handleCloseDelete = () => setShowDelete(false);
+
     const handleShowDelete = (id) => {
         setDeleteTopicId(id);
         setShowDelete(true);
     }
+
     const enterNewTopicName=(e)=>{
         setNewTopicName(e.target.value)
     }
+
     const enterEditTopicName=(e)=>{
         setEditTopicName(e.target.value)
     }
+
     const addTopic=()=>{
         if(newTopicName==="")
         Swal.fire({
@@ -87,6 +110,7 @@ function Topic() {
             handleCloseAdd();
         }   
     }
+
     const deleteTopic=()=>{
         TopicService.deleteTopic(deleteTopicid).then(res=>{
             if(res.data.status===401){
@@ -105,6 +129,7 @@ function Topic() {
         })
         handleCloseDelete();
     }
+
     const changeTopic=()=>{
         let updatedTopic={
             id:editTopicid,
@@ -136,14 +161,17 @@ function Topic() {
         handleCloseEdit();
         }
     }
+
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
     }
+
     const nextPage=()=>{
         if(page<pages)
         setPage(page+1);
     }
+
     const prevPage=()=>{
         if(page>1)
         setPage(page-1);
@@ -173,6 +201,7 @@ function Topic() {
             ourRequest.cancel('Request is canceled by user');
         }
     },[page, update]);
+    
     return(
         <div>
                 <div>

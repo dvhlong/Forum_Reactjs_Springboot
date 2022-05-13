@@ -10,28 +10,41 @@ import axios from "axios";
 import SideComponent from '../Component/SideComponent';
 import '../CSS/PostAndTopic.css';
 import { animate, motion } from "framer-motion"
+
 function Posts(){
     let navigate=useNavigate();
+
     const[mount,setMount]=useState(false);
+
     const[loading,setLoading]=useState(false);
+
     const [update,setUpdate] = useState(false);
+
     const[result,setResult]=useState([]);
+
     const[page,setPage]=useState(1);
+
     const[pages,setPages]=useState(0);
+
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
     }
+
     let{topicid}=useParams();
+
     let{key}=useParams();
+
     const nextPage=()=>{
         if(page<pages)
         setPage(page+1);
     }
+
     const prevPage=()=>{
         if(page>1)
         setPage(page-1);
     }
+
     useEffect(()=>{
         setLoading(true);
         const ourRequest=axios.CancelToken.source();
@@ -76,6 +89,7 @@ function Posts(){
             }
         },800);
     },[page, update, key]);
+    
     return(
         <div>
                 <div>

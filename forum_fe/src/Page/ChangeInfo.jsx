@@ -9,19 +9,32 @@ import axios from "axios";
 import Swal from 'sweetalert2'
 import '../CSS/ChangeInfo.css';
 import { motion } from "framer-motion"
+
 function ChangeInfo() {
     let navigate=useNavigate();
+
     const [newAvatar,setNewAvatar]=useState();
+
     const [avatar,setAvatar]=useState();
+
     const[loading,setLoading]=useState(false);
+
     const[name,setName]=useState("");
+
     const[phone,setPhone]=useState("");
+
     const[dateOfBirth,setDateOfBirth]=useState("");
+
     const[email,setEmail]=useState("");
+
     const[pass,setPass]=useState("");
+
     const[repass,setRepass]=useState("");
+
     const [update,setUpdate] = useState(false);
-    const reload=()=>{setUpdate(!update);}
+
+    const reload=()=>{setUpdate(!update)}
+
     useEffect(()=>{
         setLoading(true);
         const ourRequest=axios.CancelToken.source();
@@ -44,9 +57,11 @@ function ChangeInfo() {
             }
         }, 800);
     },[update]);
+
     const changeAvatar=(e)=>{
         setNewAvatar(e.target.files[0]);
     }
+
     const uploadAvatar=()=>{
         const formData=new FormData();
         if(newAvatar===undefined){
@@ -65,21 +80,27 @@ function ChangeInfo() {
             setNewAvatar();
         }
     }
+
     const changeName=(e)=>{
         setName(e.target.value)
     }
+
     const changePhone=(e)=>{
         setPhone(e.target.value)
     }
+
     const changeDateOfBirth=(e)=>{
         setDateOfBirth(e.target.value)
     }
+
     const changePass=(e)=>{
         setPass(e.target.value)
     }
+
     const changeRepass=(e)=>{
         setRepass(e.target.value)
     } 
+
     const changeInfo=()=>{
         let info={
             name: name,
@@ -103,6 +124,7 @@ function ChangeInfo() {
             timer: 1500
         })
     }
+
     const changeNewPass=()=>{
         if(pass==="")
         Swal.fire({
@@ -151,6 +173,7 @@ function ChangeInfo() {
             setRepass("");
         }
     }
+    
     return(
         <div>
             {

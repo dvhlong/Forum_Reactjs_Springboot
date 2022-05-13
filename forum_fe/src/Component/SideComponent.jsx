@@ -5,8 +5,10 @@ import statisticService from '../Service/StatisticService';
 import { useNavigate } from 'react-router-dom';
 import '../CSS/SideComponent.css';
 import ChartIcon from '../SVG/chart.svg';
+
 function SidebarComponent() {
     let navigate=useNavigate();
+
     const[statistic,setStatistic]=useState({
         postQuantity:0,
         memberQuantity:0,
@@ -14,6 +16,7 @@ function SidebarComponent() {
             username:''
         }
     });
+
     useEffect(()=>{
         const ourRequest=axios.CancelToken.source();
         statisticService.getStatistic(ourRequest).then(res=>{
@@ -27,6 +30,7 @@ function SidebarComponent() {
             ourRequest.cancel('Request is canceled by user');
         }
     },[])
+    
     return (
         <Card className='side-card'>
             {/* <Card.Header className='side-header'>

@@ -8,18 +8,26 @@ import TopicService from '../Service/TopicService';
 import PostService from '../Service/PostService';
 import Swal from 'sweetalert2';
 import { motion } from "framer-motion"
+
 function CreatePost(){
     const role=localStorage.getItem("role");
+
     const[topicList,setTopicList]=useState([]);
+
     const [newTitle,setNewTitle]=useState("");
+
     const [newContent,setNewContent]=useState("");
+
     const [topicId,setTopicId]=useState("0");
+
     const enterTitle=(e)=>{
         setNewTitle(e.target.value)
     }
+    
     const chooseTopic=(e)=>{
         setTopicId(e.target.value);
     }
+
     const createPost=()=>{
         if(topicId==="0"){
             Swal.fire({
@@ -65,14 +73,15 @@ function CreatePost(){
                     timer: 1500
                 })      
             })
-        }
-        
+        } 
     }
+
     useEffect(()=>{
         TopicService.getTopicList().then(res=>{
             setTopicList(res.data);
         })
     },[]);
+    
     return(
         <div>
             <h1 style={{textAlign:"center",color:"white"}}>Create New Post</h1>

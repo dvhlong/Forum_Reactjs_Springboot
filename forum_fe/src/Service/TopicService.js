@@ -13,6 +13,7 @@ class TopicService{
             }
         );
     }
+
     getTopicList(){
         return axios(
             {
@@ -25,6 +26,7 @@ class TopicService{
             }
         );
     }
+
     addTopic(newTopic){
         return axios(
             {
@@ -38,6 +40,7 @@ class TopicService{
             }
         );
     }
+
     deleteTopic(id){
         return axios(
             {
@@ -50,6 +53,7 @@ class TopicService{
             }
         );
     }
+    
     editTopic(updatedTopic){
         return axios(
             {

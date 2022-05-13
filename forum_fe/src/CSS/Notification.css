@@ -6,6 +6,7 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
 .notification{
     display: flex;
     flex-direction: row;
@@ -16,31 +17,37 @@
     border-radius: 5px;
     transition: transform .2s;
 }
+
 .notification:hover{
     background-color: rgb(210, 228, 228);
     transform: scale(1.1);
     cursor:pointer;
 }
+
 .notification-content{
     display: flex;
     flex-direction: column;
 }
+
 .notification-time{
     display: flex;
     font-size: 13px;
     color: rgb(94, 94, 197);
     margin-left: 10px;
 }
+
 .notification-text{
     display: flex;
     font-size: 16px;
     margin-left: 10px;
 }
+
 .notification-avatar{
     margin-left: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
 .notification-mark{
     display: flex;
     justify-self: end;

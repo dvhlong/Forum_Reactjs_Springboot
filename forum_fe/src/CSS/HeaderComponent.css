@@ -6,6 +6,7 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
 .notification-drop{
     display: flex;
     flex-direction: row;
@@ -14,31 +15,37 @@
     margin-bottom: 10px;
     border-radius: 5px;
 }
+
 .notification-drop:hover{
     background-color: rgb(210, 228, 228);
     cursor: pointer;
 }
+
 .notification-drop-content{
     display: flex;
     flex-direction: column;
     margin-right: 20px;
 }
+
 .notification-drop-time{
     display: flex;
     font-size: 13px;
     color: rgb(94, 94, 197);
     margin-left: 10px;
 }
+
 .notification-drop-text{
     display: flex;
     font-size: 16px;
     margin-left: 10px;
 }
+
 .notification-drop-avatar{
     margin-left: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
 .notification-drop-mark{
     display: flex;
     justify-self: end;

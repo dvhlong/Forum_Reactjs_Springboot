@@ -14,6 +14,7 @@ class PostService{
             }
         );
     }
+
     getPost(id,ourRequest){
         return axios(
             {
@@ -27,6 +28,7 @@ class PostService{
             }
         ); 
     }
+
     getComments(id,page){
         return axios(
             {
@@ -39,6 +41,7 @@ class PostService{
             }
         ); 
     }
+
     addComment(postid,replyid,comment){
         return axios(
             {
@@ -52,6 +55,7 @@ class PostService{
             }
         );
     }
+
     editComment(commentid,comment){
         return axios(
             {
@@ -65,6 +69,7 @@ class PostService{
             }
         );
     }
+
     deleteComment(commentid){
         return axios(
             {
@@ -77,6 +82,7 @@ class PostService{
             }
         );
     }
+
     getPosts(page,ourRequest){
         return axios(
             {
@@ -90,6 +96,7 @@ class PostService{
             }
         );
     }
+
     getPostsByKeyword(key,page,ourRequest){
         return axios(
             {
@@ -103,6 +110,7 @@ class PostService{
             }
         );
     }
+
     getPostsByTopic(topicid,page,ourRequest){
         return axios(
             {
@@ -116,6 +124,7 @@ class PostService{
             }
         );
     }
+
     getPostsNotApprove(page,ourRequest){
         return axios(
             {
@@ -129,6 +138,7 @@ class PostService{
             }
         );
     }
+
     rejectPost(id){
         return axios(
             {
@@ -141,6 +151,7 @@ class PostService{
             }
         );
     }
+
     approvePost(id){
         return axios(
             {
@@ -153,6 +164,7 @@ class PostService{
             }
         );
     }
+
     editPost(topicid,updatedPost){
         return axios(
             {
@@ -166,6 +178,7 @@ class PostService{
             }
         );
     }
+    
     deletePost(id){
         return axios(
             {

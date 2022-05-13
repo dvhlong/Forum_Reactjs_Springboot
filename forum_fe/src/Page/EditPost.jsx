@@ -11,23 +11,36 @@ import TopicService from '../Service/TopicService';
 import axios from "axios";
 import {TailSpin} from 'react-loader-spinner';
 import { motion } from "framer-motion"
+
 function EditPost(){
     let navigate=useNavigate();
+
     let {id}=useParams();
+
     const[topicList,setTopicList]=useState([]);
+
     const [topicId,setTopicId]=useState("0");
+
     const [topicName,setTopicName]=useState("");
+
     const[editPostTitle,setEditPostTitle]=useState("")
+
     const[editPostContent,setEditPostContent]=useState("")
+
     const[loading,setLoading]=useState(false);
+
     const[mount,setMount]=useState(false);
+
     const [update,setUpdate] = useState(false);
+
     const chooseTopic=(e)=>{
         setTopicId(e.target.value);
     }
+
     const enterEditPostTitle=(e)=>{
         setEditPostTitle(e.target.value)
     }
+
     const changePost=()=>{
         let updatedPost={
             id:String(id),
@@ -75,6 +88,7 @@ function EditPost(){
             navigate(-1);         
         }
     }
+
     useEffect(()=>{
         setLoading(true);
         const ourRequest=axios.CancelToken.source();
@@ -97,6 +111,7 @@ function EditPost(){
             }
         }, 800);
     },[id, update])
+
     useEffect(()=>{
         setLoading(true);
         setTimeout(async()=>{
@@ -111,6 +126,7 @@ function EditPost(){
                 setMount(true);
         },1000);
     },[]);
+    
     return(
         <div>
             {

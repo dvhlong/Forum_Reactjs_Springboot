@@ -6,14 +6,20 @@ import Emaillogo from '../SVG/email.svg';
 import React,{ useState} from 'react';
 import accSV from '../Service/AccountService';
 import Swal from 'sweetalert2'
+
 function Register() {
     let navigate=useNavigate();
     
     const[username,setUsername]=useState("");
+
     const[password,setPassword]=useState("");
+
     const[email,setEmail]=useState("");
+
     const[repass,setRepass]=useState("");
+
     const[error,setError]=useState("");
+
     const register=(e)=>{
         e.preventDefault();
         if (username==="")
@@ -46,19 +52,25 @@ function Register() {
             setError("password does not match !!!")
         }
     };
+
     const back=()=>navigate('/');
+
     const enterUsername=(e)=>{
         setUsername(e.target.value);
     }
+
     const enterPassword=(e)=>{
         setPassword(e.target.value)
     }
+
     const enterEmail=(e)=>{
         setEmail(e.target.value)
     }
+
     const enterRepass=(e)=>{
         setRepass(e.target.value)
     }
+    
     return(
         <div className="Container" style={{margin:"auto",width:"60%"}}> 
             <div class="system-name">FORUM</div>

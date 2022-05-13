@@ -6,9 +6,12 @@ import '../CSS/Notification.css';
 import Dropdown from 'react-bootstrap/Dropdown';
 import {Link, useNavigate} from 'react-router-dom';
 import { motion } from "framer-motion"
+
 function Notification(){
     let navigate=useNavigate();
+
     const[loading,setLoading]=useState(false);
+    
     return(
         <div>
             <h1 style={{textAlign:"center",color:"white"}}>NOTIFICATION</h1>

@@ -16,25 +16,38 @@ import Moment from 'react-moment';
 import Swal from 'sweetalert2';
 import SideComponent from '../Component/SideComponent';
 import { motion } from "framer-motion"
+
 function PostDetail(){
     const role=localStorage.getItem("role");
+
     const accid=localStorage.getItem("accid");
+    
     let navigate=useNavigate();
+
     const handleShowEdit=(postid)=>{
         navigate(`/editpost/${postid}`);
     }
+
     const [showDelete, setShowDelete] = useState(false);
+
     const handleCloseDelete = () => setShowDelete(false);
+
     const handleShowDelete=()=>{
         setShowDelete(true);
     }
     
     const[mount,setMount]=useState(false);
+
     let {id}=useParams();
+
     const[loading,setLoading]=useState(false);
+
     const [update,setUpdate] = useState(false);
+
     const reload=()=>{setUpdate(!update);}
+
     const[isEdit,setIsEdit]=useState(false);
+
     const[post,setPost]=useState({
         created_acc:{
             username:"",
@@ -47,20 +60,31 @@ function PostDetail(){
         },
         content:'',
     });
+
     const[newComment,setNewComment]=useState("");
+
     const changeNewComment=(e)=>setNewComment(e.target.value);
+
     const[comments,setComments]=useState([]);
+
     const[isReply,setIsReply]=useState(false);
+
     const[replyCommentId,setReplyCommentId]=useState(0);
+
     const[editCommentId,setEditCommentId]=useState(0);
+
     const[editCommentContent,setEditCommentContent]=useState("");
+
     const showEditComment=(comment)=>{
         setIsEdit(true);
         setEditCommentId(comment.id);
         setEditCommentContent(comment.content);
     }
+
     const cancelEditComment=()=>setIsEdit(false);
+
     const changeEditComment=(e)=>setEditCommentContent(e.target.value)
+
     const submitEditComment=()=>{
         let comment={
             content:editCommentContent
@@ -79,18 +103,24 @@ function PostDetail(){
             })
         }
     }
+
     const [deleteCommentId,setDeleteCommentId]=useState(0);
+
     const showDeleteComment=(commentid)=>{
         setDeleteCommentId(commentid);
         handleShowDeleteCommentModal();
     }
+
     const [deleteCommentModal,setDeleteCommentModal]=useState(false);
+
     const handleShowDeleteCommentModal=()=>{
         setDeleteCommentModal(true);
     }
+
     const handleCloseDeleteCommentModal=()=>{
         setDeleteCommentModal(false);
     }
+
     const deleteComment=()=>{
         PostService.deleteComment(deleteCommentId).then(res=>{
             Swal.fire({
@@ -104,27 +134,35 @@ function PostDetail(){
         })
         handleCloseDeleteCommentModal();
     }
+
     const[page,setPage]=useState(1);
+
     const[pages,setPages]=useState(0);
+
     const nextPage=()=>{
         if(page<pages)
         setPage(page+1);
     }
+
     const replyComment=(commentid)=>{
         setReplyCommentId(commentid);
         setIsReply(true);
     }
+
     const cancelReply=()=>{
         setIsReply(false);
     }
+
     const prevPage=()=>{
         if(page>1)
         setPage(page-1);
     }
+
     const changePage=(e)=>{
         if(e.target.valueAsNumber>=1)
         setPage(e.target.valueAsNumber);
     }
+
     const addComment=(postid,replyid)=>{
         let comment={
             content:newComment
@@ -140,6 +178,7 @@ function PostDetail(){
             setNewComment(""); 
         }
     }
+
     const deletePost=()=>{
         console.log(id);
         handleCloseDelete();
@@ -151,6 +190,7 @@ function PostDetail(){
             navigate("/posts")
         });
     }
+
     useEffect(()=>{
         setLoading(true);
         const ourRequest=axios.CancelToken.source();
@@ -170,6 +210,7 @@ function PostDetail(){
             }
         }, 800);
     },[id, update])
+
     useEffect(()=>{
         setLoading(true);
         setTimeout(async() => {
@@ -185,6 +226,7 @@ function PostDetail(){
                 setMount(true);
         }, 800);
     },[id, page, update])
+    
     return (
         <div>
                 <div>

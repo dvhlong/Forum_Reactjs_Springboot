@@ -1,14 +1,17 @@
 .red{
     color: red;
 }
+
 .side-body{
     text-align: left;
     color: black;
 }
+
 .side-header{
     color:red;
     font-size: 30px;
 }
+
 .side-card{
     width: 80%;
     margin: auto;

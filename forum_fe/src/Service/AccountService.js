@@ -13,6 +13,7 @@ class AccountService{
             }
         );
     }
+
     block(id){
         return axios(
             {
@@ -25,6 +26,7 @@ class AccountService{
             }
         );
     }
+
     chagneRole(id,role){
         return axios(
             {
@@ -38,6 +40,7 @@ class AccountService{
             }
         );
     }
+
     getAllAcc(page,ourRequest){
         return axios(
             {
@@ -51,12 +54,15 @@ class AccountService{
             }
         );
     }
+
     checklogin(account){
         return axios.post("http://localhost:8080/login",account);
     }
+
     createAccount(account){
         return axios.post("http://localhost:8080/register",account);
     }
+
     getAccInfo(ourRequest){
         return axios(
             {
@@ -70,6 +76,7 @@ class AccountService{
             }
         );
     }
+
     changeAccInfo(updatedInfo){
         return axios(
             {
@@ -83,6 +90,7 @@ class AccountService{
             }
         );
     }
+
     changePass(pass){
         return axios(
             {
@@ -96,6 +104,7 @@ class AccountService{
             }
         );
     }
+    
     uploadAvatar(formData){
         return axios(
             {

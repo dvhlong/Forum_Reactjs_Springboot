@@ -4,15 +4,21 @@ import Keylogo from '../SVG/key.svg';
 import Userlogo from '../SVG/user.svg';
 import accSV from '../Service/AccountService';
 import {GoogleLogin} from 'react-google-login';
+
 function Login() {
     let navigate=useNavigate();
+
     const responseGoogle=(res)=>{
         console.log("error code: "+res.error)
         console.log("error details: "+res.details);
     }
+
     const[username,setUsername]=useState("");
+
     const[password,setPassword]=useState("");
+
     const[error,setError]=useState("");
+
     useEffect(()=>{
         if(localStorage.getItem("token")!==null)
             accSV.checkToken().then(res=>{
@@ -22,6 +28,7 @@ function Login() {
                 }
             })
     },[])
+
     const login=(e)=>{
         e.preventDefault();
         let acc={
@@ -55,15 +62,18 @@ function Login() {
             console.log("fail");
         }
         }
-    
     };
+
     const enterUsername=(e)=>{
         setUsername(e.target.value);
     }
+
     const enterPassword=(e)=>{
         setPassword(e.target.value);
     }
+
     const register=()=>navigate('/register');
+    
     return(
         <div className="Container" style={{margin:"auto",width:"60%"}}>
             <div class="system-name">FORUM</div>

@@ -13,6 +13,7 @@ import PostDetail from './Page/PostDetail';
 import Notification from './Page/Notification';
 import CreatePost from './Page/CreatePost';
 import EditPost from './Page/EditPost';
+
 function App() {
   return (
     <Router>
