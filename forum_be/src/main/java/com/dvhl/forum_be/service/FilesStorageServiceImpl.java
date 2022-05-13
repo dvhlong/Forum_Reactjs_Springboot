@@ -63,7 +63,6 @@ public class FilesStorageServiceImpl implements FilesStorageService {
             if(Files.exists(root.resolve(filename)))
                 Files.delete(root.resolve(filename));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
