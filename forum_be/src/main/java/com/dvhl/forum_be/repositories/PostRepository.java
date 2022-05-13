@@ -17,7 +17,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface PostRepository extends JpaRepository<Post,Long>{
 
-
     Page<Post> findAllByIsdeletedAndIsapprovedOrderByCreatedatDesc(boolean isDeleted, boolean isApproved, Pageable pageable);
 
     Page<Post> findAllByCreatedaccAndIsdeletedAndIsapproved(long createdUserId, boolean isDeleted, boolean isApproved, Pageable pageable);

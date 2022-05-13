@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "topic")
 public class Topic {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

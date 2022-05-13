@@ -1,6 +1,7 @@
 package com.dvhl.forum_be.model;
 
 public class Response {
+    
     private String status;
 
     private String message;

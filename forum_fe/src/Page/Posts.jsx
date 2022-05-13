@@ -12,6 +12,7 @@ import '../CSS/PostAndTopic.css';
 import { animate, motion } from "framer-motion"
 
 function Posts(){
+    
     let navigate=useNavigate();
 
     const[mount,setMount]=useState(false);

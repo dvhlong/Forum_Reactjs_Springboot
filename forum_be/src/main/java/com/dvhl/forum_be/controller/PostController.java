@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/post")
 public class PostController {
+    
     @Autowired
     PostService postService;
 

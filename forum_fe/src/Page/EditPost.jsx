@@ -13,6 +13,7 @@ import {TailSpin} from 'react-loader-spinner';
 import { motion } from "framer-motion"
 
 function EditPost(){
+    
     let navigate=useNavigate();
 
     let {id}=useParams();

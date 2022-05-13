@@ -6,6 +6,7 @@ import accSV from '../Service/AccountService';
 import {GoogleLogin} from 'react-google-login';
 
 function Login() {
+    
     let navigate=useNavigate();
 
     const responseGoogle=(res)=>{

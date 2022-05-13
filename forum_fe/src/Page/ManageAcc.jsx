@@ -10,6 +10,7 @@ import Moment from 'react-moment';
 import { motion } from "framer-motion"
 
 function ManageAcc(){
+    
     let navigate=useNavigate()
 
     const[mount,setMount]=useState(false);

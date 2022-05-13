@@ -11,6 +11,7 @@ import '../CSS/ChangeInfo.css';
 import { motion } from "framer-motion"
 
 function ChangeInfo() {
+    
     let navigate=useNavigate();
 
     const [newAvatar,setNewAvatar]=useState();

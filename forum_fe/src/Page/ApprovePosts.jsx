@@ -16,6 +16,7 @@ import '../CSS/PostDetail.css';
 import { motion } from "framer-motion"
 
 function ApprovePosts() {
+    
     let navigate=useNavigate();
 
     const[mount,setMount]=useState(false);

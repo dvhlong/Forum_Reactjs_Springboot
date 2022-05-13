@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/topic")
 public class TopicController{
+    
     @Autowired
     TopicService topicService;
 

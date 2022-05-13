@@ -18,6 +18,7 @@ import SideComponent from '../Component/SideComponent';
 import { motion } from "framer-motion"
 
 function PostDetail(){
+    
     const role=localStorage.getItem("role");
 
     const accid=localStorage.getItem("accid");

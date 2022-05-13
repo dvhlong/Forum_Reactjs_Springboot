@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping(path = "/")
 public class AccountController {
+    
     @Autowired
     AccountService accountService;
 

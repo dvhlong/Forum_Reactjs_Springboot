@@ -1,6 +1,7 @@
 import axios from "axios";
 
 class NotificationService {
+    
     getNotifications(page,ourRequest){
         return axios(
             {

@@ -7,7 +7,8 @@ import Bell from '../SVG/bell.svg'
 import '../CSS/HeaderComponent.css';
 import Button from 'react-bootstrap/esm/Button';
 
-function HeaderComponent(){   
+function HeaderComponent(){
+       
     let navigate=useNavigate();
 
     const [key,setKey]=useState("");

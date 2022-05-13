@@ -7,6 +7,7 @@ import '../CSS/SideComponent.css';
 import ChartIcon from '../SVG/chart.svg';
 
 function SidebarComponent() {
+    
     let navigate=useNavigate();
 
     const[statistic,setStatistic]=useState({

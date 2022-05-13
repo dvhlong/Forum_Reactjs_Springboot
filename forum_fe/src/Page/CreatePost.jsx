@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import { motion } from "framer-motion"
 
 function CreatePost(){
+    
     const role=localStorage.getItem("role");
 
     const[topicList,setTopicList]=useState([]);

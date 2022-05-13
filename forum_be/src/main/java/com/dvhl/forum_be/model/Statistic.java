@@ -1,6 +1,7 @@
 package com.dvhl.forum_be.model;
 
 public class Statistic {
+    
     private long postQuantity;
 
     private long memberQuantity;

@@ -8,6 +8,7 @@ import accSV from '../Service/AccountService';
 import Swal from 'sweetalert2'
 
 function Register() {
+    
     let navigate=useNavigate();
     
     const[username,setUsername]=useState("");
