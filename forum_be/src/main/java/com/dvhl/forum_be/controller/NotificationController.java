@@ -18,7 +18,7 @@ public class NotificationController {
     @Autowired
     NotificationService notificationService;
 
-    @GetMapping("/{receivedAcc}/page={page}")
+    @GetMapping("/{receivedUserId}/page={page}")
     Page<Notification> getNotificationsPage(@PathVariable long receivedUserId,@PathVariable int page){
         return notificationService.getNotificationsPage(receivedUserId, page);
     }

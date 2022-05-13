@@ -11,6 +11,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NotificationRepository extends JpaRepository<Notification,Long>{
 
-    Page<Notification> findByReceivedacc(User receivedUser, Pageable pageable);
+    Page<Notification> findByReceivedaccOrderByNotifiedatDesc(User receivedUser, Pageable pageable);
     
 }

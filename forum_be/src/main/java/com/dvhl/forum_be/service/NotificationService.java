@@ -35,14 +35,19 @@ public class NotificationService {
     public Page<Notification> getNotificationsPage(long receivedUserId,int page){
         int elementQuantityInPage=5;
         Optional<User> uOptional=accountRepository.findById(receivedUserId);
-        return notificationRepository.findByReceivedacc(uOptional.get(),PageRequest.of(page-1, elementQuantityInPage));
+        return notificationRepository.findByReceivedaccOrderByNotifiedatDesc(uOptional.get(),PageRequest.of(page-1, elementQuantityInPage));
     }
 
-    public ResponseEntity<Response> addNotification(long notifiedUserId,long postId,Notification newNotification){
+    public ResponseEntity<Response> insertNotification(long notifiedUserId,long receivedUserId,long postId,String notificationContent){
+        Notification newNotification=new Notification();
         Optional<Post> pOptional=postRepository.findById(postId);
-        Optional<User> uOptional=accountRepository.findById(notifiedUserId);
-        newNotification.setNotifiedacc(uOptional.get());
+        Optional<User> notifiedUserOptional=accountRepository.findById(notifiedUserId);
+        Optional<User> receivedUserOptional=accountRepository.findById(receivedUserId);
+        newNotification.setNotifiedacc(notifiedUserOptional.get());
+        newNotification.setReceivedacc(receivedUserOptional.get());
         newNotification.setPost(pOptional.get());
+        newNotification.setReaded(false);
+        newNotification.setContent(notificationContent);
         newNotification.setNotifiedat(timeService.getCurrentTimestamp());
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",notificationRepository.save(newNotification)));
     }

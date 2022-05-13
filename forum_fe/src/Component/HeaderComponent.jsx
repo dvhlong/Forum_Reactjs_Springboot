@@ -30,7 +30,7 @@ function HeaderComponent(){
                     <nav className='navbar navbar-dark bg-secondary nojt'>
                     <div style={{width:"auto"}}>
                     <button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}} onClick={()=>navigate("/topic")}><img src={HomeIcon} alt=''></img></button>
-                    <button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/posts")}>Posts</button>
+                    <button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/posts/all")}>Posts</button>
                     {(localStorage.getItem("role")!=="user")?(<button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/approve")}>Approve</button>):<></>}
                     {(localStorage.getItem("role")==="admin")?(<button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/manageacc")}>Manage Acc</button>):<></>}
                     <button className="navbar-brand btn btn-danger" style={{marginLeft:"50px"}} onClick={()=>navigate("/createpost")}>Create your post</button>
@@ -44,7 +44,8 @@ function HeaderComponent(){
                         </div>
                     </div>
                     <div>
-                    <Dropdown>
+                    <Button onClick={()=>navigate("/notifications")} variant='secondary'><img src={Bell} alt=''></img></Button>
+                    {/* <Dropdown>
                         <Dropdown.Toggle variant="secondary">
                             <img src={Bell} alt=''></img>
                         </Dropdown.Toggle>
@@ -69,28 +70,13 @@ function HeaderComponent(){
                                         <div className='notification-drop-mark'>
                                         </div>
                                     </div>
-                                    <div className='notification-drop' onClick={()=>navigate("/postDetail/7")}>
-                                        <div className='notification-drop-avatar'>
-                                            <img style={{width:"50px",height:"50px",borderRadius:"50%"}} src='https://www.w3schools.com/howto/img_avatar.png' alt=''></img>
-                                        </div>
-                                        <div className='notification-drop-content'>
-                                            <div className='notification-drop-text'>
-                                                <label><b>@admin</b> replied your comment</label>
-                                            </div>
-                                            <div className='notification-drop-time'>
-                                                1 months ago
-                                            </div>
-                                        </div>
-                                        <div className='notification-drop-mark'>
-                                        </div>
-                                    </div>
                                 </div>
                             <Dropdown.Divider/>
                             <Dropdown.Header style={{textAlign:"center"}}>
                                 <Link to='/notifications' style={{margin:"center"}}>View All</Link>
                             </Dropdown.Header>              
                         </Dropdown.Menu>
-                    </Dropdown>
+                    </Dropdown> */}
                     </div>
                     <div style={{marginRight:"30px"}}>
                     <Dropdown>

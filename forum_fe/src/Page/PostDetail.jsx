@@ -344,7 +344,7 @@ function PostDetail(){
                                                 {
                                                     (comment.replied_cmt!==null)
                                                     ?<>
-                                                        <p style={{color:"#DDD8D8",fontSize:"15px"}}>(Replied from <b>@{comment.replied_cmt.created_acc.username}</b>)</p>
+                                                        <p style={{color:"#DDD8D8",fontSize:"15px"}}>(Replied to <b>@{comment.replied_cmt.created_acc.username}</b>)</p>
                                                         <p style={{color:"#DDD8D8",fontSize:"15px",whiteSpace: "pre-wrap"}}>{comment.replied_cmt.content}</p>
                                                     </>
                                                     :<></>

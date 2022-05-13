@@ -41,6 +41,9 @@ public class PostService {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    NotificationService notificationService;
+
     public Optional<Post> getPost(long postId){
         return postRepository.findByIdAndIsdeleted(postId,false);
     }
@@ -94,6 +97,7 @@ public class PostService {
             post.setIsapproved(true);
             post.setApproved_acc(uOptional.get());
             post.setApproved_at(timeService.getCurrentTimestamp());
+            notificationService.insertNotification(approvedUserId, post.getCreated_acc().getId(), postId, "approved your post");
             return postRepository.save(post);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Approved",""));

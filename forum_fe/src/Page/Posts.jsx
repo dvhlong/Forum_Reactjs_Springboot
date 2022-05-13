@@ -88,7 +88,7 @@ function Posts(){
                 ourRequest.cancel('Request is canceled by user');
             }
         },800);
-    },[page, update, key]);
+    },[page, update, key,topicid]);
     
     return(
         <div>

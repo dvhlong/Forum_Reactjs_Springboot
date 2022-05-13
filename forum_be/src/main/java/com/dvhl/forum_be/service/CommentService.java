@@ -33,6 +33,9 @@ public class CommentService {
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    NotificationService notificationService;
+
     public Page<Comment> getCommentsPage(int page, long postId){
         int elementQuantityInPage=5;
         Optional<Post> pOptional=postRepository.findByIdAndIsdeleted(postId,false);
@@ -46,8 +49,11 @@ public class CommentService {
         newComment.setPost(pOptional.get());
         newComment.setCreated_at(timeService.getCurrentTimestamp());
         if(repliedCommentId !=0){
-            Optional<Comment> rOptional=commentRepository.findById(repliedCommentId);
-            newComment.setReplied_cmt(rOptional.get());
+            Optional<Comment> repliedCommentOptional=commentRepository.findById(repliedCommentId);
+            newComment.setReplied_cmt(repliedCommentOptional.get());
+            notificationService.insertNotification(createdUserId, repliedCommentOptional.get().getCreated_acc().getId(), postId, "replied your comment");
+        } else {
+            notificationService.insertNotification(createdUserId, pOptional.get().getCreated_acc().getId(), postId, "commented to your post");
         }
         commentRepository.save(newComment);
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",""));
