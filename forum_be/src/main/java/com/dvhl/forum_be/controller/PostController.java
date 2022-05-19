@@ -11,6 +11,7 @@ import com.dvhl.forum_be.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 // import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,6 +93,7 @@ public class PostController {
         return postService.deletePost(postId, deletedUserId);
     }
 
+    @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
     @PutMapping("/approve/{approvedUserId}/{postId}")
     ResponseEntity<Response> approve(@PathVariable long approvedUserId,@PathVariable long postId){
         return postService.approvePost(approvedUserId, postId);

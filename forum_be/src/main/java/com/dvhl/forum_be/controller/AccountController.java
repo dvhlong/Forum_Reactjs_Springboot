@@ -42,6 +42,7 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.OK).body(new Response("200","successful", ""));
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/getAllAcc/pages={page}")
     Page<User> getAccountsPage(@PathVariable int page){
         return accountService.getAccountsPage(page);
@@ -67,12 +68,13 @@ public class AccountController {
         return accountService.updateUser(updatedUser,userId);
     }
 
-    @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping("/blockAcc/{userId}")
     ResponseEntity<Response> block(@PathVariable long userId){
         return accountService.blockOrUnblockUser(userId);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @PutMapping("/changeAccRole/{userId}")
     ResponseEntity<Response> updateUserRole(@RequestBody Role updatedRole,@PathVariable long userId){
         return accountService.updateUserRole(userId,updatedRole);
