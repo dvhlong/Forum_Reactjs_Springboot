@@ -40,7 +40,6 @@ function Register() {
             accSV.createAccount(acc).then(res=>{
                 if(res.data.status!=="Fail"){
                     Swal.fire({
-                        position: 'middle',
                         icon: 'success',
                         title: 'Sign up successful !!!!', 
                     })

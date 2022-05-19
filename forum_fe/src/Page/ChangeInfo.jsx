@@ -118,7 +118,6 @@ function ChangeInfo() {
             reload();
         })
         Swal.fire({
-            position: 'middle',
             icon: 'success',
             title: 'Info changed !!!!',
             showConfirmButton: false,
@@ -129,7 +128,6 @@ function ChangeInfo() {
     const changeNewPass=()=>{
         if(pass==="")
         Swal.fire({
-            position: 'middle',
             icon: 'error',
             title: 'Please enter new pass !!!!',
             showConfirmButton: false,
@@ -137,7 +135,6 @@ function ChangeInfo() {
         })
         else if(repass==="")
         Swal.fire({
-            position: 'middle',
             icon: 'error',
             title: 'Please re-enter new pass !!!!',
             showConfirmButton: false,
@@ -145,7 +142,6 @@ function ChangeInfo() {
         })
         else if(pass!==repass){
             Swal.fire({
-                position: 'middle',
                 icon: 'error',
                 title: 'Pass does not match !!!!',
                 showConfirmButton: false,
@@ -164,7 +160,6 @@ function ChangeInfo() {
                 }
             });
             Swal.fire({
-                position: 'middle',
                 icon: 'success',
                 title: 'Pass changed',
                 showConfirmButton: false,

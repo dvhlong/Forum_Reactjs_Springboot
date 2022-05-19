@@ -12,6 +12,6 @@ public interface TopicRepository extends JpaRepository<Topic,Long>{
 
     Page<Topic> findAllByIsdeleted(Pageable pageable, boolean isDeleted);
 
-    List<Topic> findAllByIsdeleted(boolean isDeleted);
+    List<Topic> findAllByIsdeletedOrderByTopicnameAsc(boolean isDeleted);
 
 }

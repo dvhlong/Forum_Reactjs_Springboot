@@ -42,7 +42,7 @@ public class TopicService {
     }
 
     public List<Topic> getTopics(){
-        return topicRepository.findAllByIsdeleted(false);
+        return topicRepository.findAllByIsdeletedOrderByTopicnameAsc(false);
     }
 
     public long countPost(long topicId){

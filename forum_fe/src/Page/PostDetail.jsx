@@ -94,8 +94,7 @@ function PostDetail(){
             PostService.editComment(editCommentId,comment).then(res=>{
                 reload();
                 setIsEdit(false);
-                Swal.fire({
-                    position: 'middle',
+                Swal.fire({                 
                     icon: 'success',
                     title: 'Comment Changed !!!!',
                     showConfirmButton: false,
@@ -124,8 +123,7 @@ function PostDetail(){
 
     const deleteComment=()=>{
         PostService.deleteComment(deleteCommentId).then(res=>{
-            Swal.fire({
-                position: 'middle',
+            Swal.fire({              
                 icon: 'success',
                 title: 'Comment deleted !!!!',
                 showConfirmButton: false,

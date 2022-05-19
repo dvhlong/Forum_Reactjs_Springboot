@@ -32,19 +32,16 @@ function CreatePost(){
     const createPost=()=>{
         if(topicId==="0"){
             Swal.fire({
-                position: 'middle',
                 icon: 'error',
                 title: 'Please choose Topic !!!!',
             })
         } else if(newTitle==="")
             Swal.fire({
-                position: 'middle',
                 icon: 'error',
                 title: 'Please type title !!!!',
             })
         else if(newContent==="")
             Swal.fire({
-                position: 'middle',
                 icon: 'error',
                 title: 'Please type content !!!!',
             })
@@ -59,7 +56,6 @@ function CreatePost(){
                 setNewContent("");
                 if(role==="user")
                     Swal.fire({
-                        position: 'middle',
                         icon: 'success',
                         title: 'Successful, please waiting for approve !!!!',
                         showConfirmButton: false,
@@ -67,7 +63,6 @@ function CreatePost(){
                     })
                 else
                 Swal.fire({
-                    position: 'middle',
                     icon: 'success',
                     title: 'Successful !!!!',
                     showConfirmButton: false,

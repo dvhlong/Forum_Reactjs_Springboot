@@ -50,7 +50,6 @@ function EditPost(){
         }
         if(topicId==="0"){
             Swal.fire({
-                position: 'middle',
                 icon: 'error',
                 title: 'Please choose topic !!!!',
                 showConfirmButton: false,
@@ -58,7 +57,6 @@ function EditPost(){
             })
         } else if(editPostTitle===""){
             Swal.fire({
-                position: 'middle',
                 icon: 'error',
                 title: 'Please enter title !!!!',
                 showConfirmButton: false,
@@ -66,7 +64,6 @@ function EditPost(){
             })
         } else if(editPostContent===""){
             Swal.fire({
-                position: 'middle',
                 icon: 'error',
                 title: 'Please enter content name !!!!',
                 showConfirmButton: false,
@@ -80,7 +77,6 @@ function EditPost(){
                 }
             })
             Swal.fire({
-                position: 'middle',
                 icon: 'success',
                 title: 'Post edited !!!!',
                 showConfirmButton: false,

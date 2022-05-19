@@ -57,8 +57,7 @@ function ApprovePosts() {
             console.log(res.data)
             reload();
         })
-        Swal.fire({
-            position: 'middle',
+        Swal.fire({            
             icon: 'success',
             title: 'Approved !!!!',
             showConfirmButton: false,
@@ -75,8 +74,7 @@ function ApprovePosts() {
             console.log(res.data)
             reload()
         })
-        Swal.fire({
-            position: 'middle',
+        Swal.fire({           
             icon: 'success',
             title: 'Reject !!!!',
             showConfirmButton: false,

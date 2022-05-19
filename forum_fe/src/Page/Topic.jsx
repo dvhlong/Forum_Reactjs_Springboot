@@ -83,7 +83,6 @@ function Topic() {
     const addTopic=()=>{
         if(newTopicName==="")
         Swal.fire({
-            position: 'middle',
             icon: 'error',
             title: 'Please enter topic name !!!!',
             showConfirmButton: false,
@@ -102,7 +101,6 @@ function Topic() {
                 reload();
             });
             Swal.fire({
-                position: 'middle',
                 icon: 'success',
                 title: 'Added !!!',
                 showConfirmButton: false,
@@ -122,7 +120,6 @@ function Topic() {
             reload();
         });
         Swal.fire({
-            position: 'middle',
             icon: 'success',
             title: 'Deleted !!!',
             showConfirmButton: false,
@@ -138,7 +135,6 @@ function Topic() {
         }
         if(editTopicName==="")
             Swal.fire({
-                position: 'middle',
                 icon: 'error',
                 title: 'Please enter topic name !!!!',
                 showConfirmButton: false,
@@ -153,7 +149,6 @@ function Topic() {
             reload();
         });
         Swal.fire({
-            position: 'middle',
             icon: 'success',
             title: 'Topic changed !!!',
             showConfirmButton: false,
