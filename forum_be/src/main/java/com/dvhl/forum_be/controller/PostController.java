@@ -43,16 +43,19 @@ public class PostController {
         return commentService.getCommentsPage(page, postId);
     }
 
+    @PreAuthorize("#userId == authentication.principal.id")
     @PostMapping("/{postId}/{userId}/{repliedCommentId}/addComment")
     ResponseEntity<Response> insertComment(@PathVariable long postId,@PathVariable long repliedCommentId,@PathVariable long userId,@RequestBody Comment newComment ){
         return commentService.insertComment(postId,userId,repliedCommentId,newComment);
     }
 
+    @PreAuthorize("#updatedUserId == authentication.principal.id")
     @PutMapping("/{commentId}/{updatedUserId}/editComment")
     ResponseEntity<Response> updateComment(@PathVariable long commentId,@PathVariable long updatedUserId,@RequestBody Comment updatedComment){
         return commentService.updateComment(commentId, updatedUserId, updatedComment);
     }
 
+    @PreAuthorize("(#deletedUserId == authentication.principal.id) or hasAuthority('admin') or hasAuthority('mod')")
     @DeleteMapping("/{commentId}/{deletedUserId}/deleteComment")
     ResponseEntity<Response> deleteComment(@PathVariable long commentId,@PathVariable long deletedUserId){
         return commentService.deleteComment(commentId, deletedUserId);
@@ -73,21 +76,25 @@ public class PostController {
         return postService.getPostsByKeywordPage(keyword, page);
     }
 
+    @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
     @GetMapping("/approvePost/page={page}")
     Page<Post> getPostNotApprovePage(@PathVariable int page){
         return postService.getPostsNotApprovedPage(page);
     }
 
+    @PreAuthorize("#createdUserId == authentication.principal.id")
     @PostMapping("/createPost/{topicId}/{createdUserId}")
     ResponseEntity<Response> inserPost(@PathVariable long topicId,@PathVariable long createdUserId,@RequestBody Post newPost){
         return postService.insertPost(topicId, createdUserId, newPost);
     }
 
+    @PreAuthorize("#updatedUserId == authentication.principal.id")
     @PutMapping("/editPost/{updatedTopicId}/{updatedUserId}")
     ResponseEntity<Response> updatePost(@PathVariable long updatedTopicId,@PathVariable long updatedUserId,@RequestBody Post updatedPost){
         return postService.updatePost(updatedTopicId, updatedUserId, updatedPost);
     }
 
+    @PreAuthorize("(#deletedUserId == authentication.principal.id) or hasAuthority('admin') or hasAuthority('mod')")
     @DeleteMapping("/deletePost/{postId}/{deletedUserId}")
     ResponseEntity<Response> deletePost(@PathVariable long postId,@PathVariable long deletedUserId){
         return postService.deletePost(postId, deletedUserId);

@@ -48,6 +48,7 @@ public class AccountController {
         return accountService.getAccountsPage(page);
     }
 
+    @PreAuthorize("#userId == authentication.principal.id")
     @GetMapping("/getUserInfo/{userId}")
     ResponseEntity<?> getUser(@PathVariable long userId){
         return accountService.getUser(userId);
@@ -63,6 +64,7 @@ public class AccountController {
         return accountService.registerAccount(newUser);
     }
 
+    @PreAuthorize("#userId == authentication.principal.id")
     @PutMapping("/changeAccInfo/{userId}")
     ResponseEntity<Response> changeAccountInfo(@RequestBody User updatedUser,@PathVariable long userId){
         return accountService.updateUser(updatedUser,userId);
@@ -80,6 +82,7 @@ public class AccountController {
         return accountService.updateUserRole(userId,updatedRole);
     }
 
+    @PreAuthorize("#userId == authentication.principal.id")
     @PutMapping("/changeAccPass/{userId}")
     ResponseEntity<Response> changePass(@RequestBody User updatedUser,@PathVariable long userId){
         return accountService.updatePassword(userId,updatedUser);
@@ -96,6 +99,7 @@ public class AccountController {
         return accountService.getLogoutSuccess();
     }
 
+    @PreAuthorize("#userId == authentication.principal.id")
     @PostMapping("/uploadAvatar/{userId}")
     ResponseEntity<Response> uploadAvatar(@PathVariable long userId,@RequestParam("avatar") MultipartFile file){
         return accountService.uploadAvatar(file,userId);

@@ -5,6 +5,7 @@ import com.dvhl.forum_be.service.NotificationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 // import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ public class NotificationController {
     @Autowired
     NotificationService notificationService;
 
+    @PreAuthorize("#receivedUserId == authentication.principal.id")
     @GetMapping("/{receivedUserId}/page={page}")
     Page<Notification> getNotificationsPage(@PathVariable long receivedUserId,@PathVariable int page){
         return notificationService.getNotificationsPage(receivedUserId, page);
