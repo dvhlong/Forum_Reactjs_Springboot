@@ -96,7 +96,7 @@ function CreatePost(){
                     Topic:
                 </div>
                 <div className='post-select'>
-                <Form.Select aria-label="Default select example" 
+                <Form.Select aria-label="Default select example"
                     value={topicId} onChange={chooseTopic}
                 >
                     <option value="0"> Select Topic</option>
