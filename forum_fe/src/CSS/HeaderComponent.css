@@ -1,4 +1,4 @@
-.notifications-drop{
+.notifications-drop {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,7 +7,7 @@
     margin-right: 10px;
 }
 
-.notification-drop{
+.notification-drop {
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -16,43 +16,43 @@
     border-radius: 5px;
 }
 
-.notification-drop:hover{
+.notification-drop:hover {
     background-color: rgb(210, 228, 228);
     cursor: pointer;
 }
 
-.notification-drop-content{
+.notification-drop-content {
     display: flex;
     flex-direction: column;
     margin-right: 20px;
 }
 
-.notification-drop-time{
+.notification-drop-time {
     display: flex;
     font-size: 13px;
     color: rgb(94, 94, 197);
     margin-left: 10px;
 }
 
-.notification-drop-text{
+.notification-drop-text {
     display: flex;
     font-size: 16px;
     margin-left: 10px;
 }
 
-.notification-drop-avatar{
+.notification-drop-avatar {
     margin-left: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.notification-drop-mark{
+.notification-drop-mark {
     display: flex;
     justify-self: end;
     margin-left: auto;
     margin-right: 30px;
 }
-.forum-container{
+
+.forum-container {
     width: 100%;
 }
-  

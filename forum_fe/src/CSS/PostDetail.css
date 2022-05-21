@@ -22,11 +22,11 @@ figure.image {
     margin: auto;
 }
 
-figure>img{
+figure>img {
     width: 100%;
     height: 100%;
 }
 
-.p-content{
+.p-content {
     border-color: white;
 }

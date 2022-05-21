@@ -1,8 +1,10 @@
-.post-title:hover,.topic-title:hover{
+.post-title:hover,
+.topic-title:hover {
     color: blue;
     cursor: pointer;
 }
 
-.post-title,.topic-title{
+.post-title,
+.topic-title {
     color: red;
 }
