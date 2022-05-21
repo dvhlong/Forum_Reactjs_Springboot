@@ -44,12 +44,18 @@ public class NotificationService {
         Optional<Post> pOptional=postRepository.findById(postId);
         Optional<User> notifiedUserOptional=accountRepository.findById(notifiedUserId);
         Optional<User> receivedUserOptional=accountRepository.findById(receivedUserId);
+        insertNotificationToDatabase(notificationContent, newNotification, pOptional, notifiedUserOptional, receivedUserOptional);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",""));
+    }
+
+    private void insertNotificationToDatabase(String notificationContent, Notification newNotification, Optional<Post> pOptional,
+            Optional<User> notifiedUserOptional, Optional<User> receivedUserOptional) {
         newNotification.setNotifiedacc(notifiedUserOptional.get());
         newNotification.setReceivedacc(receivedUserOptional.get());
         newNotification.setPost(pOptional.get());
         newNotification.setReaded(false);
         newNotification.setContent(notificationContent);
         newNotification.setNotifiedat(timeService.getCurrentTimestamp());
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",notificationRepository.save(newNotification)));
+        notificationRepository.save(newNotification);
     }
 }
