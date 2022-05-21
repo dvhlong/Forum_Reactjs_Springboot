@@ -80,8 +80,8 @@ function CreatePost(){
     
     return(
         <div>
-            <h1 style={{textAlign:"center",color:"white"}}>Create New Post</h1>
-            <motion.div className='post-container'
+            {/* <h1 style={{textAlign:"center",color:"white"}}>Create New Post</h1> */}
+            <motion.div className='post-container' style={{marginTop:"30px"}}
                 animate={{
                     opacity:[0,1],
                     translateY:[80,0],

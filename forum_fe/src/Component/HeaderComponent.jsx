@@ -8,6 +8,7 @@ import '../CSS/HeaderComponent.css';
 import Button from 'react-bootstrap/esm/Button';
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
+import ClockComponent from './ClockComponent';
 
 var stompClient =null;
 function HeaderComponent(){
@@ -28,30 +29,30 @@ function HeaderComponent(){
         navigate("/");
     };
     
-    useEffect(()=>{
-        let Sock = new SockJS('http://localhost:8080/ws');
-        // stompClient = over(Sock);
-        // stompClient.connect({
-        //     "Authorization": `Bearer ${localStorage.getItem("token")}`,
-        //     "Access-Control-Allow-Credentials":true,
-        // },onConnected, onError);
-    },[])
+    // useEffect(()=>{
+    //     let Sock = new SockJS('http://localhost:8080/ws');
+    //     stompClient = over(Sock);
+    //     stompClient.connect({
+    //         "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    //         "Access-Control-Allow-Credentials":true,
+    //     },onConnected, onError);
+    // },[])
 
-    const checkWebSocket=()=>{
-        // stompClient.send("/notify/private-notification", {}, localStorage.getItem("username"));
-    }
+    // const checkWebSocket=()=>{
+    //     // stompClient.send("/notify/private-notification", {}, localStorage.getItem("username"));
+    // }
 
-    const onPrivateMessage = (payload)=>{
-        console.log(payload);
-    }
+    // const onPrivateMessage = (payload)=>{
+    //     console.log(payload);
+    // }
 
-    const onConnected = () => {
-        stompClient.subscribe('/user/'+localStorage.getItem("username")+'/private', onPrivateMessage);
-    }
+    // const onConnected = () => {
+    //     stompClient.subscribe('/user/'+localStorage.getItem("username")+'/private', onPrivateMessage);
+    // }
 
-    const onError = (err) => {
-        console.log(err);
-    }
+    // const onError = (err) => {
+    //     console.log(err);
+    // }
 
     return(
             <div className='forum-container'>
@@ -60,9 +61,9 @@ function HeaderComponent(){
                     <div style={{width:"auto"}}>
                     <button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}} onClick={()=>navigate("/topic")}><img src={HomeIcon} alt=''></img></button>
                     <button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/posts/all")}>Posts</button>
-                    {(localStorage.getItem("role")!=="user")?(<button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/approve")}>Approve</button>):<></>}
+                    {(localStorage.getItem("role")!=="user")?(<button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/approve")}>Approve Post</button>):<></>}
                     {(localStorage.getItem("role")==="admin")?(<button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/manageacc")}>Manage Account</button>):<></>}
-                    <button className="navbar-brand btn btn-danger" style={{marginLeft:"50px"}} onClick={()=>navigate("/createpost")}>Create your post</button>
+                    <button className="navbar-brand btn btn-danger" style={{marginLeft:"50px"}} onClick={()=>navigate("/createpost")}>Create new post</button>
                     {/* <button className="navbar-brand btn btn-danger" style={{marginLeft:"50px"}} onClick={checkWebSocket}>Check Web Socket</button> */}
                     </div>
                     <div class="row" style={{marginLeft:"20px"}}>
@@ -73,8 +74,59 @@ function HeaderComponent(){
                             <button className="btn btn-dark" onClick={()=>navigate(`/posts/key=${key}`)} ><img src={searchIcon} alt="logo"/></button>
                         </div>
                     </div>
+                    <ClockComponent/>
                     <div>
-                    <Button onClick={()=>navigate("/notifications")} variant='secondary'><img src={Bell} alt=''></img></Button>
+                        <Button onClick={()=>navigate("/notifications")} variant='secondary'><img src={Bell} alt=''></img></Button>
+                    </div>
+                    <div style={{marginRight:"30px"}}>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="secondary">
+                        <label>
+                                <img style={{width:"30px",height:"30px",borderRadius:"50%"}} src={localStorage.getItem("avatar")} alt=''></img> {localStorage.getItem("username")}</label>
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu variant='light' align="end">
+                        <Dropdown.Item href="#" onClick={()=>navigate('/changeinfo')} style={{textAlign:"center"}}>
+                            Personal                          
+                        </Dropdown.Item>
+                        <Dropdown.Item href="#" onClick={logout} style={{textAlign:"center"}}>
+                            Logout
+                        </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    </div>
+                    </nav>
+                </header>
+                <Outlet/>
+                <footer className='footer' style={{textAlign:"center",color:"grey",marginTop:"30px"}}>
+                    <span className='text'>@FORUM Created by Doan Van Hoang Long</span>
+                </footer>
+            </div>
+    );
+} 
+
+export default HeaderComponent;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// eslint-disable-next-line no-lone-blocks
                     {/* <Dropdown>
                         <Dropdown.Toggle variant="secondary">
                             <img src={Bell} alt=''></img>
@@ -107,31 +159,3 @@ function HeaderComponent(){
                             </Dropdown.Header>              
                         </Dropdown.Menu>
                     </Dropdown> */}
-                    </div>
-                    <div style={{marginRight:"30px"}}>
-                    <Dropdown>
-                        <Dropdown.Toggle variant="secondary">
-                        <label>
-                                <img style={{width:"30px",height:"30px",borderRadius:"50%"}} src={localStorage.getItem("avatar")} alt=''></img> {localStorage.getItem("username")}</label>
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu variant='light' align="end">
-                        <Dropdown.Item href="#" onClick={()=>navigate('/changeinfo')} style={{textAlign:"center"}}>
-                            Personal                          
-                        </Dropdown.Item>
-                        <Dropdown.Item href="#" onClick={logout} style={{textAlign:"center"}}>
-                            Logout
-                        </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                    </div>
-                    </nav>
-                </header>
-                <Outlet/>
-                <footer className='footer' style={{textAlign:"center",color:"grey",marginTop:"30px"}}>
-                    <span className='text'>@FORUM Created by Doan Van Hoang Long</span>
-                </footer>
-            </div>
-    );
-} 
-
-export default HeaderComponent;
