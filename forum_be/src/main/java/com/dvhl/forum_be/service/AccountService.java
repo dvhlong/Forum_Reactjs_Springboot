@@ -73,14 +73,18 @@ public class AccountService {
             if(uOptional.isPresent()){
                 return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail","Email da ton tai",""));
             } else {
-                Role role=roleRepository.findByRolename("user");
-                newUser.setRole(role);
-                newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-                newUser.setCreated_at(timeService.getCurrentTimestamp());
-                accountRepository.save(newUser);
+                insertUser(newUser);
                 return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da Dang ky thanh cong",""));
             } 
         }
+    }
+
+    private void insertUser(User newUser) {
+        Role role=roleRepository.findByRolename("user");
+        newUser.setRole(role);
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        newUser.setCreated_at(timeService.getCurrentTimestamp());
+        accountRepository.save(newUser);
     }
 
     public ResponseEntity<Response> updateUser(User updatedUser,long userId){
@@ -139,14 +143,7 @@ public class AccountService {
         try {
             String fileRename = userId+"."+file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
             accountRepository.findById(userId).map(user->{
-                if(user.getAvatar()==null){
-                    user.setAvatar(fileRename);
-                    user.setAvatarUrl("http://localhost:8080/files/"+fileRename);
-                }else {
-                    storageService.delete(user.getAvatar());
-                    user.setAvatar(fileRename);
-                    user.setAvatarUrl("http://localhost:8080/files/"+fileRename);
-                }
+                insertAvatarToDatabase(fileRename, user);
                 storageService.save(file,fileRename);
                 return accountRepository.save(user);
             });
@@ -156,6 +153,21 @@ public class AccountService {
             return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail","Error","Could not upload the file !"));
             
         }
+    }
+
+    private void insertAvatarToDatabase(String fileRename, User user) {
+        if(isAvatarExisted(user)){
+            storageService.delete(user.getAvatar());
+            user.setAvatar(fileRename);
+            user.setAvatarUrl("http://localhost:8080/files/"+fileRename);
+        }else {
+            user.setAvatar(fileRename);
+            user.setAvatarUrl("http://localhost:8080/files/"+fileRename);
+        }
+    }
+
+    private boolean isAvatarExisted(User user) {
+        return user.getAvatar() != null;
     }
 
     public ResponseEntity<Resource> loadAvatar(String filename){
