@@ -154,8 +154,7 @@ public class AccountService {
             return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Successful","Uploaded the file successfully: " + fileRename));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail","Error","Could not upload the file !"));
-            
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail","Error","Could not upload the file !"));            
         }
     }
 
