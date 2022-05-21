@@ -12,11 +12,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-
 @Entity
 @Table(name = "topic")
 public class Topic {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -33,29 +32,29 @@ public class Topic {
     private Timestamp deletedat;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "deleted_acc",referencedColumnName = "id")
+    @JoinColumn(name = "deleted_acc", referencedColumnName = "id")
     private User deletedacc;
 
     @Column(name = "created_at")
     private Timestamp createdat;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "created_acc",referencedColumnName = "id")
+    @JoinColumn(name = "created_acc", referencedColumnName = "id")
     private User createdacc;
 
     @Column(name = "updated_at")
     private Timestamp updatedat;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "updated_acc",referencedColumnName = "id")
+    @JoinColumn(name = "updated_acc", referencedColumnName = "id")
     private User updatedacc;
 
     @Transient
     private long amountTopic;
-    
+
     public Topic() {
     }
-    
+
     public Topic(String topicname, long post_amount, boolean isdeleted, Timestamp deleted_at, User deleted_acc,
             Timestamp created_at, User created_acc, Timestamp updated_at, User updated_acc) {
         this.topicname = topicname;
@@ -68,7 +67,7 @@ public class Topic {
         this.updatedat = updated_at;
         this.updatedacc = updated_acc;
     }
-    
+
     public long getAmountTopic() {
         return amountTopic;
     }
@@ -100,7 +99,7 @@ public class Topic {
     public void setTopicname(String topicname) {
         this.topicname = topicname;
     }
-    
+
     public long getPost_amount() {
         return postamount;
     }
@@ -152,9 +151,9 @@ public class Topic {
     public User getUpdated_acc() {
         return updatedacc;
     }
-    
+
     public void setUpdated_acc(User updated_acc) {
         this.updatedacc = updated_acc;
     }
-    
+
 }

@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TopicService {
-    
+
     @Autowired
     TimeService timeService;
 
@@ -37,45 +37,45 @@ public class TopicService {
     @Autowired
     PostRepository postRepository;
 
-    public Page<Topic> getTopicsPage(int page){
-        return topicRepository.findAllByIsdeleted(PageRequest.of(page-1, 4),false);
+    public Page<Topic> getTopicsPage(int page) {
+        return topicRepository.findAllByIsdeleted(PageRequest.of(page - 1, 4), false);
     }
 
-    public List<Topic> getTopics(){
+    public List<Topic> getTopics() {
         return topicRepository.findAllByIsdeletedOrderByTopicnameAsc(false);
     }
 
-    public long countPost(long topicId){
+    public long countPost(long topicId) {
         return postRepository.countByTopic(topicId);
     }
 
-    public ResponseEntity<Response> insertTopic(long createdUserId,Topic newTopic){
-        Optional <User>uOptional=accountRepository.findById(createdUserId);
+    public ResponseEntity<Response> insertTopic(long createdUserId, Topic newTopic) {
+        Optional<User> uOptional = accountRepository.findById(createdUserId);
         newTopic.setCreated_acc(uOptional.get());
         newTopic.setCreated_at(timeService.getCurrentTimestamp());
         topicRepository.save(newTopic);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",""));
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Added", ""));
     }
 
-    public ResponseEntity<Response> updateTopic(long updatedUserId,Topic updatedTopic){
-        topicRepository.findById(updatedTopic.getId()).map(topic ->{
+    public ResponseEntity<Response> updateTopic(long updatedUserId, Topic updatedTopic) {
+        topicRepository.findById(updatedTopic.getId()).map(topic -> {
             topic.setUpdated_at(timeService.getCurrentTimestamp());
             topic.setUpdated_acc(accountRepository.findById(updatedUserId).get());
-            if(updatedTopic.getTopicname()!=null)
-            topic.setTopicname(updatedTopic.getTopicname());
+            if (updatedTopic.getTopicname() != null)
+                topic.setTopicname(updatedTopic.getTopicname());
             return topicRepository.save(topic);
         });
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Updated",""));
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Updated", ""));
     }
 
-    public ResponseEntity<Response> deleteTopic(long topicId,long deletedUserId){
-        topicRepository.findById(topicId).map(topic ->{
+    public ResponseEntity<Response> deleteTopic(long topicId, long deletedUserId) {
+        topicRepository.findById(topicId).map(topic -> {
             topic.setIsdeleted(true);
             topic.setDeleted_acc(accountRepository.findById(deletedUserId).get());
             topic.setDeleted_at(timeService.getCurrentTimestamp());
             return topicRepository.save(topic);
         });
         postService.deletePostWhenDeleteTopic(topicId, deletedUserId);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Deleted",""));
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Deleted", ""));
     }
 }

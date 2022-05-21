@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 
 function ClockComponent() {
 
-    const[currentTime,setCurrentTime]=useState();
+    const [currentTime, setCurrentTime] = useState();
 
-    useEffect(()=>{
-        setInterval(()=>{
-            const date=new Date();
+    useEffect(() => {
+        setInterval(() => {
+            const date = new Date();
             setCurrentTime(date.toLocaleTimeString())
-        },1000)
-    },[])
+        }, 1000)
+    }, [])
 
     return (
-        <div style={{color:"white",fontSize:"30px"}}>
+        <div style={{ color: "white", fontSize: "30px" }}>
             {currentTime}
         </div>
     );

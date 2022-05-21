@@ -17,13 +17,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "comment")
 public class Comment {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne(targetEntity = Post.class)
-    @JoinColumn(name = "post_id",referencedColumnName = "id")
+    @JoinColumn(name = "post_id", referencedColumnName = "id")
     private Post post;
 
     private String content;
@@ -32,18 +32,18 @@ public class Comment {
     private boolean isdeleted;
 
     @ManyToOne(targetEntity = Comment.class)
-    @JoinColumn(name = "replied_cmt",referencedColumnName = "id")
+    @JoinColumn(name = "replied_cmt", referencedColumnName = "id")
     private Comment repliedcmt;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "created_acc",referencedColumnName = "id")
+    @JoinColumn(name = "created_acc", referencedColumnName = "id")
     private User createdacc;
 
     @Column(name = "created_at")
     private Timestamp createdat;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "updated_acc",referencedColumnName = "id")
+    @JoinColumn(name = "updated_acc", referencedColumnName = "id")
     @JsonIgnore
     private User updatedacc;
 
@@ -51,16 +51,16 @@ public class Comment {
     private Timestamp updatedat;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "deleted_acc",referencedColumnName = "id")
+    @JoinColumn(name = "deleted_acc", referencedColumnName = "id")
     @JsonIgnore
     private User deletedacc;
 
     @Column(name = "deleted_at")
     private Timestamp deletedat;
-    
+
     public Comment() {
     }
-    
+
     public Comment(Post post, String content, boolean isdeleted, Comment replied_cmt, User created_acc,
             Timestamp created_at, User updated_acc, Timestamp updated_at, User deleted_acc,
             Timestamp deleted_at) {
@@ -75,7 +75,7 @@ public class Comment {
         this.deletedacc = deleted_acc;
         this.deletedat = deleted_at;
     }
-    
+
     public boolean isIsdeleted() {
         return isdeleted;
     }
@@ -87,7 +87,7 @@ public class Comment {
     public long getId() {
         return id;
     }
-    
+
     public void setId(long id) {
         this.id = id;
     }
@@ -151,7 +151,7 @@ public class Comment {
     public User getDeleted_acc() {
         return deletedacc;
     }
-    
+
     public void setDeleted_acc(User deleted_acc) {
         this.deletedacc = deleted_acc;
     }
@@ -159,9 +159,9 @@ public class Comment {
     public Timestamp getDeleted_at() {
         return deletedat;
     }
-    
+
     public void setDeleted_at(Timestamp deleted_at) {
         this.deletedat = deleted_at;
     }
-    
+
 }

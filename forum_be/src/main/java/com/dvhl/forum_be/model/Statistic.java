@@ -1,7 +1,7 @@
 package com.dvhl.forum_be.model;
 
 public class Statistic {
-    
+
     private long postQuantity;
 
     private long memberQuantity;
@@ -36,9 +36,9 @@ public class Statistic {
     public User getNewMember() {
         return newMember;
     }
-    
+
     public void setNewMember(User newMember) {
         this.newMember = newMember;
     }
-    
+
 }

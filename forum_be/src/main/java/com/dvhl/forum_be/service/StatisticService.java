@@ -12,15 +12,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StatisticService {
-    
+
     @Autowired
     PostRepository postRepository;
 
     @Autowired
     AccountRepository accountRepository;
-    
-    public ResponseEntity<Response> getStatistic(){
-        Statistic statistic=new Statistic();
+
+    public ResponseEntity<Response> getStatistic() {
+        Statistic statistic = new Statistic();
         statistic.setPostQuantity(postRepository.count());
         statistic.setMemberQuantity(accountRepository.count());
         statistic.setNewMember(accountRepository.findFirstByOrderByCreatedatDesc());

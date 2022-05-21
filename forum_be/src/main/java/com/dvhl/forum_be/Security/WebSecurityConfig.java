@@ -19,8 +19,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
-@EnableWebSecurity//Khoi chay spring secutory
-@EnableGlobalMethodSecurity(prePostEnabled = true)//bat tinh nang PreAuthorize cho Controller
+@EnableWebSecurity // Khoi chay spring secutory
+@EnableGlobalMethodSecurity(prePostEnabled = true) // bat tinh nang PreAuthorize cho Controller
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -46,21 +46,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
+    // fix loi Bean cua AuthenticationManager
     @Bean
-	@Override
-	protected AuthenticationManager authenticationManager() throws Exception { //fix loi Bean cua AuthenticationManager
-		return super.authenticationManager();
-	}
+    @Override
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder()); //Tu dong ma hoa mat khau
+        // Tu dong ma hoa mat khau
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
@@ -68,10 +70,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/files/**").permitAll()
                 .antMatchers("/notification/**").permitAll()
-                .anyRequest().authenticated().and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutsuccess").permitAll()
+                .anyRequest().authenticated().and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutsuccess")
+                .permitAll()
                 // .anyRequest().permitAll()
-                .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);//neu co error 
-                
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); //them filter khi xac thuc
+                .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);// neu co error
+        // them filter khi xac thuc
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

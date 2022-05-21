@@ -1,13 +1,13 @@
 import axios from "axios";
-class PostService{
-    
-    createPost(topicid,newPost){
+class PostService {
+
+    createPost(topicid, newPost) {
         return axios(
             {
-                url:`/post/createPost/${topicid}/${localStorage.getItem("accid")}`,
-                method:"post",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/post/createPost/${topicid}/${localStorage.getItem("accid")}`,
+                method: "post",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
                 data: newPost
@@ -15,177 +15,177 @@ class PostService{
         );
     }
 
-    getPost(id,ourRequest){
+    getPost(id, ourRequest) {
         return axios(
             {
-                url:`post/${id}`,
-                method:"get",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `post/${id}`,
+                method: "get",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
-                cancelToken:ourRequest.token
-            }
-        ); 
-    }
-
-    getComments(id,page){
-        return axios(
-            {
-                url:`post/${id}/comments/page=${page}`,
-                method:"get",
-                baseURL:"http://localhost:8080",
-                headers:{
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                },
-            }
-        ); 
-    }
-
-    addComment(postid,replyid,comment){
-        return axios(
-            {
-                url:`post/${postid}/${localStorage.getItem("accid")}/${replyid}/addComment`,
-                method:"post",
-                baseURL:"http://localhost:8080",
-                headers:{
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                },
-                data:comment
+                cancelToken: ourRequest.token
             }
         );
     }
 
-    editComment(commentid,comment){
+    getComments(id, page) {
         return axios(
             {
-                url:`post/${commentid}/${localStorage.getItem("accid")}/editComment`,
-                method:"put",
-                baseURL:"http://localhost:8080",
-                headers:{
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                },
-                data:comment
-            }
-        );
-    }
-
-    deleteComment(commentid){
-        return axios(
-            {
-                url:`post/${commentid}/${localStorage.getItem("accid")}/deleteComment`,
-                method:"delete",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `post/${id}/comments/page=${page}`,
+                method: "get",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
             }
         );
     }
 
-    getPosts(page,ourRequest){
+    addComment(postid, replyid, comment) {
         return axios(
             {
-                url:`post/page=${page}`,
-                method:"get",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `post/${postid}/${localStorage.getItem("accid")}/${replyid}/addComment`,
+                method: "post",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
-                cancelToken:ourRequest.token
+                data: comment
             }
         );
     }
 
-    getPostsByKeyword(key,page,ourRequest){
+    editComment(commentid, comment) {
         return axios(
             {
-                url:`post/key=${key}/page=${page}`,
-                method:"get",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `post/${commentid}/${localStorage.getItem("accid")}/editComment`,
+                method: "put",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
-                cancelToken:ourRequest.token
+                data: comment
             }
         );
     }
 
-    getPostsByTopic(topicid,page,ourRequest){
+    deleteComment(commentid) {
         return axios(
             {
-                url:`post/topic/${topicid}/page=${page}`,
-                method:"get",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `post/${commentid}/${localStorage.getItem("accid")}/deleteComment`,
+                method: "delete",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
-                cancelToken:ourRequest.token
             }
         );
     }
 
-    getPostsNotApprove(page,ourRequest){
+    getPosts(page, ourRequest) {
         return axios(
             {
-                url:`post/approvePost/page=${page}`,
-                method:"get",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `post/page=${page}`,
+                method: "get",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
-                cancelToken:ourRequest.token
+                cancelToken: ourRequest.token
             }
         );
     }
 
-    rejectPost(id){
+    getPostsByKeyword(key, page, ourRequest) {
         return axios(
             {
-                url:`/post/deletePost/${id}/${localStorage.getItem("accid")}`,
-                method:"delete",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `post/key=${key}/page=${page}`,
+                method: "get",
+                baseURL: "http://localhost:8080",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+                cancelToken: ourRequest.token
+            }
+        );
+    }
+
+    getPostsByTopic(topicid, page, ourRequest) {
+        return axios(
+            {
+                url: `post/topic/${topicid}/page=${page}`,
+                method: "get",
+                baseURL: "http://localhost:8080",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+                cancelToken: ourRequest.token
+            }
+        );
+    }
+
+    getPostsNotApprove(page, ourRequest) {
+        return axios(
+            {
+                url: `post/approvePost/page=${page}`,
+                method: "get",
+                baseURL: "http://localhost:8080",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+                cancelToken: ourRequest.token
+            }
+        );
+    }
+
+    rejectPost(id) {
+        return axios(
+            {
+                url: `/post/deletePost/${id}/${localStorage.getItem("accid")}`,
+                method: "delete",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
     }
 
-    approvePost(id){
+    approvePost(id) {
         return axios(
             {
-                url:`/post/approve/${localStorage.getItem("accid")}/${id}`,
-                method:"put",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/post/approve/${localStorage.getItem("accid")}/${id}`,
+                method: "put",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
     }
 
-    editPost(topicid,updatedPost){
+    editPost(topicid, updatedPost) {
         return axios(
             {
-                url:`/post/editPost/${topicid}/${localStorage.getItem("accid")}`,
-                method:"put",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/post/editPost/${topicid}/${localStorage.getItem("accid")}`,
+                method: "put",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
                 data: updatedPost
             }
         );
     }
-    
-    deletePost(id){
+
+    deletePost(id) {
         return axios(
             {
-                url:`/post/deletePost/${id}/${localStorage.getItem("accid")}`,
-                method:"delete",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/post/deletePost/${id}/${localStorage.getItem("accid")}`,
+                method: "delete",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }

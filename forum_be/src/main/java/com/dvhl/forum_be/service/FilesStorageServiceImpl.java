@@ -13,9 +13,10 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 // import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
+
 @Service
 public class FilesStorageServiceImpl implements FilesStorageService {
-    
+
     private final Path root = Paths.get("avatars");
 
     @Override
@@ -23,16 +24,16 @@ public class FilesStorageServiceImpl implements FilesStorageService {
         try {
             Files.createDirectory(root);
         } catch (IOException e) {
-        throw new RuntimeException("Could not initialize folder for upload!");
+            throw new RuntimeException("Could not initialize folder for upload!");
         }
     }
 
     @Override
-    public void save(MultipartFile file,String newfilename) {
+    public void save(MultipartFile file, String newfilename) {
         try {
             Files.copy(file.getInputStream(), this.root.resolve(newfilename));
         } catch (Exception e) {
-        throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+            throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
         }
     }
 
@@ -40,28 +41,28 @@ public class FilesStorageServiceImpl implements FilesStorageService {
     public Resource load(String filename) {
         try {
             Resource resource;
-        if(Files.exists(root.resolve(filename))){
-            Path file = root.resolve(filename);
-            resource = new UrlResource(file.toUri());
-        } else {
-            Path file = root.resolve("img_avatar.png");
-            resource = new UrlResource(file.toUri());
-        }
-        
-        if (resource.exists() || resource.isReadable()) {
-            return resource;
-        } else {
-            throw new RuntimeException("Could not read the file!");
-        }
+            if (Files.exists(root.resolve(filename))) {
+                Path file = root.resolve(filename);
+                resource = new UrlResource(file.toUri());
+            } else {
+                Path file = root.resolve("img_avatar.png");
+                resource = new UrlResource(file.toUri());
+            }
+
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file!");
+            }
         } catch (MalformedURLException e) {
-        throw new RuntimeException("Error: " + e.getMessage());
+            throw new RuntimeException("Error: " + e.getMessage());
         }
     }
-    
+
     @Override
     public void delete(String filename) {
         try {
-            if(Files.exists(root.resolve(filename)))
+            if (Files.exists(root.resolve(filename)))
                 Files.delete(root.resolve(filename));
         } catch (IOException e) {
             e.printStackTrace();

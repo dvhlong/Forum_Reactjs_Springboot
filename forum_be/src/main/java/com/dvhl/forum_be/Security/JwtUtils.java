@@ -1,4 +1,5 @@
 package com.dvhl.forum_be.Security;
+
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -14,27 +15,31 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JwtUtils {
-    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class); //hien thi logger
+	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class); // hien thi logger
 
-	private String jwtSecret="SecretKey"; //thong tin cua token
+	private String jwtSecret = "SecretKey"; // thong tin cua token
 
-	private int jwtExpirationMs=604800000; //thoi gian ton tai token (ms)
+	private int jwtExpirationMs = 604800000; // thoi gian ton tai token (ms)
 
-	public String generateJwtToken(UserDetailsImpl userDetailsImpl) { //tao token
-		//Jwt token gom 3 phan:Header,Payload,Signature
+	public String generateJwtToken(UserDetailsImpl userDetailsImpl) { // tao token
+		// Jwt token gom 3 phan:Header,Payload,Signature
 		return Jwts.builder()
-				.setSubject((userDetailsImpl.getUsername())) //dua thong tin username (bat ky) vao token de co the lay ra kiem tra ->PayLoad
+				// dua thong tin username (bat ky) vao token de co the lay ra kiem tra ->PayLoad
+				.setSubject((userDetailsImpl.getUsername()))
 				.setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs)) //dua thoi han vao token ->Payload
-				.signWith(SignatureAlgorithm.HS512, jwtSecret) //dua thong tin bao mat vao token ->Signature
+				// dua thoi han vao token ->Payload
+				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+				// dua thong tin bao mat vao token ->Signature
+				.signWith(SignatureAlgorithm.HS512, jwtSecret)
 				.compact();
 	}
 
 	public String getUserNameFromJwtToken(String token) {
-		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject(); //lay username tu token
+		// lay username tu token
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}
-	
-	public boolean validateJwtToken(String authToken) { //kiem tra token
+
+	public boolean validateJwtToken(String authToken) { // kiem tra token
 		try {
 			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
 			return true;

@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NotificationService {
-    
+
     @Autowired
     TimeService timeService;
 
@@ -33,22 +33,26 @@ public class NotificationService {
     @Autowired
     PostRepository postRepository;
 
-    public Page<Notification> getNotificationsPage(long receivedUserId,int page){
-        int elementQuantityInPage=5;
-        Optional<User> uOptional=accountRepository.findById(receivedUserId);
-        return notificationRepository.findByReceivedaccOrderByNotifiedatDesc(uOptional.get(),PageRequest.of(page-1, elementQuantityInPage));
+    public Page<Notification> getNotificationsPage(long receivedUserId, int page) {
+        int elementQuantityInPage = 5;
+        Optional<User> uOptional = accountRepository.findById(receivedUserId);
+        return notificationRepository.findByReceivedaccOrderByNotifiedatDesc(uOptional.get(),
+                PageRequest.of(page - 1, elementQuantityInPage));
     }
 
-    public ResponseEntity<Response> insertNotification(long notifiedUserId,long receivedUserId,long postId,String notificationContent){
-        Notification newNotification=new Notification();
-        Optional<Post> pOptional=postRepository.findById(postId);
-        Optional<User> notifiedUserOptional=accountRepository.findById(notifiedUserId);
-        Optional<User> receivedUserOptional=accountRepository.findById(receivedUserId);
-        insertNotificationToDatabase(notificationContent, newNotification, pOptional, notifiedUserOptional, receivedUserOptional);
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Added",""));
+    public ResponseEntity<Response> insertNotification(long notifiedUserId, long receivedUserId, long postId,
+            String notificationContent) {
+        Notification newNotification = new Notification();
+        Optional<Post> pOptional = postRepository.findById(postId);
+        Optional<User> notifiedUserOptional = accountRepository.findById(notifiedUserId);
+        Optional<User> receivedUserOptional = accountRepository.findById(receivedUserId);
+        insertNotificationToDatabase(notificationContent, newNotification, pOptional, notifiedUserOptional,
+                receivedUserOptional);
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Added", ""));
     }
 
-    private void insertNotificationToDatabase(String notificationContent, Notification newNotification, Optional<Post> pOptional,
+    private void insertNotificationToDatabase(String notificationContent, Notification newNotification,
+            Optional<Post> pOptional,
             Optional<User> notifiedUserOptional, Optional<User> receivedUserOptional) {
         newNotification.setNotifiedacc(notifiedUserOptional.get());
         newNotification.setReceivedacc(receivedUserOptional.get());

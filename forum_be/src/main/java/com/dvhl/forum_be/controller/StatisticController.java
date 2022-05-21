@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/statistic")
 public class StatisticController {
-    
+
     @Autowired
     StatisticService statisticService;
-    
+
     @GetMapping("/get")
-    ResponseEntity<Response> getStatistic(){
+    ResponseEntity<Response> getStatistic() {
         return statisticService.getStatistic();
     }
 }

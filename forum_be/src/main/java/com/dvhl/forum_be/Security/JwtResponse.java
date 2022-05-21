@@ -1,6 +1,6 @@
 package com.dvhl.forum_be.Security;
 
-public class JwtResponse { //thong tin tra ve khi login
+public class JwtResponse { // thong tin tra ve khi login
     private String token;
 
     private UserDetailsImpl acc;
@@ -24,11 +24,9 @@ public class JwtResponse { //thong tin tra ve khi login
     public UserDetailsImpl getAcc() {
         return acc;
     }
-    
+
     public void setAcc(UserDetailsImpl acc) {
         this.acc = acc;
     }
-    
-    
-    
+
 }

@@ -7,14 +7,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserDetailsImpl implements UserDetails{
+public class UserDetailsImpl implements UserDetails {
     private User user;
 
+    // lay thong tin role cua user giup de dang xac thuc quyen han
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {   //lay thong tin role cua user giup de dang xac thuc quyen han
+    public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(user.getRole().getRolename()));
     }
-    
+
     public UserDetailsImpl(User user) {
         this.user = user;
     }
@@ -26,9 +27,11 @@ public class UserDetailsImpl implements UserDetails{
     public String getEmail() {
         return user.getEmail();
     }
-    public String getAvatarUrl(){
+
+    public String getAvatarUrl() {
         return user.getAvatarUrl();
     }
+
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -45,10 +48,11 @@ public class UserDetailsImpl implements UserDetails{
     }
 
     @Override
-    public boolean isAccountNonLocked() { //lay thong tin user co bi khoa ko, neu bi khoa thi ko login vao dc
-        if(user.getIsblocked()==true)
+    public boolean isAccountNonLocked() { // lay thong tin user co bi khoa ko, neu bi khoa thi ko login vao dc
+        if (user.getIsblocked() == true)
             return false;
-        else return true;
+        else
+            return true;
     }
 
     @Override

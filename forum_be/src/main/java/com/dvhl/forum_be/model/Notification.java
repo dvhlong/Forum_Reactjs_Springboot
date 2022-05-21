@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "notification")
 public class Notification {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -25,16 +25,16 @@ public class Notification {
     private String content;
 
     @ManyToOne(targetEntity = Post.class)
-    @JoinColumn(name = "post_id",referencedColumnName = "id")
+    @JoinColumn(name = "post_id", referencedColumnName = "id")
     private Post post;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "notified_acc",referencedColumnName = "id")
+    @JoinColumn(name = "notified_acc", referencedColumnName = "id")
     private User notifiedacc;
 
     @ManyToOne(targetEntity = User.class)
     @JsonIgnore
-    @JoinColumn(name = "received_acc",referencedColumnName = "id")
+    @JoinColumn(name = "received_acc", referencedColumnName = "id")
     private User receivedacc;
 
     @Column(name = "notified_at")
@@ -45,7 +45,7 @@ public class Notification {
 
     public Notification() {
     }
-    
+
     public Notification(String content, Post post, User notifiedacc, User receivedacc, Timestamp notifiedat,
             boolean isReaded) {
         this.content = content;
@@ -111,7 +111,5 @@ public class Notification {
     public void setNotifiedat(Timestamp notifiedat) {
         this.notifiedat = notifiedat;
     }
-    
 
-    
 }

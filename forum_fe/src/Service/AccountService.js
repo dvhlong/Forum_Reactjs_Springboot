@@ -1,121 +1,121 @@
 import axios from "axios";
-class AccountService{
-    
-    checkToken(){
+class AccountService {
+
+    checkToken() {
         return axios(
             {
-                url:`/checkToken`,
-                method:"get",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/checkToken`,
+                method: "get",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
             }
         );
     }
 
-    block(id){
+    block(id) {
         return axios(
             {
-                url:`/blockAcc/${id}`,
-                method:"put",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/blockAcc/${id}`,
+                method: "put",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
             }
         );
     }
 
-    chagneRole(id,role){
+    chagneRole(id, role) {
         return axios(
             {
-                url:`/changeAccRole/${id}`,
-                method:"put",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/changeAccRole/${id}`,
+                method: "put",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
-                data:role
+                data: role
             }
         );
     }
 
-    getAllAcc(page,ourRequest){
+    getAllAcc(page, ourRequest) {
         return axios(
             {
-                url:`/getAllAcc/pages=${page}`,
-                method:"get",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/getAllAcc/pages=${page}`,
+                method: "get",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
-                cancelToken:ourRequest.token
+                cancelToken: ourRequest.token
             }
         );
     }
 
-    checklogin(account){
-        return axios.post("http://localhost:8080/login",account);
+    checklogin(account) {
+        return axios.post("http://localhost:8080/login", account);
     }
 
-    createAccount(account){
-        return axios.post("http://localhost:8080/register",account);
+    createAccount(account) {
+        return axios.post("http://localhost:8080/register", account);
     }
 
-    getAccInfo(ourRequest){
+    getAccInfo(ourRequest) {
         return axios(
             {
-                url:`/getUserInfo/${localStorage.getItem("accid")}`,
-                method:"get",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/getUserInfo/${localStorage.getItem("accid")}`,
+                method: "get",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
-                cancelToken:ourRequest.token
+                cancelToken: ourRequest.token
             }
         );
     }
 
-    changeAccInfo(updatedInfo){
+    changeAccInfo(updatedInfo) {
         return axios(
             {
-                url:`/changeAccInfo/${localStorage.getItem("accid")}`,
-                method:"put",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/changeAccInfo/${localStorage.getItem("accid")}`,
+                method: "put",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
-                data:updatedInfo
+                data: updatedInfo
             }
         );
     }
 
-    changePass(pass){
+    changePass(pass) {
         return axios(
             {
-                url:`/changeAccPass/${localStorage.getItem("accid")}`,
-                method:"put",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/changeAccPass/${localStorage.getItem("accid")}`,
+                method: "put",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
-                data:pass
+                data: pass
             }
         );
     }
-    
-    uploadAvatar(formData){
+
+    uploadAvatar(formData) {
         return axios(
             {
-                url:`/uploadAvatar/${localStorage.getItem("accid")}`,
-                method:"post",
-                baseURL:"http://localhost:8080",
-                headers:{
+                url: `/uploadAvatar/${localStorage.getItem("accid")}`,
+                method: "post",
+                baseURL: "http://localhost:8080",
+                headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "multipart/form-data",
                 },
-                data:formData
+                data: formData
             }
         );
     }

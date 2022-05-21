@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "account")
 public class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -28,7 +28,7 @@ public class User {
     private String password;
 
     @ManyToOne(targetEntity = Role.class)
-    @JoinColumn(name = "role_id",referencedColumnName = "id")
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
     @Column(nullable = false)
@@ -169,7 +169,7 @@ public class User {
     public Timestamp getUpdated_at() {
         return updatedat;
     }
-    
+
     public void setUpdated_at(Timestamp updated_at) {
         this.updatedat = updated_at;
     }

@@ -9,19 +9,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     JwtRepository jwtRepository;
-    
+
+    // lay thong tin user khi nhan token
     @Override
-    public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException { //lay thong tin user khi nhan token
+    public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = jwtRepository.findByUsername(username);
-        if(user==null){
+        if (user == null) {
             throw new UsernameNotFoundException(username);
         } else {
-            return new UserDetailsImpl((User)user);
+            return new UserDetailsImpl((User) user);
         }
-        
+
     }
-    
+
 }

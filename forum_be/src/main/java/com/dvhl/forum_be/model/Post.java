@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table(name = "post")
 public class Post {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -35,18 +35,18 @@ public class Post {
     private boolean isapproved;
 
     @ManyToOne(targetEntity = Topic.class)
-    @JoinColumn(name = "topic_id",referencedColumnName = "id")
+    @JoinColumn(name = "topic_id", referencedColumnName = "id")
     private Topic topic;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "created_acc",referencedColumnName = "id")
+    @JoinColumn(name = "created_acc", referencedColumnName = "id")
     private User createdacc;
 
     @Column(name = "created_at")
     private Timestamp createdat;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "updated_acc",referencedColumnName = "id")
+    @JoinColumn(name = "updated_acc", referencedColumnName = "id")
     @JsonIgnore
     private User updatedacc;
 
@@ -54,7 +54,7 @@ public class Post {
     private Timestamp updatedat;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "deleted_acc",referencedColumnName = "id")
+    @JoinColumn(name = "deleted_acc", referencedColumnName = "id")
     @JsonIgnore
     private User deletedacc;
 
@@ -62,7 +62,7 @@ public class Post {
     private Timestamp deletedat;
 
     @ManyToOne(targetEntity = User.class)
-    @JoinColumn(name = "approved_acc",referencedColumnName = "id")
+    @JoinColumn(name = "approved_acc", referencedColumnName = "id")
     @JsonIgnore
     private User approvedacc;
 
@@ -71,7 +71,7 @@ public class Post {
 
     public Post() {
     }
-    
+
     public Post(String title, String content, long view, boolean isdeleted, boolean isapproved, Topic topic,
             User createdacc, Timestamp createdat, User updatedacc, Timestamp updatedat, User deletedacc,
             Timestamp deletedat, User approvedacc, Timestamp approvedat) {
@@ -206,9 +206,9 @@ public class Post {
     public Timestamp getApproved_at() {
         return approvedat;
     }
-    
+
     public void setApproved_at(Timestamp approved_at) {
         this.approvedat = approved_at;
     }
-    
+
 }

@@ -15,7 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-public class JwtFilter extends OncePerRequestFilter{
+public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
 
@@ -27,28 +27,27 @@ public class JwtFilter extends OncePerRequestFilter{
             throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
-            if (jwt != null && jwtUtils.validateJwtToken(jwt)) { //neu token du dieu kien -> xac thuc user tu token
-            String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(
-                    userDetails,
-                    null,
-                    userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            
+            if (jwt != null && jwtUtils.validateJwtToken(jwt)) { // neu token du dieu kien -> xac thuc user tu token
+                String username = jwtUtils.getUserNameFromJwtToken(jwt);
+
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities());
+                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+
             }
         } catch (Exception e) {
-            logger.error("Cannot set user authentication: {}", e); //ko the xac thuc user
+            logger.error("Cannot set user authentication: {}", e); // ko the xac thuc user
         }
         filterChain.doFilter(request, response);
     }
-    
-    private String parseJwt(HttpServletRequest request) { //Lay thong tin token
+
+    private String parseJwt(HttpServletRequest request) { // Lay thong tin token
         String headerAuth = request.getHeader("Authorization");
-    
+
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7, headerAuth.length());
         }

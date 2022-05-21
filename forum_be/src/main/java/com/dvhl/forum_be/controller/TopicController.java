@@ -23,41 +23,41 @@ import org.springframework.web.bind.annotation.RestController;
 // @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
 @RequestMapping(path = "/topic")
-public class TopicController{
-    
+public class TopicController {
+
     @Autowired
     TopicService topicService;
 
     @GetMapping("/page={page}")
-    Page<Topic> getTopicsPage(@PathVariable int page){
+    Page<Topic> getTopicsPage(@PathVariable int page) {
         return topicService.getTopicsPage(page);
     }
 
     @GetMapping("/all")
-    List<Topic> getTopics(){
+    List<Topic> getTopics() {
         return topicService.getTopics();
     }
 
     @GetMapping("/amount/{topicId}")
-    long postAmount(@PathVariable long topicId){
+    long postAmount(@PathVariable long topicId) {
         return topicService.countPost(topicId);
     }
 
     @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
     @PostMapping("/createTopic/{createdUserId}")
-    ResponseEntity<Response> insertTopic(@PathVariable long createdUserId,@RequestBody Topic newTopic){
+    ResponseEntity<Response> insertTopic(@PathVariable long createdUserId, @RequestBody Topic newTopic) {
         return topicService.insertTopic(createdUserId, newTopic);
     }
 
     @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
     @PutMapping("/editTopic/{updatedUserId}")
-    ResponseEntity<Response> updateTopic(@PathVariable long updatedUserId,@RequestBody Topic updatedTopic){
+    ResponseEntity<Response> updateTopic(@PathVariable long updatedUserId, @RequestBody Topic updatedTopic) {
         return topicService.updateTopic(updatedUserId, updatedTopic);
     }
 
     @PreAuthorize("hasAuthority('admin') or hasAuthority('mod')")
     @DeleteMapping("/deleteTopic/{topicId}/{deletedUserId}")
-    ResponseEntity<Response> deleteTopic(@PathVariable long topicId,@PathVariable long deletedUserId){
+    ResponseEntity<Response> deleteTopic(@PathVariable long topicId, @PathVariable long deletedUserId) {
         return topicService.deleteTopic(topicId, deletedUserId);
     }
 }

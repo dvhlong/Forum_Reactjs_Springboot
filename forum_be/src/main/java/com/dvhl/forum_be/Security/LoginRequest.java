@@ -3,8 +3,8 @@ package com.dvhl.forum_be.Security;
 import javax.validation.constraints.NotBlank;
 
 public class LoginRequest {
-    @NotBlank
-    private String username;
+	@NotBlank
+	private String username;
 
 	@NotBlank
 	private String password;
