@@ -73,13 +73,13 @@ public class AccountService {
             if(uOptional.isPresent()){
                 return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail","Email da ton tai",""));
             } else {
-                insertUser(newUser);
+                insertUserToDatabase(newUser);
                 return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da Dang ky thanh cong",""));
             } 
         }
     }
 
-    private void insertUser(User newUser) {
+    private void insertUserToDatabase(User newUser) {
         Role role=roleRepository.findByRolename("user");
         newUser.setRole(role);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
@@ -89,13 +89,17 @@ public class AccountService {
 
     public ResponseEntity<Response> updateUser(User updatedUser,long userId){
         accountRepository.findById(userId).map(user ->{
-            user.setName(updatedUser.getName());
-            user.setBirthdate(updatedUser.getBirthdate());
-            user.setPhone(updatedUser.getPhone());
-            user.setUpdated_at(timeService.getCurrentTimestamp());
-            return accountRepository.save(user);
+            return updateUserIntoDatabase(updatedUser, user);
         });
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK","Da cap nhat",updatedUser));
+    }
+
+    private User updateUserIntoDatabase(User updatedUser, User user) {
+        user.setName(updatedUser.getName());
+        user.setBirthdate(updatedUser.getBirthdate());
+        user.setPhone(updatedUser.getPhone());
+        user.setUpdated_at(timeService.getCurrentTimestamp());
+        return accountRepository.save(user);
     }
 
     public ResponseEntity<Response> blockOrUnblockUser(long userId){
