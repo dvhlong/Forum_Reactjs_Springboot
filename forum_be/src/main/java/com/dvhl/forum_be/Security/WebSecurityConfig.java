@@ -31,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
         configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
@@ -64,11 +64,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers("/register").permitAll() //cho phep tat ca truy cap path register va login
+                .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/files/**").permitAll()
-                //nhung path con lai (anyrequest) bat buoc xac thuc
+                .antMatchers("/notification/**").permitAll()
                 .anyRequest().authenticated().and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutsuccess").permitAll()
+                // .anyRequest().permitAll()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint);//neu co error 
                 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); //them filter khi xac thuc

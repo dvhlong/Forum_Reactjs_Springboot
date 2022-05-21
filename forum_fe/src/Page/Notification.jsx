@@ -1,4 +1,4 @@
-import React, { useCallback,useEffect,useState } from 'react';
+import React, {useEffect,useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
@@ -9,9 +9,13 @@ import {Link, useNavigate} from 'react-router-dom';
 import { motion } from "framer-motion"
 import NotificationService from '../Service/NotificationService';
 import axios from "axios";
-import Moment from 'react-moment';
+import dayjs from "dayjs";
 
 function Notification(){
+
+    const relativeTime = require('dayjs/plugin/relativeTime');
+
+    dayjs.extend(relativeTime);
     
     let navigate=useNavigate();
 
@@ -45,7 +49,6 @@ function Notification(){
         const ourRequest=axios.CancelToken.source();
         setTimeout(async()=>{
             await NotificationService.getNotifications(page,ourRequest).then(res=>{
-                console.log(res);
                 setNotifications(res.data.content);
             })
             setLoading(false);
@@ -96,7 +99,7 @@ function Notification(){
                                                 <label><b>@{notification.notifiedacc.username}</b> {notification.content}: <b style={{color:"red"}}>{notification.post.title}</b></label>
                                             </div>
                                             <div className='notification-time'>
-                                                <Moment fromNow>{notification.notifiedat}</Moment>
+                                                {dayjs(notification.notifiedat).locale("en").fromNow()}
                                             </div>
                                         </div>
                                         <div className='notification-mark'>

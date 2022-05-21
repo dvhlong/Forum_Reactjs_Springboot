@@ -3,16 +3,20 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import PostService from '../Service/PostService';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {TailSpin} from 'react-loader-spinner';
-import Moment from 'react-moment';
 import axios from "axios";
 import SideComponent from '../Component/SideComponent';
 import '../CSS/PostAndTopic.css';
-import { animate, motion } from "framer-motion"
+import { animate, motion } from "framer-motion";
+import dayjs from "dayjs";
 
 function Posts(){
     
+    const relativeTime = require('dayjs/plugin/relativeTime');
+
+    dayjs.extend(relativeTime);
+
     let navigate=useNavigate();
 
     const[mount,setMount]=useState(false);
@@ -135,9 +139,9 @@ function Posts(){
                                                     <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
                                                     {
                                                         <>&nbsp;|&nbsp;
-                                                            <Moment fromNow>{post.created_at}</Moment>
+                                                            {dayjs(post.created_at).locale("en").fromNow()}
                                                             &nbsp;
-                                                            (<Moment format='DD/MM/YYYY HH:mm'>{post.created_at}</Moment>)
+                                                            {dayjs(post.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
                                                         </>
                                                     }
                                                     <p>Topic: {post.topic.topicname}</p>    

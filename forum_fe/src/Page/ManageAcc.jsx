@@ -6,10 +6,14 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import {TailSpin} from 'react-loader-spinner';
 import {useNavigate} from 'react-router-dom';
 import axios from "axios";
-import Moment from 'react-moment';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import dayjs from "dayjs";
 
 function ManageAcc(){
+    
+    const relativeTime = require('dayjs/plugin/relativeTime');
+
+    dayjs.extend(relativeTime);
     
     let navigate=useNavigate()
 
@@ -154,7 +158,7 @@ function ManageAcc(){
                                                     {
                                                         (acc.birthdate===null)
                                                         ?<>{acc.birthdate}</>
-                                                        :<Moment format='DD/MM/YYYY'>{acc.birthdate}</Moment>
+                                                        :(dayjs(acc.birthdate).format('DD/MM/YYYY'))
                                                     }
                                                 </td>
                                                 <td>{acc.email}</td>

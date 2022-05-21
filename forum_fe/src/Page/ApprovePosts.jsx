@@ -9,13 +9,17 @@ import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
 import {useNavigate} from 'react-router-dom';
 import parse from "html-react-parser";
-import Moment from 'react-moment';
 import Swal from 'sweetalert2';
 import SideComponent from '../Component/SideComponent';
 import '../CSS/PostDetail.css';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import dayjs from "dayjs";
 
 function ApprovePosts() {
+
+    const relativeTime = require('dayjs/plugin/relativeTime');
+
+    dayjs.extend(relativeTime);
     
     let navigate=useNavigate();
 
@@ -148,9 +152,9 @@ function ApprovePosts() {
                                                 <Card style={{marginBottom:"20px"}}>
                                                     <Card.Header style={{color:"blue"}}>
                                                         <p>
-                                                                    <Moment fromNow>{post.created_at}</Moment>
+                                                                    {dayjs(post.created_at).locale("en").fromNow()}
                                                                     &nbsp;
-                                                                    (<Moment format='DD/MM/YYYY HH:mm'>{post.created_at}</Moment>)
+                                                                    {dayjs(post.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
                                                         </p>     
                                                         <p>Account created: {post.created_acc.username} ({post.created_acc.role.rolename})</p>
                                                         <p>Topic: {post.topic.topicname}</p>

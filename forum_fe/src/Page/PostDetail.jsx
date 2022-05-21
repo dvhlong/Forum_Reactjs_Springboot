@@ -12,12 +12,16 @@ import moreIcon from '../SVG/more.svg';
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
 import parse from "html-react-parser";
-import Moment from 'react-moment';
 import Swal from 'sweetalert2';
 import SideComponent from '../Component/SideComponent';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import dayjs from "dayjs";
 
 function PostDetail(){
+
+    const relativeTime = require('dayjs/plugin/relativeTime');
+
+    dayjs.extend(relativeTime);
     
     const role=localStorage.getItem("role");
 
@@ -265,9 +269,9 @@ function PostDetail(){
                                         <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
                                         {
                                                         <>&nbsp;|&nbsp;
-                                                            <Moment fromNow>{post.created_at}</Moment>
+                                                            {dayjs(post.created_at).locale("en").fromNow()}
                                                             &nbsp;
-                                                        (<Moment format='DD/MM/YYYY HH:mm'></Moment>)
+                                                            {dayjs(post.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
                                                         </>
                                         }
                                         <p>Topic: {post.topic.topicname}</p>     
@@ -333,9 +337,9 @@ function PostDetail(){
                                                 <b>&nbsp;{comment.created_acc.username}</b> ({comment.created_acc.role.rolename})
                                                 {
                                                     <>&nbsp;|&nbsp;
-                                                        <Moment fromNow>{comment.created_at}</Moment>
+                                                        {dayjs(comment.created_at).locale("en").fromNow()}
                                                         &nbsp;
-                                                        (<Moment format='DD/MM/YYYY HH:mm'>{comment.created_at}</Moment>)
+                                                        {dayjs(comment.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
                                                     </>
                                                 }
                                             </Card.Header>

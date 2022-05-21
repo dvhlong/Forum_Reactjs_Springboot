@@ -6,9 +6,12 @@ import HomeIcon from '../SVG/home.svg';
 import Bell from '../SVG/bell.svg'
 import '../CSS/HeaderComponent.css';
 import Button from 'react-bootstrap/esm/Button';
+import {over} from 'stompjs';
+import SockJS from 'sockjs-client';
 
+var stompClient =null;
 function HeaderComponent(){
-       
+
     let navigate=useNavigate();
 
     const [key,setKey]=useState("");
@@ -25,6 +28,31 @@ function HeaderComponent(){
         navigate("/");
     };
     
+    useEffect(()=>{
+        let Sock = new SockJS('http://localhost:8080/ws');
+        // stompClient = over(Sock);
+        // stompClient.connect({
+        //     "Authorization": `Bearer ${localStorage.getItem("token")}`,
+        //     "Access-Control-Allow-Credentials":true,
+        // },onConnected, onError);
+    },[])
+
+    const checkWebSocket=()=>{
+        // stompClient.send("/notify/private-notification", {}, localStorage.getItem("username"));
+    }
+
+    const onPrivateMessage = (payload)=>{
+        console.log(payload);
+    }
+
+    const onConnected = () => {
+        stompClient.subscribe('/user/'+localStorage.getItem("username")+'/private', onPrivateMessage);
+    }
+
+    const onError = (err) => {
+        console.log(err);
+    }
+
     return(
             <div className='forum-container'>
                 <header style={{width:"100%"}}>
@@ -33,8 +61,9 @@ function HeaderComponent(){
                     <button className="navbar-brand btn btn-secondary" style={{marginLeft:"50px"}} onClick={()=>navigate("/topic")}><img src={HomeIcon} alt=''></img></button>
                     <button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/posts/all")}>Posts</button>
                     {(localStorage.getItem("role")!=="user")?(<button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/approve")}>Approve</button>):<></>}
-                    {(localStorage.getItem("role")==="admin")?(<button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/manageacc")}>Manage Acc</button>):<></>}
+                    {(localStorage.getItem("role")==="admin")?(<button className="navbar-brand btn btn-secondary" onClick={()=>navigate("/manageacc")}>Manage Account</button>):<></>}
                     <button className="navbar-brand btn btn-danger" style={{marginLeft:"50px"}} onClick={()=>navigate("/createpost")}>Create your post</button>
+                    {/* <button className="navbar-brand btn btn-danger" style={{marginLeft:"50px"}} onClick={checkWebSocket}>Check Web Socket</button> */}
                     </div>
                     <div class="row" style={{marginLeft:"20px"}}>
                         <div class="col-auto">

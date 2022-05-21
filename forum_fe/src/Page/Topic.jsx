@@ -12,13 +12,17 @@ import moreIcon from '../SVG/more.svg';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import {TailSpin} from 'react-loader-spinner';
 import axios from "axios";
-import Moment from 'react-moment';
 import Swal from 'sweetalert2'
 import SideComponent from '../Component/SideComponent';
 import { motion } from "framer-motion";
 import '../CSS/PostAndTopic.css';
+import dayjs from "dayjs";
 
 function Topic() {
+
+    const relativeTime = require('dayjs/plugin/relativeTime');
+
+    dayjs.extend(relativeTime);
     
     let navigate=useNavigate()
 
@@ -238,7 +242,7 @@ function Topic() {
                                                 <td>
                                                 <Card style={{marginBottom:"20px"}}>
                                                     <Card.Header style={{color:"blue"}}>
-                                                        Time created: <Moment format='DD/MM/YYYY HH:mm'>{topic.created_at}</Moment>
+                                                        Time created: {dayjs(topic.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
                                                     </Card.Header>
                                                     <Card.Body>
                                                         <Card.Title style={{textAlign:"center"}} className='topic-title' onClick={()=>navigate(`/posts/topic=${topic.id}`)}>{topic.topicname}</Card.Title>
