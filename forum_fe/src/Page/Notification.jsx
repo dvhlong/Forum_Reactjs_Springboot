@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import Card from 'react-bootstrap/Card';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import { TailSpin } from 'react-loader-spinner';
 import '../CSS/Notification.css';
-import Dropdown from 'react-bootstrap/Dropdown';
-import { Link, useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion"
 import NotificationService from '../Service/NotificationService';
 import axios from "axios";
-import dayjs from "dayjs";
+import NotificationComponent from '../Component/NotificationComponent';
 
 function Notification() {
-
-    const relativeTime = require('dayjs/plugin/relativeTime');
-
-    dayjs.extend(relativeTime);
-
-    let navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
 
@@ -50,6 +41,7 @@ function Notification() {
         setTimeout(async () => {
             await NotificationService.getNotifications(page, ourRequest).then(res => {
                 setNotifications(res.data.content);
+                setPages(res.data.totalPages)
             })
             setLoading(false);
             if (mount === false)
@@ -90,21 +82,7 @@ function Notification() {
                                 {
                                     notifications.map(
                                         notification =>
-                                            <div className='notification' onClick={() => navigate(`/postDetail/${notification.post.id}`)} key={notification.id}>
-                                                <div className='notification-avatar'>
-                                                    <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} src={notification.notifiedacc.avatarUrl} alt=''></img>
-                                                </div>
-                                                <div className='notification-content'>
-                                                    <div className='notification-text'>
-                                                        <label><b>@{notification.notifiedacc.username}</b> {notification.content}: <b style={{ color: "red" }}>{notification.post.title}</b></label>
-                                                    </div>
-                                                    <div className='notification-time'>
-                                                        {dayjs(notification.notifiedat).locale("en").fromNow()}
-                                                    </div>
-                                                </div>
-                                                <div className='notification-mark'>
-                                                </div>
-                                            </div>
+                                            <NotificationComponent content={notification} />
                                     )
                                 }
                                 <div>
