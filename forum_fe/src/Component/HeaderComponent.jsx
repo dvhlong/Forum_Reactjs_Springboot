@@ -56,7 +56,7 @@ function HeaderComponent() {
 
     return (
         <div className='forum-container'>
-            <header style={{ width: "100%",position:"sticky",top:"0",zIndex:"2"}}>
+            <header style={{ width: "100%", position: "sticky", top: "0", zIndex: "2" }}>
                 <nav className='navbar navbar-dark bg-secondary nojt'>
                     <div style={{ width: "auto" }}>
                         <button className="navbar-brand btn btn-secondary" style={{ marginLeft: "50px" }} onClick={() => navigate("/topic")}><img src={HomeIcon} alt=''></img></button>
@@ -97,7 +97,7 @@ function HeaderComponent() {
                     </div>
                 </nav>
             </header>
-                <Outlet />
+            <Outlet />
             <footer className='footer' style={{ textAlign: "center", color: "grey", marginTop: "30px" }}>
                 <span className='text'>@FORUM Created by Doan Van Hoang Long</span>
             </footer>
