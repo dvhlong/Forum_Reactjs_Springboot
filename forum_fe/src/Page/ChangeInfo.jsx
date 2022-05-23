@@ -207,11 +207,11 @@ function ChangeInfo() {
                                     <Form>
                                         <Form.Group className="mb-3">
                                             <Form.Label>Name :</Form.Label>
-                                            <Form.Control type="text" value={name} onChange={changeName} />
+                                            <Form.Control type="text" value={name} onChange={changeName} maxLength={255} />
                                         </Form.Group>
                                         <Form.Group className="mb-3" >
                                             <Form.Label>Phone :</Form.Label>
-                                            <Form.Control type="text" value={phone} onChange={changePhone} />
+                                            <Form.Control type="text" value={phone} onChange={changePhone} maxLength={255} />
                                         </Form.Group>
                                         <Form.Group className="mb-3" >
                                             <Form.Label>Date of birth :</Form.Label>

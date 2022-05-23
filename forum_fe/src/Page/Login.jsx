@@ -87,13 +87,13 @@ function Login() {
                     <div class="input-wrap">
                         <div class="input-icon">
                             <div class="icon"><img src={Userlogo} alt="logo" /></div>
-                            <input type="text" placeholder="Username" value={username} onChange={enterUsername} />
+                            <input type="text" placeholder="Username" value={username} onChange={enterUsername} maxLength={250} />
                         </div>
                     </div>
                     <div class="input-wrap">
                         <div class="input-icon">
                             <div class="icon"><img src={Keylogo} alt="logo" /></div>
-                            <input type="password" placeholder="Password" value={password} onChange={enterPassword} />
+                            <input type="password" placeholder="Password" value={password} onChange={enterPassword} maxLength={250} />
                         </div>
                     </div>
                     {/* <GoogleLogin

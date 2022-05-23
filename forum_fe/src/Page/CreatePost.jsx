@@ -107,7 +107,7 @@ function CreatePost() {
                     Title:
                 </div>
                 <div className='post-input'>
-                    <Form.Control value={newTitle} onChange={enterTitle}></Form.Control>
+                    <Form.Control value={newTitle} onChange={enterTitle} maxLength={255}></Form.Control>
                 </div>
                 <div className='post-label'>
                     Content:

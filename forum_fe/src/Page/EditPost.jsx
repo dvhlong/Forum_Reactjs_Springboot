@@ -158,7 +158,7 @@ function EditPost() {
                     Title:
                 </div>
                 <div className='post-input'>
-                    <Form.Control value={editPostTitle} onChange={enterEditPostTitle}></Form.Control>
+                    <Form.Control value={editPostTitle} onChange={enterEditPostTitle} maxLength={255}></Form.Control>
                 </div>
                 <div className='post-label'>
                     Content:

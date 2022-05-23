@@ -83,25 +83,25 @@ function Register() {
                     <div class="input-wrap">
                         <div class="input-icon">
                             <div class="icon"><img src={Userlogo} alt="logo" /></div>
-                            <input type="text" placeholder="Username" value={username} onChange={enterUsername} />
+                            <input type="text" placeholder="Username" value={username} onChange={enterUsername} maxLength={255} />
                         </div>
                     </div>
                     <div class="input-wrap">
                         <div class="input-icon">
                             <div class="icon"><img src={Keylogo} alt="logo" /></div>
-                            <input type="password" placeholder="Password" value={password} onChange={enterPassword} />
+                            <input type="password" placeholder="Password" value={password} onChange={enterPassword} maxLength={255} />
                         </div>
                     </div>
                     <div class="input-wrap">
                         <div class="input-icon">
                             <div class="icon"><img src={Emaillogo} alt="logo" /></div>
-                            <input type="text" placeholder="Email" value={email} onChange={enterEmail} />
+                            <input type="text" placeholder="Email" value={email} onChange={enterEmail} maxLength={255} />
                         </div>
                     </div>
                     <div class="input-wrap">
                         <div class="input-icon">
                             <div class="icon"><img src={Keylogo} alt="logo" /></div>
-                            <input type="password" placeholder="Re-type Password" value={repass} onChange={enterRepass} />
+                            <input type="password" placeholder="Re-type Password" value={repass} onChange={enterRepass} maxLength={255} />
                         </div>
                     </div>
                     <div class="mt-5">
