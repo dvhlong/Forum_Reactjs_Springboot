@@ -118,6 +118,9 @@ function CreatePost() {
                             placeholder: "Type content here......",
                             mediaEmbed: {
                                 previewsInData: true
+                            },
+                            link : {
+                                addTargetToExternalLinks: true
                             }
                         }}
                         editor={Editor}
