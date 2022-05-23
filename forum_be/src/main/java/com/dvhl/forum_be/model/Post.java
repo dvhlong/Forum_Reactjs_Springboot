@@ -66,6 +66,7 @@ public class Post {
     @JsonIgnore
     private User approvedacc;
 
+    @JsonIgnore
     @Column(name = "approved_at")
     private Timestamp approvedat;
 

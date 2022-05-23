@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "topic")
 public class Topic {
@@ -31,6 +33,7 @@ public class Topic {
     @Column(name = "deleted_at")
     private Timestamp deletedat;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "deleted_acc", referencedColumnName = "id")
     private User deletedacc;
@@ -38,6 +41,7 @@ public class Topic {
     @Column(name = "created_at")
     private Timestamp createdat;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "created_acc", referencedColumnName = "id")
     private User createdacc;
@@ -45,6 +49,7 @@ public class Topic {
     @Column(name = "updated_at")
     private Timestamp updatedat;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = User.class)
     @JoinColumn(name = "updated_acc", referencedColumnName = "id")
     private User updatedacc;

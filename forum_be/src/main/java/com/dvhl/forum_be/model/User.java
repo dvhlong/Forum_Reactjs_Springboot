@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "account")
 public class User {
@@ -25,6 +27,7 @@ public class User {
     @Column(unique = true)
     private String username;
 
+    @JsonIgnore
     private String password;
 
     @ManyToOne(targetEntity = Role.class)
@@ -47,8 +50,10 @@ public class User {
     @Column(columnDefinition = "varchar(255) default 'http://localhost:8080/files/null'")
     private String avatarUrl;
 
+    @JsonIgnore
     private Timestamp createdat;
 
+    @JsonIgnore
     private Timestamp updatedat;
 
     public User() {

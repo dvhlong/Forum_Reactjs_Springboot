@@ -17,7 +17,7 @@ import io.jsonwebtoken.UnsupportedJwtException;
 public class JwtUtils {
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class); // hien thi logger
 
-	private String jwtSecret = "SecretKey"; // thong tin cua token
+	private String jwtSecret = "DoanVanHoangLong"; // thong tin cua token
 
 	private int jwtExpirationMs = 604800000; // thoi gian ton tai token (ms)
 
