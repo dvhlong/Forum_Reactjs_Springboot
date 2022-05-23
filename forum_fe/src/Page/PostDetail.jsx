@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 import SideComponent from '../Component/SideComponent';
 import { motion } from "framer-motion";
 import dayjs from "dayjs";
+import CommentComponent from '../Component/CommentComponent';
 
 function PostDetail() {
 
