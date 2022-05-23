@@ -57,7 +57,7 @@ function CreatePost() {
                 if (role === "user")
                     Swal.fire({
                         icon: 'success',
-                        title: 'Successful, please waiting for approve !!!!',
+                        title: 'Successful, your post is awaiting for approval !!!!',
                         showConfirmButton: false,
                         timer: 1500
                     })
