@@ -1,2 +1,7 @@
 # Forum
-This Project use SpringBoot and ReactJS
+Sping Boot
+ReactJS
+JWT authentication 
+Pre Authorization
+RESTful API
+Socket Realtime

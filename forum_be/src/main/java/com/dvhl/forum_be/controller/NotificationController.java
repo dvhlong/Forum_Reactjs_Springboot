@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -34,9 +35,8 @@ public class NotificationController {
     }
 
     @MessageMapping("/private-notification")
+    @SendTo("/user/private")
     String receivedPrivateNotification(@Payload String username) {
-        // Optional<User> uOptional=accountRepository.findById(userId);
-        simpMessagingTemplate.convertAndSendToUser(username, "/private", "Notified !!!");
         return "checkWebsocket";
     }
 

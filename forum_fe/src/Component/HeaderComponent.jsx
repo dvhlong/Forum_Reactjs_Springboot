@@ -26,45 +26,50 @@ function HeaderComponent() {
         localStorage.removeItem("accid");
         localStorage.removeItem("username");
         localStorage.removeItem("avatar");
+        
         navigate("/");
     };
 
-    // useEffect(()=>{
-    //     let Sock = new SockJS('http://localhost:8080/ws');
-    //     stompClient = over(Sock);
-    //     stompClient.connect({
-    //         "Authorization": `Bearer ${localStorage.getItem("token")}`,
-    //         "Access-Control-Allow-Credentials":true,
-    //     },onConnected, onError);
-    // },[])
+    useEffect(()=>{
+        let Sock = new SockJS('http://localhost:8080/ws');
+        stompClient = over(Sock);
+        stompClient.connect({
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            "Access-Control-Allow-Credentials":true,
+        },onConnected, onError);
+        return () =>{
+            stompClient = over(Sock);
+            stompClient.disconnect();
+        }
+    },[])
 
-    // const checkWebSocket=()=>{
-    //     // stompClient.send("/notify/private-notification", {}, localStorage.getItem("username"));
-    // }
+    const checkWebSocket=()=>{
+        stompClient.send("/notify/private-notification", {}, localStorage.getItem("username"));
+    }
 
-    // const onPrivateMessage = (payload)=>{
-    //     console.log(payload);
-    // }
+    const onPrivateMessage = (payload)=>{
+        console.log(payload);
+    }
 
-    // const onConnected = () => {
-    //     stompClient.subscribe('/user/'+localStorage.getItem("username")+'/private', onPrivateMessage);
-    // }
+    const onConnected = () => {
+        stompClient.subscribe('/result', onPrivateMessage);
+    }
 
-    // const onError = (err) => {
-    //     console.log(err);
-    // }
+    const onError = (err) => {
+        console.log(err);
+    }
 
     return (
-        <div className='forum-container'>
+        <div className='forum-container'> 
             <header style={{ width: "100%", position: "sticky", top: "0", zIndex: "2" }}>
-                <nav className='navbar navbar-dark bg-secondary nojt'>
+                <nav className='navbar navbar-dark bg-dark nojt'>
                     <div style={{ width: "auto" }}>
                         <button className="navbar-brand btn btn-secondary" style={{ marginLeft: "50px" }} onClick={() => navigate("/topic")}><img src={HomeIcon} alt=''></img></button>
                         <button className="navbar-brand btn btn-secondary" onClick={() => navigate("/posts/all")}>Posts</button>
                         {(localStorage.getItem("role") !== "user") ? (<button className="navbar-brand btn btn-secondary" onClick={() => navigate("/approve")}>Approve Post</button>) : <></>}
                         {(localStorage.getItem("role") === "admin") ? (<button className="navbar-brand btn btn-secondary" onClick={() => navigate("/manageacc")}>Manage Account</button>) : <></>}
                         <button className="navbar-brand btn btn-danger" style={{ marginLeft: "50px" }} onClick={() => navigate("/createpost")}>Create new post</button>
-                        {/* <button className="navbar-brand btn btn-danger" style={{marginLeft:"50px"}} onClick={checkWebSocket}>Check Web Socket</button> */}
+                        <button className="navbar-brand btn btn-danger" style={{marginLeft:"50px"}} onClick={checkWebSocket}>Check Web Socket</button>
                     </div>
                     <div class="row" style={{ marginLeft: "20px" }}>
                         <div class="col-auto">
