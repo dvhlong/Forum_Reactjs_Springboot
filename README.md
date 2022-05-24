@@ -1,7 +1,13 @@
 # Forum
+
 Sping Boot
+
 ReactJS
-JWT authentication 
+
+JWT authentication
+
 Pre Authorization
+
 RESTful API
+
 Socket Realtime
