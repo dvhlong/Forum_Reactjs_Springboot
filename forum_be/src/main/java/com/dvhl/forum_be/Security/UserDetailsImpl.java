@@ -28,6 +28,10 @@ public class UserDetailsImpl implements UserDetails {
         return user.getEmail();
     }
 
+    public String getAvatar() {
+        return user.getAvatar();
+    }
+
     public String getAvatarUrl() {
         return user.getAvatarUrl();
     }

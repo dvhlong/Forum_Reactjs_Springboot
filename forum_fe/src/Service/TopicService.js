@@ -1,12 +1,12 @@
 import axios from "axios";
 class TopicService {
-
+    baseURL = "http://" + window.location.hostname + ":8080";
     getAllTopic(page, ourRequest) {
         return axios(
             {
                 url: `topic/page=${page}`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -20,7 +20,7 @@ class TopicService {
             {
                 url: `topic/all`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -33,7 +33,7 @@ class TopicService {
             {
                 url: `/topic/createTopic/${localStorage.getItem("accid")}`,
                 method: "post",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -47,7 +47,7 @@ class TopicService {
             {
                 url: `/topic/deleteTopic/${id}/${localStorage.getItem("accid")}`,
                 method: "delete",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
@@ -60,7 +60,7 @@ class TopicService {
             {
                 url: `/topic/editTopic/${localStorage.getItem("accid")}`,
                 method: "put",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },

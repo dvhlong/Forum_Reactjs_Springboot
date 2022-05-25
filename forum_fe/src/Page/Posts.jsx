@@ -135,9 +135,9 @@ function Posts() {
                                                         <td>
                                                             <Card style={{ marginBottom: "20px" }}>
                                                                 <Card.Header style={{ color: "blue" }}>
-                                                                    <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} src={post.created_acc.avatarUrl} alt=''></img>
+                                                                    <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.avatar} alt=''></img>
                                                                     <b>&nbsp;{post.created_acc.username}</b>
-                                                                    &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://localhost:8080/files/" + post.created_acc.role.rolename + "Logo.png"} alt=''></img>
+                                                                    &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.role.rolename + "Logo.png"} alt=''></img>
                                                                     {
                                                                         <>&nbsp;|&nbsp;
                                                                             {dayjs(post.created_at).locale("en").fromNow()}

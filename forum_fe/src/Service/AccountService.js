@@ -1,12 +1,12 @@
 import axios from "axios";
 class AccountService {
-
+    baseURL = "http://" + window.location.hostname + ":8080";
     checkToken() {
         return axios(
             {
                 url: `/checkToken`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
@@ -19,7 +19,7 @@ class AccountService {
             {
                 url: `/blockAcc/${id}`,
                 method: "put",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -32,7 +32,7 @@ class AccountService {
             {
                 url: `/changeAccRole/${id}`,
                 method: "put",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -46,7 +46,7 @@ class AccountService {
             {
                 url: `/getAllAcc/pages=${page}`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -56,11 +56,11 @@ class AccountService {
     }
 
     checklogin(account) {
-        return axios.post("http://localhost:8080/login", account);
+        return axios.post(this.baseURL + "/login", account);
     }
 
     createAccount(account) {
-        return axios.post("http://localhost:8080/register", account);
+        return axios.post(this.baseURL + "/register", account);
     }
 
     getAccInfo(ourRequest) {
@@ -68,7 +68,7 @@ class AccountService {
             {
                 url: `/getUserInfo/${localStorage.getItem("accid")}`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -82,7 +82,7 @@ class AccountService {
             {
                 url: `/changeAccInfo/${localStorage.getItem("accid")}`,
                 method: "put",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -96,7 +96,7 @@ class AccountService {
             {
                 url: `/changeAccPass/${localStorage.getItem("accid")}`,
                 method: "put",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -110,7 +110,7 @@ class AccountService {
             {
                 url: `/uploadAvatar/${localStorage.getItem("accid")}`,
                 method: "post",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "multipart/form-data",

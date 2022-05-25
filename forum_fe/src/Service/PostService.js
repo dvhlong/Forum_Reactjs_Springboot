@@ -1,12 +1,12 @@
 import axios from "axios";
 class PostService {
-
+    baseURL = "http://" + window.location.hostname + ":8080";
     createPost(topicid, newPost) {
         return axios(
             {
                 url: `/post/createPost/${topicid}/${localStorage.getItem("accid")}`,
                 method: "post",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -20,7 +20,7 @@ class PostService {
             {
                 url: `post/${id}`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -34,7 +34,7 @@ class PostService {
             {
                 url: `post/${id}/comments/page=${page}`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -47,7 +47,7 @@ class PostService {
             {
                 url: `post/${postid}/${localStorage.getItem("accid")}/${replyid}/addComment`,
                 method: "post",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -61,7 +61,7 @@ class PostService {
             {
                 url: `post/${commentid}/${localStorage.getItem("accid")}/editComment`,
                 method: "put",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -75,7 +75,7 @@ class PostService {
             {
                 url: `post/${commentid}/${localStorage.getItem("accid")}/deleteComment`,
                 method: "delete",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -88,7 +88,7 @@ class PostService {
             {
                 url: `post/page=${page}`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -102,7 +102,7 @@ class PostService {
             {
                 url: `post/key=${key}/page=${page}`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -116,7 +116,7 @@ class PostService {
             {
                 url: `post/topic/${topicid}/page=${page}`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -130,7 +130,7 @@ class PostService {
             {
                 url: `post/approvePost/page=${page}`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -144,7 +144,7 @@ class PostService {
             {
                 url: `/post/deletePost/${id}/${localStorage.getItem("accid")}`,
                 method: "delete",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
@@ -157,7 +157,7 @@ class PostService {
             {
                 url: `/post/approve/${localStorage.getItem("accid")}/${id}`,
                 method: "put",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }
@@ -170,7 +170,7 @@ class PostService {
             {
                 url: `/post/editPost/${topicid}/${localStorage.getItem("accid")}`,
                 method: "put",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },
@@ -184,7 +184,7 @@ class PostService {
             {
                 url: `/post/deletePost/${id}/${localStorage.getItem("accid")}`,
                 method: "delete",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 }

@@ -40,7 +40,7 @@ function SidebarComponent() {
             <Card.Body className='side-body'>
                 <p><b className='red'>Post quantity: </b><b>{statistic.postQuantity}</b></p>
                 <p><b className='red'>Member quantity: </b><b>{statistic.memberQuantity}</b></p>
-                <p><b className='red'>Newest member: </b><img src={"http://localhost:8080/files/" + statistic.newMember.avatar} alt="" style={{ width: "30px", height: "30px", borderRadius: "50%" }}></img> <b>{statistic.newMember.username}</b></p>
+                <p><b className='red'>Newest member: </b><img src={"http://" + window.location.hostname + ":8080/files/" + statistic.newMember.avatar} alt="" style={{ width: "30px", height: "30px", borderRadius: "50%" }}></img> <b>{statistic.newMember.username}</b></p>
             </Card.Body>
         </Card>
     )

@@ -1,12 +1,12 @@
 import axios from "axios";
 class StatisticService {
-
+    baseURL = "http://" + window.location.hostname + ":8080";
     getStatistic(ourRequest) {
         return axios(
             {
                 url: `/statistic/get`,
                 method: "get",
-                baseURL: "http://localhost:8080",
+                baseURL: this.baseURL,
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },

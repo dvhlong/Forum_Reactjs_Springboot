@@ -49,8 +49,8 @@ function ChangeInfo() {
                 setPhone(res.data.data.phone);
                 setEmail(res.data.data.email);
                 setDateOfBirth(res.data.data.birthdate);
-                setAvatar(res.data.data.avatarUrl);
-                localStorage.setItem("avatar", res.data.data.avatarUrl);
+                setAvatar(res.data.data.avatar);
+                localStorage.setItem("avatar", "http://" + window.location.hostname + ":8080/files/" + res.data.data.avatar);
             })
             setLoading(false);
             return () => {
@@ -191,7 +191,7 @@ function ChangeInfo() {
                         <table style={{ width: "100%" }}>
                             <tr style={{ textAlign: "center" }}>
                                 <td>
-                                    <img style={{ width: "200px", height: "200px", borderRadius: "50%" }} src={avatar} key={avatar} alt=''></img>
+                                    <img style={{ width: "200px", height: "200px", borderRadius: "50%" }} src={"http://" + window.location.hostname + ":8080/files/" + avatar} key={avatar} alt=''></img>
                                 </td>
                             </tr>
                             <tr>

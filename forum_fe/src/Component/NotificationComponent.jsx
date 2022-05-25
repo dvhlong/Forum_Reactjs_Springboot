@@ -31,12 +31,12 @@ function NotificationComponent(props) {
     return (
         <div className='notification' onClick={() => navigate(`/postDetail/${notification.post.id}`)} key={notification.id}>
             <div className='notification-avatar'>
-                <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} src={notification.notifiedacc.avatarUrl} alt=''></img>
+                <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} src={"http://" + window.location.hostname + ":8080/files/" + notification.notifiedacc.avatar} alt=''></img>
             </div>
             <div className='notification-content'>
                 <div className='notification-text'>
                     <label><b>@{notification.notifiedacc.username}</b>
-                    &nbsp;{notification.content}: <b style={{ color: "red" }}>{notification.post.title}</b></label>
+                        &nbsp;{notification.content}: <b style={{ color: "red" }}>{notification.post.title}</b></label>
                 </div>
                 <div className='notification-time'>
                     {dayjs(notification.notifiedat).locale("en").fromNow()}

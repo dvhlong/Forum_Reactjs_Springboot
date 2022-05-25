@@ -44,13 +44,13 @@ function Login() {
         else {
             try {
                 accSV.checklogin(acc).then(res => {
-
+                    console.log(res);
                     if (res.data.status !== 401) {
                         localStorage.setItem("token", res.data.token);
                         localStorage.setItem("accid", res.data.acc.id);
                         localStorage.setItem("username", res.data.acc.username);
                         localStorage.setItem("role", res.data.acc.authorities[0].authority)
-                        localStorage.setItem("avatar", res.data.acc.avatarUrl)
+                        localStorage.setItem("avatar", "http://" + window.location.hostname + ":8080/files/" + res.data.acc.avatar)
                         navigate('/topic');
                     } else if (res.data.message === "User account is locked") {
                         setError("Username is blocked !!!!");
