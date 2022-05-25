@@ -35,8 +35,8 @@ public class SocketController {
         simpMessagingTemplate.convertAndSend("/receivedUpdateComments/"+postId, "reload");
     }
 
-    @MessageMapping("/updatePostApprove")
-    @SendTo("/receivedUpdatePostApprove")
+    @MessageMapping("/updatePostsToApprove")
+    @SendTo("/receivedUpdatePostsToApprove")
     String updatePostsNotApprove(){
         return "reload";
     }

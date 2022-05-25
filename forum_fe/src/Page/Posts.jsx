@@ -54,7 +54,7 @@ function Posts() {
         setLoading(true);
         const ourRequest = axios.CancelToken.source();
         setTimeout(async () => {
-            if (key !== undefined)
+            if (key !== undefined && key !== "")
                 await PostService.getPostsByKeyword(key, page, ourRequest).then(res => {
                     if (res.data.status === 401) {
                         alert("session expired");
@@ -115,7 +115,7 @@ function Posts() {
                             </tr>
                         </table>
                     </td>
-                    <td style={{ width: "60%", color: "yellow" }}>
+                    <td style={{ width: "60%" }}>
                         {
                             (mount === false)
                                 ?
@@ -136,7 +136,8 @@ function Posts() {
                                                             <Card style={{ marginBottom: "20px" }}>
                                                                 <Card.Header style={{ color: "blue" }}>
                                                                     <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} src={post.created_acc.avatarUrl} alt=''></img>
-                                                                    <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
+                                                                    <b>&nbsp;{post.created_acc.username}</b>
+                                                                    &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://localhost:8080/files/" + post.created_acc.role.rolename + "Logo.png"} alt=''></img>
                                                                     {
                                                                         <>&nbsp;|&nbsp;
                                                                             {dayjs(post.created_at).locale("en").fromNow()}

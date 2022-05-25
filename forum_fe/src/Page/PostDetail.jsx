@@ -267,7 +267,8 @@ function PostDetail() {
                                             <Card style={{ marginBottom: "20px" }}>
                                                 <Card.Header style={{ color: "blue" }}>
                                                     <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} src={post.created_acc.avatarUrl} alt=''></img>
-                                                    <b>&nbsp;{post.created_acc.username}</b> ({post.created_acc.role.rolename})
+                                                    <b>&nbsp;{post.created_acc.username}</b> 
+                                                    &nbsp;<img style={{ width: "20px", height: "20px"}} src={"http://localhost:8080/files/"+post.created_acc.role.rolename+"Logo.png"} alt=''></img>
                                                     {
                                                         <>&nbsp;|&nbsp;
                                                             {dayjs(post.created_at).locale("en").fromNow()}
@@ -335,7 +336,8 @@ function PostDetail() {
                                                         <Card style={{ marginBottom: "20px", marginTop: "30px" }}>
                                                             <Card.Header style={{ color: "blue" }}>
                                                                 <img style={{ width: "50px", height: "50px", borderRadius: "50px" }} src={comment.created_acc.avatarUrl} alt=''></img>
-                                                                <b>&nbsp;{comment.created_acc.username}</b> ({comment.created_acc.role.rolename})
+                                                                <b>&nbsp;{comment.created_acc.username}</b> 
+                                                                &nbsp;<img style={{ width: "20px", height: "20px"}} src={"http://localhost:8080/files/"+comment.created_acc.role.rolename+"Logo.png"} alt=''></img>
                                                                 {
                                                                     <>&nbsp;|&nbsp;
                                                                         {dayjs(comment.created_at).locale("en").fromNow()}

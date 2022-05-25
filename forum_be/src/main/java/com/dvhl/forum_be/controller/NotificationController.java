@@ -35,7 +35,7 @@ public class NotificationController {
     }
 
     @MessageMapping("/private-notification")
-    @SendTo("/user/private")
+    @SendTo("/result")
     String receivedPrivateNotification(@Payload String username) {
         return "checkWebsocket";
     }

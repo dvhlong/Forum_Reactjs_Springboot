@@ -131,7 +131,7 @@ function ApprovePosts() {
                             </tr>
                         </table>
                     </td>
-                    <td style={{ width: "60%", color: "yellow" }}>
+                    <td style={{ width: "60%"}}>
                         {
                             (mount === false)
                                 ?
@@ -156,7 +156,10 @@ function ApprovePosts() {
                                                                         &nbsp;
                                                                         {dayjs(post.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
                                                                     </p>
-                                                                    <p>Account created: {post.created_acc.username} ({post.created_acc.role.rolename})</p>
+                                                                    <p>Account created: <img style={{ width: "50px", height: "50px", borderRadius: "50px" }} src={post.created_acc.avatarUrl} alt=''></img>
+                                                                        &nbsp;<b>{post.created_acc.username}</b> 
+                                                                        &nbsp;<img style={{ width: "20px", height: "20px"}} src={"http://localhost:8080/files/"+post.created_acc.role.rolename+"Logo.png"} alt=''></img>
+                                                                    </p>
                                                                     <p>Topic: {post.topic.topicname}</p>
                                                                 </Card.Header>
                                                                 <Card.Body>

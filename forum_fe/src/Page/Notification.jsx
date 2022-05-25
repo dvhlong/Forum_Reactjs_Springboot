@@ -54,7 +54,7 @@ function Notification() {
 
     return (
         <div>
-            <h1 style={{ textAlign: "center", color: "white" }}>NOTIFICATION</h1>
+            <h1 style={{ textAlign: "center", color: "black" }}>NOTIFICATION</h1>
             <table style={{ width: "100%", border: "none" }}>
                 <td style={{ width: "30%", color: "yellow", verticalAlign: "top" }}>
                     <table style={{ width: "100%", textAlign: "center" }}>

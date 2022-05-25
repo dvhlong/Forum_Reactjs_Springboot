@@ -54,5 +54,21 @@
 }
 
 .forum-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     width: 100%;
+    background-color: #E9EBEE;
+}
+
+.forum-body{
+    margin: 0;
+}
+
+.forum-footer{
+    color: rgb(163, 163, 163);
+    background-color: black;
+    height: 50px;
+    text-align: center;
+    margin-top: auto;
 }

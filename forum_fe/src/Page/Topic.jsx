@@ -17,8 +17,13 @@ import SideComponent from '../Component/SideComponent';
 import { motion } from "framer-motion";
 import '../CSS/PostAndTopic.css';
 import dayjs from "dayjs";
+import { over } from 'stompjs';
+import SockJS from 'sockjs-client';
 
+var stompClient = null;
 function Topic() {
+
+    let Sock = new SockJS('http://localhost:8080/ws');
 
     const relativeTime = require('dayjs/plugin/relativeTime');
 
@@ -102,7 +107,7 @@ function Topic() {
                     navigate("/")
                 }
                 console.log(res.data.message)
-                reload();
+                stompClient.send("/notify/updateTopic");
             });
             Swal.fire({
                 icon: 'success',
@@ -121,7 +126,7 @@ function Topic() {
                 navigate("/")
             }
             console.log(res.data.message);
-            reload();
+            stompClient.send("/notify/updateTopic");
         });
         Swal.fire({
             icon: 'success',
@@ -150,7 +155,7 @@ function Topic() {
                     alert("session expired");
                     navigate("/")
                 }
-                reload();
+                stompClient.send("/notify/updateTopic");
             });
             Swal.fire({
                 icon: 'success',
@@ -177,7 +182,33 @@ function Topic() {
             setPage(page - 1);
     }
 
+    const onConnected = () => {
+        stompClient.subscribe('/receivedUpdateTopic', onUpdateTopicMessage);
+    }
+
+    const onUpdateTopicMessage = (payload) => {
+        reload();
+    }
+
+    const onError = (err) => {
+        console.log(err);
+    }
+
+    const connectSocket= () =>{
+        stompClient = over(Sock);
+        stompClient.connect({
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            "Access-Control-Allow-Credentials": true,
+        }, onConnected, onError);
+    }
+
+    const disconectSocket =()=>{
+        stompClient = over(Sock);
+        stompClient.disconnect();
+    }
+
     useEffect(() => {
+        connectSocket();
         setLoading(true);
         const ourRequest = axios.CancelToken.source();
         setTimeout(async () => {
@@ -198,6 +229,7 @@ function Topic() {
                 setMount(true);
         }, 800);
         return () => {
+            disconectSocket();
             ourRequest.cancel('Request is canceled by user');
         }
     }, [page, update]);
@@ -207,7 +239,7 @@ function Topic() {
             <div>
                 {/* <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1> */}
                 <table style={{ width: "100%", border: "none", marginTop: "30px" }}>
-                    <td style={{ width: "30%", color: "yellow", verticalAlign: "top" }}>
+                    <td style={{ width: "30%", verticalAlign: "top" }}>
                         <table style={{ width: "100%", textAlign: "center" }}>
                             <tr>
                                 {
@@ -222,7 +254,7 @@ function Topic() {
                             </tr>
                         </table>
                     </td>
-                    <td style={{ width: "60%", color: "yellow" }}>
+                    <td style={{ width: "60%"}}>
                         {
                             (mount === false)
                                 ?

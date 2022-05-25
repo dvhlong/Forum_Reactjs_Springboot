@@ -130,7 +130,7 @@ function ManageAcc() {
                                     </tr>
                                 </table>
                             </td>
-                            <motion.td style={{ width: "80%", color: "yellow" }}
+                            <motion.td style={{ width: "80%"}}
                                 animate={{
                                     opacity: [0, 1],
                                     translateY: [80, 0],

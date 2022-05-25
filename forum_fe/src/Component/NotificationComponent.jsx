@@ -35,7 +35,8 @@ function NotificationComponent(props) {
             </div>
             <div className='notification-content'>
                 <div className='notification-text'>
-                    <label><b>@{notification.notifiedacc.username}</b> {notification.content}: <b style={{ color: "red" }}>{notification.post.title}</b></label>
+                    <label><b>@{notification.notifiedacc.username}</b>
+                    &nbsp;{notification.content}: <b style={{ color: "red" }}>{notification.post.title}</b></label>
                 </div>
                 <div className='notification-time'>
                     {dayjs(notification.notifiedat).locale("en").fromNow()}

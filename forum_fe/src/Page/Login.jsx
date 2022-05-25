@@ -77,22 +77,22 @@ function Login() {
 
     return (
         <div className="Container" style={{ margin: "auto", width: "60%" }}>
-            <div class="system-name">FORUM</div>
-            <div class="flex col-auto row" style={{ background: "#201D1D" }} id="form">
-                <div class="col flex column center">
-                    <div class="col-spacer">
-                        <div class="form-header"><span className='system-name'>LOGIN</span></div>
+            <div className="system-name">FORUM</div>
+            <div className="flex col-auto row" style={{ background: "#201D1D" }} id="form">
+                <div className="col flex column center">
+                    <div classNane="col-spacer">
+                        <div className="form-header"><span className='system-name'>LOGIN</span></div>
                         <label style={{ color: "orange", textAlign: "center" }}>{error}</label>
                     </div>
-                    <div class="input-wrap">
-                        <div class="input-icon">
-                            <div class="icon"><img src={Userlogo} alt="logo" /></div>
+                    <div className="input-wrap">
+                        <div className="input-icon">
+                            <div className="icon"><img src={Userlogo} alt="logo" /></div>
                             <input type="text" placeholder="Username" value={username} onChange={enterUsername} maxLength={250} />
                         </div>
                     </div>
-                    <div class="input-wrap">
-                        <div class="input-icon">
-                            <div class="icon"><img src={Keylogo} alt="logo" /></div>
+                    <div className="input-wrap">
+                        <div className="input-icon">
+                            <div className="icon"><img src={Keylogo} alt="logo" /></div>
                             <input type="password" placeholder="Password" value={password} onChange={enterPassword} maxLength={250} />
                         </div>
                     </div>
@@ -103,9 +103,9 @@ function Login() {
                     onFailure={responseGoogle}
                     cookiePolicy={'single_host_origin'}
                 ></GoogleLogin> */}
-                    <div class="mt-5">
-                        <button class="pri big btnn" onClick={login}>LOGIN</button>
-                        <button class="pri big btnn" onClick={register}>REGISTER</button>
+                    <div className="mt-5">
+                        <button className="pri big btnn" onClick={login}>LOGIN</button>
+                        <button className="pri big btnn" onClick={register}>REGISTER</button>
                     </div>
                 </div>
             </div>

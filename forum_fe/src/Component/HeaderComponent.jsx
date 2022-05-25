@@ -6,11 +6,8 @@ import HomeIcon from '../SVG/home.svg';
 import Bell from '../SVG/bell.svg'
 import '../CSS/HeaderComponent.css';
 import Button from 'react-bootstrap/esm/Button';
-import { over } from 'stompjs';
-import SockJS from 'sockjs-client';
 import ClockComponent from './ClockComponent';
 
-var stompClient = null;
 function HeaderComponent() {
 
     let navigate = useNavigate();
@@ -21,71 +18,47 @@ function HeaderComponent() {
         setKey(e.target.value)
     }
 
+    const searchPostsByKeyword = () => {
+        if (key !== "")
+            navigate(`/posts/key=${key}`)
+        else
+            navigate(`/posts/all`)
+    }
+
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("accid");
         localStorage.removeItem("username");
         localStorage.removeItem("avatar");
-        
         navigate("/");
     };
 
-    useEffect(()=>{
-        let Sock = new SockJS('http://localhost:8080/ws');
-        stompClient = over(Sock);
-        stompClient.connect({
-            "Authorization": `Bearer ${localStorage.getItem("token")}`,
-            "Access-Control-Allow-Credentials":true,
-        },onConnected, onError);
-        return () =>{
-            stompClient = over(Sock);
-            stompClient.disconnect();
-        }
-    },[])
-
-    const checkWebSocket=()=>{
-        stompClient.send("/notify/private-notification", {}, localStorage.getItem("username"));
-    }
-
-    const onPrivateMessage = (payload)=>{
-        console.log(payload);
-    }
-
-    const onConnected = () => {
-        stompClient.subscribe('/result', onPrivateMessage);
-    }
-
-    const onError = (err) => {
-        console.log(err);
-    }
-
     return (
-        <div className='forum-container'> 
+        <div className='forum-container'>
             <header style={{ width: "100%", position: "sticky", top: "0", zIndex: "2" }}>
                 <nav className='navbar navbar-dark bg-dark nojt'>
                     <div style={{ width: "auto" }}>
-                        <button className="navbar-brand btn btn-secondary" style={{ marginLeft: "50px" }} onClick={() => navigate("/topic")}><img src={HomeIcon} alt=''></img></button>
-                        <button className="navbar-brand btn btn-secondary" onClick={() => navigate("/posts/all")}>Posts</button>
-                        {(localStorage.getItem("role") !== "user") ? (<button className="navbar-brand btn btn-secondary" onClick={() => navigate("/approve")}>Approve Post</button>) : <></>}
-                        {(localStorage.getItem("role") === "admin") ? (<button className="navbar-brand btn btn-secondary" onClick={() => navigate("/manageacc")}>Manage Account</button>) : <></>}
+                        <button className="navbar-brand btn btn-dark" style={{ marginLeft: "50px" }} onClick={() => navigate("/topic")}><img src={HomeIcon} alt=''></img></button>
+                        <button className="navbar-brand btn btn-dark" onClick={() => navigate("/posts/all")}>Posts</button>
+                        {(localStorage.getItem("role") !== "user") ? (<button className="navbar-brand btn btn-dark" onClick={() => navigate("/approve")}>Approve Post</button>) : <></>}
+                        {(localStorage.getItem("role") === "admin") ? (<button className="navbar-brand btn btn-dark" onClick={() => navigate("/manageacc")}>Manage Account</button>) : <></>}
                         <button className="navbar-brand btn btn-danger" style={{ marginLeft: "50px" }} onClick={() => navigate("/createpost")}>Create new post</button>
-                        <button className="navbar-brand btn btn-danger" style={{marginLeft:"50px"}} onClick={checkWebSocket}>Check Web Socket</button>
                     </div>
                     <div class="row" style={{ marginLeft: "20px" }}>
                         <div class="col-auto">
                             <input type="text" value={key} className="form-control" onChange={changeKeyWord} id="inputPassword2" placeholder="Search Post" />
                         </div>
                         <div class="col-auto">
-                            <button className="btn btn-dark" onClick={() => navigate(`/posts/key=${key}`)} ><img src={searchIcon} alt="logo" /></button>
+                            <button className="btn btn-secondary" onClick={searchPostsByKeyword} ><img src={searchIcon} alt="logo" /></button>
                         </div>
                     </div>
                     <ClockComponent />
                     <div>
-                        <Button onClick={() => navigate("/notifications")} variant='secondary'><img src={Bell} alt=''></img></Button>
+                        <Button onClick={() => navigate("/notifications")} variant='dark'><img src={Bell} alt=''></img></Button>
                     </div>
                     <div style={{ marginRight: "30px" }}>
                         <Dropdown>
-                            <Dropdown.Toggle variant="secondary">
+                            <Dropdown.Toggle variant="dark">
                                 <label>
                                     <img style={{ width: "30px", height: "30px", borderRadius: "50%" }} src={localStorage.getItem("avatar")} alt=''></img> {localStorage.getItem("username")}
                                 </label>
@@ -102,8 +75,10 @@ function HeaderComponent() {
                     </div>
                 </nav>
             </header>
-            <Outlet />
-            <footer className='footer' style={{ textAlign: "center", color: "grey", marginTop: "30px" }}>
+            <div className='forum-body'>
+                <Outlet />
+            </div>
+            <footer className='forum-footer'>
                 <span className='text'>@FORUM Created by Doan Van Hoang Long</span>
             </footer>
         </div>
