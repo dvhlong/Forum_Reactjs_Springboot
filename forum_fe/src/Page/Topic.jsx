@@ -194,7 +194,7 @@ function Topic() {
         console.log(err);
     }
 
-    const connectSocket= () =>{
+    const connectSocket = () => {
         stompClient = over(Sock);
         stompClient.connect({
             "Authorization": `Bearer ${localStorage.getItem("token")}`,
@@ -202,7 +202,7 @@ function Topic() {
         }, onConnected, onError);
     }
 
-    const disconectSocket =()=>{
+    const disconectSocket = () => {
         stompClient = over(Sock);
         stompClient.disconnect();
     }
@@ -254,7 +254,7 @@ function Topic() {
                             </tr>
                         </table>
                     </td>
-                    <td style={{ width: "60%"}}>
+                    <td style={{ width: "60%" }}>
                         {
                             (mount === false)
                                 ?
