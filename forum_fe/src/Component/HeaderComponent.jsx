@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink, useNavigate, Outlet } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Outlet } from 'react-router-dom';
 import searchIcon from '../SVG/search.svg';
 import Dropdown from 'react-bootstrap/Dropdown';
 import HomeIcon from '../SVG/home.svg';
 import Bell from '../SVG/bell.svg';
 import Button from 'react-bootstrap/esm/Button';
 import ClockComponent from './ClockComponent';
-import { useForceUpdate } from 'framer-motion';
+
 import '../App.css';
 
 function HeaderComponent() {
