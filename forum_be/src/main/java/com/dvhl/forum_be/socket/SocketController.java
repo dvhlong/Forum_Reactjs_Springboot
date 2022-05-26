@@ -12,38 +12,32 @@ public class SocketController {
 
     @Autowired
     SimpMessagingTemplate simpMessagingTemplate;
-    
+
     @MessageMapping("/updateTopic")
     @SendTo("/receivedUpdateTopic")
-    String updateTopic(){
-        return "reload";
-    }
-
-    @MessageMapping("/updatePosts")
-    @SendTo("/receivedUpdatePosts")
-    String updatePosts(){
+    String updateTopic() {
         return "reload";
     }
 
     @MessageMapping("/updatePost/{postId}")
-    void updatePost(@DestinationVariable long postId){
-        simpMessagingTemplate.convertAndSend("/receivedUpdatePost/"+postId, "reload");
+    void updatePost(@DestinationVariable long postId) {
+        simpMessagingTemplate.convertAndSend("/receivedUpdatePost/" + postId, "reload");
     }
 
     @MessageMapping("/updateComments/{postId}")
-    void updateComments(@DestinationVariable long postId){
-        simpMessagingTemplate.convertAndSend("/receivedUpdateComments/"+postId, "reload");
+    void updateComments(@DestinationVariable long postId) {
+        simpMessagingTemplate.convertAndSend("/receivedUpdateComments/" + postId, "reload");
     }
 
     @MessageMapping("/updatePostsToApprove")
     @SendTo("/receivedUpdatePostsToApprove")
-    String updatePostsNotApprove(){
+    String updatePostsNotApprove() {
         return "reload";
     }
 
     @MessageMapping("/notify/{receivedUserId}")
-    void updateNotification(@DestinationVariable long receivedUserId){
-        simpMessagingTemplate.convertAndSend("/updateNotification/"+receivedUserId, "reload");
+    void updateNotification(@DestinationVariable long receivedUserId) {
+        simpMessagingTemplate.convertAndSend("/updateNotification/" + receivedUserId, "reload");
     }
-    
+
 }
