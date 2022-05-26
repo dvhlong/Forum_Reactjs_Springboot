@@ -2,35 +2,17 @@ package com.dvhl.forum_be.model;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+public class UserDTO {
 
-@Entity
-@Table(name = "account")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(unique = true)
     private String username;
 
     private String password;
 
-    @ManyToOne(targetEntity = Role.class)
-    @JoinColumn(name = "role_id", referencedColumnName = "id")
     private Role role;
 
-    @Column(nullable = false)
     private boolean isblocked;
 
     private String name;
@@ -43,19 +25,17 @@ public class User {
 
     private String avatar;
 
-    @Column(columnDefinition = "varchar(255) default 'http://localhost:8080/files/null'")
     private String avatarUrl;
 
-    @JsonIgnore
     private Timestamp createdat;
 
-    @JsonIgnore
     private Timestamp updatedat;
 
-    public User() {
+    public UserDTO() {
     }
 
-    public User(String username, String password, Role role, boolean isblocked, String name, String email, String phone,
+    public UserDTO(String username, String password, Role role, boolean isblocked, String name, String email,
+            String phone,
             Date birthdate, String avatar, String avatarUrl, Timestamp createdat, Timestamp updatedat) {
         this.username = username;
         this.password = password;
@@ -159,19 +139,20 @@ public class User {
         this.birthdate = birthdate;
     }
 
-    public Timestamp getCreatedAt() {
+    public Timestamp getCreatedat() {
         return createdat;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdat = createdAt;
+    public void setCreatedat(Timestamp createdat) {
+        this.createdat = createdat;
     }
 
-    public Timestamp getUpdatedAt() {
+    public Timestamp getUpdatedat() {
         return updatedat;
     }
 
-    public void setUpdatedAt(Timestamp updatedAt) {
-        this.updatedat = updatedAt;
+    public void setUpdatedat(Timestamp updatedat) {
+        this.updatedat = updatedat;
     }
+
 }

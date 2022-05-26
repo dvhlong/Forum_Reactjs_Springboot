@@ -5,19 +5,18 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.dvhl.forum_be.model.User;
+import com.dvhl.forum_be.Security.JwtResponse;
 import com.dvhl.forum_be.Security.LoginRequest;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Role;
 import com.dvhl.forum_be.service.AccountService;
 
-// import org.aspectj.internal.lang.annotation.ajcDeclareAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-// import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,11 +24,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-// import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-// @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(path = "/")
 public class AccountController {
@@ -55,7 +52,7 @@ public class AccountController {
     }
 
     @PostMapping("/login")
-    ResponseEntity<?> authenticateAccount(@Valid @RequestBody LoginRequest loginRequest) {
+    ResponseEntity<JwtResponse> authenticateAccount(@Valid @RequestBody LoginRequest loginRequest) {
         return accountService.authenticateAccount(loginRequest);
     }
 

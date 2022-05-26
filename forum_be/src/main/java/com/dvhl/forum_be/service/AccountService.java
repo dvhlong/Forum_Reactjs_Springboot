@@ -1,7 +1,5 @@
 package com.dvhl.forum_be.service;
 
-// import java.nio.file.Files;
-// import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-// import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -83,7 +80,7 @@ public class AccountService {
         Role role = roleRepository.findByRolename("user");
         newUser.setRole(role);
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        newUser.setCreated_at(timeService.getCurrentTimestamp());
+        newUser.setCreatedAt(timeService.getCurrentTimestamp());
         accountRepository.save(newUser);
     }
 
@@ -98,7 +95,7 @@ public class AccountService {
         user.setName(updatedUser.getName());
         user.setBirthdate(updatedUser.getBirthdate());
         user.setPhone(updatedUser.getPhone());
-        user.setUpdated_at(timeService.getCurrentTimestamp());
+        user.setUpdatedAt(timeService.getCurrentTimestamp());
         return accountRepository.save(user);
     }
 
@@ -127,7 +124,7 @@ public class AccountService {
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Da cap nhat", ""));
     }
 
-    public ResponseEntity<?> authenticateAccount(LoginRequest loginRequest) {
+    public ResponseEntity<JwtResponse> authenticateAccount(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
