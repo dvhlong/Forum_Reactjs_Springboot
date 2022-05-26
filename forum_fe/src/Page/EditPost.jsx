@@ -21,17 +21,11 @@ function EditPost() {
 
     const [topicId, setTopicId] = useState("0");
 
-    const [topicName, setTopicName] = useState("");
-
     const [editPostTitle, setEditPostTitle] = useState("")
 
     const [editPostContent, setEditPostContent] = useState("")
 
     const [loading, setLoading] = useState(false);
-
-    const [mount, setMount] = useState(false);
-
-    const [update, setUpdate] = useState(false);
 
     const chooseTopic = (e) => {
         setTopicId(e.target.value);
@@ -95,18 +89,15 @@ function EditPost() {
                     navigate("/")
                 }
                 setTopicId(res.data.topic.id)
-                setTopicName(res.data.topic.topicname)
                 setEditPostTitle(res.data.title);
                 setEditPostContent(res.data.content);
             })
             setLoading(false);
-            if (mount === false)
-                setMount(true);
             return () => {
                 ourRequest.cancel('Request is canceled by user');
             }
         }, 800);
-    }, [id, update])
+    }, [id, navigate])
 
     useEffect(() => {
         setLoading(true);
@@ -118,10 +109,8 @@ function EditPost() {
                 setTopicList(res.data);
             })
             setLoading(false);
-            if (mount === false)
-                setMount(true);
         }, 1000);
-    }, []);
+    }, [navigate]);
 
     return (
         <div>
@@ -175,7 +164,7 @@ function EditPost() {
                             }
                         }}
                         data={editPostContent}
-                        onChange={(event, editor) => {
+                        onChange={(_event, editor) => {
                             const data = editor.getData();
                             setEditPostContent(data);
                         }}
