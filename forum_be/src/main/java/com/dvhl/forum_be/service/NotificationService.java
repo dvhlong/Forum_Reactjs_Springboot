@@ -1,6 +1,6 @@
 package com.dvhl.forum_be.service;
 
-// import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import com.dvhl.forum_be.model.Notification;
@@ -36,7 +36,11 @@ public class NotificationService {
     public Page<Notification> getNotificationsPage(long receivedUserId, int page) {
         int elementQuantityInPage = 5;
         Optional<User> uOptional = accountRepository.findById(receivedUserId);
-        return notificationRepository.findByReceivedaccOrderByNotifiedatDesc(uOptional.get(),
+        User receivedUser = null;
+        if (uOptional.isPresent()) {
+            receivedUser = uOptional.get();
+        }
+        return notificationRepository.findByReceivedaccOrderByNotifiedatDesc(receivedUser,
                 PageRequest.of(page - 1, elementQuantityInPage));
     }
 
@@ -46,17 +50,33 @@ public class NotificationService {
         Optional<Post> pOptional = postRepository.findById(postId);
         Optional<User> notifiedUserOptional = accountRepository.findById(notifiedUserId);
         Optional<User> receivedUserOptional = accountRepository.findById(receivedUserId);
-        insertNotificationToDatabase(notificationContent, newNotification, pOptional, notifiedUserOptional,
-                receivedUserOptional);
+        try {
+            insertNotificationToDatabase(notificationContent, newNotification, pOptional, notifiedUserOptional,
+                    receivedUserOptional);
+        } catch (NoSuchElementException e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Added", ""));
     }
 
     private void insertNotificationToDatabase(String notificationContent, Notification newNotification,
             Optional<Post> pOptional,
             Optional<User> notifiedUserOptional, Optional<User> receivedUserOptional) {
-        newNotification.setNotifiedacc(notifiedUserOptional.get());
-        newNotification.setReceivedacc(receivedUserOptional.get());
-        newNotification.setPost(pOptional.get());
+        User notifiedUser = null;
+        User receivedUser = null;
+        Post post = null;
+        if (notifiedUserOptional.isPresent()) {
+            notifiedUser = notifiedUserOptional.get();
+        }
+        if (receivedUserOptional.isPresent()) {
+            receivedUser = receivedUserOptional.get();
+        }
+        if (pOptional.isPresent()) {
+            post = pOptional.get();
+        }
+        newNotification.setNotifiedacc(notifiedUser);
+        newNotification.setReceivedacc(receivedUser);
+        newNotification.setPost(post);
         newNotification.setReaded(false);
         newNotification.setContent(notificationContent);
         newNotification.setNotifiedat(timeService.getCurrentTimestamp());
