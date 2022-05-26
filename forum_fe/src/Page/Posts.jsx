@@ -3,14 +3,16 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import PostService from '../Service/PostService';
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import axios from "axios";
 import SideComponent from '../Component/SideComponent';
 import { animate, motion } from "framer-motion";
 import dayjs from "dayjs";
 
-function Posts() {
+function Posts(props) {
+
+    const [reloadPageNavigated, setReloadPageNavigated] = useOutletContext();
 
     const relativeTime = require('dayjs/plugin/relativeTime');
 
@@ -92,7 +94,7 @@ function Posts() {
                 ourRequest.cancel('Request is canceled by user');
             }
         }, 800);
-    }, [page, update, key, topicid]);
+    }, [page, update, key, topicid, reloadPageNavigated]);
 
     return (
         <div>

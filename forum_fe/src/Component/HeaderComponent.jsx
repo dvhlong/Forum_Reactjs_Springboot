@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate, Outlet } from 'react-router-dom';
+import { NavLink, useNavigate, Outlet } from 'react-router-dom';
 import searchIcon from '../SVG/search.svg';
 import Dropdown from 'react-bootstrap/Dropdown';
 import HomeIcon from '../SVG/home.svg';
 import Bell from '../SVG/bell.svg';
 import Button from 'react-bootstrap/esm/Button';
 import ClockComponent from './ClockComponent';
+import { useForceUpdate } from 'framer-motion';
+import '../App.css';
 
 function HeaderComponent() {
 
     let navigate = useNavigate();
+
+    const [reloadPageNavigated, setReloadPageNavigated] = useState(false);
+
+    function changereload() {
+        setReloadPageNavigated(!reloadPageNavigated);
+        navigate("/posts/all")
+    }
 
     const [key, setKey] = useState("");
 
@@ -38,7 +47,7 @@ function HeaderComponent() {
                 <nav className='navbar navbar-dark bg-dark nojt'>
                     <div style={{ width: "auto" }}>
                         <button className="navbar-brand btn btn-dark" style={{ marginLeft: "50px" }} onClick={() => navigate("/topic")}><img src={HomeIcon} alt=''></img></button>
-                        <button className="navbar-brand btn btn-dark" onClick={() => navigate("/posts/all")}>Posts</button>
+                        <button className="navbar-brand btn btn-dark" onClick={changereload}>Posts</button>
                         {(localStorage.getItem("role") !== "user") ? (<button className="navbar-brand btn btn-dark" onClick={() => navigate("/approve")}>Approve Post</button>) : <></>}
                         {(localStorage.getItem("role") === "admin") ? (<button className="navbar-brand btn btn-dark" onClick={() => navigate("/manageacc")}>Manage Account</button>) : <></>}
                         <button className="navbar-brand btn btn-danger" style={{ marginLeft: "50px" }} onClick={() => navigate("/createpost")}>Create new post</button>
@@ -75,7 +84,7 @@ function HeaderComponent() {
                 </nav>
             </header>
             <div className='forum-body'>
-                <Outlet />
+                <Outlet context={[reloadPageNavigated, setReloadPageNavigated]} />
             </div>
             <footer className='forum-footer'>
                 <p className='text'>&copy;FORUM, Đoàn Văn Hoàng Long </p>

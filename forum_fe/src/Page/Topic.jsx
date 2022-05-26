@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import TopicService from '../Service/TopicService';
 import { useEffect } from 'react';
@@ -19,8 +19,13 @@ import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import add from '../SVG/add.svg';
 
-var stompClient = null;
-function Topic() {
+function Topic(props) {
+
+    // let location = useLocation();
+
+    // let reloadFromHeader = location.state.reload;
+
+    let stompClient = null;
 
     let Sock = new SockJS('http://localhost:8080/ws');
 
@@ -207,6 +212,7 @@ function Topic() {
     }
 
     useEffect(() => {
+        console.log(props);
         connectSocket();
         setLoading(true);
         const ourRequest = axios.CancelToken.source();
