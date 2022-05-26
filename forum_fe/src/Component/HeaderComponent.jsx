@@ -3,8 +3,7 @@ import { Link, useNavigate, Outlet } from 'react-router-dom';
 import searchIcon from '../SVG/search.svg';
 import Dropdown from 'react-bootstrap/Dropdown';
 import HomeIcon from '../SVG/home.svg';
-import Bell from '../SVG/bell.svg'
-import '../CSS/HeaderComponent.css';
+import Bell from '../SVG/bell.svg';
 import Button from 'react-bootstrap/esm/Button';
 import ClockComponent from './ClockComponent';
 
@@ -79,7 +78,8 @@ function HeaderComponent() {
                 <Outlet />
             </div>
             <footer className='forum-footer'>
-                <span className='text'>@FORUM Created by Doan Van Hoang Long</span>
+                <p className='text'>&copy;FORUM, Đoàn Văn Hoàng Long </p>
+                <p className='text'>Email: long59915@gmail.com </p>
             </footer>
         </div>
     );

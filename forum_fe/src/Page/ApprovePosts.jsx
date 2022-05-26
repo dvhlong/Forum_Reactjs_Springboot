@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 import parse from "html-react-parser";
 import Swal from 'sweetalert2';
 import SideComponent from '../Component/SideComponent';
-import '../CSS/PostDetail.css';
 import { motion } from "framer-motion";
 import dayjs from "dayjs";
 
@@ -136,58 +135,64 @@ function ApprovePosts() {
                             (mount === false)
                                 ?
                                 <></>
-                                :
-                                <motion.table style={{ width: "100%" }}
-                                    animate={{
-                                        opacity: [0, 1],
-                                        translateY: [80, 0],
-                                    }}
-                                >
-                                    <tbody>
-                                        {
-                                            result.map(
-                                                post =>
-                                                    <tr key={post.id}>
-                                                        <td>
-                                                            <Card style={{ marginBottom: "20px" }}>
-                                                                <Card.Header style={{ color: "blue" }}>
-                                                                    <p>
-                                                                        {dayjs(post.created_at).locale("en").fromNow()}
-                                                                        &nbsp;
-                                                                        {dayjs(post.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
-                                                                    </p>
-                                                                    <p>Account created: <img style={{ width: "50px", height: "50px", borderRadius: "50px" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.avatar} alt=''></img>
-                                                                        &nbsp;<b>{post.created_acc.username}</b>
-                                                                        &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.role.rolename + "Logo.png"} alt=''></img>
-                                                                    </p>
-                                                                    <p>Topic: {post.topic.topicname}</p>
-                                                                </Card.Header>
-                                                                <Card.Body>
-                                                                    <Card.Title style={{ color: "red" }}>{post.title}</Card.Title>
-                                                                    <Card.Text style={{ color: "black" }}>
-                                                                        <div>{parse(post.content)}</div>
-                                                                    </Card.Text>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </td>
-                                                        <td style={{ verticalAlign: "top" }}>
-                                                            <ButtonGroup aria-label="Basic example">
-                                                                <Button variant="success" onClick={() => approvePost(post.id)}><img src={yesIcon} alt="" /></Button>
-                                                                <Button variant="danger" onClick={() => rejectPost(post.id)}><img src={noIcon} alt="" /></Button>
-                                                            </ButtonGroup>
-                                                        </td>
+                                : <div>
+                                    {
+                                        (result.length === 0)
+                                            ? <h2 style={{ textAlign: "center" }}>No posts to approve yet</h2>
+                                            : <motion.table style={{ width: "100%" }}
+                                                animate={{
+                                                    opacity: [0, 1],
+                                                    translateY: [80, 0],
+                                                }}
+                                            >
+                                                <tbody>
+                                                    {
+                                                        result.map(
+                                                            post =>
+                                                                <tr key={post.id}>
+                                                                    <td>
+                                                                        <Card style={{ marginBottom: "20px" }}>
+                                                                            <Card.Header style={{ color: "blue" }}>
+                                                                                <p>
+                                                                                    {dayjs(post.created_at).locale("en").fromNow()}
+                                                                                    &nbsp;
+                                                                                    {dayjs(post.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
+                                                                                </p>
+                                                                                <p>Account created: <img style={{ width: "50px", height: "50px", borderRadius: "50px" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.avatar} alt=''></img>
+                                                                                    &nbsp;<b>{post.created_acc.username}</b>
+                                                                                    &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.role.rolename + "Logo.png"} alt=''></img>
+                                                                                </p>
+                                                                                <p>Topic: {post.topic.topicname}</p>
+                                                                            </Card.Header>
+                                                                            <Card.Body>
+                                                                                <Card.Title style={{ color: "red" }}>{post.title}</Card.Title>
+                                                                                <Card.Text style={{ color: "black" }}>
+                                                                                    <div>{parse(post.content)}</div>
+                                                                                </Card.Text>
+                                                                            </Card.Body>
+                                                                        </Card>
+                                                                    </td>
+                                                                    <td style={{ verticalAlign: "top" }}>
+                                                                        <ButtonGroup aria-label="Basic example">
+                                                                            <Button variant="success" onClick={() => approvePost(post.id)}><img src={yesIcon} alt="" /></Button>
+                                                                            <Button variant="danger" onClick={() => rejectPost(post.id)}><img src={noIcon} alt="" /></Button>
+                                                                        </ButtonGroup>
+                                                                    </td>
+                                                                </tr>
+                                                        )
+                                                    }
+                                                    <tr>
+                                                        <ButtonGroup aria-label="Basic example">
+                                                            <Button variant="secondary" onClick={prevPage}>{"<<<"} Previous Page</Button>
+                                                            <Button variant="secondary" onClick={nextPage}>Next Page {">>>"}</Button>
+                                                        </ButtonGroup>
+                                                        <label style={{ marginLeft: "30px" }}>Page:</label><input min={1} max={pages} type="number" style={{ width: "50px", marginLeft: "10px" }} value={page} onChange={changePage} />
                                                     </tr>
-                                            )
-                                        }
-                                        <tr>
-                                            <ButtonGroup aria-label="Basic example">
-                                                <Button variant="secondary" onClick={prevPage}>{"<<<"} Previous Page</Button>
-                                                <Button variant="secondary" onClick={nextPage}>Next Page {">>>"}</Button>
-                                            </ButtonGroup>
-                                            <label style={{ marginLeft: "30px" }}>Page:</label><input min={1} max={pages} type="number" style={{ width: "50px", marginLeft: "10px" }} value={page} onChange={changePage} />
-                                        </tr>
-                                    </tbody>
-                                </motion.table>
+                                                </tbody>
+                                            </motion.table>
+                                    }
+                                </div>
+
                         }
                     </td>
                     <td style={{ width: "10%", color: "yellow", verticalAlign: "top" }}>

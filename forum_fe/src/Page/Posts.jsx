@@ -7,7 +7,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { TailSpin } from 'react-loader-spinner';
 import axios from "axios";
 import SideComponent from '../Component/SideComponent';
-import '../CSS/PostAndTopic.css';
 import { animate, motion } from "framer-motion";
 import dayjs from "dayjs";
 
@@ -120,52 +119,58 @@ function Posts() {
                             (mount === false)
                                 ?
                                 <></>
-                                :
-                                <motion.table style={{ width: "100%" }}
-                                    animate={{
-                                        opacity: [0, 1],
-                                        translateY: [80, 0],
-                                    }}
-                                >
-                                    <tbody>
-                                        {
-                                            result.map(
-                                                post =>
-                                                    <tr key={post.id}>
-                                                        <td>
-                                                            <Card style={{ marginBottom: "20px" }}>
-                                                                <Card.Header style={{ color: "blue" }}>
-                                                                    <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.avatar} alt=''></img>
-                                                                    <b>&nbsp;{post.created_acc.username}</b>
-                                                                    &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.role.rolename + "Logo.png"} alt=''></img>
-                                                                    {
-                                                                        <>&nbsp;|&nbsp;
-                                                                            {dayjs(post.created_at).locale("en").fromNow()}
-                                                                            &nbsp;
-                                                                            {dayjs(post.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
-                                                                        </>
-                                                                    }
-                                                                    <p>Topic: {post.topic.topicname}</p>
-                                                                </Card.Header>
-                                                                <Card.Body>
-                                                                    <Card.Title className='post-title' onClick={() => navigate(`/postDetail/${post.id}`)} >{post.title}</Card.Title>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </td>
-                                                        <td style={{ verticalAlign: "top" }}>
-                                                        </td>
+                                : <div>
+                                    {
+                                        (result.length === 0)
+                                            ? <h2 style={{ textAlign: "center" }}>No posts found</h2>
+                                            : <motion.table style={{ width: "100%" }}
+                                                animate={{
+                                                    opacity: [0, 1],
+                                                    translateY: [80, 0],
+                                                }}
+                                            >
+                                                <tbody>
+                                                    {
+                                                        result.map(
+                                                            post =>
+                                                                <tr key={post.id}>
+                                                                    <td>
+                                                                        <Card style={{ marginBottom: "20px" }}>
+                                                                            <Card.Header style={{ color: "blue" }}>
+                                                                                <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.avatar} alt=''></img>
+                                                                                <b>&nbsp;{post.created_acc.username}</b>
+                                                                                &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.role.rolename + "Logo.png"} alt=''></img>
+                                                                                {
+                                                                                    <>&nbsp;|&nbsp;
+                                                                                        {dayjs(post.created_at).locale("en").fromNow()}
+                                                                                        &nbsp;
+                                                                                        {dayjs(post.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
+                                                                                    </>
+                                                                                }
+                                                                                <p>Topic: {post.topic.topicname}</p>
+                                                                            </Card.Header>
+                                                                            <Card.Body>
+                                                                                <Card.Title className='post-title' onClick={() => navigate(`/postDetail/${post.id}`)} >{post.title}</Card.Title>
+                                                                            </Card.Body>
+                                                                        </Card>
+                                                                    </td>
+                                                                    <td style={{ verticalAlign: "top" }}>
+                                                                    </td>
+                                                                </tr>
+                                                        )
+                                                    }
+                                                    <tr>
+                                                        <ButtonGroup aria-label="Basic example">
+                                                            <Button variant="secondary" onClick={prevPage}>{"<<<"} Previous</Button>
+                                                            <Button variant="secondary" onClick={nextPage}>Next {">>>"}</Button>
+                                                        </ButtonGroup>
+                                                        <label style={{ marginLeft: "30px" }}>Page:</label><input min={1} max={pages} type="number" style={{ width: "50px", marginLeft: "10px" }} value={page} onChange={changePage} />
                                                     </tr>
-                                            )
-                                        }
-                                        <tr>
-                                            <ButtonGroup aria-label="Basic example">
-                                                <Button variant="secondary" onClick={prevPage}>{"<<<"} Previous</Button>
-                                                <Button variant="secondary" onClick={nextPage}>Next {">>>"}</Button>
-                                            </ButtonGroup>
-                                            <label style={{ marginLeft: "30px" }}>Page:</label><input min={1} max={pages} type="number" style={{ width: "50px", marginLeft: "10px" }} value={page} onChange={changePage} />
-                                        </tr>
-                                    </tbody>
-                                </motion.table>
+                                                </tbody>
+                                            </motion.table>
+                                    }
+                                </div>
+
                         }
                     </td>
                     <td style={{ width: "10%", color: "yellow", verticalAlign: "top" }}>

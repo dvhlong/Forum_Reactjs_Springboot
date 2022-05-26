@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background: url("https://cdn.pixabay.com/photo/2016/12/29/18/44/background-1939128_1280.jpg"); */
+  background: url("https://cdn.pixabay.com/photo/2016/12/29/18/44/background-1939128_1280.jpg");
   background-attachment: fixed;
 }
 

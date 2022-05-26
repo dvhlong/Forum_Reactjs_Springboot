@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import '../CSS/CreateAndEditPost.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import Form from 'react-bootstrap/Form';
@@ -80,19 +79,19 @@ function CreatePost() {
         }
     }
 
-    const connectSocket= () =>{
+    const connectSocket = () => {
         stompClient = over(Sock);
         stompClient.connect({
             "Authorization": `Bearer ${localStorage.getItem("token")}`,
             "Access-Control-Allow-Credentials": true,
-        }, ()=>{}, onError);
+        }, () => { }, onError);
     }
 
     const onError = (err) => {
         console.log(err);
     }
 
-    const disconectSocket =()=>{
+    const disconectSocket = () => {
         stompClient = over(Sock);
         stompClient.disconnect();
     }
@@ -102,7 +101,7 @@ function CreatePost() {
         TopicService.getTopicList().then(res => {
             setTopicList(res.data);
         })
-        return()=>{
+        return () => {
             disconectSocket();
         }
     }, []);
@@ -148,7 +147,7 @@ function CreatePost() {
                             mediaEmbed: {
                                 previewsInData: true
                             },
-                            link : {
+                            link: {
                                 addTargetToExternalLinks: true
                             }
                         }}

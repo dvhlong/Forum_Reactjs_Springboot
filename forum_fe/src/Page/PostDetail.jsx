@@ -7,7 +7,6 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Form from 'react-bootstrap/Form';
 import { useParams, useNavigate } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
-import '../CSS/PostDetail.css';
 import moreIcon from '../SVG/more.svg';
 import { TailSpin } from 'react-loader-spinner';
 import axios from "axios";
@@ -285,7 +284,9 @@ function PostDetail() {
                                             </Card>
                                             <Form.Group style={{ marginTop: "30px" }}>
                                                 <Form.Control as="textarea" rows={3} placeholder='Type your comment.....' onChange={changeNewComment}></Form.Control>
-                                                <Button style={{ color: "white" }} onClick={() => addComment(post.id, 0)}>Comment</Button>
+                                                <div style={{ width: "100%", textAlign: 'right' }}>
+                                                    <Button style={{ color: "white", width: "100%" }} onClick={() => addComment(post.id, 0)}>Comment</Button>
+                                                </div>
                                             </Form.Group>
                                         </td>
                                         <td style={{ verticalAlign: "top" }}>
@@ -293,7 +294,7 @@ function PostDetail() {
                                                 (role !== "user" || accid === String(post.created_acc.id))
                                                     ?
                                                     <Dropdown>
-                                                        <Dropdown.Toggle variant="dark">
+                                                        <Dropdown.Toggle variant="light">
                                                             <img src={moreIcon} alt="logo" />
                                                         </Dropdown.Toggle>
                                                         <Dropdown.Menu variant='dark'>
@@ -321,105 +322,116 @@ function PostDetail() {
                                             }
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <ButtonGroup aria-label="Basic example">
-                                            <Button variant="secondary" onClick={prevPage}>{"<<<"} Previous Page</Button>
-                                            <Button variant="secondary" onClick={nextPage}>Next Page {">>>"}</Button>
-                                        </ButtonGroup>
-                                        <label style={{ marginLeft: "30px" }}>Page:</label><input min={1} max={pages} type="number" style={{ width: "50px", marginLeft: "10px" }} value={page} onChange={changePage} />
-                                    </tr>
                                     {
-                                        comments.map(
-                                            comment =>
-                                                <tr key={comment.id}>
-                                                    <td>
-                                                        <Card style={{ marginBottom: "20px", marginTop: "30px" }}>
-                                                            <Card.Header style={{ color: "blue" }}>
-                                                                <img style={{ width: "50px", height: "50px", borderRadius: "50px" }} src={"http://" + window.location.hostname + ":8080/files/" + comment.created_acc.avatar} alt=''></img>
-                                                                <b>&nbsp;{comment.created_acc.username}</b>
-                                                                &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://" + window.location.hostname + ":8080/files/" + comment.created_acc.role.rolename + "Logo.png"} alt=''></img>
-                                                                {
-                                                                    <>&nbsp;|&nbsp;
-                                                                        {dayjs(comment.created_at).locale("en").fromNow()}
-                                                                        &nbsp;
-                                                                        {dayjs(comment.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
-                                                                    </>
-                                                                }
-                                                            </Card.Header>
-                                                            <Card.Body>
-                                                                {
-                                                                    (comment.replied_cmt !== null)
-                                                                        ? <>
-                                                                            <p style={{ color: "#DDD8D8", fontSize: "15px" }}>(Replied to <b>@{comment.replied_cmt.created_acc.username}</b>)</p>
-                                                                            <p style={{ color: "#DDD8D8", fontSize: "15px", whiteSpace: "pre-wrap" }}>{comment.replied_cmt.content}</p>
-                                                                        </>
-                                                                        : <></>
-                                                                }
-                                                                {
-                                                                    (isEdit === true && editCommentId === comment.id)
-                                                                        ?
-                                                                        <div>
-                                                                            <Form.Control as="textarea" cols={4} value={editCommentContent} onChange={changeEditComment}></Form.Control>
-                                                                            <Button style={{ color: "white" }} onClick={cancelEditComment}>Cancel</Button>
-                                                                            <Button style={{ color: "white" }} onClick={submitEditComment}>Edit</Button>
-                                                                        </div>
-                                                                        :
-                                                                        <Card.Text style={{ color: "black" }}>
-                                                                            <p style={{ whiteSpace: "pre-wrap" }}>{comment.content}</p>
-                                                                        </Card.Text>
-                                                                }
-
-                                                            </Card.Body>
-                                                            {
-                                                                (isReply === true && replyCommentId === comment.id)
-                                                                    ?
-                                                                    <Card.Footer>
-                                                                        <Form.Control as="textarea" cols={1} placeholder='Reply comment.....' onChange={changeNewComment}></Form.Control>
-                                                                        <Button style={{ color: "white" }} onClick={() => addComment(post.id, comment.id)}>Reply</Button>
-                                                                        <Button style={{ color: "white", marginLeft: "10px" }} onClick={cancelReply}>Cancel</Button>
-                                                                    </Card.Footer>
-                                                                    :
-                                                                    <Card.Footer>
-                                                                        <Button style={{ color: "white" }} onClick={() => replyComment(comment.id)}>Reply</Button>
-                                                                    </Card.Footer>
-                                                            }
-                                                        </Card>
-                                                    </td>
-                                                    <td style={{ verticalAlign: "top" }}>
-                                                        {
-                                                            (role !== "user" || accid === String(comment.created_acc.id) || accid === String(post.created_acc.id))
-                                                                ?
-                                                                <Dropdown style={{ marginTop: "30px" }}>
-                                                                    <Dropdown.Toggle variant="dark">
-                                                                        <img src={moreIcon} alt="logo" />
-                                                                    </Dropdown.Toggle>
-                                                                    <Dropdown.Menu variant="dark">
-                                                                        {
-                                                                            (accid === String(comment.created_acc.id))
-                                                                                ?
-                                                                                <Dropdown.Item href="#" onClick={() => showEditComment(comment)}>
-                                                                                    Edit Comment
-                                                                                </Dropdown.Item>
-                                                                                :
-                                                                                <></>
-                                                                        }
-                                                                        {
-                                                                            (role !== "user" || accid === String(comment.created_acc.id) || accid === String(post.created_acc.id))
-                                                                                ?
-                                                                                <Dropdown.Item href="#" onClick={() => showDeleteComment(comment.id)}>
-                                                                                    Delete Comment
-                                                                                </Dropdown.Item>
-                                                                                :
-                                                                                <></>
-                                                                        }
-                                                                    </Dropdown.Menu>
-                                                                </Dropdown>
-                                                                : <></>
-                                                        }
-                                                    </td>
+                                        (comments.length === 0)
+                                            ? <h2 style={{ textAlign: "center", marginTop: "30px" }}>Be the first to comment on this post !!!</h2>
+                                            : <div>
+                                                <tr>
+                                                    <ButtonGroup aria-label="Basic example">
+                                                        <Button variant="secondary" onClick={prevPage}>{"<<<"} Previous Page</Button>
+                                                        <Button variant="secondary" onClick={nextPage}>Next Page {">>>"}</Button>
+                                                    </ButtonGroup>
+                                                    <label style={{ marginLeft: "30px" }}>Page:</label><input min={1} max={pages} type="number" style={{ width: "50px", marginLeft: "10px" }} value={page} onChange={changePage} />
                                                 </tr>
-                                        )
+                                                {
+                                                    comments.map(
+                                                        comment =>
+                                                            <tr key={comment.id}>
+                                                                <td style={{ width: "100%" }}>
+                                                                    <Card style={{ marginBottom: "20px", marginTop: "30px" }}>
+                                                                        <Card.Header style={{ color: "blue" }}>
+                                                                            <img style={{ width: "50px", height: "50px", borderRadius: "50px" }} src={"http://" + window.location.hostname + ":8080/files/" + comment.created_acc.avatar} alt=''></img>
+                                                                            <b>&nbsp;{comment.created_acc.username}</b>
+                                                                            &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://" + window.location.hostname + ":8080/files/" + comment.created_acc.role.rolename + "Logo.png"} alt=''></img>
+                                                                            {
+                                                                                <>&nbsp;|&nbsp;
+                                                                                    {dayjs(comment.created_at).locale("en").fromNow()}
+                                                                                    &nbsp;
+                                                                                    {dayjs(comment.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
+                                                                                </>
+                                                                            }
+                                                                        </Card.Header>
+                                                                        <Card.Body>
+                                                                            {
+                                                                                (comment.replied_cmt !== null)
+                                                                                    ? <>
+                                                                                        <p style={{ color: "#DDD8D8", fontSize: "15px" }}>(Replied to <b>@{comment.replied_cmt.created_acc.username}</b>)</p>
+                                                                                        <p style={{ color: "#DDD8D8", fontSize: "15px", whiteSpace: "pre-wrap" }}>{comment.replied_cmt.content}</p>
+                                                                                    </>
+                                                                                    : <></>
+                                                                            }
+                                                                            {
+                                                                                (isEdit === true && editCommentId === comment.id)
+                                                                                    ?
+                                                                                    <div>
+                                                                                        <Form.Control as="textarea" cols={4} value={editCommentContent} onChange={changeEditComment}></Form.Control>
+                                                                                        <div style={{ width: "100%", textAlign: "right" }}>
+                                                                                            <Button style={{ color: "white", marginRight: "10px" }} onClick={cancelEditComment}>Cancel</Button>
+                                                                                            <Button style={{ color: "white", }} onClick={submitEditComment}>Edit</Button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    :
+                                                                                    <Card.Text style={{ color: "black" }}>
+                                                                                        <p style={{ whiteSpace: "pre-wrap" }}>{comment.content}</p>
+                                                                                    </Card.Text>
+                                                                            }
+
+                                                                        </Card.Body>
+                                                                        {
+                                                                            (isReply === true && replyCommentId === comment.id)
+                                                                                ?
+                                                                                <Card.Footer>
+                                                                                    <Form.Control as="textarea" cols={1} placeholder='Reply comment.....' onChange={changeNewComment}></Form.Control>
+                                                                                    <div style={{ width: "100%", textAlign: "right" }}>
+                                                                                        <Button style={{ color: "white" }} onClick={() => addComment(post.id, comment.id)}>Reply</Button>
+                                                                                        <Button style={{ color: "white", marginLeft: "10px" }} onClick={cancelReply}>Cancel</Button>
+                                                                                    </div>
+                                                                                </Card.Footer>
+                                                                                :
+                                                                                <Card.Footer style={{ textAlign: "right" }}>
+                                                                                    <Button style={{ color: "white" }} onClick={() => replyComment(comment.id)}>Reply</Button>
+                                                                                </Card.Footer>
+                                                                        }
+                                                                    </Card>
+                                                                </td>
+                                                                <td style={{ verticalAlign: "top" }}>
+                                                                    {
+                                                                        (role !== "user" || accid === String(comment.created_acc.id) || accid === String(post.created_acc.id))
+                                                                            ?
+                                                                            <Dropdown style={{ marginTop: "30px" }}>
+                                                                                <Dropdown.Toggle variant="light">
+                                                                                    <img src={moreIcon} alt="logo" />
+                                                                                </Dropdown.Toggle>
+                                                                                <Dropdown.Menu variant="dark">
+                                                                                    {
+                                                                                        (accid === String(comment.created_acc.id))
+                                                                                            ?
+                                                                                            <Dropdown.Item href="#" onClick={() => showEditComment(comment)}>
+                                                                                                Edit Comment
+                                                                                            </Dropdown.Item>
+                                                                                            :
+                                                                                            <></>
+                                                                                    }
+                                                                                    {
+                                                                                        (role !== "user" || accid === String(comment.created_acc.id) || accid === String(post.created_acc.id))
+                                                                                            ?
+                                                                                            <Dropdown.Item href="#" onClick={() => showDeleteComment(comment.id)}>
+                                                                                                Delete Comment
+                                                                                            </Dropdown.Item>
+                                                                                            :
+                                                                                            <></>
+                                                                                    }
+                                                                                </Dropdown.Menu>
+                                                                            </Dropdown>
+                                                                            : <></>
+                                                                    }
+                                                                </td>
+                                                            </tr>
+                                                    )
+                                                }
+                                            </div>
                                     }
+
                                     <tr>
 
                                     </tr>

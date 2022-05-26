@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import { TailSpin } from 'react-loader-spinner';
-import '../CSS/Notification.css';
 import { motion } from "framer-motion"
 import NotificationService from '../Service/NotificationService';
 import axios from "axios";
@@ -14,7 +13,7 @@ function Notification() {
 
     const [mount, setMount] = useState(false);
 
-    const [notifications, setNotifications] = useState([]);
+    const [notifications, setNotifications] = useState();
 
     const [page, setPage] = useState(1);
 
@@ -41,6 +40,7 @@ function Notification() {
         setTimeout(async () => {
             await NotificationService.getNotifications(page, ourRequest).then(res => {
                 setNotifications(res.data.content);
+                console.log(notifications);
                 setPages(res.data.totalPages)
             })
             setLoading(false);
@@ -73,26 +73,31 @@ function Notification() {
                     (mount === false)
                         ? <></>
                         : <td style={{ width: "40%" }}>
-                            <motion.div className='notifications'
-                                animate={{
-                                    opacity: [0, 1],
-                                    translateY: [80, 0],
-                                }}
-                            >
-                                {
-                                    notifications.map(
-                                        notification =>
-                                            <NotificationComponent content={notification} />
-                                    )
-                                }
-                                <div>
-                                    <ButtonGroup aria-label="Basic example">
-                                        <Button variant="secondary" onClick={prevPage}>{"<<<"} Previous</Button>
-                                        <Button variant="secondary" onClick={nextPage}>Next {">>>"}</Button>
-                                    </ButtonGroup>
-                                    <label style={{ marginLeft: "30px", color: "yellow" }}>Page:</label><input min={1} max={pages} type="number" style={{ width: "50px", marginLeft: "10px" }} value={page} onChange={changePage} />
-                                </div>
-                            </motion.div>
+                            {
+                                (notifications.length === 0)
+                                    ? <h2 style={{ textAlign: "center", color: "black" }}>You don't have any notifications yet</h2>
+                                    : <motion.div className='notifications'
+                                        animate={{
+                                            opacity: [0, 1],
+                                            translateY: [80, 0],
+                                        }}
+                                    >
+                                        {
+                                            notifications.map(
+                                                notification =>
+                                                    <NotificationComponent content={notification} />
+                                            )
+                                        }
+                                        <div>
+                                            <ButtonGroup aria-label="Basic example">
+                                                <Button variant="secondary" onClick={prevPage}>{"<<<"} Previous</Button>
+                                                <Button variant="secondary" onClick={nextPage}>Next {">>>"}</Button>
+                                            </ButtonGroup>
+                                            <label style={{ marginLeft: "30px" }}>Page:</label><input min={1} max={pages} type="number" style={{ width: "50px", marginLeft: "10px" }} value={page} onChange={changePage} />
+                                        </div>
+                                    </motion.div>
+                            }
+
                         </td>
                 }
                 <td style={{ width: "30%", verticalAlign: "top" }}>

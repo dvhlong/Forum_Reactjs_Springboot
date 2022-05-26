@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import '../CSS/CreateAndEditPost.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import Form from 'react-bootstrap/Form';
@@ -171,7 +170,7 @@ function EditPost() {
                             mediaEmbed: {
                                 previewsInData: true
                             },
-                            link : {
+                            link: {
                                 addTargetToExternalLinks: true
                             }
                         }}

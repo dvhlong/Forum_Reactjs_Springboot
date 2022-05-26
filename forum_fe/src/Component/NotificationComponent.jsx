@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import '../CSS/Notification.css';
 import dayjs from "dayjs";
 import { useNavigate } from 'react-router-dom';
 

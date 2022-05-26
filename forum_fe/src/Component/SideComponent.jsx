@@ -3,7 +3,6 @@ import Card from 'react-bootstrap/Card';
 import axios from "axios";
 import statisticService from '../Service/StatisticService';
 import { useNavigate } from 'react-router-dom';
-import '../CSS/SideComponent.css';
 import ChartIcon from '../SVG/chart.svg';
 
 function SidebarComponent() {

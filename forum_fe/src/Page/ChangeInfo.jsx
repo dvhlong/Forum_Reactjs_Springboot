@@ -6,8 +6,7 @@ import AccSV from '../Service/AccountService';
 import { TailSpin } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import Swal from 'sweetalert2'
-import '../CSS/ChangeInfo.css';
+import Swal from 'sweetalert2';
 import { motion } from "framer-motion"
 
 function ChangeInfo() {

@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from '../Component/HeaderComponent';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import TopicService from '../Service/TopicService';
@@ -15,10 +14,10 @@ import axios from "axios";
 import Swal from 'sweetalert2'
 import SideComponent from '../Component/SideComponent';
 import { motion } from "framer-motion";
-import '../CSS/PostAndTopic.css';
 import dayjs from "dayjs";
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
+import add from '../SVG/add.svg';
 
 var stompClient = null;
 function Topic() {
@@ -259,64 +258,70 @@ function Topic() {
                             (mount === false)
                                 ?
                                 <></>
-                                :
-                                <motion.table style={{ width: "100%" }}
-                                    animate={{
-                                        opacity: [0, 1],
-                                        translateY: [80, 0],
-                                    }}
-                                >
-                                    <tbody>
-                                        {
-                                            result.map(
-                                                topic =>
-                                                    <motion.tr key={topic.id}>
-                                                        <td>
-                                                            <Card style={{ marginBottom: "20px" }}>
-                                                                <Card.Header style={{ color: "blue" }}>
-                                                                    Time created: {dayjs(topic.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
-                                                                </Card.Header>
-                                                                <Card.Body>
-                                                                    <Card.Title style={{ textAlign: "center" }} className='topic-title' onClick={() => navigate(`/posts/topic=${topic.id}`)}>{topic.topicname}</Card.Title>
-                                                                    <Card.Text style={{ color: "black" }}>
-                                                                    </Card.Text>
-                                                                </Card.Body>
-                                                            </Card>
-                                                        </td>
-                                                        <td style={{ verticalAlign: "top" }}>
-                                                            {canAddTopic ?
-                                                                <Dropdown>
-                                                                    <Dropdown.Toggle variant="dark">
-                                                                        <img src={moreIcon} alt="logo" />
-                                                                    </Dropdown.Toggle>
-                                                                    <Dropdown.Menu variant='dark'>
-                                                                        <Dropdown.Item href="#" onClick={() => handleShowEdit(topic)}>
-                                                                            Edit Topic
-                                                                        </Dropdown.Item>
-                                                                        <Dropdown.Item href="#" onClick={() => handleShowDelete(topic.id)}>
-                                                                            Delete Topic
-                                                                        </Dropdown.Item>
-                                                                    </Dropdown.Menu>
-                                                                </Dropdown> : <></>
-                                                            }
-                                                        </td>
-                                                    </motion.tr>
-                                            )
-                                        }
+                                : <div>
+                                    {
+                                        (result.length === 0)
+                                            ? <h2 style={{ textAlign: "center" }}>Create first topic !!!</h2>
+                                            : <motion.table style={{ width: "100%" }}
+                                                animate={{
+                                                    opacity: [0, 1],
+                                                    translateY: [80, 0],
+                                                }}
+                                            >
+                                                <tbody>
+                                                    {
+                                                        result.map(
+                                                            topic =>
+                                                                <motion.tr key={topic.id}>
+                                                                    <td>
+                                                                        <Card style={{ marginBottom: "20px" }}>
+                                                                            <Card.Header style={{ color: "blue" }}>
+                                                                                Time created: {dayjs(topic.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
+                                                                            </Card.Header>
+                                                                            <Card.Body>
+                                                                                <Card.Title style={{ textAlign: "center" }} className='topic-title' onClick={() => navigate(`/posts/topic=${topic.id}`)}>{topic.topicname}</Card.Title>
+                                                                                <Card.Text style={{ color: "black" }}>
+                                                                                </Card.Text>
+                                                                            </Card.Body>
+                                                                        </Card>
+                                                                    </td>
+                                                                    <td style={{ verticalAlign: "top" }}>
+                                                                        {canAddTopic ?
+                                                                            <Dropdown>
+                                                                                <Dropdown.Toggle variant="light">
+                                                                                    <img src={moreIcon} alt="logo" />
+                                                                                </Dropdown.Toggle>
+                                                                                <Dropdown.Menu variant='dark'>
+                                                                                    <Dropdown.Item href="#" onClick={() => handleShowEdit(topic)}>
+                                                                                        Edit Topic
+                                                                                    </Dropdown.Item>
+                                                                                    <Dropdown.Item href="#" onClick={() => handleShowDelete(topic.id)}>
+                                                                                        Delete Topic
+                                                                                    </Dropdown.Item>
+                                                                                </Dropdown.Menu>
+                                                                            </Dropdown> : <></>
+                                                                        }
+                                                                    </td>
+                                                                </motion.tr>
+                                                        )
+                                                    }
 
-                                        <tr>
-                                            <ButtonGroup aria-label="Basic example">
-                                                <Button variant="secondary" onClick={prevPage}>{"<<<"} Previous</Button>
-                                                <Button variant="secondary" onClick={nextPage}>Next {">>>"}</Button>
-                                            </ButtonGroup>
-                                            <label style={{ marginLeft: "30px" }}>Page:</label><input min={1} max={pages} type="number" style={{ width: "50px", marginLeft: "10px" }} value={page} onChange={changePage} />
-                                        </tr>
-                                    </tbody>
-                                </motion.table>
+                                                    <tr>
+                                                        <ButtonGroup aria-label="Basic example">
+                                                            <Button variant="secondary" onClick={prevPage}>{"<<<"} Previous</Button>
+                                                            <Button variant="secondary" onClick={nextPage}>Next {">>>"}</Button>
+                                                        </ButtonGroup>
+                                                        <label style={{ marginLeft: "30px" }}>Page:</label><input min={1} max={pages} type="number" style={{ width: "50px", marginLeft: "10px" }} value={page} onChange={changePage} />
+                                                    </tr>
+                                                </tbody>
+                                            </motion.table>
+                                    }
+                                </div>
+
                         }
                     </td>
                     <td style={{ width: "10%", color: "yellow", verticalAlign: "top" }}>
-                        {canAddTopic ? <button style={{ background: "blue", color: "white" }} onClick={handleShowAdd} className='btn btn=primary'>Add Topic</button> : <></>}
+                        {canAddTopic ? <button style={{ background: "blue", color: "white" }} onClick={handleShowAdd} className='btn btn=primary'><img src={add} alt="" /> Add Topic</button> : <></>}
                         <Modal
                             show={showEdit}
                             onHide={handleCloseEdit}
