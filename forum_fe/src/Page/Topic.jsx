@@ -1,8 +1,6 @@
-import React from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import TopicService from '../Service/TopicService';
-import { useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -15,19 +13,13 @@ import Swal from 'sweetalert2'
 import SideComponent from '../Component/SideComponent';
 import { motion } from "framer-motion";
 import dayjs from "dayjs";
-import { over } from 'stompjs';
-import SockJS from 'sockjs-client';
 import add from '../SVG/add.svg';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function Topic(props) {
+function Topic() {
 
-    // let location = useLocation();
-
-    // let reloadFromHeader = location.state.reload;
-
-    let stompClient = null;
-
-    let Sock = new SockJS('http://localhost:8080/ws');
+    const [reloadPageNavigated, setReloadPageNavigated] = useOutletContext();
 
     const relativeTime = require('dayjs/plugin/relativeTime');
 
@@ -44,10 +36,6 @@ function Topic(props) {
     const [page, setPage] = useState(1);
 
     const [pages, setPages] = useState(0);
-
-    const [update, setUpdate] = useState(false);
-
-    const reload = () => { setUpdate(!update); }
 
     const [newTopicName, setNewTopicName] = useState("");
 
@@ -95,12 +83,10 @@ function Topic(props) {
 
     const addTopic = () => {
         if (newTopicName === "")
-            Swal.fire({
-                icon: 'error',
-                title: 'Please enter topic name !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toast.error('Please enter topic name !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
         else {
             let newtopic = {
                 topicname: newTopicName
@@ -110,14 +96,12 @@ function Topic(props) {
                     alert("session expired");
                     navigate("/")
                 }
-                console.log(res.data.message)
-                stompClient.send("/notify/updateTopic");
             });
             Swal.fire({
                 icon: 'success',
                 title: 'Added !!!',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2000
             })
             handleCloseAdd();
         }
@@ -130,13 +114,12 @@ function Topic(props) {
                 navigate("/")
             }
             console.log(res.data.message);
-            stompClient.send("/notify/updateTopic");
         });
         Swal.fire({
             icon: 'success',
             title: 'Deleted !!!',
             showConfirmButton: false,
-            timer: 1500
+            timer: 2000
         })
         handleCloseDelete();
     }
@@ -147,25 +130,22 @@ function Topic(props) {
             topicname: editTopicName
         }
         if (editTopicName === "")
-            Swal.fire({
-                icon: 'error',
-                title: 'Please enter topic name !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toast.error('Please enter topic name !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
         else {
             TopicService.editTopic(updatedTopic).then(res => {
                 if (res.data.status === 401) {
                     alert("session expired");
                     navigate("/")
                 }
-                stompClient.send("/notify/updateTopic");
             });
             Swal.fire({
                 icon: 'success',
                 title: 'Topic changed !!!',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2000
             })
             handleCloseEdit();
         }
@@ -186,34 +166,7 @@ function Topic(props) {
             setPage(page - 1);
     }
 
-    const onConnected = () => {
-        stompClient.subscribe('/receivedUpdateTopic', onUpdateTopicMessage);
-    }
-
-    const onUpdateTopicMessage = (payload) => {
-        reload();
-    }
-
-    const onError = (err) => {
-        console.log(err);
-    }
-
-    const connectSocket = () => {
-        stompClient = over(Sock);
-        stompClient.connect({
-            "Authorization": `Bearer ${localStorage.getItem("token")}`,
-            "Access-Control-Allow-Credentials": true,
-        }, onConnected, onError);
-    }
-
-    const disconectSocket = () => {
-        stompClient = over(Sock);
-        stompClient.disconnect();
-    }
-
     useEffect(() => {
-        console.log(props);
-        connectSocket();
         setLoading(true);
         const ourRequest = axios.CancelToken.source();
         setTimeout(async () => {
@@ -234,13 +187,13 @@ function Topic(props) {
                 setMount(true);
         }, 800);
         return () => {
-            disconectSocket();
             ourRequest.cancel('Request is canceled by user');
         }
-    }, [page, update]);
+    }, [page, reloadPageNavigated]);
 
     return (
         <div>
+            <ToastContainer theme="dark" />
             <div>
                 {/* <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1> */}
                 <table style={{ width: "100%", border: "none", marginTop: "30px" }}>

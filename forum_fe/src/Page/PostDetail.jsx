@@ -15,9 +15,14 @@ import Swal from 'sweetalert2';
 import SideComponent from '../Component/SideComponent';
 import { motion } from "framer-motion";
 import dayjs from "dayjs";
-import CommentComponent from '../Component/CommentComponent';
+import { over } from 'stompjs';
+import SockJS from 'sockjs-client';
 
 function PostDetail() {
+
+    let Sock = new SockJS('http://localhost:8080/ws');
+
+    let stompClient = over(Sock);
 
     const relativeTime = require('dayjs/plugin/relativeTime');
 
@@ -47,9 +52,16 @@ function PostDetail() {
 
     const [loading, setLoading] = useState(false);
 
-    const [update, setUpdate] = useState(false);
+    const [updatePost, setUpdatePost] = useState(false);
 
-    const reload = () => { setUpdate(!update); }
+    const reloadPost = () => { setUpdatePost(!updatePost); }
+
+    const [updateComments, setUpdateComments] = useState(false);
+
+    const reloadComments = () => {
+        disconectSocket();
+        setUpdateComments(!updateComments);
+    }
 
     const [isEdit, setIsEdit] = useState(false);
 
@@ -96,7 +108,7 @@ function PostDetail() {
         }
         if (editCommentContent !== "") {
             PostService.editComment(editCommentId, comment).then(res => {
-                reload();
+                reloadComments();
                 setIsEdit(false);
                 Swal.fire({
                     icon: 'success',
@@ -133,7 +145,7 @@ function PostDetail() {
                 showConfirmButton: false,
                 timer: 1500
             })
-            reload();
+            stompClient.send("notify/updateComments/" + String(id));
         })
         handleCloseDeleteCommentModal();
     }
@@ -175,7 +187,7 @@ function PostDetail() {
                 if (page !== 1)
                     setPage(1);
                 else
-                    reload();
+                    stompClient.send("notify/updateComments/" + String(id));
             })
             setIsReply(false);
             setNewComment("");
@@ -192,6 +204,30 @@ function PostDetail() {
             }
             navigate("/posts")
         });
+    }
+
+    const connectSocket = () => {
+        stompClient.connect({
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            "Access-Control-Allow-Credentials": true,
+        }, onConnected, onError);
+    }
+
+    const onConnected = () => {
+        stompClient.subscribe("/receivedUpdatePost/" + String(id), _res => {
+            reloadPost();
+        })
+        stompClient.subscribe("/receivedUpdateComments/" + String(id), _res => {
+            reloadComments();
+        })
+    }
+
+    const onError = (err) => {
+        console.log(err);
+    }
+
+    const disconectSocket = () => {
+        stompClient.disconnect();
     }
 
     useEffect(() => {
@@ -212,9 +248,10 @@ function PostDetail() {
                 ourRequest.cancel('Request is canceled by user');
             }
         }, 800);
-    }, [id, update])
+    }, [id, updatePost])
 
     useEffect(() => {
+        connectSocket();
         setLoading(true);
         setTimeout(async () => {
             await PostService.getComments(String(id), page).then(res => {
@@ -227,8 +264,11 @@ function PostDetail() {
             setLoading(false);
             if (mount === false)
                 setMount(true);
+            return () => {
+                disconectSocket();
+            }
         }, 800);
-    }, [id, page, update])
+    }, [id, page, updateComments])
 
     return (
         <div>

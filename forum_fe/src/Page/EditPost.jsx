@@ -4,14 +4,22 @@ import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useParams, useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import PostService from '../Service/PostService';
 import TopicService from '../Service/TopicService';
 import axios from "axios";
 import { TailSpin } from 'react-loader-spinner';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import { over } from 'stompjs';
+import SockJS from 'sockjs-client';
+import Swal from 'sweetalert2';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function EditPost() {
+
+    let Sock = new SockJS('http://localhost:8080/ws');
+
+    let stompClient = over(Sock);
 
     let navigate = useNavigate();
 
@@ -42,44 +50,56 @@ function EditPost() {
             content: editPostContent
         }
         if (topicId === "0") {
-            Swal.fire({
-                icon: 'error',
-                title: 'Please choose topic !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toast.error('Please choose topic !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
         } else if (editPostTitle === "") {
-            Swal.fire({
-                icon: 'error',
-                title: 'Please enter title !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toast.error('Please type title !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
         } else if (editPostContent === "") {
-            Swal.fire({
-                icon: 'error',
-                title: 'Please enter content name !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toast.error('Please type content !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
         } else {
             PostService.editPost(Number(topicId), updatedPost).then(res => {
                 if (res.data.status === 401) {
                     alert("session expired");
                     navigate("/")
+                } else {
+                    stompClient.send("/notify/updatePost/" + updatedPost.id);
                 }
             })
             Swal.fire({
                 icon: 'success',
                 title: 'Post edited !!!!',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 2000
             })
             navigate(-1);
         }
     }
 
+    const connectSocket = () => {
+        stompClient.connect({
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            "Access-Control-Allow-Credentials": true,
+        }, () => { /* TODO document why this arrow function is empty */ }, onError);
+    }
+
+    const onError = (err) => {
+        console.log(err);
+    }
+
+    const disconectSocket = () => {
+        stompClient.disconnect();
+    }
+
     useEffect(() => {
+        connectSocket();
         setLoading(true);
         const ourRequest = axios.CancelToken.source();
         setTimeout(async () => {
@@ -94,6 +114,7 @@ function EditPost() {
             })
             setLoading(false);
             return () => {
+                disconectSocket();
                 ourRequest.cancel('Request is canceled by user');
             }
         }, 800);
@@ -114,6 +135,7 @@ function EditPost() {
 
     return (
         <div>
+            <ToastContainer theme="dark" />
             {
                 (loading === true)
                     ? <TailSpin wrapperStyle={{ display: "block", position: "fixed", bottom: "5px" }} color="red" height={200} width={200} />

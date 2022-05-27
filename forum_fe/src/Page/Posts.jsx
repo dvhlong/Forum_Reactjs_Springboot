@@ -10,7 +10,7 @@ import SideComponent from '../Component/SideComponent';
 import { animate, motion } from "framer-motion";
 import dayjs from "dayjs";
 
-function Posts(props) {
+function Posts() {
 
     const [reloadPageNavigated, setReloadPageNavigated] = useOutletContext();
 

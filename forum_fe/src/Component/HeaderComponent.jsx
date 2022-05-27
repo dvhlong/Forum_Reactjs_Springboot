@@ -15,9 +15,14 @@ function HeaderComponent() {
 
     const [reloadPageNavigated, setReloadPageNavigated] = useState(false);
 
-    function changereload() {
+    function navigatePosts() {
         setReloadPageNavigated(!reloadPageNavigated);
         navigate("/posts/all")
+    }
+
+    function navigateTopic() {
+        setReloadPageNavigated(!reloadPageNavigated);
+        navigate("/topic")
     }
 
     const [key, setKey] = useState("");
@@ -46,8 +51,8 @@ function HeaderComponent() {
             <header style={{ width: "100%", position: "sticky", top: "0", zIndex: "2" }}>
                 <nav className='navbar navbar-dark bg-dark nojt'>
                     <div style={{ width: "auto" }}>
-                        <button className="navbar-brand btn btn-dark" style={{ marginLeft: "50px" }} onClick={() => navigate("/topic")}><img src={HomeIcon} alt=''></img></button>
-                        <button className="navbar-brand btn btn-dark" onClick={changereload}>Posts</button>
+                        <button className="navbar-brand btn btn-dark" style={{ marginLeft: "50px" }} onClick={navigateTopic}><img src={HomeIcon} alt=''></img></button>
+                        <button className="navbar-brand btn btn-dark" onClick={navigatePosts}>Posts</button>
                         {(localStorage.getItem("role") !== "user") ? (<button className="navbar-brand btn btn-dark" onClick={() => navigate("/approve")}>Approve Post</button>) : <></>}
                         {(localStorage.getItem("role") === "admin") ? (<button className="navbar-brand btn btn-dark" onClick={() => navigate("/manageacc")}>Manage Account</button>) : <></>}
                         <button className="navbar-brand btn btn-danger" style={{ marginLeft: "50px" }} onClick={() => navigate("/createpost")}>Create new post</button>

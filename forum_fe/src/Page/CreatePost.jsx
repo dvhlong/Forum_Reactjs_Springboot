@@ -9,11 +9,14 @@ import Swal from 'sweetalert2';
 import { motion } from "framer-motion";
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-var stompClient = null;
 function CreatePost() {
 
     let Sock = new SockJS('http://localhost:8080/ws');
+
+    let stompClient = over(Sock);
 
     const role = localStorage.getItem("role");
 
@@ -35,20 +38,21 @@ function CreatePost() {
 
     const createPost = () => {
         if (topicId === "0") {
-            Swal.fire({
-                icon: 'error',
-                title: 'Please choose Topic !!!!',
-            })
-        } else if (newTitle === "")
-            Swal.fire({
-                icon: 'error',
-                title: 'Please type title !!!!',
-            })
-        else if (newContent === "")
-            Swal.fire({
-                icon: 'error',
-                title: 'Please type content !!!!',
-            })
+            toast.error('Please choose topic !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
+        } else if (newTitle === "") {
+            toast.error('Please type title !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
+        } else if (newContent === "") {
+            toast.error('Please type content !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
+        }
         else {
             let newPost = {
                 title: newTitle,
@@ -62,17 +66,16 @@ function CreatePost() {
                     stompClient.send("/notify/updatePostsToApprove");
                     Swal.fire({
                         icon: 'success',
-                        title: 'Successful, your post is awaiting for approval !!!!',
+                        title: 'Successful, please waiting for approval !!!!',
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 2000
                     })
                 } else {
-                    stompClient.send("/notify/updatePosts");
                     Swal.fire({
                         icon: 'success',
-                        title: 'Successful !!!!',
+                        title: 'Success!!!!',
                         showConfirmButton: false,
-                        timer: 1500
+                        timer: 2000
                     })
                 }
             })
@@ -80,11 +83,10 @@ function CreatePost() {
     }
 
     const connectSocket = () => {
-        stompClient = over(Sock);
         stompClient.connect({
             "Authorization": `Bearer ${localStorage.getItem("token")}`,
             "Access-Control-Allow-Credentials": true,
-        }, () => { }, onError);
+        }, () => { /* TODO document why this arrow function is empty */ }, onError);
     }
 
     const onError = (err) => {
@@ -92,7 +94,6 @@ function CreatePost() {
     }
 
     const disconectSocket = () => {
-        stompClient = over(Sock);
         stompClient.disconnect();
     }
 
@@ -108,6 +109,7 @@ function CreatePost() {
 
     return (
         <div>
+            <ToastContainer theme="dark" />
             {/* <h1 style={{textAlign:"center",color:"white"}}>Create New Post</h1> */}
             <motion.div className='post-container' style={{ marginTop: "30px" }}
                 animate={{

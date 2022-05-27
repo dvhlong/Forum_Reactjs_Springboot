@@ -13,8 +13,15 @@ import Swal from 'sweetalert2';
 import SideComponent from '../Component/SideComponent';
 import { motion } from "framer-motion";
 import dayjs from "dayjs";
+import { over } from 'stompjs';
+import SockJS from 'sockjs-client';
+
 
 function ApprovePosts() {
+
+    let Sock = new SockJS('http://localhost:8080/ws');
+
+    var stompClient = over(Sock);
 
     const relativeTime = require('dayjs/plugin/relativeTime');
 
@@ -28,7 +35,10 @@ function ApprovePosts() {
 
     const [update, setUpdate] = useState(false);
 
-    const reload = () => { setUpdate(!update); }
+    const reload = () => {
+        disconectSocket();
+        setUpdate(!update);
+    }
 
     const [result, setResult] = useState([]);
 
@@ -58,7 +68,7 @@ function ApprovePosts() {
                 navigate("/");
             }
             console.log(res.data)
-            reload();
+            stompClient.send("/notify/updatePostsToApprove");
         })
         Swal.fire({
             icon: 'success',
@@ -74,8 +84,7 @@ function ApprovePosts() {
                 alert("session expired");
                 navigate("/")
             }
-            console.log(res.data)
-            reload()
+            stompClient.send("/notify/updatePostsToApprove");
         })
         Swal.fire({
             icon: 'success',
@@ -85,7 +94,29 @@ function ApprovePosts() {
         })
     }
 
+    const connectSocket = () => {
+        stompClient.connect({
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+            "Access-Control-Allow-Credentials": true,
+        }, onConnected, onError);
+    }
+
+    const onConnected = () => {
+        stompClient.subscribe("/receivedUpdatePostsToApprove", _res => {
+            reload();
+        })
+    }
+
+    const onError = (err) => {
+        console.log(err);
+    }
+
+    const disconectSocket = () => {
+        stompClient.disconnect();
+    }
+
     useEffect(() => {
+        connectSocket();
         setLoading(true);
         const ourRequest = axios.CancelToken.source();
         setTimeout(async () => {
@@ -95,15 +126,14 @@ function ApprovePosts() {
                     navigate("/")
                 }
                 if (res.data.content !== null) {
-                    // console.log(res.data.content);
                     setResult(res.data.content);
                     setPages(res.data.totalPages)
                 }
             })
             setLoading(false);
-            if (mount === false)
-                setMount(true);
+            setMount(true);
             return () => {
+                disconectSocket();
                 ourRequest.cancel('Request is canceled by user');
             }
         }, 800);

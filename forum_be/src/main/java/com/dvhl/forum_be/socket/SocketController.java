@@ -10,34 +10,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SocketController {
 
+    String reloadPageRequest = "reload";
+
     @Autowired
     SimpMessagingTemplate simpMessagingTemplate;
 
-    @MessageMapping("/updateTopic")
-    @SendTo("/receivedUpdateTopic")
-    String updateTopic() {
-        return "reload";
-    }
-
     @MessageMapping("/updatePost/{postId}")
     void updatePost(@DestinationVariable long postId) {
-        simpMessagingTemplate.convertAndSend("/receivedUpdatePost/" + postId, "reload");
+        simpMessagingTemplate.convertAndSend("/receivedUpdatePost/" + postId, reloadPageRequest);
     }
 
     @MessageMapping("/updateComments/{postId}")
     void updateComments(@DestinationVariable long postId) {
-        simpMessagingTemplate.convertAndSend("/receivedUpdateComments/" + postId, "reload");
+        simpMessagingTemplate.convertAndSend("/receivedUpdateComments/" + postId, reloadPageRequest);
     }
 
     @MessageMapping("/updatePostsToApprove")
     @SendTo("/receivedUpdatePostsToApprove")
     String updatePostsNotApprove() {
-        return "reload";
+        return reloadPageRequest;
     }
 
     @MessageMapping("/notify/{receivedUserId}")
     void updateNotification(@DestinationVariable long receivedUserId) {
-        simpMessagingTemplate.convertAndSend("/updateNotification/" + receivedUserId, "reload");
+        simpMessagingTemplate.convertAndSend("/updateNotification/" + receivedUserId, reloadPageRequest);
     }
 
 }
