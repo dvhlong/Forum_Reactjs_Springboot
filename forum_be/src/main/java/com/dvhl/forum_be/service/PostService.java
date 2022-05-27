@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
-// import com.dvhl.forum_be.model.Comment;
 import com.dvhl.forum_be.model.Post;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Topic;

@@ -1,4 +1,4 @@
-package com.dvhl.forum_be.Security;
+package com.dvhl.forum_be.security;
 
 import java.io.IOException;
 import java.io.Serializable;

@@ -3,6 +3,11 @@ package com.dvhl.forum_be.model;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
 
     private long id;
@@ -31,50 +36,6 @@ public class UserDTO {
 
     private Timestamp updatedat;
 
-    public UserDTO() {
-    }
-
-    public UserDTO(String username, String password, Role role, boolean isblocked, String name, String email,
-            String phone,
-            Date birthdate, String avatar, String avatarUrl, Timestamp createdat, Timestamp updatedat) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.isblocked = isblocked;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.birthdate = birthdate;
-        this.avatar = avatar;
-        this.avatarUrl = avatarUrl;
-        this.createdat = createdat;
-        this.updatedat = updatedat;
-    }
-
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     public long getId() {
         return id;
     }
@@ -99,7 +60,15 @@ public class UserDTO {
         this.password = password;
     }
 
-    public boolean getIsblocked() {
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean isIsblocked() {
         return isblocked;
     }
 
@@ -137,6 +106,22 @@ public class UserDTO {
 
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public Timestamp getCreatedat() {

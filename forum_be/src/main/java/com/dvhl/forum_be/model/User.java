@@ -52,11 +52,9 @@ public class User {
     @JsonIgnore
     private Timestamp updatedat;
 
-    public User() {
-    }
-
-    public User(String username, String password, Role role, boolean isblocked, String name, String email, String phone,
-            Date birthdate, String avatar, String avatarUrl, Timestamp createdat, Timestamp updatedat) {
+    public User(long id, String username, String password, Role role, boolean isblocked, String name, String email,
+            String phone, Date birthdate, String avatar, String avatarUrl, Timestamp createdat, Timestamp updatedat) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
@@ -69,6 +67,9 @@ public class User {
         this.avatarUrl = avatarUrl;
         this.createdat = createdat;
         this.updatedat = updatedat;
+    }
+
+    public User() {
     }
 
     public String getAvatarUrl() {

@@ -1,4 +1,4 @@
-package com.dvhl.forum_be.Security;
+package com.dvhl.forum_be.security;
 
 public class JwtResponse { // thong tin tra ve khi login
     private String token;

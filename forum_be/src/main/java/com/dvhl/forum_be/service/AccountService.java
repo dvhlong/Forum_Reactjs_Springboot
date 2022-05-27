@@ -4,14 +4,16 @@ import java.util.List;
 import java.util.Optional;
 
 import com.dvhl.forum_be.model.User;
-import com.dvhl.forum_be.Security.JwtResponse;
-import com.dvhl.forum_be.Security.JwtUtils;
-import com.dvhl.forum_be.Security.LoginRequest;
-import com.dvhl.forum_be.Security.UserDetailsImpl;
+import com.dvhl.forum_be.model.UserDTO;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Role;
+import com.dvhl.forum_be.model.RoleDTO;
 import com.dvhl.forum_be.repositories.AccountRepository;
 import com.dvhl.forum_be.repositories.RoleRepository;
+import com.dvhl.forum_be.security.JwtResponse;
+import com.dvhl.forum_be.security.JwtUtils;
+import com.dvhl.forum_be.security.LoginRequest;
+import com.dvhl.forum_be.security.UserDetailsImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -30,6 +32,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class AccountService {
+
+    String successfulMessage = "Successful";
+
+    String failMessage = "Fail";
 
     @Autowired
     FilesStorageServiceImpl storageService;
@@ -61,7 +67,7 @@ public class AccountService {
         return accountRepository.getAccsPage(PageRequest.of(page - 1, elementQuantityInPage));
     }
 
-    public ResponseEntity<Response> registerAccount(User newUser) {
+    public ResponseEntity<Response> registerAccount(UserDTO newUser) {
         Optional<User> uOptional = accountRepository.findByUsername(newUser.getUsername());
         if (uOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail", "ten dang nhap da ton tai", ""));
@@ -76,22 +82,27 @@ public class AccountService {
         }
     }
 
-    private void insertUserToDatabase(User newUser) {
+    private void insertUserToDatabase(UserDTO newUser) {
         Role role = roleRepository.findByRolename("user");
-        newUser.setRole(role);
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        newUser.setCreatedAt(timeService.getCurrentTimestamp());
-        accountRepository.save(newUser);
+        User user = new User();
+        user.setRole(role);
+        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        user.setCreatedAt(timeService.getCurrentTimestamp());
+        user.setUsername(newUser.getUsername());
+        accountRepository.save(user);
     }
 
-    public ResponseEntity<Response> updateUser(User updatedUser, long userId) {
-        accountRepository.findById(userId).map(user -> {
-            return updateUserIntoDatabase(updatedUser, user);
-        });
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Da cap nhat", updatedUser));
+    public ResponseEntity<Response> updateUser(UserDTO updatedUser, long userId) {
+        Optional<User> userOptional = accountRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            userOptional.ifPresent(user -> updateUserIntoDatabase(updatedUser, user));
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", successfulMessage, updatedUser));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail", failMessage, updatedUser));
+        }
     }
 
-    private User updateUserIntoDatabase(User updatedUser, User user) {
+    private User updateUserIntoDatabase(UserDTO updatedUser, User user) {
         user.setName(updatedUser.getName());
         user.setBirthdate(updatedUser.getBirthdate());
         user.setPhone(updatedUser.getPhone());
@@ -100,28 +111,43 @@ public class AccountService {
     }
 
     public ResponseEntity<Response> blockOrUnblockUser(long userId) {
-        accountRepository.findById(userId).map(user -> {
-            user.setIsblocked(!user.getIsblocked());
-            return accountRepository.save(user);
-        });
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Da cap nhat", ""));
+        Optional<User> userOptional = accountRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            userOptional.ifPresent(user -> {
+                user.setIsblocked(!user.getIsblocked());
+                accountRepository.save(user);
+            });
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", successfulMessage, ""));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail", failMessage, ""));
+        }
     }
 
-    public ResponseEntity<Response> updateUserRole(long userId, Role updatedRole) {
+    public ResponseEntity<Response> updateUserRole(long userId, RoleDTO updatedRole) {
         Role role = roleRepository.findByRolename(updatedRole.getRolename());
-        accountRepository.findById(userId).map(user -> {
-            user.setRole(role);
-            return accountRepository.save(user);
-        });
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Da cap nhat", ""));
+        Optional<User> userOptional = accountRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            userOptional.ifPresent(user -> {
+                user.setRole(role);
+                accountRepository.save(user);
+            });
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", successfulMessage, ""));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail", failMessage, ""));
+        }
     }
 
-    public ResponseEntity<Response> updatePassword(long userId, User updatedUser) {
-        accountRepository.findById(userId).map(user -> {
-            user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-            return accountRepository.save(user);
-        });
-        return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Da cap nhat", ""));
+    public ResponseEntity<Response> updatePassword(long userId, UserDTO updatedUser) {
+        Optional<User> userOptional = accountRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            userOptional.ifPresent(user -> {
+                user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+                accountRepository.save(user);
+            });
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", successfulMessage, ""));
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(new Response("Fail", failMessage, ""));
+        }
     }
 
     public ResponseEntity<JwtResponse> authenticateAccount(LoginRequest loginRequest) {
@@ -137,22 +163,33 @@ public class AccountService {
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "Da Dang Xuat", ""));
     }
 
-    public ResponseEntity<?> getUser(long userId) {
+    public ResponseEntity<Response> getUser(long userId) {
         return ResponseEntity.status(HttpStatus.OK).body(new Response("OK", "OK", accountRepository.findById(userId)));
     }
 
     public ResponseEntity<Response> uploadAvatar(MultipartFile file, long userId) {
         try {
-            String fileRename = userId + "."
-                    + file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-            accountRepository.findById(userId).map(user -> {
-                insertAvatarToDatabase(fileRename, user);
-                storageService.save(file, fileRename);
-                return accountRepository.save(user);
-            });
-            return ResponseEntity.status(HttpStatus.OK)
-                    .body(new Response("OK", "Successful", "Uploaded the file successfully: " + fileRename));
-        } catch (Exception e) {
+            String filename = file.getOriginalFilename();
+            if (filename != null) {
+                String fileRename = userId + "."
+                        + filename.substring(filename.lastIndexOf(".") + 1);
+                Optional<User> userOptional = accountRepository.findById(userId);
+                if (userOptional.isPresent()) {
+                    userOptional.ifPresent(user -> {
+                        insertAvatarToDatabase(fileRename, user);
+                        storageService.save(file, fileRename);
+                        accountRepository.save(user);
+                    });
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(new Response("OK", "Successful", "Uploaded the file successfully: " + fileRename));
+                } else {
+                    return ResponseEntity.status(HttpStatus.OK)
+                            .body(new Response("Fail", "Error", "Could not upload the file !"));
+                }
+            } else {
+                throw new NullPointerException();
+            }
+        } catch (NullPointerException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new Response("Fail", "Error", "Could not upload the file !"));

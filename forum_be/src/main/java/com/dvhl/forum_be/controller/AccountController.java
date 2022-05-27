@@ -5,10 +5,12 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.dvhl.forum_be.model.User;
-import com.dvhl.forum_be.Security.JwtResponse;
-import com.dvhl.forum_be.Security.LoginRequest;
+import com.dvhl.forum_be.model.UserDTO;
+import com.dvhl.forum_be.security.JwtResponse;
+import com.dvhl.forum_be.security.LoginRequest;
 import com.dvhl.forum_be.model.Response;
 import com.dvhl.forum_be.model.Role;
+import com.dvhl.forum_be.model.RoleDTO;
 import com.dvhl.forum_be.service.AccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,7 @@ public class AccountController {
     AccountService accountService;
 
     @GetMapping("/checkToken")
-    ResponseEntity<?> checkToken() {
+    ResponseEntity<Response> checkToken() {
         return ResponseEntity.status(HttpStatus.OK).body(new Response("200", "successful", ""));
     }
 
@@ -47,7 +49,7 @@ public class AccountController {
 
     @PreAuthorize("#userId == authentication.principal.id")
     @GetMapping("/getUserInfo/{userId}")
-    ResponseEntity<?> getUser(@PathVariable long userId) {
+    ResponseEntity<Response> getUser(@PathVariable long userId) {
         return accountService.getUser(userId);
     }
 
@@ -57,13 +59,13 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    ResponseEntity<Response> registerAccount(@RequestBody User newUser) {
+    ResponseEntity<Response> registerAccount(@RequestBody UserDTO newUser) {
         return accountService.registerAccount(newUser);
     }
 
     @PreAuthorize("#userId == authentication.principal.id")
     @PutMapping("/changeAccInfo/{userId}")
-    ResponseEntity<Response> changeAccountInfo(@RequestBody User updatedUser, @PathVariable long userId) {
+    ResponseEntity<Response> changeAccountInfo(@RequestBody UserDTO updatedUser, @PathVariable long userId) {
         return accountService.updateUser(updatedUser, userId);
     }
 
@@ -75,13 +77,13 @@ public class AccountController {
 
     @PreAuthorize("hasAuthority('admin')")
     @PutMapping("/changeAccRole/{userId}")
-    ResponseEntity<Response> updateUserRole(@RequestBody Role updatedRole, @PathVariable long userId) {
+    ResponseEntity<Response> updateUserRole(@RequestBody RoleDTO updatedRole, @PathVariable long userId) {
         return accountService.updateUserRole(userId, updatedRole);
     }
 
     @PreAuthorize("#userId == authentication.principal.id")
     @PutMapping("/changeAccPass/{userId}")
-    ResponseEntity<Response> changePass(@RequestBody User updatedUser, @PathVariable long userId) {
+    ResponseEntity<Response> changePass(@RequestBody UserDTO updatedUser, @PathVariable long userId) {
         return accountService.updatePassword(userId, updatedUser);
     }
 
