@@ -1,1 +1,14 @@
-This project has been recreated as 2 new projects: forum_be and forum_fe
+# Forum
+
+Sping Boot
+
+ReactJS
+
+JWT authentication
+
+Pre Authorization
+
+RESTful API
+
+Socket Realtime
+
