@@ -1,4 +1,3 @@
-// import '../CSS/Register.css';
 import { useNavigate } from "react-router-dom";
 import Keylogo from '../SVG/key.svg';
 import Userlogo from '../SVG/user.svg';

@@ -17,6 +17,8 @@ import { motion } from "framer-motion";
 import dayjs from "dayjs";
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function PostDetail() {
 
@@ -110,12 +112,10 @@ function PostDetail() {
             PostService.editComment(editCommentId, comment).then(res => {
                 reloadComments();
                 setIsEdit(false);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Comment Changed !!!!',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
+                toast.success('Comment changed !!!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                });
             })
         }
     }
@@ -139,12 +139,10 @@ function PostDetail() {
 
     const deleteComment = () => {
         PostService.deleteComment(deleteCommentId).then(res => {
-            Swal.fire({
-                icon: 'success',
-                title: 'Comment deleted !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toast.success('Comment deleted !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
             stompClient.send("notify/updateComments/" + String(id));
         })
         handleCloseDeleteCommentModal();
@@ -178,12 +176,27 @@ function PostDetail() {
             setPage(e.target.valueAsNumber);
     }
 
-    const addComment = (postid, replyid) => {
+    const addComment = (post, repliedComment) => {
         let comment = {
             content: newComment
         }
         if (newComment !== "") {
-            PostService.addComment(postid, replyid, comment).then(res => {
+            PostService.addComment(post.id, repliedComment.id, comment).then(res => {
+                if (res.data.data.status === "OK") {
+                    if (repliedComment.id === 0) {
+                        toast.success('Commented !!!', {
+                            position: "top-right",
+                            autoClose: 5000,
+                        });
+                        stompClient.send(`/notify/${post.created_acc.id}`, {}, `${localStorage.getItem("username")} commented on your post: ${post.title}`);
+                    } else {
+                        toast.success('Replied !!!', {
+                            position: "top-right",
+                            autoClose: 5000,
+                        });
+                        stompClient.send(`/notify/${repliedComment.created_acc.id}`, {}, `${localStorage.getItem("username")} replied your comment in post: ${post.title}`);
+                    }
+                }
                 if (page !== 1)
                     setPage(1);
                 else
@@ -199,10 +212,15 @@ function PostDetail() {
         handleCloseDelete();
         PostService.deletePost(String(id)).then(res => {
             if (res.data.status === 401) {
-                alert("session expired");
+                Swal.fire({
+                    icon: 'danger',
+                    title: 'Session expired !!!!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 navigate("/")
             }
-            navigate("/posts")
+            navigate("/posts/all")
         });
     }
 
@@ -236,7 +254,12 @@ function PostDetail() {
         setTimeout(async () => {
             await PostService.getPost(String(id), ourRequest).then(res => {
                 if (res.data.status === 401) {
-                    alert("session expired");
+                    Swal.fire({
+                        icon: 'danger',
+                        title: 'Session expired !!!!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     navigate("/")
                 }
                 setPost(res.data);
@@ -272,6 +295,7 @@ function PostDetail() {
 
     return (
         <div>
+            <ToastContainer theme="dark" />
             <div>
                 <table style={{ width: "100%", border: "none", marginTop: "30px" }}>
                     <tr>
@@ -325,7 +349,7 @@ function PostDetail() {
                                             <Form.Group style={{ marginTop: "30px" }}>
                                                 <Form.Control as="textarea" rows={3} placeholder='Type your comment.....' onChange={changeNewComment}></Form.Control>
                                                 <div style={{ width: "100%", textAlign: 'right' }}>
-                                                    <Button style={{ color: "white", width: "100%" }} onClick={() => addComment(post.id, 0)}>Comment</Button>
+                                                    <Button style={{ color: "white", width: "100%" }} onClick={() => addComment(post, undefined)}>Comment</Button>
                                                 </div>
                                             </Form.Group>
                                         </td>
@@ -423,7 +447,7 @@ function PostDetail() {
                                                                                 <Card.Footer>
                                                                                     <Form.Control as="textarea" cols={1} placeholder='Reply comment.....' onChange={changeNewComment}></Form.Control>
                                                                                     <div style={{ width: "100%", textAlign: "right" }}>
-                                                                                        <Button style={{ color: "white" }} onClick={() => addComment(post.id, comment.id)}>Reply</Button>
+                                                                                        <Button style={{ color: "white" }} onClick={() => addComment(post, comment)}>Reply</Button>
                                                                                         <Button style={{ color: "white", marginLeft: "10px" }} onClick={cancelReply}>Cancel</Button>
                                                                                     </div>
                                                                                 </Card.Footer>

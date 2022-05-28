@@ -7,7 +7,9 @@ import { TailSpin } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Swal from 'sweetalert2';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function ChangeInfo() {
 
@@ -41,7 +43,12 @@ function ChangeInfo() {
         setTimeout(async () => {
             await AccSV.getAccInfo(ourRequest).then(res => {
                 if (res.data.status === 401) {
-                    alert("session expired");
+                    Swal.fire({
+                        icon: 'danger',
+                        title: 'Session expired !!!!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     navigate("/")
                 }
                 setName(res.data.data.name);
@@ -65,12 +72,10 @@ function ChangeInfo() {
     const uploadAvatar = () => {
         const formData = new FormData();
         if (newAvatar === undefined) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Please choose avatar !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toast.error('Please choose avatar !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
         } else {
             formData.append("avatar", newAvatar, newAvatar.name);
             AccSV.uploadAvatar(formData).then(res => {
@@ -111,41 +116,38 @@ function ChangeInfo() {
         console.log(JSON.stringify(info));
         AccSV.changeAccInfo(info).then(res => {
             if (res.data.status === 401) {
-                alert("session expired");
+                Swal.fire({
+                    icon: 'danger',
+                    title: 'Session expired !!!!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 navigate("/")
             }
             reload();
         })
-        Swal.fire({
-            icon: 'success',
-            title: 'Info changed !!!!',
-            showConfirmButton: false,
-            timer: 1500
-        })
+        toast.success('Info changed !!!', {
+            position: "top-right",
+            autoClose: 5000,
+        });
     }
 
     const changeNewPass = () => {
         if (pass === "")
-            Swal.fire({
-                icon: 'error',
-                title: 'Please enter new pass !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toast.error('Please enter new pass !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
         else if (repass === "")
-            Swal.fire({
-                icon: 'error',
-                title: 'Please re-enter new pass !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toast.error('Please re-enter new pass !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
         else if (pass !== repass) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Pass does not match !!!!',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toast.error('Password does not match !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
             setPass("");
             setRepass("");
         } else {
@@ -154,16 +156,19 @@ function ChangeInfo() {
             }
             AccSV.changePass(updatedPass).then(res => {
                 if (res.data.status === 401) {
-                    alert("session expired");
+                    Swal.fire({
+                        icon: 'danger',
+                        title: 'Session expired !!!!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     navigate("/")
                 }
             });
-            Swal.fire({
-                icon: 'success',
-                title: 'Pass changed',
-                showConfirmButton: false,
-                timer: 1500
-            })
+            toast.success('Pass changed !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
             setPass("");
             setRepass("");
         }
@@ -171,6 +176,7 @@ function ChangeInfo() {
 
     return (
         <div>
+            <ToastContainer theme="dark" />
             {
                 (loading === true)
                     ? <TailSpin wrapperStyle={{ display: "block", position: "fixed", bottom: "5px" }} color="red" height={200} width={200} />
@@ -229,8 +235,6 @@ function ChangeInfo() {
                                 </td>
                             </tr>
                         </table>
-
-
                     </Card.Body>
                 </Card>
                 <Card style={{ marginTop: "20px" }}>

@@ -93,7 +93,12 @@ function Topic() {
             }
             TopicService.addTopic(newtopic).then(res => {
                 if (res.data.status === 401) {
-                    alert("session expired");
+                    Swal.fire({
+                        icon: 'danger',
+                        title: 'Session expired !!!!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     navigate("/")
                 }
             });
@@ -110,7 +115,12 @@ function Topic() {
     const deleteTopic = () => {
         TopicService.deleteTopic(deleteTopicid).then(res => {
             if (res.data.status === 401) {
-                alert("session expired");
+                Swal.fire({
+                    icon: 'danger',
+                    title: 'Session expired !!!!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 navigate("/")
             }
             console.log(res.data.message);
@@ -137,7 +147,12 @@ function Topic() {
         else {
             TopicService.editTopic(updatedTopic).then(res => {
                 if (res.data.status === 401) {
-                    alert("session expired");
+                    Swal.fire({
+                        icon: 'danger',
+                        title: 'Session expired !!!!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     navigate("/")
                 }
             });
@@ -172,7 +187,12 @@ function Topic() {
         setTimeout(async () => {
             await TopicService.getAllTopic(page, ourRequest).then(res => {
                 if (res.data.status === 401) {
-                    alert("session expired");
+                    Swal.fire({
+                        icon: 'danger',
+                        title: 'Session expired !!!!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     navigate("/")
                 }
                 if (res.data.content !== null) {

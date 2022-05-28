@@ -8,6 +8,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { motion } from "framer-motion";
 import dayjs from "dayjs";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 function ManageAcc() {
 
@@ -36,12 +39,21 @@ function ManageAcc() {
             setPage(e.target.valueAsNumber);
     }
 
-    const block = (id) => {
+    const block = (id, username, action) => {
         AccountService.block(id).then(res => {
             if (res.data.status === 401) {
-                alert("session expired");
+                Swal.fire({
+                    icon: 'danger',
+                    title: 'Session expired !!!!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 navigate("/")
             }
+            toast.success(`Account ${username} ${action} !!!!`, {
+                position: "top-right",
+                autoClose: 5000,
+            });
             reload();
         })
     }
@@ -52,9 +64,18 @@ function ManageAcc() {
         }
         AccountService.chagneRole(id, role).then(res => {
             if (res.data.status === 401) {
-                alert("session expired");
+                Swal.fire({
+                    icon: 'danger',
+                    title: 'Session expired !!!!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 navigate("/")
             }
+            toast.success('Role changed to Mod !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
             reload();
         })
     }
@@ -65,9 +86,18 @@ function ManageAcc() {
         }
         AccountService.chagneRole(id, role).then(res => {
             if (res.data.status === 401) {
-                alert("session expired");
+                Swal.fire({
+                    icon: 'danger',
+                    title: 'Session expired !!!!',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 navigate("/")
             }
+            toast.success('Role changed to User !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
             reload();
         })
     }
@@ -88,7 +118,12 @@ function ManageAcc() {
         setTimeout(async () => {
             await AccountService.getAllAcc(page, ourRequest).then(res => {
                 if (res.data.status === 401) {
-                    alert("session expired");
+                    Swal.fire({
+                        icon: 'danger',
+                        title: 'Session expired !!!!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     navigate("/")
                 }
                 if (res.data.content !== null) {
@@ -107,6 +142,7 @@ function ManageAcc() {
 
     return (
         <div>
+            <ToastContainer theme="dark" />
             {
                 (mount === false)
                     ?
@@ -130,7 +166,7 @@ function ManageAcc() {
                                     </tr>
                                 </table>
                             </td>
-                            <motion.td style={{ width: "80%"}}
+                            <motion.td style={{ width: "80%" }}
                                 animate={{
                                     opacity: [0, 1],
                                     translateY: [80, 0],
@@ -164,7 +200,7 @@ function ManageAcc() {
                                                         <td>{acc.email}</td>
                                                         <td>{acc.phone}</td>
                                                         <td>
-                                                            {(acc.isblocked) ? <button className="btn btn-warning" onClick={() => block(acc.id)}>UnBlock</button> : <button className="btn btn-danger" onClick={() => block(acc.id)}>Block</button>}
+                                                            {(acc.isblocked) ? <button className="btn btn-warning" onClick={() => block(acc.id, acc.username, "unblock")}>UnBlock</button> : <button className="btn btn-danger" onClick={() => block(acc.id, acc.username, "block")}>Block</button>}
                                                             {(acc.role.rolename === "mod") ? <Button className="btn btn-primary" active disabled>Mod</Button> : <Button className="btn btn-primary" onClick={() => setRoleToMod(acc.id)}>Mod</Button>}
                                                             {(acc.role.rolename === "user") ? <Button className="btn btn-primary" active disabled>User</Button> : <Button className="btn btn-primary" onClick={() => setRoleToUser(acc.id)}>User</Button>}
                                                         </td>

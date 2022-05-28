@@ -59,11 +59,11 @@ function CreatePost() {
                 content: newContent
             }
             PostService.createPost(Number(topicId), newPost).then(res => {
-                setTopicId(0);
+                setTopicId("0");
                 setNewTitle("");
                 setNewContent("");
                 if (role === "user") {
-                    stompClient.send("/notify/updatePostsToApprove");
+                    stompClient.send("/notify/updateNewPostsToApprove");
                     Swal.fire({
                         icon: 'success',
                         title: 'Successful, please waiting for approval !!!!',
@@ -83,10 +83,12 @@ function CreatePost() {
     }
 
     const connectSocket = () => {
-        stompClient.connect({
-            "Authorization": `Bearer ${localStorage.getItem("token")}`,
-            "Access-Control-Allow-Credentials": true,
-        }, () => { /* TODO document why this arrow function is empty */ }, onError);
+        if (!stompClient.connected) {
+            stompClient.connect({
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                "Access-Control-Allow-Credentials": true,
+            }, () => { /* TODO document why this arrow function is empty */ }, onError);
+        }
     }
 
     const onError = (err) => {

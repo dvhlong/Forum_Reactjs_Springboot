@@ -3,6 +3,7 @@ package com.dvhl.forum_be.socket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,15 +26,21 @@ public class SocketController {
         simpMessagingTemplate.convertAndSend("/receivedUpdateComments/" + postId, reloadPageRequest);
     }
 
+    @MessageMapping("/updateNewPostsToApprove")
+    @SendTo("/public/receivedUpdateNewPostsToApprove")
+    String updateNewPostsNotApprove() {
+        return reloadPageRequest;
+    }
+
     @MessageMapping("/updatePostsToApprove")
-    @SendTo("/receivedUpdatePostsToApprove")
+    @SendTo("/public/receivedUpdatePostsToApprove")
     String updatePostsNotApprove() {
         return reloadPageRequest;
     }
 
-    @MessageMapping("/notify/{receivedUserId}")
-    void updateNotification(@DestinationVariable long receivedUserId) {
-        simpMessagingTemplate.convertAndSend("/updateNotification/" + receivedUserId, reloadPageRequest);
+    @MessageMapping("/{receivedUsername}")
+    void updateNotification(@DestinationVariable String receivedUsername, @Payload String message) {
+        simpMessagingTemplate.convertAndSendToUser(receivedUsername, "/updateNotification/", message);
     }
 
 }

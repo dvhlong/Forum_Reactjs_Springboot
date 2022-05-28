@@ -67,7 +67,12 @@ function EditPost() {
         } else {
             PostService.editPost(Number(topicId), updatedPost).then(res => {
                 if (res.data.status === 401) {
-                    alert("session expired");
+                    Swal.fire({
+                        icon: 'danger',
+                        title: 'Session expired !!!!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     navigate("/")
                 } else {
                     stompClient.send("/notify/updatePost/" + updatedPost.id);
@@ -105,7 +110,12 @@ function EditPost() {
         setTimeout(async () => {
             await PostService.getPost(String(id), ourRequest).then(res => {
                 if (res.data.status === 401) {
-                    alert("session expired");
+                    Swal.fire({
+                        icon: 'danger',
+                        title: 'Session expired !!!!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     navigate("/")
                 }
                 setTopicId(res.data.topic.id)

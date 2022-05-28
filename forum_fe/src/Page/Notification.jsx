@@ -8,6 +8,8 @@ import axios from "axios";
 import NotificationComponent from '../Component/NotificationComponent';
 import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Notification() {
 
@@ -48,17 +50,23 @@ function Notification() {
     }
 
     const connectSocket = () => {
-        stompClient.connect({
-            "Authorization": `Bearer ${localStorage.getItem("token")}`,
-            "Access-Control-Allow-Credentials": true,
-        }, onConnected, onError);
+        if (!stompClient.connected) {
+            stompClient.connect({
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                "Access-Control-Allow-Credentials": true,
+            }, onConnected, onError);
+        }
     }
 
     const onConnected = () => {
-        stompClient.subscribe('/updateNotification/' + localStorage.getItem("accid"), onUpdateNotificationMessage);
+        stompClient.subscribe(`/user/${localStorage.getItem("username")}/updateNotification/`, onUpdateNotificationMessage, { id: "notification" });
     }
 
-    const onUpdateNotificationMessage = () => {
+    const onUpdateNotificationMessage = (payload) => {
+        toast.info(payload.body, {
+            position: "top-right",
+            autoClose: 5000,
+        });
         reload();
     }
 
@@ -91,6 +99,7 @@ function Notification() {
 
     return (
         <div>
+            <ToastContainer theme="dark" />
             <h1 style={{ textAlign: "center", color: "black" }}>NOTIFICATION</h1>
             <table style={{ width: "100%", border: "none" }}>
                 <td style={{ width: "30%", color: "yellow", verticalAlign: "top" }}>

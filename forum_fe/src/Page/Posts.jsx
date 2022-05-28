@@ -8,6 +8,7 @@ import { TailSpin } from 'react-loader-spinner';
 import axios from "axios";
 import SideComponent from '../Component/SideComponent';
 import { animate, motion } from "framer-motion";
+import Swal from 'sweetalert2';
 import dayjs from "dayjs";
 
 function Posts() {
@@ -58,7 +59,12 @@ function Posts() {
             if (key !== undefined && key !== "")
                 await PostService.getPostsByKeyword(key, page, ourRequest).then(res => {
                     if (res.data.status === 401) {
-                        alert("session expired");
+                        Swal.fire({
+                            icon: 'danger',
+                            title: 'Session expired !!!!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                         navigate("/")
                     }
                     if (res.data.content !== null) {
@@ -69,7 +75,12 @@ function Posts() {
             else if (topicid !== undefined)
                 await PostService.getPostsByTopic(topicid, page, ourRequest).then(res => {
                     if (res.data.status === 401) {
-                        alert("session expired");
+                        Swal.fire({
+                            icon: 'danger',
+                            title: 'Session expired !!!!',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                         navigate("/")
                     }
                     if (res.data.content !== null) {
@@ -79,7 +90,12 @@ function Posts() {
                 })
             else await PostService.getPosts(page, ourRequest).then(res => {
                 if (res.data.status === 401) {
-                    alert("session expired");
+                    Swal.fire({
+                        icon: 'danger',
+                        title: 'Session expired !!!!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                     navigate("/")
                 }
                 if (res.data.content !== null) {

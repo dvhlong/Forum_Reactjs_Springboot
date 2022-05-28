@@ -12,3 +12,5 @@ RESTful API
 
 Socket Realtime
 
+MySQL/PostgreSQL
+
