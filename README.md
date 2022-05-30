@@ -20,20 +20,20 @@ Socket Realtime
 
 ## Database
 
-MySQL / PostgreSQL(Recommend to deploy)
+MySQL / PostgreSQL
 
 ## Upload File
 
-Upload Image to GGDrive using Google Drive API
+Upload Image with Google Drive API
 
 Link folder https://drive.google.com/drive/folders/1nHgSB-J0xYvQJS8awH9EWakjX5vU-RYm
 
 ## Deploying
 
-Deployed on Netlify (ReactJS)
+Netlify (ReactJS)
 
-Deployed on Heroku (Spring Boot, PostgreSQL)
+Heroku (Spring Boot, PostgreSQL)
 
 Link open app: https://phenomenal-madeleine-18dbfe.netlify.app (Shortened link: bit.ly/sorais599_Forum)
 
-### If this app was inactive for long time, you shoul wait 30 seconds to wake up Heroku server after opening app
+### If this app was inactive for long time, please wait 30 seconds to wake up Heroku server after opening app
