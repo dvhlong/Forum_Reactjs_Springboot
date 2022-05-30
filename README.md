@@ -22,11 +22,11 @@ Socket Realtime
 
 MySQL / PostgreSQL
 
-## Upload File
+## Other
 
-Upload Image with Google Drive API
+Upload Image with Google Drive API: https://drive.google.com/drive/folders/1nHgSB-J0xYvQJS8awH9EWakjX5vU-RYm
 
-Link folder https://drive.google.com/drive/folders/1nHgSB-J0xYvQJS8awH9EWakjX5vU-RYm
+CKEditor5 (Custom builder): https://ckeditor.com/ckeditor-5/online-builder/
 
 ## Deploying
 
