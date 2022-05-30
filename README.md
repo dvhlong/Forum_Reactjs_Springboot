@@ -1,20 +1,38 @@
-# Forum
+# Đoàn Văn Hoàng Long - Tech Forum
 
-Sping Boot
+## Framework:
 
-ReactJS
+Sping Boot (Backend)
+
+ReactJS (Frontend)
+
+## Security:
 
 JWT Authentication
 
 Pre Authorization
 
+## Web Service
+
 RESTful API
 
 Socket Realtime
 
-MySQL/PostgreSQL
+## Database
 
-Upload Image to Google Drive: https://drive.google.com/drive/folders/1nHgSB-J0xYvQJS8awH9EWakjX5vU-RYm
+MySQL / PostgreSQL(Recommend to deploy)
 
-Deployed on Netlify (ReactJS) and Heroku (Spring Boot, PostgreSQL): https://phenomenal-madeleine-18dbfe.netlify.app
+## Upload File
+
+Upload Image to GGDrive using Google Drive API
+
+Link folder https://drive.google.com/drive/folders/1nHgSB-J0xYvQJS8awH9EWakjX5vU-RYm
+
+## Deploying
+
+Deployed on Netlify (ReactJS)
+
+Deployed on Heroku (Spring Boot, PostgreSQL)
+
+Link open app: https://phenomenal-madeleine-18dbfe.netlify.app
 
