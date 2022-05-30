@@ -1,7 +1,6 @@
 package com.dvhl.forum_be.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -96,6 +95,7 @@ public class AccountService {
         Role role = roleRepository.findByRolename("user");
         User user = new User();
         user.setRole(role);
+        user.setEmail(newUser.getEmail());
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         user.setCreatedAt(timeService.getCurrentTimestamp());
         user.setUsername(newUser.getUsername());
