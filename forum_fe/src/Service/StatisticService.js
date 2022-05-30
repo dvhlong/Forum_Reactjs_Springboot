@@ -1,6 +1,6 @@
 import axios from "axios";
 class StatisticService {
-    baseURL = "http://" + window.location.hostname + ":8080";
+    baseURL = "https://dvhl-forum-be.herokuapp.com";
     getStatistic(ourRequest) {
         return axios(
             {

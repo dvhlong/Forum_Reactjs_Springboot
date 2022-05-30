@@ -48,7 +48,6 @@ public class FilesStorageServiceImpl implements FilesStorageService {
                 Path file = root.resolve("img_avatar.png");
                 resource = new UrlResource(file.toUri());
             }
-
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {

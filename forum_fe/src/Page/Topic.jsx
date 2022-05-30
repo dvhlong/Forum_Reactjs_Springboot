@@ -37,6 +37,10 @@ function Topic() {
 
     const [pages, setPages] = useState(0);
 
+    const [update, setUpdate] = useState(false);
+
+    const reload = () => setUpdate(!update);
+
     const [newTopicName, setNewTopicName] = useState("");
 
     const [editTopicid, setEditTopicId] = useState(0)
@@ -102,13 +106,12 @@ function Topic() {
                     navigate("/")
                 }
             });
-            Swal.fire({
-                icon: 'success',
-                title: 'Added !!!',
-                showConfirmButton: false,
-                timer: 2000
-            })
+            toast.success('New topic added !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
             handleCloseAdd();
+            reload();
         }
     }
 
@@ -132,6 +135,7 @@ function Topic() {
             timer: 2000
         })
         handleCloseDelete();
+        reload();
     }
 
     const changeTopic = () => {
@@ -156,13 +160,12 @@ function Topic() {
                     navigate("/")
                 }
             });
-            Swal.fire({
-                icon: 'success',
-                title: 'Topic changed !!!',
-                showConfirmButton: false,
-                timer: 2000
-            })
+            toast.success('Topic changed !!!', {
+                position: "top-right",
+                autoClose: 5000,
+            });
             handleCloseEdit();
+            reload()
         }
     }
 
@@ -209,7 +212,7 @@ function Topic() {
         return () => {
             ourRequest.cancel('Request is canceled by user');
         }
-    }, [page, reloadPageNavigated]);
+    }, [page, reloadPageNavigated, update]);
 
     return (
         <div>
@@ -274,9 +277,9 @@ function Topic() {
                                                                                     <Dropdown.Item href="#" onClick={() => handleShowEdit(topic)}>
                                                                                         Edit Topic
                                                                                     </Dropdown.Item>
-                                                                                    <Dropdown.Item href="#" onClick={() => handleShowDelete(topic.id)}>
+                                                                                    {/* <Dropdown.Item href="#" onClick={() => handleShowDelete(topic.id)}>
                                                                                         Delete Topic
-                                                                                    </Dropdown.Item>
+                                                                                    </Dropdown.Item> */}
                                                                                 </Dropdown.Menu>
                                                                             </Dropdown> : <></>
                                                                         }

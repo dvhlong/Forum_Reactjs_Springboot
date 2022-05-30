@@ -1,4 +1,3 @@
-// import logo from './logo.svg';
 import './App.css';
 import Login from './Page/Login';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';

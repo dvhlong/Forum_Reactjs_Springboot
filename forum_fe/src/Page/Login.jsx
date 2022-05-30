@@ -7,6 +7,8 @@ import { GoogleLogin } from 'react-google-login';
 
 function Login() {
 
+    const serverUrl = "https://dvhl-forum-be.herokuapp.com";
+
     let navigate = useNavigate();
 
     const responseGoogle = (res) => {
@@ -36,7 +38,6 @@ function Login() {
             username: username,
             password: password
         }
-        // console.log(JSON.stringify(acc));
         if (username === "")
             setError("Please type username !!!")
         else if (password === "")
@@ -50,7 +51,7 @@ function Login() {
                         localStorage.setItem("accid", res.data.acc.id);
                         localStorage.setItem("username", res.data.acc.username);
                         localStorage.setItem("role", res.data.acc.authorities[0].authority)
-                        localStorage.setItem("avatar", "http://" + window.location.hostname + ":8080/files/" + res.data.acc.avatar)
+                        localStorage.setItem("avatar", res.data.acc.avatarUrl)
                         navigate('/topic');
                     } else if (res.data.message === "User account is locked") {
                         setError("Username is blocked !!!!");

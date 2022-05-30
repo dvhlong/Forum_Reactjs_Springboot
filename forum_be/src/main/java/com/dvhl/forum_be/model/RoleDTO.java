@@ -1,15 +1,20 @@
 package com.dvhl.forum_be.model;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
-@AllArgsConstructor
 public class RoleDTO {
 
     private long id;
 
     private String rolename;
+
+    private String imageUrl;
+
+    public RoleDTO() {
+    }
+
+    public RoleDTO(String rolename, String imageUrl) {
+        this.rolename = rolename;
+        this.imageUrl = imageUrl;
+    }
 
     public long getId() {
         return id;
@@ -25,6 +30,14 @@ public class RoleDTO {
 
     public void setRolename(String rolename) {
         this.rolename = rolename;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 }

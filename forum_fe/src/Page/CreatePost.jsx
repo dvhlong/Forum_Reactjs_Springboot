@@ -14,7 +14,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function CreatePost() {
 
-    let Sock = new SockJS('http://localhost:8080/ws');
+    const serverUrl = "https://dvhl-forum-be.herokuapp.com";
+
+    let Sock = new SockJS(serverUrl + '/ws');
 
     let stompClient = over(Sock);
 

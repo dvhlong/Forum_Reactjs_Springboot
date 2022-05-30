@@ -18,11 +18,14 @@ public class Role {
     @Column(unique = true)
     private String rolename;
 
+    private String imageUrl;
+
     public Role() {
     }
 
-    public Role(String rolename) {
+    public Role(String rolename, String imageUrl) {
         this.rolename = rolename;
+        this.imageUrl = imageUrl;
     }
 
     public long getId() {
@@ -39,6 +42,14 @@ public class Role {
 
     public void setRolename(String rolename) {
         this.rolename = rolename;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 }

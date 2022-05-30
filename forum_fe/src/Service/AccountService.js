@@ -1,6 +1,7 @@
 import axios from "axios";
 class AccountService {
-    baseURL = "http://" + window.location.hostname + ":8080";
+    // baseURL = "http://" + window.location.hostname + ":8080";
+    baseURL = "https://dvhl-forum-be.herokuapp.com";
     checkToken() {
         return axios(
             {

@@ -3,11 +3,6 @@ package com.dvhl.forum_be.model;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserDTO {
 
     private long id;
@@ -35,6 +30,26 @@ public class UserDTO {
     private Timestamp createdat;
 
     private Timestamp updatedat;
+
+    public UserDTO(long id, String username, String password, Role role, boolean isblocked, String name, String email,
+            String phone, Date birthdate, String avatar, String avatarUrl, Timestamp createdat, Timestamp updatedat) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.isblocked = isblocked;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.birthdate = birthdate;
+        this.avatar = avatar;
+        this.avatarUrl = avatarUrl;
+        this.createdat = createdat;
+        this.updatedat = updatedat;
+    }
+
+    public UserDTO() {
+    }
 
     public long getId() {
         return id;

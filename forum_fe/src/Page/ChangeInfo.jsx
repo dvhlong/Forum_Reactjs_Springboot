@@ -13,6 +13,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function ChangeInfo() {
 
+    const serverUrl = "https://dvhl-forum-be.herokuapp.com";
+
     let navigate = useNavigate();
 
     const [newAvatar, setNewAvatar] = useState();
@@ -55,8 +57,8 @@ function ChangeInfo() {
                 setPhone(res.data.data.phone);
                 setEmail(res.data.data.email);
                 setDateOfBirth(res.data.data.birthdate);
-                setAvatar(res.data.data.avatar);
-                localStorage.setItem("avatar", "http://" + window.location.hostname + ":8080/files/" + res.data.data.avatar);
+                setAvatar(res.data.data.avatarUrl);
+                localStorage.setItem("avatar", res.data.data.avatarUrl);
             })
             setLoading(false);
             return () => {
@@ -79,8 +81,18 @@ function ChangeInfo() {
         } else {
             formData.append("avatar", newAvatar, newAvatar.name);
             AccSV.uploadAvatar(formData).then(res => {
-                console.log(res);
-                reload();
+                if (res.data.status === "OK") {
+                    toast.success('Upload avatar successful !!!', {
+                        position: "top-right",
+                        autoClose: 5000,
+                    });
+                    reload();
+                } else {
+                    toast.error('Upload avatar fail !!!', {
+                        position: "top-right",
+                        autoClose: 5000,
+                    });
+                }
             })
             setNewAvatar();
         }
@@ -196,7 +208,7 @@ function ChangeInfo() {
                         <table style={{ width: "100%" }}>
                             <tr style={{ textAlign: "center" }}>
                                 <td>
-                                    <img style={{ width: "200px", height: "200px", borderRadius: "50%" }} src={"http://" + window.location.hostname + ":8080/files/" + avatar} key={avatar} alt=''></img>
+                                    <img style={{ width: "200px", height: "200px", borderRadius: "50%" }} src={avatar} key={avatar} alt=''></img>
                                 </td>
                             </tr>
                             <tr>

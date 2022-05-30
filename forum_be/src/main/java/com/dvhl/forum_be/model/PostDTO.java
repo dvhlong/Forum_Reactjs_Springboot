@@ -2,11 +2,6 @@ package com.dvhl.forum_be.model;
 
 import java.sql.Timestamp;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
-@AllArgsConstructor
 public class PostDTO {
 
     private long id;
@@ -38,6 +33,29 @@ public class PostDTO {
     private long approvedUserId;
 
     private Timestamp approvedAt;
+
+    public PostDTO() {
+    }
+
+    public PostDTO(long id, String title, String content, long view, boolean isdeleted, boolean isapproved,
+            long topicId, long createdUserId, Timestamp createdAt, long updatedUserId, Timestamp updatedAt,
+            long deletedUserId, Timestamp deletedat, long approvedUserId, Timestamp approvedAt) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.view = view;
+        this.isdeleted = isdeleted;
+        this.isapproved = isapproved;
+        this.topicId = topicId;
+        this.createdUserId = createdUserId;
+        this.createdAt = createdAt;
+        this.updatedUserId = updatedUserId;
+        this.updatedAt = updatedAt;
+        this.deletedUserId = deletedUserId;
+        this.deletedat = deletedat;
+        this.approvedUserId = approvedUserId;
+        this.approvedAt = approvedAt;
+    }
 
     public long getId() {
         return id;

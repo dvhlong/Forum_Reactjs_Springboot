@@ -20,7 +20,9 @@ import Swal from 'sweetalert2';
 
 function ApprovePosts() {
 
-    let Sock = new SockJS('http://localhost:8080/ws');
+    const serverUrl = "https://dvhl-forum-be.herokuapp.com";
+
+    let Sock = new SockJS(serverUrl + '/ws');
 
     var stompClient = over(Sock);
 
@@ -213,9 +215,9 @@ function ApprovePosts() {
                                                                                     &nbsp;
                                                                                     {dayjs(post.created_at).format('(DD/MM/YYYY [at] HH:mm)')}
                                                                                 </p>
-                                                                                <p>Account created: <img style={{ width: "50px", height: "50px", borderRadius: "50px" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.avatar} alt=''></img>
+                                                                                <p>Account created: <img style={{ width: "50px", height: "50px", borderRadius: "50px" }} src={post.created_acc.avatarUrl} alt=''></img>
                                                                                     &nbsp;<b>{post.created_acc.username}</b>
-                                                                                    &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.role.rolename + "Logo.png"} alt=''></img>
+                                                                                    &nbsp;<img style={{ width: "20px", height: "20px" }} src={post.created_acc.role.imageUrl} alt=''></img>
                                                                                 </p>
                                                                                 <p>Topic: {post.topic.topicname}</p>
                                                                             </Card.Header>

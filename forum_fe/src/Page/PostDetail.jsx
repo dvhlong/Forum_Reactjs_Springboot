@@ -22,7 +22,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function PostDetail() {
 
-    let Sock = new SockJS('http://localhost:8080/ws');
+    const serverUrl = "https://dvhl-forum-be.herokuapp.com";
+
+    let Sock = new SockJS(serverUrl + '/ws');
 
     let stompClient = over(Sock);
 
@@ -329,9 +331,9 @@ function PostDetail() {
                                         <td style={{ width: "100%" }}>
                                             <Card style={{ marginBottom: "20px" }}>
                                                 <Card.Header style={{ color: "blue" }}>
-                                                    <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.avatar} alt=''></img>
+                                                    <img style={{ width: "50px", height: "50px", borderRadius: "50%" }} src={post.created_acc.avatarUrl} alt=''></img>
                                                     <b>&nbsp;{post.created_acc.username}</b>
-                                                    &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://" + window.location.hostname + ":8080/files/" + post.created_acc.role.rolename + "Logo.png"} alt=''></img>
+                                                    &nbsp;<img style={{ width: "20px", height: "20px" }} src={post.created_acc.role.imageUrl} alt=''></img>
                                                     {
                                                         <>&nbsp;|&nbsp;
                                                             {dayjs(post.created_at).locale("en").fromNow()}
@@ -404,9 +406,9 @@ function PostDetail() {
                                                                 <td style={{ width: "100%" }}>
                                                                     <Card style={{ marginBottom: "20px", marginTop: "30px" }}>
                                                                         <Card.Header style={{ color: "blue" }}>
-                                                                            <img style={{ width: "50px", height: "50px", borderRadius: "50px" }} src={"http://" + window.location.hostname + ":8080/files/" + comment.created_acc.avatar} alt=''></img>
+                                                                            <img style={{ width: "50px", height: "50px", borderRadius: "50px" }} src={comment.created_acc.avatarUrl} alt=''></img>
                                                                             <b>&nbsp;{comment.created_acc.username}</b>
-                                                                            &nbsp;<img style={{ width: "20px", height: "20px" }} src={"http://" + window.location.hostname + ":8080/files/" + comment.created_acc.role.rolename + "Logo.png"} alt=''></img>
+                                                                            &nbsp;<img style={{ width: "20px", height: "20px" }} src={comment.created_acc.role.imageUrl} alt=''></img>
                                                                             {
                                                                                 <>&nbsp;|&nbsp;
                                                                                     {dayjs(comment.created_at).locale("en").fromNow()}

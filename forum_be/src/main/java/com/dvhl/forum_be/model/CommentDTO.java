@@ -2,11 +2,6 @@ package com.dvhl.forum_be.model;
 
 import java.sql.Timestamp;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
-@AllArgsConstructor
 public class CommentDTO {
 
     private long id;
@@ -30,6 +25,25 @@ public class CommentDTO {
     private long deletedUserId;
 
     private Timestamp deletedAt;
+
+    public CommentDTO() {
+    }
+
+    public CommentDTO(long id, long postId, String content, boolean isdeleted, long repliedCommentId,
+            long createdUserId, Timestamp createdAt, long updatedUserId, Timestamp updatedAt, long deletedUserId,
+            Timestamp deletedAt) {
+        this.id = id;
+        this.postId = postId;
+        this.content = content;
+        this.isdeleted = isdeleted;
+        this.repliedCommentId = repliedCommentId;
+        this.createdUserId = createdUserId;
+        this.createdAt = createdAt;
+        this.updatedUserId = updatedUserId;
+        this.updatedAt = updatedAt;
+        this.deletedUserId = deletedUserId;
+        this.deletedAt = deletedAt;
+    }
 
     public long getId() {
         return id;

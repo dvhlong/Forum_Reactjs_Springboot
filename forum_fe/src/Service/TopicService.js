@@ -1,6 +1,6 @@
 import axios from "axios";
 class TopicService {
-    baseURL = "http://" + window.location.hostname + ":8080";
+    baseURL = "https://dvhl-forum-be.herokuapp.com";
     getAllTopic(page, ourRequest) {
         return axios(
             {
