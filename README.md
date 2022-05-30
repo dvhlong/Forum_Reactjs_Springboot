@@ -34,5 +34,6 @@ Deployed on Netlify (ReactJS)
 
 Deployed on Heroku (Spring Boot, PostgreSQL)
 
-Link open app: https://phenomenal-madeleine-18dbfe.netlify.app
+Link open app: https://phenomenal-madeleine-18dbfe.netlify.app (Shortened link: bit.ly/sorais599_Forum)
 
+### If this app was inactive for long time, you shoul wait 30 seconds to wake up Heroku server after opening app
