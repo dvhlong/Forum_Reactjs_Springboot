@@ -16,7 +16,7 @@ Pre Authorization
 
 RESTful API
 
-Socket Realtime
+Socket Realtime (disabled, Error on Heroku)
 
 ## Database
 
