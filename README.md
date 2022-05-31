@@ -36,4 +36,3 @@ Heroku (Spring Boot, PostgreSQL)
 
 Link open app: https://phenomenal-madeleine-18dbfe.netlify.app (Shortened link: bit.ly/sorais599_Forum)
 
-### If this app was inactive for long time, please wait 30 seconds to wake up Heroku server after opening app
