@@ -39,7 +39,6 @@ function ApprovePosts() {
     const [update, setUpdate] = useState(false);
 
     const reload = () => {
-        disconectSocket();
         setUpdate(!update);
     }
 
@@ -75,8 +74,9 @@ function ApprovePosts() {
                 })
                 navigate("/");
             }
-            stompClient.send(`/notify/${post.created_acc.username}`, {}, `${localStorage.getItem("username")} approved your post: ${post.title}`);
-            stompClient.send("/notify/updatePostsToApprove");
+            reload()
+            // stompClient.send(`/notify/${post.created_acc.username}`, {}, `${localStorage.getItem("username")} approved your post: ${post.title}`);
+            // stompClient.send("/notify/updatePostsToApprove");
         })
         toast.success('Approved !!!', {
             position: "top-right",
@@ -95,7 +95,8 @@ function ApprovePosts() {
                 })
                 navigate("/")
             }
-            stompClient.send("/notify/updatePostsToApprove");
+            reload();
+            // stompClient.send("/notify/updatePostsToApprove");
         })
         toast.success('Rejected !!!', {
             position: "top-right",
@@ -172,8 +173,8 @@ function ApprovePosts() {
                 {/* <Header/> */}
                 {/* <h1 style={{textAlign:"center",color:"white"}}>APPROVE POST</h1> */}
                 <table style={{ width: "100%", border: "none", marginTop: "30px" }}>
-                    <td style={{ width: "30%", color: "yellow", verticalAlign: "top" }}>
-                        <table style={{ width: "100%", textAlign: "center" }}>
+                    <td style={{ width: "25%", color: "yellow", verticalAlign: "top" }}>
+                        <table style={{ width: "70%", textAlign: "center" }}>
                             <tr>
                                 {
                                     (loading === true)
@@ -187,7 +188,7 @@ function ApprovePosts() {
                             </tr>
                         </table>
                     </td>
-                    <td style={{ width: "60%" }}>
+                    <td style={{ width: "55%" }}>
                         {
                             (mount === false)
                                 ?
@@ -252,7 +253,7 @@ function ApprovePosts() {
 
                         }
                     </td>
-                    <td style={{ width: "10%", color: "yellow", verticalAlign: "top" }}>
+                    <td style={{ width: "20%", color: "yellow", verticalAlign: "top" }}>
                     </td>
 
                 </table>

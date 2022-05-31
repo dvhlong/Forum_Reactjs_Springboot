@@ -220,8 +220,8 @@ function Topic() {
             <div>
                 {/* <h1 style={{textAlign:"center",color:"white"}}>TOPIC</h1> */}
                 <table style={{ width: "100%", border: "none", marginTop: "30px" }}>
-                    <td style={{ width: "30%", verticalAlign: "top" }}>
-                        <table style={{ width: "100%", textAlign: "center" }}>
+                    <td style={{ width: "25%", verticalAlign: "top" }}>
+                        <table style={{ width: "70%", textAlign: "center" }}>
                             <tr>
                                 {
                                     (loading === true)
@@ -235,7 +235,7 @@ function Topic() {
                             </tr>
                         </table>
                     </td>
-                    <td style={{ width: "60%" }}>
+                    <td style={{ width: "55%" }}>
                         {
                             (mount === false)
                                 ?
@@ -267,7 +267,7 @@ function Topic() {
                                                                             </Card.Body>
                                                                         </Card>
                                                                     </td>
-                                                                    <td style={{ verticalAlign: "top" }}>
+                                                                    <td style={{ verticalAlign: "top", width: "10%" }}>
                                                                         {canAddTopic ?
                                                                             <Dropdown>
                                                                                 <Dropdown.Toggle variant="light">
@@ -302,7 +302,7 @@ function Topic() {
 
                         }
                     </td>
-                    <td style={{ width: "10%", color: "yellow", verticalAlign: "top" }}>
+                    <td style={{ width: "20%", color: "yellow", verticalAlign: "top", textAlign: "center" }}>
                         {canAddTopic ? <button style={{ background: "blue", color: "white" }} onClick={handleShowAdd} className='btn btn=primary'><img src={add} alt="" /> Add Topic</button> : <></>}
                         <Modal
                             show={showEdit}

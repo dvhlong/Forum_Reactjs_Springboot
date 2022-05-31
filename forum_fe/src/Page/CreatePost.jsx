@@ -65,7 +65,7 @@ function CreatePost() {
                 setNewTitle("");
                 setNewContent("");
                 if (role === "user") {
-                    stompClient.send("/notify/updateNewPostsToApprove");
+                    // stompClient.send("/notify/updateNewPostsToApprove");
                     Swal.fire({
                         icon: 'success',
                         title: 'Successful, please waiting for approval !!!!',

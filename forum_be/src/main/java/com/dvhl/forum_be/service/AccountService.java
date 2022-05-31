@@ -94,6 +94,7 @@ public class AccountService {
     private void insertUserToDatabase(UserDTO newUser) {
         Role role = roleRepository.findByRolename("user");
         User user = new User();
+        user.setAvatarUrl("https://drive.google.com/uc?export=view&id=1cIgmNNzJVnsunnlDmhft52zhGL8YN8q_");
         user.setRole(role);
         user.setEmail(newUser.getEmail());
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));

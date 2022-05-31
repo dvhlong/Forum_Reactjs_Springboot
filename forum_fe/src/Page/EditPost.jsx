@@ -77,7 +77,7 @@ function EditPost() {
                     })
                     navigate("/")
                 } else {
-                    stompClient.send("/notify/updatePost/" + updatedPost.id);
+                    // stompClient.send("/notify/updatePost/" + updatedPost.id);
                 }
             })
             Swal.fire({

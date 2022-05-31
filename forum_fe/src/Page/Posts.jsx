@@ -119,8 +119,8 @@ function Posts() {
             <div>
                 {/* <h1 style={{textAlign:"center",color:"white"}}>POST</h1> */}
                 <table style={{ width: "100%", border: "none", marginTop: "30px" }}>
-                    <td style={{ width: "30%", color: "yellow", verticalAlign: "top" }}>
-                        <table style={{ width: "100%", textAlign: "center" }}>
+                    <td style={{ width: "25%", color: "yellow", verticalAlign: "top" }}>
+                        <table style={{ width: "70%", textAlign: "center" }}>
                             <tr>
                                 {
                                     (loading === true)
@@ -134,7 +134,7 @@ function Posts() {
                             </tr>
                         </table>
                     </td>
-                    <td style={{ width: "60%" }}>
+                    <td style={{ width: "55%" }}>
                         {
                             (mount === false)
                                 ?
@@ -193,7 +193,7 @@ function Posts() {
 
                         }
                     </td>
-                    <td style={{ width: "10%", color: "yellow", verticalAlign: "top" }}>
+                    <td style={{ width: "20%", color: "yellow", verticalAlign: "top" }}>
                     </td>
                 </table>
             </div>

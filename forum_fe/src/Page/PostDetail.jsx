@@ -63,7 +63,6 @@ function PostDetail() {
     const [updateComments, setUpdateComments] = useState(false);
 
     const reloadComments = () => {
-        disconectSocket();
         setUpdateComments(!updateComments);
     }
 
@@ -141,13 +140,14 @@ function PostDetail() {
 
     const deleteComment = () => {
         PostService.deleteComment(deleteCommentId).then(res => {
+            reloadComments();
             toast.success('Comment deleted !!!', {
                 position: "top-right",
                 autoClose: 5000,
             });
-            stompClient.send("notify/updateComments/" + String(id));
         })
         handleCloseDeleteCommentModal();
+
     }
 
     const [page, setPage] = useState(1);
@@ -178,31 +178,32 @@ function PostDetail() {
             setPage(e.target.valueAsNumber);
     }
 
-    const addComment = (post, repliedComment) => {
+    const addComment = (repliedComment) => {
         let comment = {
             content: newComment
         }
         if (newComment !== "") {
-            PostService.addComment(post.id, repliedComment.id, comment).then(res => {
+            PostService.addComment(post.id, replyCommentId, comment).then(res => {
                 if (res.data.data.status === "OK") {
-                    if (repliedComment.id === 0) {
+                    if (replyCommentId === 0) {
                         toast.success('Commented !!!', {
                             position: "top-right",
                             autoClose: 5000,
                         });
-                        stompClient.send(`/notify/${post.created_acc.id}`, {}, `${localStorage.getItem("username")} commented on your post: ${post.title}`);
+                        // stompClient.send(`/notify/${post.created_acc.id}`, {}, `${localStorage.getItem("username")} commented on your post: ${post.title}`);
                     } else {
                         toast.success('Replied !!!', {
                             position: "top-right",
                             autoClose: 5000,
                         });
-                        stompClient.send(`/notify/${repliedComment.created_acc.id}`, {}, `${localStorage.getItem("username")} replied your comment in post: ${post.title}`);
+                        // stompClient.send(`/notify/${repliedComment.created_acc.id}`, {}, `${localStorage.getItem("username")} replied your comment in post: ${post.title}`);
                     }
                 }
                 if (page !== 1)
                     setPage(1);
                 else
-                    stompClient.send("notify/updateComments/" + String(id));
+                    // stompClient.send("notify/updateComments/" + String(id));
+                    reloadComments();
             })
             setIsReply(false);
             setNewComment("");
@@ -246,10 +247,6 @@ function PostDetail() {
         console.log(err);
     }
 
-    const disconectSocket = () => {
-        stompClient.disconnect();
-    }
-
     useEffect(() => {
         setLoading(true);
         const ourRequest = axios.CancelToken.source();
@@ -289,9 +286,6 @@ function PostDetail() {
             setLoading(false);
             if (mount === false)
                 setMount(true);
-            return () => {
-                disconectSocket();
-            }
         }, 800);
     }, [id, page, updateComments])
 
@@ -301,8 +295,8 @@ function PostDetail() {
             <div>
                 <table style={{ width: "100%", border: "none", marginTop: "30px" }}>
                     <tr>
-                        <td style={{ width: "30%", verticalAlign: "top" }}>
-                            <table style={{ width: "100%", textAlign: "center" }}>
+                        <td style={{ width: "25%", verticalAlign: "top" }}>
+                            <table style={{ width: "70%", textAlign: "center" }}>
                                 <tr>
                                     {
                                         (loading === true)
@@ -319,9 +313,9 @@ function PostDetail() {
                         {
                             (mount === false)
                                 ?
-                                <td style={{ width: "60%" }}></td>
+                                <td style={{ width: "55%" }}></td>
                                 :
-                                <motion.td style={{ width: "60%" }}
+                                <motion.td style={{ width: "55%" }}
                                     animate={{
                                         opacity: [0, 1],
                                         translateY: [80, 0],
@@ -351,7 +345,7 @@ function PostDetail() {
                                             <Form.Group style={{ marginTop: "30px" }}>
                                                 <Form.Control as="textarea" rows={3} placeholder='Type your comment.....' onChange={changeNewComment}></Form.Control>
                                                 <div style={{ width: "100%", textAlign: 'right' }}>
-                                                    <Button style={{ color: "white", width: "100%" }} onClick={() => addComment(post, undefined)}>Comment</Button>
+                                                    <Button style={{ color: "white", width: "100%" }} onClick={() => addComment(undefined)}>Comment</Button>
                                                 </div>
                                             </Form.Group>
                                         </td>
@@ -449,7 +443,7 @@ function PostDetail() {
                                                                                 <Card.Footer>
                                                                                     <Form.Control as="textarea" cols={1} placeholder='Reply comment.....' onChange={changeNewComment}></Form.Control>
                                                                                     <div style={{ width: "100%", textAlign: "right" }}>
-                                                                                        <Button style={{ color: "white" }} onClick={() => addComment(post, comment)}>Reply</Button>
+                                                                                        <Button style={{ color: "white" }} onClick={() => addComment(comment)}>Reply</Button>
                                                                                         <Button style={{ color: "white", marginLeft: "10px" }} onClick={cancelReply}>Cancel</Button>
                                                                                     </div>
                                                                                 </Card.Footer>
@@ -503,7 +497,7 @@ function PostDetail() {
                                     </tr>
                                 </motion.td>
                         }
-                        <td style={{ width: "10%", color: "yellow" }}>
+                        <td style={{ width: "20%", color: "yellow" }}>
                             <Modal
                                 show={showDelete}
                                 onHide={handleCloseDelete}
