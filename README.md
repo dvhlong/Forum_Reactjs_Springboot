@@ -1,4 +1,4 @@
-# Đoàn Văn Hoàng Long - Tech Forum
+# Tech Forum
 
 ## Introduction
 
